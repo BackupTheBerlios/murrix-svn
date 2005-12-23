@@ -39,7 +39,7 @@ class mObject
 			$objects = fetch("FETCH node WHERE property:node_id='$node_id' NODESORTBY property:version");
 			//$query = "SELECT objects.* FROM `".$db_prefix."objects` AS `objects` WHERE objects.language = '$language' AND objects.node_id = '$node_id' ORDER BY objects.version DESC LIMIT 1";
 		else
-			$objects = fetch("FETCH object WHERE property:node_id='$node_id' AND !property:version='$version' AND property:language='$language'");
+			$objects = fetch("FETCH object WHERE property:node_id='$node_id' AND property:version='$version' AND property:language='$language'");
 			//$query = "SELECT objects.* FROM `".$db_prefix."objects` AS `objects` WHERE objects.language = '$language' AND objects.node_id = '$node_id' AND objects.version = '$version'";
 
 
@@ -451,6 +451,8 @@ class mObject
 
 		if ($type == "sub")
 		{
+			clearPathCache();
+			/*
 			if ($direction == "bottom")
 			{
 				$parent = new mObject($node_id);
@@ -466,7 +468,7 @@ class mObject
 
 				foreach ($paths as $path)
 					deleteFromPathCache($path);
-			}
+			}*/
 		}
 		
 		if ($direction == "bottom")
@@ -990,7 +992,7 @@ function fetch($query, $debug = false)
 		$from .= ", `".$db_prefix."links` AS `links`";
 
 	$sql = "$select $from $where $nodesortby";
-	
+	$_SESSION['query'] = $sql;
 	if ($debug)
 	{
 		echo "$sql<br><br>";
@@ -1020,23 +1022,6 @@ function fetch($query, $debug = false)
 		$objects[] = $object;
 	}
 	
-	if (!empty($sort))
-	{
-		$sort = array_reverse($sort);
-		foreach ($sort as $sortby)
-		{
-			$compare = ReturnCmpFunc($sortby[0], $sortby[1]);
-			usort(&$objects, $compare);
-		}
-	}
-
-	if ($return == "object")
-	{
-		//$_SESSION['debug'] += microtime_float()-$time;
-		$_SESSION['murrix']['querycache'][$query2] = $objects;
-		return $objects;
-	}
-	
 	if ($return == "node")
 	{
 		$nodes = array();
@@ -1054,6 +1039,14 @@ function fetch($query, $debug = false)
 						$node_list[$object->getNodeId()] = $object->getLanguage();
 					}
 				}
+				/*else // Perfect language match
+				{
+					if ($node_list[$object->getNodeId()]->version < $object->version)// Do we have a better version
+					{
+						$nodes[$object->getNodeId()] = $object;
+						$node_list[$object->getNodeId()] = $object->getLanguage();
+					}
+				}*/
 			}
 			else // We have no prior match
 			{
@@ -1062,14 +1055,21 @@ function fetch($query, $debug = false)
 			}
 		}
 
-		$nodes = array_values($nodes);
-		
-		$_SESSION['murrix']['querycache'][$query2] = $nodes;
-		//$_SESSION['debug'] += microtime_float()-$time;
-		return $nodes;
+		$objects = array_values($nodes);
 	}
-	//$_SESSION['debug'] += microtime_float()-$time;
-	return array();
+	
+	if (!empty($sort))
+	{
+		$sort = array_reverse($sort);
+		foreach ($sort as $sortby)
+		{
+			$compare = ReturnCmpFunc($sortby[0], $sortby[1]);
+			usort(&$objects, $compare);
+		}
+	}
+	
+	$_SESSION['murrix']['querycache'][$query2] = $objects;
+	return $objects;
 }
 
 function ReturnCmpFunc($sortby, $invert)
@@ -1130,6 +1130,27 @@ function addToPathCache($path, $node_id)
 	return true;
 }
 
+function clearPathCache()
+{
+	global $db_prefix;
+	$query = "DELETE FROM `".$db_prefix."pathcache`";
+
+	$result = mysql_query($query);
+	if (!$result)
+	{
+		$message = "<b>An error occured while deleting</b><br/>";
+		$message .= "<b>Table:</b> `".$db_prefix."pathcache`<br/>";
+		$message .= "<b>Query:</b> $query<br/>";
+		$message .= "<b>Error Num:</b> " . mysql_errno() . "<br/>";
+		$message .= "<b>Error:</b> " . mysql_error() . "<br/>";
+		echo $message;
+		return false;
+	}
+
+	unset($_SESSION['murrix']['pathcache']);
+	
+	return true;
+}
 function deleteFromPathCache($path)
 {
 	global $db_prefix;

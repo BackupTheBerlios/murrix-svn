@@ -44,11 +44,17 @@ class sDelete extends Script
 			}
 		}
 
-		$this->Draw($system, $response, array("path" => $path));
+		if (!isset($args['path']))
+			$args['path'] = $_SESSION['murrix']['path'];
+
+		$this->Draw($system, $response, $args);
 	}
 	
 	function Draw(&$system, &$response, $args)
 	{
+		if (!isset($args['path']))
+			$args['path'] = $_SESSION['murrix']['path'];
+	
 		if (isset($args['node_id']))
 			$object = new mObject($args['node_id']);
 		else if (isset($args['path']))

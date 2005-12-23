@@ -113,7 +113,7 @@ global $abspath, $wwwpath;
 			<td class="tdtop" width="350">
 				<?
 				$news_obj = new mObject(resolvePath("/Root/Etek/Hidden/News"));
-				$cat_objs = fetch("FETCH node WHERE link:node_top='".$news_obj->getNodeId()."' AND link:type='sub' NODESORTBY !property:version SORTBY property:name");
+				$cat_objs = fetch("FETCH node WHERE link:node_top='".$news_obj->getNodeId()."' AND link:type='sub' NODESORTBY property:version SORTBY property:name");
 							
 				$left = $right = "";
 				$center = "<span style=\"font-weight: bold;\">".cmd($news_obj->getName(), "Exec('show','zone_main', Hash('path', '".$news_obj->getPath()."'))")."</span>";
@@ -146,7 +146,7 @@ global $abspath, $wwwpath;
 						</div>
 						<hr style="border: 0; color: #FCE464; background-color: #FCE464; height: 1px; margin: 0;"/>
 						<?
-						$news = fetch("FETCH node WHERE link:node_top='".$category->getNodeId()."' AND link:type='sub' AND property:class_name='news' NODESORTBY !property:version SORTBY var:date");
+						$news = fetch("FETCH node WHERE link:node_top='".$category->getNodeId()."' AND link:type='sub' AND property:class_name='news' NODESORTBY property:version SORTBY var:date");
 
 						foreach ($news as $item)
 						{
