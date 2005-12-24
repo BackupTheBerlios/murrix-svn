@@ -42,9 +42,13 @@
 				</td>
 			</tr>
 		</table>
-		
-		<div id="zone_main"></div>
 
+		<br/>
+		
+		<center>
+			<div style="align: center; vertical-align: middle;" id="zone_main"></div>
+		<center>
+		
 		<iframe src="history.php" id="history" name="history" width="0" height="0" style="display:none;"></iframe>
 
 		<script type="text/javascript">

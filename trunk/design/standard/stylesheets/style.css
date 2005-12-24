@@ -1041,19 +1041,6 @@ form
 	width: 172px;
 }
 
-input
-{
-	background-color: #FFFFFF;
-	border: 1px solid #ADADFF;
-	color: #000000;
-	font-family: "Trebuchet MS",Trebuchet,Arial,Verdana,Sans-serif;
-	font-size: 10px;
-	display: inline;
-	margin: 1px;
-	padding-left: 4px;
-	padding-right: 4px;
-}
-
 .search,textarea,.textline
 {
 	background-color: #FFFFFF;

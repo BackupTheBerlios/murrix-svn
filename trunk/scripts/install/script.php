@@ -16,6 +16,7 @@ class sInstall extends Script
 	
 	function Draw(&$system, &$response, $args)
 	{
+		global $wwwpath, $abspath;
 		ob_start();
 		include(gettpl("install/stage".$args['stage']));
 		$response->addAssign($this->zone, "innerHTML", utf8e(ob_get_end()));
