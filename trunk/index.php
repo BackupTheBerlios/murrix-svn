@@ -1,7 +1,7 @@
 <?
 
 require_once("config.inc.php");
-
+$site_config['default'] = $default_theme;
 require_once("classes/class.mvar.php");
 require_once("classes/class.mobject.php");
 require_once("classes/class.mthumbnail.php");
@@ -17,12 +17,20 @@ require_once("system/system.php");
 $abspath = getcwd();
 $wwwpath = GetParentPath($_SERVER['REQUEST_URI']);
 
+$folders = GetSubfolders("$abspath/design");
+foreach ($folders as $folder)
+	require_once("$abspath/design/$folder/theme.php");
+
+	
 $folders = GetSubfolders("$abspath/scripts");
 foreach ($folders as $folder)
 	require_once("$abspath/scripts/$folder/script.php");
 
 session_name("MURRIX21");
 session_start();
+
+
+
 /*
 if (empty($_SESSION['murrix']['site']))
 	$_SESSION['murrix']['site'] = $site_config['default'];

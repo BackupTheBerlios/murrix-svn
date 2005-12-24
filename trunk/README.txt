@@ -27,4 +27,6 @@ This is a work in progress.
 
 Credits
 =======
-Björn Ramberg, parallel slalom polare
+Björn Ramberg
+Fredrik Möllerstrand
+Rickard Avellan

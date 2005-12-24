@@ -1,4 +1,4 @@
-<div style="padding-left: 10px; text-align: left; float: left; border-right: 1px solid #5B5B7A; width: 100px; height: 250px; font-size: 14px; font-weight: bold;">
+<div style="text-align: left; font-size: 14px; font-weight: bold;">
 <?
 	if ($args['stage'] == 1)
 		echo "<span style=\"color: red;\">Welcome</span>";
@@ -25,9 +25,9 @@
 	echo "<br/><br/>";
 
 	if ($args['stage'] == 5)
-		echo "<span style=\"color: red;\">Site</span>";
+		echo "<span style=\"color: red;\">Theme</span>";
 	else
-		echo cmd("Site", "Exec('install', 'zone_main', Hash('stage', '5'))");
+		echo cmd("Theme", "Exec('install', 'zone_main', Hash('stage', '5'))");
 	echo "<br/><br/>";
 
 	if ($args['stage'] == 6)

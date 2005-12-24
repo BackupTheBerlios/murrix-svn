@@ -586,32 +586,10 @@ td.rightline
 
 .invisible
 {
-	font-family: "Trebuchet MS",Trebuchet,Arial,Verdana,Sans-serif;
-	font-weight: normal;
-	border-width: 0px;
-	padding: 0px;
+	border-width: 0;
+	padding: 0;
 	vertical-align: top;
-	background-color: #FFFFFF;
-	color: #000000;
-}
-
-td
-{
-	color: #FFFFFF;
-	font-family: "Trebuchet MS",Trebuchet,Arial,Verdana,Sans-serif;
-	font-size: 10px;
-	font-weight: bold;
-	background-color: #6858D0;
-	border-style: solid;
-	border-color: #6858D0;
-	border-width: 1px;
-	padding: 0px;
-	vertical-align: middle;
-}
-
-table
-{
-	padding: 2px;
+	margin: 0;
 }
 
 
