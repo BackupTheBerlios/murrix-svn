@@ -1,6 +1,4 @@
 <?
-$abspath = getcwd();
-
 require_once("config.inc.php");
 
 require_once("classes/class.mvar.php");
@@ -13,6 +11,9 @@ require_once("3dparty/exifer/exif.php");
 require_once("system/functions.php");
 require_once("system/design.php");
 require_once("system/system.php");
+
+$abspath = getcwd();
+$wwwpath = GetParentPath($_SERVER['REQUEST_URI']);
 
 session_id($_GET['PHPSESSID']);
 session_name("MURRIX21");

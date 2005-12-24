@@ -1,6 +1,10 @@
 <?
 require_once("config.inc.php");
 require_once("system/system.php");
+require_once("system/functions.php");
+
+$abspath = getcwd();
+$wwwpath = GetParentPath($_SERVER['REQUEST_URI']);
 
 session_name("MURRIX21");
 session_start();

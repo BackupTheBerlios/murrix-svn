@@ -7,10 +7,15 @@ class mSystem
 	var $xajax;
 	var $scripts;
 
-	function mSystem()
+	function mSystem($requestURI = "")
 	{
-		global $wwwpath;
-		$this->xajax = new xajax("$wwwpath/index.php");
+		if (empty($requestURI))
+		{
+			global $wwwpath;
+			$requestURI = "$wwwpath/index.php";
+		}
+		
+		$this->xajax = new xajax($requestURI);
 		$this->xajax->debugOff();
 		$this->xajax->errorHandlerOn();
 		$this->xajax->statusMessagesOn();

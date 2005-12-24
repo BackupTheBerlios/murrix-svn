@@ -1,14 +1,12 @@
 <?
 
-$wwwpath = "/murrix2.1";
-
-$anonymous_id = 6;
+$anonymous_id = 5;
 $root_id = 1;
 
-$mysql_address = "dbaddress";
+$mysql_address = "localhost";
 $mysql_user = "dbuser";
 $mysql_pass = "dbpass";
-$mysql_db = "dbname";
+$mysql_db = "murrix";
 
 $db_prefix = "murrix_";
 
