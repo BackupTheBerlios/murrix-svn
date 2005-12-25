@@ -13,12 +13,13 @@
 			<br/>
 			<form name="sInstall" id="sInstall" action="javascript:void(null);" onsubmit="Post('install','zone_main', 'sInstall')">
 				Username<br/>
-				<input style="width: 50%; text-align: center; border: 1px solid #9191C3;" name="username" value="admin" type="text"><br/>
+				<input style="width: 50%; text-align: center; border: 1px solid #9191C3;" name="admin_username" value="<?=$this->admin_username?>" type="text"><br/>
 				<br/>
 				Password<br/>
-				<input style="width: 50%; text-align: center; border: 1px solid #9191C3;" name="password1" type="password"><br/>
+				<input style="width: 50%; text-align: center; border: 1px solid #9191C3;" name="admin_password1" type="password" value="<?=$this->admin_password?>"><br/>
 				Confirm Password<br/>
-				<input style="width: 50%; text-align: center; border: 1px solid #9191C3;" name="password2" type="password">
+				<input style="width: 50%; text-align: center; border: 1px solid #9191C3;" name="admin_password2" type="password" value="<?=$this->admin_password?>">
+				<input class="hidden" type="hidden" name="stage" value="4">
 			</form>
 			<br/>
 			<br/>
@@ -26,7 +27,7 @@
 				<?=cmd("Back", "Exec('install', 'zone_main', Hash('stage', '2'))")?>
 			</div>
 			<div style="margin-right: 10px; float: right;">
-				<?=cmd("Next", "Exec('install', 'zone_main', Hash('stage', '4'))")?>
+				<?=cmd("Next", "Post('install', 'zone_main', 'sInstall')")?>
 			</div>
 		</td>
 	</tr>

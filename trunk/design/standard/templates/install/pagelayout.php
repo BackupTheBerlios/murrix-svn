@@ -49,7 +49,7 @@
 			<div style="border: 1px solid #5B5B7A; width: 800px;">
 				<div style="align: center; vertical-align: middle;" id="zone_main"></div>
 			</div>
-		<center>
+		</center>
 		
 		<iframe src="history.php" id="history" name="history" width="0" height="0" style="display:none;"></iframe>
 

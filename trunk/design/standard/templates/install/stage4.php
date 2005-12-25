@@ -11,17 +11,18 @@
 			<br/>
 			<form name="sInstall" id="sInstall" action="javascript:void(null);" onsubmit="Post('install','zone_main', 'sInstall')">
 				Address to MySQL-server<br/>
-				<input style="width: 50%; text-align: center; border: 1px solid #9191C3;" name="address" value="localhost" type="text"><br/>
+				<input style="width: 50%; text-align: center; border: 1px solid #9191C3;" name="db_address" value="<?=$this->db_address?>" type="text"><br/>
 				<br/>
 				Name of database<br/>
-				<input style="width: 50%; text-align: center; border: 1px solid #9191C3;" name="name" value="murrix" type="text"><br/>
+				<input style="width: 50%; text-align: center; border: 1px solid #9191C3;" name="db_name" value="<?=$this->db_name?>" type="text"><br/>
 				Table prefix<br/>
-				<input style="width: 50%; text-align: center; border: 1px solid #9191C3;" name="prefix" value="murrix_" type="text"><br/>
+				<input style="width: 50%; text-align: center; border: 1px solid #9191C3;" name="db_prefix" value="<?=$this->db_prefix?>" type="text"><br/>
 				<br/>
 				Username<br/>
-				<input style="width: 50%; text-align: center; border: 1px solid #9191C3;" name="username" type="text"><br/>
+				<input style="width: 50%; text-align: center; border: 1px solid #9191C3;" name="db_username" value="<?=$this->db_username?>" type="text"><br/>
 				Password<br/>
-				<input style="width: 50%; text-align: center; border: 1px solid #9191C3;" name="password" type="password">
+				<input style="width: 50%; text-align: center; border: 1px solid #9191C3;" name="db_password" value="<?=$this->db_password?>" type="password">
+				<input class="hidden" type="hidden" name="stage" value="5">
 			</form>
 			<br/>
 			<br/>
@@ -29,7 +30,7 @@
 				<?=cmd("Back", "Exec('install', 'zone_main', Hash('stage', '3'))")?>
 			</div>
 			<div style="margin-right: 10px; float: right;">
-				<?=cmd("Next", "Exec('install', 'zone_main', Hash('stage', '5'))")?>
+				<?=cmd("Next", "Post('install', 'zone_main', 'sInstall')")?>
 			</div>
 		</td>
 	</tr>

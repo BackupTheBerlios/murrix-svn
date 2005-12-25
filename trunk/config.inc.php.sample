@@ -10,8 +10,5 @@ $mysql_db = "murrix";
 
 $db_prefix = "murrix_";
 
-$site_config['default'] = "standard";
-
-$site_config['sites']['standard']['start'] = "/Root";
-$site_config['sites']['standard']['languages'] = array("eng", "swe");
+$default_theme = "standard";
 ?>
