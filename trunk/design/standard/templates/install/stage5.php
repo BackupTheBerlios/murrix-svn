@@ -22,7 +22,7 @@
 			<br/>
 			<span style="font-weight: bold; color: red;">
 				WARNING!<br/>
-				Any, conflicting, existing tables will be droped.
+				Any, conflicting, existing tables will be dropped.
 			</span>
 			<br/>
 			<br/>

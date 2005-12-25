@@ -7,11 +7,17 @@
 			<? include(gettpl("install/menu")) ?>
 		</td>
 		<td align="center">
-			Installation complete!<br/>
+			<?=($this->done ? "Installation completed successfully" : "Installation failed. Se below for errors.")?>
 			<br/>
+			<br/>
+			<strong>Logmessage:</strong><br/>
+			<?=$this->db_log?>
 			<br/>
 			<div style="margin-left: 10px; float: left;">
 				<?=cmd("Back", "Exec('install', 'zone_main', Hash('stage', '6'))")?>
+			</div>
+			<div style="margin-right: 10px; float: right;">
+				<a href="./">To MURRiX</a>
 			</div>
 		</td>
 	</tr>
