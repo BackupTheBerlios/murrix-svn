@@ -18,7 +18,7 @@
 				Password<br/>
 				<input style="width: 50%; text-align: center; border: 1px solid #9191C3;" name="admin_password1" type="password" value="<?=$this->admin_password?>"><br/>
 				Confirm Password<br/>
-				<input style="width: 50%; text-align: center; border: 1px solid #9191C3;" name="admin_password2" type="password" value="<?=$this->admin_password?>">
+				<input style="width: 50%; text-align: center; border: 1px solid #9191C3;" name="admin_password2" type="password" value="<?=$this->admin_password?>"><br/>
 				<input class="hidden" type="hidden" name="stage" value="4">
 			</form>
 			<br/>

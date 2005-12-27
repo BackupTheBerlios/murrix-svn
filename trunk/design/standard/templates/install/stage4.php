@@ -21,7 +21,7 @@
 				Username<br/>
 				<input style="width: 50%; text-align: center; border: 1px solid #9191C3;" name="db_username" value="<?=$this->db_username?>" type="text"><br/>
 				Password<br/>
-				<input style="width: 50%; text-align: center; border: 1px solid #9191C3;" name="db_password" value="<?=$this->db_password?>" type="password">
+				<input style="width: 50%; text-align: center; border: 1px solid #9191C3;" name="db_password" value="<?=$this->db_password?>" type="password"><br/>
 				<input class="hidden" type="hidden" name="stage" value="5">
 			</form>
 			<br/>

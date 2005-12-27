@@ -1,84 +1,46 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 		
-		<title><?//=mVar::GetValueByPath("/Root/System/Settings", "sitename")?></title>
+		<link rel="shortcut icon" href="<?=geticon("murrix")?>" type="image/x-icon">
+		<title>MURRiX</title>
 		
 		<?
-
 		$js = getjs();
 		for ($i = 0; $i < count($js); $i++)
 			echo "<script type=\"text/javascript\" src=\"".$js[$i]."\"></script>\n";
 
 		$js = getcss();
 		for ($i = 0; $i < count($js); $i++)
-			echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$js[$i]."\"/>\n";
+			echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$js[$i]."\">\n";
 
 		$_SESSION['murrix']['System']->PrintHeader();
-
 		?>
-		
 		<script type="text/javascript">
-			
-			function OnLoad()
+		<!--
+			function loading(state)
 			{
-				//SystemRunScript('addressbar','zone_addressbar', '');
-				//SystemRunScript('login','zone_login', '');
-				SystemRunScript('show','zone_main', '');
-				SystemRunScript('menu','zone_menu', '');
-				AltxtOnload();
-				return false;
+				if (state)
+					document.getElementById('status').src = '<?=imgpath("indicator.gif")?>';
+				else
+					document.getElementById('status').src = '<?=imgpath("")?>';
 			}
-
+		// -->
 		</script>
-
 	</head>
-	<body onLoad="OnLoad()">
+
+	<body>
 		<table class="title" cellspacing="0" cellpadding="0">
 			<tr>
 				<td class="title1" width="80" rowspan="2">
-					<img src="<?=imgpath("logo64.png")?>"/>
+					<img alt="MURRiX logo" src="<?=imgpath("logo64.png")?>"/>
 				</td>
 				<td class="title1">
-					<a class="title2_link" href="<?//=mVar::GetValueByPath("/Root/System/Settings", "sitepath")?>"><?//=mVar::GetValueByPath("/Root/System/Settings", "sitename")?></a>
+					MURRiX
 				</td>
 				<td class="title2" rowspan="2">
-					<img align="middle" src="" name="status" id="status" border="0"/>
-					<div id="zone_status"></div>
-				</td>
-			</tr>
-			<tr>
-				<td class="title3">
-					<table cellspacing="0" cellpadding="0">
-						<tr>
-							<td class="title1">
-								<img src="<?=imgpath("menu_right.png")?>"/>
-							</td>
-							<td class="menu">
-							<?
-								/*$root = new mObject($root_id);
-								
-								$hasmap = array(array("type", array("sub")),
-										array("side", "bottom"),
-										array("sort", array("name")));
-								$menuitems = mObject::GetRelatedWithRights($root->GetRelatedHash($hasmap));
-								for ($n = 0; $n < count($menuitems); $n++)
-								{
-									echo "<a class=\"menubar\" onclick=\"SystemRunScript('show','zone_main', Hash('path', '".$menuitems[$n]->GetPath()."'));\" href=\"javascript:void(null);\">";
-									echo Img(geticon($menuitems[$n]->GetIcon()))." ".ucfirst($menuitems[$n]->name);
-									echo "</a>";
-								
-									if (count($menuitems)-1 > $n)
-										echo " &#183; ";
-								}*/
-							?>
-							</td>
-							<td class="title1">
-								<img src="<?=imgpath("menu_left.png")?>"/>
-							</td>
-						</tr>
-					</table>
+					<img alt="Status indicator" align="middle" src="<?=imgpath("indicator.gif")?>" name="status" id="status" border="0"/>
 				</td>
 			</tr>
 		</table>
@@ -102,8 +64,22 @@
 				</td>
 			</tr>
 		</table>
+
+		<a href="http://validator.w3.org/check?uri=referer">
+			<img src="http://www.w3.org/Icons/valid-html401" alt="Valid HTML 4.01 Transitional" height="31" width="88">
+		</a>
 		
-		<div id="navtxt" class="navtext" style="visibility:hidden; position:absolute; top:0px; left:-400px; z-index:10000; padding:5px"></div>
+		<iframe src="history.php" id="history" name="history" width="0" height="0" style="display:none;"></iframe>
+
+		<script type="text/javascript">
+		<!--
+			//Load initial ajax-scripts
+			//Exec('addressbar','zone_addressbar', '');
+			///Exec('langswitch','zone_language', '');
+			//Exec('login','zone_login', '');
+			//Exec('show','zone_main', '');
+		// -->
+		</script>
 
 	</body>
 </html>
