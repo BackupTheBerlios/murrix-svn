@@ -2,16 +2,12 @@
 	<tr>
 		<td rowspan="2">
 			<div id="main">
-				<?
-				echo "<a class=\"titel\" class=\"title\" onclick=\"SystemRunScript('show','zone_main', Hash('path', '".$child->GetPath()."'));\" href=\"javascript:void(null);\">".Img(geticon($child->GetIcon(), 64))."</a>";
-				?>
+				<?=cmd(img(geticon($child->getIcon(), 64)), "Exec('show','zone_main', Hash('path', '".$child->getPath()."'))", "titel")?>
 			</div>
 		</td>
 		<td id="left">
 			<div id="main">
-				<?
-				echo "<a class=\"titel\" class=\"title\" onclick=\"SystemRunScript('show','zone_main', Hash('path', '".$child->GetPath()."'));\" href=\"javascript:void(null);\">".$child->name."</a><br/>";
-				?>
+				<?=cmd($child->getName(), "Exec('show','zone_main', Hash('path', '".$child->getPath()."'))", "titel")?>
 			</div>
 		</td>
 		<td id="right">
@@ -19,21 +15,17 @@
 				<?
 				$admin = "";
 
-				if (HasRight("edit", $child->GetPath()))
+				if ($child->hasRight("edit"))
 				{
-					$admin .= "<a onclick=\"SystemRunScript('edit_object','zone_main', Hash('path', '".$child->GetPath()."'));\" href=\"javascript:void(null);\">";
-					$admin .= Img(geticon("edit"));
-					$admin .= "</a>";
+					$admin .= cmd(img(geticon("edit")), "Exec('edit','zone_main', Hash('path', '".$child->getPath()."'))");
 				}
 				
-				if (HasRight("delete", $child->GetPath()))
+				if ($child->hasRight("delete"))
 				{
 					$admin .= "&nbsp;";
-					$admin .= "<a onclick=\"SystemRunScript('delete_object','zone_main', Hash('path', '".$child->GetPath()."'));\" href=\"javascript:void(null);\">";
-					$admin .= Img(geticon("delete"));
-					$admin .= "</a>";
+					$admin .= cmd(img(geticon("delete")), "Exec('delete','zone_main', Hash('path', '".$child->getPath()."'))");
 				}
-				
+
 				echo $admin;
 				?>
 				
@@ -44,7 +36,7 @@
 		<td colspan="2" id="left" width="100%">
 			<hr size="1" color="#FCE464" width="99%">
 			<div id="main">
-				<?=$child->GetValue("description")?>
+				<?=$child->getVarValue("description")?>
 			</div>
 		</td>
 	</tr>

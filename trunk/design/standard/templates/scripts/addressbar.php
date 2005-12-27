@@ -1,14 +1,15 @@
 <?
+$parts = explode("/", $path);
+array_shift($parts);
 
-function DrawAddressbar($path)
+$path2 = "";
+
+echo "&nbsp;".img(geticon("location"));
+
+foreach ($parts as $part)
 {
-	echo Img(geticon("location"));
-	?>
-	<form id="sAddressbarForm" action="javascript:void(null);" onsubmit="sAddressbarCall();">
-		<input class="location" type="text" name="path" value="<?=$path?>">
-		<input id="sAddressbarSubmit" class="submit" type="submit" value="Go">
-	</form>
-	<?
+	$path2 .= "/$part";
+	echo "&nbsp;/&nbsp;";
+	echo cmd($part, "Exec('show', 'zone_main', Hash('path', '$path2'))");
 }
-
 ?>

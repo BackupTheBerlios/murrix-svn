@@ -4,7 +4,7 @@ array_shift($parts);
 
 $path2 = "";
 
-echo "&nbsp;".Img(geticon("location"));
+echo "&nbsp;".img(geticon("location"));
 
 foreach ($parts as $part)
 {
