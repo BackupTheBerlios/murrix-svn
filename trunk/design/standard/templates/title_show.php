@@ -3,9 +3,9 @@
 $view_form = "";
 if ($object->hasRight("edit"))
 {
-	$view_form = " <form style=\"display: inline;\" name=\"sViewSelect\" id=\"sViewSelect\" action=\"javascript:void(null);\" onsubmit=\"javascript:void(null)\">";
+	$view_form = " <form name=\"sViewSelect\" id=\"sViewSelect\" action=\"javascript:void(null);\" onsubmit=\"javascript:void(null)\">";
 	$view_form .= "<input type=\"hidden\" class=\"hidden\" name=\"meta\" value=\"view\">";
-	$view_form .= "<select class=\"form\" onchange=\"Post('show','zone_main', 'sViewSelect');\" name=\"value\">";
+	$view_form .= "<select class=\"select\" onchange=\"Post('show','zone_main', 'sViewSelect');\" name=\"value\">";
 	
 	$viewlist = array("list" => "", "thumbnailes" => "thumbnailes");
 
@@ -26,8 +26,8 @@ $current_view = "show";
 include(gettpl("adminpanel", $object));
 
 $center = "";
-$left = "<span style=\"font-weight: bold; font-size: 18px;\">".img(geticon($object->getIcon()))."&nbsp;".$object->getName()."</span>";
-$right = "<strong>";
+$left = img(geticon($object->getIcon()))."&nbsp;".$object->getName();
+$right = "";
 if ($object->creator == 0)
 	$right .= ucf(i18n("unknown"));
 else
@@ -39,7 +39,7 @@ else
 	else
 		$right .= cmd(img(geticon($creator->getIcon()))."&nbsp;".$creator->getName(), "Exec('show','zone_main', Hash('path', '".$creator->getPath()."'))");
 }
-$right .= "</strong> - ".$object->getCreated().$view_form;
+$right .= " - ".$object->getCreated().$view_form;
 include(gettpl("big_title", $object));
 
 ?>

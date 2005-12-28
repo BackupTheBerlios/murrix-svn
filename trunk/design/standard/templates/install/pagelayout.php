@@ -2,8 +2,9 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-		<link rel="shortcut icon" href="<?=geticon("murrix", 16, "ico")?>" type="image/x-icon">
-		<title>MURRiX Install</title>
+		
+		<link rel="shortcut icon" href="<?=geticon("murrix")?>" type="image/x-icon">
+		<title>MURRiX Installer</title>
 		
 		<?
 		$js = getjs();
@@ -21,27 +22,28 @@
 			function loading(state)
 			{
 				if (state)
-					document.getElementById('status').src = '<?=imgpath("indicator.gif")?>';
+					document.getElementById('status').src = '<?=imgpath("loading.gif")?>';
 				else
-					document.getElementById('status').src = '<?=imgpath("")?>';
+					document.getElementById('status').src = '<?=imgpath("not_loading.gif")?>';
 			}
 		// -->
 		</script>
 	</head>
 	<body>
-		<table class="title" cellspacing="0" cellpadding="0">
-			<tr>
-				<td class="title1" width="80" rowspan="2">
-					<img src="<?=imgpath("logo64.png")?>"/>
-				</td>
-				<td class="title1">
-					MURRiX Installer
-				</td>
-				<td class="title2" rowspan="2">
-					<img align="middle" src="" name="status" id="status" border="0"/>
-				</td>
-			</tr>
-		</table>
+		<div id="header">
+			<div id="header_wrapper">
+				<div id="header_logo">
+					<img alt="MURRiX logo" src="<?=imgpath("logo64.png")?>"/>
+				</div>
+				
+				<div id="header_name">
+					MURRiX Installer<br/>
+					<div id="status_holder">
+						<img alt="Status indicator" align="middle" src="<?=imgpath("indicator.gif")?>" name="status" id="status" border="0"/>
+					</div>
+				</div>
+			</div>
+		</div>
 
 		<br/>
 		

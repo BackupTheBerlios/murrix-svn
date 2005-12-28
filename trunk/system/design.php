@@ -168,6 +168,9 @@ function getjs()
 
 function getcss()
 {
+	if (isset($_GET['nocss']))
+		return array();
+		
 	global $abspath, $wwwpath;
 	$files = GetSubfiles("$abspath/design/".$_SESSION['murrix']['site']."/stylesheets");
 

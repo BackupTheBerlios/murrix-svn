@@ -1,29 +1,23 @@
-<div style="margin-top: 5px;">
-	<table  cellspacing="0" cellpadding="0" height="39" width="100%">
-		<tr>
-			<td style="background-image: url(<?=imgpath("title-left.png")?>);" width="15">
-			</td>
-			
+
+<div class="big_title">
+	<div class="big_title_inner">
+		<div class="big_title_left">
 			<? if (!empty($left)) { ?>
-				<td style="background-image: url(<?=imgpath("title-middle.png")?>); background-repeat: repeat-x;">
-					<?=$left?>
-				</td>
+				<?=$left?>
 			<? } ?>
-
+		</div>
+	
+		<div class="big_title_center">
 			<? if (!empty($center)) { ?>
-				<td style="background-image: url(<?=imgpath("title-middle.png")?>); background-repeat: repeat-x;" align="center">
-					<?=$center?>
-				</td>
+				<?=$center?>
 			<? } ?>
-
+		</div>
+	
+		<div class="big_title_right">
 			<? if (!empty($right)) { ?>
-				<td style="background-image: url(<?=imgpath("title-middle.png")?>); background-repeat: repeat-x;" align="right">
-					<?=$right?>
-				</td>
+				<?=$right?>
 			<? } ?>
-			
-			<td style="background-image: url(<?=imgpath("title-right.png")?>);" width="15">
-			</td>
-		</tr>
-	</table>
+		</div>
+		<div id="clear"></div>
+	</div>
 </div>

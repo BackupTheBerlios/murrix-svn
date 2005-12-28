@@ -1,26 +1,9 @@
-<div class="main_bg" style="margin-top: 5px;">
-	<table width="100%">
-		<tr>
-			<td align="center">
-				Quarl Ankas väg 2
-				<br/>
-				412 96 Göteborg
-			</td>
-			<td align="center">
-				<a href="http://www.etek.chalmers.se">http://www.etek.chalmers.se</a>
-				<br/>
-				<a href="mailto:styret@etek.chalmers.se">styret@etek.chalmers.se</a>
-			</td>
-			<td align="center">
-				Tel 031 780 46 80
-				<br/>
-				Fax 031 772 52 01
-			</td>
-			<td align="center">
-				<a target="_top" href="http://www.chalmers.se/HyperText/Regler.html">Chalmers disclaimer</a>
-				<br/>
-				<?=cmd(ucfirst(i18n("about homepage")), "Exec('show', 'zone_main', Hash('path', '/Root/Etek/Hidden/Homepage/About'));")?>
-			</td>
-		</tr>
-	</table>
+<div id="footer_left">
+	<a href="http://murrix.berlios.de">MURRiX</a> version 2.1<br/>
+	MURRiX is released under the <a href="./LICENSE.txt">GNU Public License</a>
 </div>
+<div id="footer_right">
+	<a href="http://validator.w3.org/check?uri=referer"><img src="http://www.w3.org/Icons/valid-html401" alt="Valid HTML 4.01 Transitional" height="31" width="88"></a>
+	<a href="http://jigsaw.w3.org/css-validator/check/referer"><img src="http://jigsaw.w3.org/css-validator/images/vcss" alt="Valid CSS!" height="31" width="88"></a>
+</div>
+<div id="clear"></div>
