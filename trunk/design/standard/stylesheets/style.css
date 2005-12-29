@@ -91,6 +91,34 @@ a:hover {
 	background-color: #B6BAFF;
 }
 
+#content .medium_title
+{
+	border: 1px solid #B6BAFF;
+	color: #000000;
+	margin: 0;
+	margin-bottom: 5px;
+	padding: 5px;
+	clear: both;
+}
+
+#content .medium_title .medium_title_left
+{
+	font-size: 14px;
+	float: left;
+}
+
+#content .medium_title .medium_title_right
+{
+	float: right;
+}
+
+#content .medium_title .medium_title_inner
+{
+	margin: 0;
+	padding: 5px;
+	background-color: #B6BAFF;
+}
+
 #content .show_line
 {
 	border: 1px solid #B6BAFF;
@@ -132,19 +160,27 @@ a:hover {
 
 #content .show_line .show_line_main_top
 {
-	margin-left: 80px;
+	background-color: #B6BAFF;
+	padding: 5px;
+}
+
+#content .show_line .show_line_main_top_inner
+{
+	margin-left: 70px;
 	font-size: 18px;
 	font-weight: bold;
 }
 
 #content .show_line .show_line_main_bottom
 {
-	margin-left: 80px;
+	margin-left: 70px;
+	padding: 5px;
 }
 
 #content .show_line .show_line_main_right
 {
 	float: right;
+	margin: 5px;
 }
 
 #content .select

@@ -23,12 +23,11 @@
 	</div>
 	<div class="show_line_main">
 		<div class="show_line_main_top">
-			<?=cmd($child->getName(), "Exec('show','zone_main', Hash('path', '".$child->getPath()."'))", "titel")?>
-
-
+			<div class="show_line_main_top_inner">
+				<?=cmd($child->getName(), "Exec('show','zone_main', Hash('path', '".$child->getPath()."'))", "titel")?>
+			</div>
 		</div>
 
-		<hr/>
 		<div class="show_line_main_bottom">
 			<?=$child->getVarValue("description")?>
 		</div>
