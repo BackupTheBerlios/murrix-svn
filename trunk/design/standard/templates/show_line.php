@@ -24,7 +24,7 @@
 	<div class="show_line_main">
 		<div class="show_line_main_top">
 			<div class="show_line_main_top_inner">
-				<?=cmd($child->getName(), "Exec('show','zone_main', Hash('path', '".$child->getPath()."'))", "titel")?>
+				<span class="show_line_main_top_inner_title"><?=cmd($child->getName(), "Exec('show','zone_main', Hash('path', '".$child->getPath()."'))", "titel")?></span>
 			</div>
 		</div>
 

@@ -11,10 +11,9 @@ if (!isset($com_count))
 				<br/>
 				<?
 				if ($child->creator == 0)
-					echo ucfirst(i18n("unknown"));
+					echo ucf(i18n("unknown"));
 				else
 				{
-				
 					$creator = new mObject($object->getCreator());
 
 					if (!$creator->hasRight("read"))
@@ -46,7 +45,7 @@ if (!isset($com_count))
 
 				if ($child->hasRight("create_subnodes", array("comment")))
 				{
-					$admin .= cmd(img(geticon("comment"))."&nbsp;".ucfirst(i18n("answer")), "Exec('new','zone_main', Hash('path', '".$child->getPath()."', 'class_name', 'comment'))");
+					$admin .= cmd(img(geticon("comment"))."&nbsp;".ucf(i18n("answer")), "Exec('new','zone_main', Hash('path', '".$child->getPath()."', 'class_name', 'comment'))");
 				}
 				
 				echo $admin;
@@ -66,7 +65,7 @@ if (!isset($com_count))
 	
 </table>
 <?
-$com_data[$com_count]['children'] = fetch("FETCH node WHERE link:node_top='".$child->getNodeId()."' AND link:type='sub' AND property:class_name='comment' NODESORTBY !property:version SORTBY property:created");
+$com_data[$com_count]['children'] = fetch("FETCH node WHERE link:node_top='".$child->getNodeId()."' AND link:type='sub' AND property:class_name='comment' NODESORTBY property:version SORTBY property:created");
 
 foreach ($com_data[$com_count]['children'] as $child)
 {

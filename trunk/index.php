@@ -80,10 +80,10 @@ $_SESSION['murrix']['System']->xajax->debugOff();
 $_SESSION['murrix']['System']->LoadScripts();
 $_SESSION['murrix']['System']->Process();
 
-
+$_SESSION['murrix']['default_path'] = $site_config['sites'][$_SESSION['murrix']['site']]['start'];
 // Set the default path if none is set
 if (empty($_SESSION['murrix']['path']))
-	$_SESSION['murrix']['path'] = $site_config['sites'][$_SESSION['murrix']['site']]['start'];
+	$_SESSION['murrix']['path'] = $_SESSION['murrix']['default_path'];
 
 
 if (isset($_GET['thumbnail']))

@@ -26,6 +26,7 @@ img
 {
 	vertical-align: middle;
 	border-width: 0;
+	behavior: url("design/standard/stylesheets/pngbehavior.htc");
 }
 
 /* Titel style */

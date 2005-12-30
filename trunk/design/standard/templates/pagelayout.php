@@ -31,17 +31,17 @@
 	</head>
 
 	<body>
-
 		<div id="header">
 			<div id="header_wrapper">
 				<div id="zone_login"></div>
 	
 				<div id="header_logo">
-					<img alt="MURRiX logo" src="<?=imgpath("logo64.png")?>"/>
+					<?=cmd(img(imgpath("logo64.png")), "Exec('show', 'zone_main', Hash('path', '".$_SESSION['murrix']['default_path']."'))")?>
 				</div>
 				
 				<div id="header_name">
-					MURRiX<br/>
+					<?=cmd("MURRiX", "Exec('show', 'zone_main', Hash('path', '".$_SESSION['murrix']['default_path']."'))")?>
+					<br/>
 					<div id="status_holder">
 						<img alt="Status indicator" align="middle" src="<?=imgpath("indicator.gif")?>" name="status" id="status" border="0"/>
 					</div>
@@ -54,8 +54,8 @@
 
 			<div id="search">
 				<form id="smallSearch" name="smallSearch" action="javascript:void(null);" onsubmit="Post('search', 'zone_main', 'smallSearch')">
-					<input id="query" name="query" class="input" type="text" onfocus="if(this.value=='<?=ucfirst(i18n("enter search here"))?>!')this.value=''" onblur="if(this.value=='')this.value='<?=ucfirst(i18n("enter search here"))?>!'" value="<?=ucfirst(i18n("enter search here"))?>!"/>
-					<input class="submit" type="submit" value="<?=ucfirst(i18n("search"))?>"/>
+					<input id="query" name="query" class="input" type="text" onfocus="if(this.value=='<?=ucf(i18n("enter search here"))?>!')this.value=''" onblur="if(this.value=='')this.value='<?=ucf(i18n("enter search here"))?>!'" value="<?=ucf(i18n("enter search here"))?>!"/>
+					<input class="submit" type="submit" value="<?=ucf(i18n("search"))?>"/>
 				</form>
 			</div>
 		</div>

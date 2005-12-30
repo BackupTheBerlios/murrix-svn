@@ -11,6 +11,7 @@ img
 {
 	border-width: 0;
 	vertical-align: middle;
+	behavior: url("design/standard/stylesheets/pngbehavior.htc");
 }
 
 form
@@ -167,8 +168,12 @@ a:hover {
 #content .show_line .show_line_main_top_inner
 {
 	margin-left: 70px;
-	font-size: 18px;
 	font-weight: bold;
+}
+
+#content .show_line .show_line_main_top_inner_title
+{
+	font-size: 18px;
 }
 
 #content .show_line .show_line_main_bottom

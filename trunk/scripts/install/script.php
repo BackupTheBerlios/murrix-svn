@@ -12,6 +12,8 @@ class sInstall extends Script
 		$this->db_username = "";
 		$this->db_password = "";
 		$this->site = "standard";
+		$this->db_exists = false;
+		$this->db_tables = false;
 	}
 	
 	function Exec(&$system, &$response, $args)
@@ -70,7 +72,7 @@ class sInstall extends Script
 
 			$this->db_log = "";
 
-			if (!$db_conn = mysql_pconnect($this->db_address, $this->db_username, $this->db_password))
+			if (!$db_conn = @mysql_connect($this->db_address, $this->db_username, $this->db_password))
 			{
 				$this->db_login = false;
 				$this->db_log .= "Error connecting to MySQL: " . mysql_errno() . " " . mysql_error()."<br/>";
