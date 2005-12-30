@@ -1,13 +1,13 @@
 ====================================================================
  xajax PHP Class Library
- The easiest way to develop asynchronous AJAX applications with PHP
+ The easiest way to develop asynchronous Ajax applications with PHP
 
- Version 0.2 "Forum Beta 1"
+ Version 0.2 (stable release)
  README Text File
 
  ------------------------------------------------------
  | Release Notes:                                     |
- | http://wiki.xajaxproject.org/0.2beta_Release_Notes |
+ | http://wiki.xajaxproject.org/0.2_Release_Notes     |
  |                                                    |
  | Lead Developers:                                   |
  | Jared White (jared@intuitivefuture.com)            |
@@ -19,7 +19,7 @@
 
 xajax is a PHP library that you can include in your PHP scripts
 to provide an easy way for Web pages to call PHP functions or
-object methods using AJAX (Asynchronous Javascript And XML). Simply
+object methods using Ajax (Asynchronous Javascript And XML). Simply
 register one or more functions/methods with the xajax object that
 return a proper XML response using the supplied response class, add
 a statement in your HTML header to print the Javascript include,
@@ -38,11 +38,17 @@ version of xajax.
 
 2. For More Information
 
-An official xajax project domain will be announced shortly. In the
-meantime, visit the xajax Forums at:
-http://www.intuitivefuture.com/xajaxforums
+The official xajax Web site is located at:
+http://www.xajaxproject.org
+
+Visit the xajax Forums at:
+http://community.xajaxproject.org
 to keep track of the latest news and participate in the community
 discussion.
+
+There is also a wiki with documentation, tips & tricks, and other
+information located at:
+http://wiki.xajaxproject.org
 
 3. Installation
 
@@ -53,7 +59,7 @@ To run xajax, you need:
 * PHP 4.3.x or PHP 5.x
 * Minimum supported browsers: Internet Explorer 5.5, Firefox 1.0 (or
    equivalent Gecko-based browser), Safari 1.3, Opera 8.5 (older
-   versions may work but have not been tested)
+   versions only work with GET requests)
 
 To install xajax:
 Unpack the contents of this archive and copy them to your main Web
@@ -78,10 +84,10 @@ a message in our forums and someone may be able to help you.
 
 4. Documentation
 
-Detailed documentation for xajax is forthcoming and will be made
-available on our wiki. In the meantime, the best way to learn
-the ins and outs of xajax is to read the inline documentation in
-the PHP include files themselves and look at the code for the
+Detailed documentation for the xajax PHP classes is available on
+our wiki (URL listed above in section 2), and more in on the way
+(particularly in regards to the Javascript component of xajax).
+Another good way of learning xajax is to look at the code for the
 examples and tests. If you need any help, pop in the forums and
 ask for assistance (and the more specific your questions are,
 the better the answers will be).

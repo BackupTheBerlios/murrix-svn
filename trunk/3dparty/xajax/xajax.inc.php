@@ -66,16 +66,18 @@ class xajax
 	var $bErrorHandler;			// Use an special xajax error handler so the errors are sent to the browser properly
 	var $sLogFile;				// Specify if xajax should log errors (and more information in a future release)
 	var $sWrapperPrefix;			// The prefix to prepend to the javascript wraper function name
-	var $bStatusMessages;			// Show debug messages true/false
+	var $bStatusMessages;			// Show debug messages (true/false)
+	var $bWaitCursor;			// Use wait cursor in browser (true/false)
+	var $bCleanBuffer;			// Clean all output buffers before outputting response (true/false)
 	var $aObjArray;				// Array for parsing complex objects
 	var $iPos;					// Position in $aObjArray
 	var $sEncoding;				// The Character Encoding to use
 	
 	// Contructor
 	// $sRequestURI - defaults to the current page
-	// $bDebug Mode - defaults to false
 	// $sWrapperPrefix - defaults to "xajax_";
 	// $sEncoding - defaults to XAJAX_DEFAULT_CHAR_ENCODING defined above
+	// $bDebug Mode - defaults to false
 	// usage: $xajax = new xajax();
 	function xajax($sRequestURI="",$sWrapperPrefix="xajax_",$sEncoding=XAJAX_DEFAULT_CHAR_ENCODING,$bDebug=false)
 	{
@@ -88,9 +90,11 @@ class xajax
 		$this->sWrapperPrefix = $sWrapperPrefix;
 		$this->setCharEncoding($sEncoding);
 		$this->bDebug = $bDebug;
+		$this->bWaitCursor = true;
 		$this->bExitAllowed = true;
 		$this->bErrorHandler = false;
 		$this->sLogFile = "";
+		$this->bCleanBuffer = true;
 	}
 		
 	// setRequestURI() sets the URI to which requests will be made
@@ -106,7 +110,7 @@ class xajax
 		$this->bDebug = true;
 	}
 	
-	// debugOff() disables debug messages for xajax
+	// debugOff() disables debug messages for xajax (default behavior)
 	function debugOff()
 	{
 		$this->bDebug = false;
@@ -118,11 +122,23 @@ class xajax
 		$this->bStatusMessages = true;
 	}
 	
-	// statusMessagesOff() disables messages in the statusbar for xajax
+	// statusMessagesOff() disables messages in the statusbar for xajax (default behavior)
 	function statusMessagesOff()
 	{
 		$this->bStatusMessages = false;
 	}
+	
+	// waitCursor() enables the wait cursor to be displayed in the browser (default behavior)
+	function waitCursorOn()
+	{
+		$this->bWaitCursor = true;
+	}
+	
+	// waitCursorOff() disables the wait cursor to be displayed in the browser
+	function waitCursorOff()
+	{
+		$this->bWaitCursor = false;
+	}	
 	
 	// exitAllowedOn() enables xajax to exit immediately after processing a request
 	// and sending the response back to the browser (default behavior)
@@ -145,7 +161,7 @@ class xajax
 	{
 		$this->bErrorHandler = true;
 	}
-	// errorHandlerOff() turns off xajax's error handling system
+	// errorHandlerOff() turns off xajax's error handling system (default behavior)
 	function errorHandlerOff()
 	{
 		$this->bErrorHandler = false;
@@ -159,9 +175,21 @@ class xajax
 	{
 		$this->sLogFile = $sFilename;
 	}
+
+	// cleanBufferOn() causes xajax to clean out all output buffers before outputting
+	// a response (default behavior)
+	function cleanBufferOn()
+	{
+		$this->bCleanBuffer = true;
+	}
+	// cleanBufferOff() turns off xajax's output buffer cleaning
+	function cleanBufferOff()
+	{
+		$this->bCleanBuffer = false;
+	}
 	
-	// setWrapperPrefix() sets the prefix that will be appended to the javascript
-	// wraper functions.
+	// setWrapperPrefix() sets the prefix that will be appended to the Javascript
+	// wrapper functions (default is "xajax_").
 	function setWrapperPrefix($sPrefix)
 	{
 		$this->sWrapperPrefix = $sPrefix;
@@ -460,6 +488,7 @@ class xajax
 			$sResponse = $sErrorResponse->getXML();
 			
 		}
+		if ($this->bCleanBuffer) while (@ob_end_clean());
 		print $sResponse;
 		if ($this->bErrorHandler) restore_error_handler();
 		
@@ -482,9 +511,9 @@ class xajax
 	//	<head>
 	//		...
 	//		< ?php $xajax->printJavascript(); ? >
-	function printJavascript($sJsURI="", $sJsFile="xajax_js/xajax.js")
+	function printJavascript($sJsURI="", $sJsFile=NULL, $sJsFullFilename=NULL)
 	{
-		print $this->getJavascript($sJsURI, $sJsFile);
+		print $this->getJavascript($sJsURI, $sJsFile, $sJsFullFilename);
 	}
 	
 	// getJavascript() returns the xajax javascript code that should be added to
@@ -495,8 +524,9 @@ class xajax
 	//	<head>
 	//		...
 	//		< ?php echo $xajaxJSHead; ? >
-	function getJavascript($sJsURI="", $sJsFile="xajax_js/xajax.js")
+	function getJavascript($sJsURI="", $sJsFile=NULL, $sJsFullFilename=NULL)
 	{	
+		if ($sJsFile == NULL) $sJsFile = "xajax_js/xajax.js";
 			
 		if ($sJsURI != "" && substr($sJsURI, -1) != "/") $sJsURI .= "/";
 		
@@ -504,6 +534,7 @@ class xajax
 		$html .= "var xajaxRequestUri=\"".$this->sRequestURI."\";\n";
 		$html .= "var xajaxDebug=".($this->bDebug?"true":"false").";\n";
 		$html .= "var xajaxStatusMessages=".($this->bStatusMessages?"true":"false").";\n";
+		$html .= "var xajaxWaitCursor=".($this->bWaitCursor?"true":"false").";\n";
 		$html .= "var xajaxDefinedGet=".XAJAX_GET.";\n";
 		$html .= "var xajaxDefinedPost=".XAJAX_POST.";\n";
 
@@ -514,8 +545,13 @@ class xajax
 		$html .= "</script>\n";
 		
 		// Create a compressed file if necessary
-		$realPath = realpath(dirname(__FILE__));
-		$realJsFile = $realPath . "/". $sJsFile;
+		if ($sJsFullFilename) {
+			$realJsFile = $sJsFullFilename;
+		}
+		else {
+			$realPath = realpath(dirname(__FILE__));
+			$realJsFile = $realPath . "/". $sJsFile;
+		}
 		$srcFile = str_replace(".js", "_uncompressed.js", $realJsFile);
 		if (!file_exists($srcFile)) {
 			trigger_error("The xajax uncompressed Javascript file could not be found in the <b>" . dirname($realJsFile) . "</b> folder. Error ", E_USER_ERROR);	
@@ -667,7 +703,7 @@ class xajax
 	// used internally
 	function _wrap($sFunction,$sRequestType=XAJAX_POST)
 	{
-		$js = "function ".$this->sWrapperPrefix."$sFunction(){xajax.call(\"$sFunction\", arguments, ".$sRequestType.");}\n";		
+		$js = "function ".$this->sWrapperPrefix."$sFunction(){return xajax.call(\"$sFunction\", arguments, ".$sRequestType.");}\n";		
 		return $js;
 	}
 

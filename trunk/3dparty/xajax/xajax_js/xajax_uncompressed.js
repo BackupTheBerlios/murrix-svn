@@ -38,7 +38,14 @@ function Xajax()
 	// xajax.$() is shorthand for document.getElementById()
 	this.$ = function(sId)
 	{
-		return document.getElementById(sId);
+		if (!sId) {
+			return null;
+		}
+		var returnObj = document.getElementById(sId);
+		if (xajaxDebug && !returnObj && sId != this.workId) {
+			this.DebugMessage("Element with the id \"" + sId + "\" not found.");
+		}
+		return returnObj;
 	}
 	
 	// xajax.include(sFileName) dynamically includes an external javascript file
@@ -100,7 +107,6 @@ function Xajax()
 		var Obj;
 		if (sType == "radio" && !window.addEventListener)
 		{
-			alert('here');
 			Obj = document.createElement('<input type="radio" id="'+sId+'" name="'+sName+'">');
 		}
 		else
@@ -143,7 +149,17 @@ function Xajax()
 	//with a different text
 	this.replace = function(sId,sAttribute,sSearch,sReplace)
 	{
+		var bFunction = false;
+		
+		if (sAttribute == "innerHTML")
+			sSearch = this.getBrowserHTML(sSearch);
+		
 		eval("var txt=document.getElementById('"+sId+"')."+sAttribute);
+		if (typeof txt == "function")
+        {
+            txt = txt.toString();
+            bFunction = true;
+        }
 		if (txt.indexOf(sSearch)>-1)
 		{
 			var newTxt = '';
@@ -154,8 +170,15 @@ function Xajax()
 				txt = txt.substr(x,txt.length-x);
 			}
 			newTxt += txt;
-			if (this.willChange(sId,sAttribute,newTxt))
-				eval('document.getElementById("'+sId+'").'+sAttribute+'=newTxt;');
+			if (bFunction)
+			{
+				eval("newTxt =" + newTxt); 
+				eval('this.$("'+sId+'").'+sAttribute+'=newTxt;');
+			}
+			else if (this.willChange(sId,sAttribute,newTxt))
+			{
+				eval('this.$("'+sId+'").'+sAttribute+'=newTxt;');
+			}
 		}
 	}
 	
@@ -247,7 +270,7 @@ function Xajax()
 	this.call = function(sFunction, aArgs, sRequestType)
 	{
 		var i,r,postData;
-		if (document.body)
+		if (document.body && xajaxWaitCursor)
 			document.body.style.cursor = 'wait';
 		if (xajaxStatusMessages == true) window.status = 'Sending Request...';
 		if (xajaxDebug) this.DebugMessage("Starting xajax...");
@@ -263,12 +286,14 @@ function Xajax()
 		{
 			case xajaxDefinedGet:{
 				var uriGet = uri.indexOf("?")==-1?"?xajax="+encodeURIComponent(sFunction):"&xajax="+encodeURIComponent(sFunction);
-				for (i = 0; i<aArgs.length; i++)
-				{
-					value = aArgs[i];
-					if (typeof(value)=="object")
-						value = this.objectToXML(value);
-					uriGet += "&xajaxargs[]="+encodeURIComponent(value);
+				if (aArgs) {
+					for (i = 0; i<aArgs.length; i++)
+					{
+						value = aArgs[i];
+						if (typeof(value)=="object")
+							value = this.objectToXML(value);
+						uriGet += "&xajaxargs[]="+encodeURIComponent(value);
+					}
 				}
 				uriGet += "&xajaxr=" + new Date().getTime();
 				uri += uriGet;
@@ -277,18 +302,21 @@ function Xajax()
 			case xajaxDefinedPost:{
 				postData = "xajax="+encodeURIComponent(sFunction);
 				postData += "&xajaxr="+new Date().getTime();
-				for (i = 0; i <aArgs.length; i++)
-				{
-					value = aArgs[i];
-					if (typeof(value)=="object")
-						value = this.objectToXML(value);
-					postData = postData+"&xajaxargs[]="+encodeURIComponent(value);
+				if (aArgs) {
+					for (i = 0; i <aArgs.length; i++)
+					{
+						value = aArgs[i];
+						if (typeof(value)=="object")
+							value = this.objectToXML(value);
+						postData = postData+"&xajaxargs[]="+encodeURIComponent(value);
+					}
 				}
 				} break;
 			default:
 				alert("Illegal request type: " + xajaxRequestType); return false; break;
 		}
 		r = this.getRequestObject();
+		if (!r) return false;
 		r.open(xajaxRequestType==xajaxDefinedGet?"GET":"POST", uri, true);
 		if (xajaxRequestType == xajaxDefinedPost)
 		{
@@ -330,24 +358,37 @@ function Xajax()
 		return true;
 	}
 	
+	//Gets the text as it would be if it were being retrieved from
+	//the innerHTML property in the current browser
+	this.getBrowserHTML = function(html)
+	{
+		tmpXajax = this.$(this.workId);
+		if (tmpXajax == null)
+		{
+			tmpXajax = document.createElement("div");
+			tmpXajax.setAttribute('id',this.workId);
+			tmpXajax.style.display = "none";
+			tmpXajax.style.visibility = "hidden";
+			document.body.appendChild(tmpXajax);
+		}
+		tmpXajax.innerHTML = html;
+		var browserHTML = tmpXajax.innerHTML;
+		tmpXajax.innerHTML = '';	
+		
+		return browserHTML;
+	}
+	
 	// Tests if the new Data is the same as the extant data
 	this.willChange = function(element, attribute, newData)
 	{
+		if (!document.body)
+		{
+			return true;
+		}
 		var oldData;
 		if (attribute == "innerHTML")
 		{
-			tmpXajax = this.$(this.workId);
-			if (tmpXajax == null)
-			{
-				tmpXajax = document.createElement("div");
-				tmpXajax.setAttribute('id',this.workId);
-				tmpXajax.style.display = "none";
-				tmpXajax.style.visibility = "hidden";
-				document.body.appendChild(tmpXajax);
-			}
-			tmpXajax.innerHTML = newData;
-			newData = tmpXajax.innerHTML;
-			tmpXajax.innerHTML = '';
+			newData = this.getBrowserHTML(newData);
 		}
 		eval("oldData=document.getElementById('"+element+"')."+attribute);
 		if (newData != oldData)
