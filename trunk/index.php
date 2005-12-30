@@ -1,6 +1,18 @@
 <?
+require_once("system/functions.php");
+require_once("system/design.php");
+require_once("system/system.php");
 
+$abspath = getcwd();
+$wwwpath = GetParentPath($_SERVER['REQUEST_URI']);
+
+if (!file_exists("config.inc.php"))
+{
+	header("Location: $wwwpath/install.php");
+	exit;
+}
 require_once("config.inc.php");
+
 $site_config['default'] = $default_theme;
 require_once("classes/class.mvar.php");
 require_once("classes/class.mobject.php");
@@ -10,12 +22,9 @@ require_once("classes/class.calendar.php");
 
 require_once("3dparty/exifer/exif.php");
 
-require_once("system/functions.php");
-require_once("system/design.php");
-require_once("system/system.php");
 
-$abspath = getcwd();
-$wwwpath = GetParentPath($_SERVER['REQUEST_URI']);
+
+
 
 $folders = GetSubfolders("$abspath/design");
 foreach ($folders as $folder)
