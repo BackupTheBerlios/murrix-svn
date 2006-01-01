@@ -174,10 +174,15 @@ function getcss()
 	global $abspath, $wwwpath;
 	$files = GetSubfiles("$abspath/design/".$_SESSION['murrix']['site']."/stylesheets");
 
+	$files2 = array();
 	for ($n = 0; $n < count($files); $n++)
-		$files[$n] = "$wwwpath/design/".$_SESSION['murrix']['site']."/stylesheets/".$files[$n];
+	{
+		$paths = pathinfo($files[$n]);
+		if (strtolower($paths['extension']) == "css")
+			$files2[] = "$wwwpath/design/".$_SESSION['murrix']['site']."/stylesheets/".$files[$n];
+	}
 
-	return $files;
+	return $files2;
 }
 
 function _gettemplateoverride($filename, $object, $site)
