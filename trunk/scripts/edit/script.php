@@ -48,6 +48,7 @@ class sEdit extends Script
 
 				if ($object->save())
 				{
+					$_SESSION['murrix']['lastcmd'] = "Exec('show', '".$this->zone."', Hash('path', '".$_SESSION['murrix']['path']."'))";
 					$system->ExecIntern($response, "show", $this->zone);
 					/*if (isset($this->parent_obj))
 					{

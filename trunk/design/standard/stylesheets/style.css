@@ -66,6 +66,21 @@ a:hover {
 	padding: 0;
 }
 
+#content a.externlink
+{
+	float: right;
+	padding: 5px;
+	border: 1px solid #B6BAFF;
+	border-bottom-width: 0;
+	margin-right: 5px;
+	display: block;
+}
+
+#content a.externlink:hover
+{
+	background-color: #E1E3FF;
+}
+
 #content .big_title
 {
 	border: 1px solid #B6BAFF;
@@ -294,16 +309,22 @@ a:hover {
 	margin: 0;
 }
 
-#content .adminpanel .tab
+#content .adminpanel a.tab
 {
 	float: left;
 	padding: 5px;
 	border: 1px solid #B6BAFF;
 	border-bottom-width: 0;
 	margin-left: 5px;
+	display: block;
 }
 
-#content .adminpanel .tab_selected
+#content .adminpanel a.tab:hover
+{
+	background-color: #E1E3FF;
+}
+
+#content .adminpanel a.tab_selected
 {
 	float: left;
 	background-color: #B6BAFF;
@@ -311,6 +332,7 @@ a:hover {
 	border: 1px solid #B6BAFF;
 	border-bottom-width: 0;
 	margin-left: 5px;
+	display: block;
 }
 
 #content .main

@@ -130,44 +130,6 @@ class mObject
 		}
 		
 		return true;
-
-/*
-		// Get values for object
-		$query = "SELECT vars.id AS id, values.id AS value_id, values.data AS data FROM `".$db_prefix."vars` AS `vars`, `".$db_prefix."values` AS `values` WHERE class_name = '$this->class_name' AND values.object_id = '$this->id' AND vars.id = values.var_id ORDER BY priority";
-		if (!($result_v = mysql_query($query)))
-		{
-			$this->error = "mObject::loadVars: " . mysql_errno() . " " . mysql_error();
-			return false;
-		}
-		
-		$values = array();
-		while ($row = mysql_fetch_array($result_v, MYSQL_ASSOC))
-			$values[$row['id']] = array('data' => $row['data'], 'value_id' => $row['value_id']);
-
-		// Get vars for this object-class
-		$query = "SELECT * FROM `".$db_prefix."vars` WHERE class_name = '$this->class_name' ORDER BY priority";
-		if (!($result = mysql_query($query)))
-		{
-			$this->error = "mObject::loadVars: " . mysql_errno() . " " . mysql_error();
-			return false;
-		}
-		
-		$this->vars = array();
-		while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
-		{
-			$class_name = "mVar".ucfirst($row['type']);
-			$var = new $class_name();
-
-			$row['object_id'] = $this->id;
-			$row['data'] = isset($values[$row['id']]['data']) ? $values[$row['id']]['data'] : "";
-			$row['value_id'] = isset($values[$row['id']]['value_id']) ? $values[$row['id']]['value_id'] : 0;
-
-			$var->SetByArray($row);
-			
-			$this->vars[$row['name']] = $var;
-		}
-		
-		return true;*/
 	}
 
 	function deleteCurrentVersion()
@@ -734,41 +696,6 @@ class mObject
 
 }
 
-/*	fetch
-	Arguments:
-		$what; "object", "object_list", "object_count" This defines what we want returned
-		$hash;
-		Exemple
-		$hash = array	(
-				"properties" =>	array	(
-							"id" =>			array(array(23, 3443),		false),
-							"name" =>		array(array("abc", "namn2"),	true),
-							"node_id" =>		array(array(65, 9867),		true),
-							"creator" =>		array(array(965, 665),		false),
-							"created" =>		array(array("2004-05-04"),	false),
-							"class" =>		array(array("comments", "events"), true),
-							"version" =>		array(array(1, 2, 3),		true),
-							"language" =>		array(array("eng", "swe"),	false),
-							"icon" =>		array(array("file", "edit"),	true),
-							),
-							
-				"vars" =>	array	(
-							"variabelnamn1" =>	array(array("variabelvärde1", "variabelvärde2"),	false),
-							"variabelnamnb" =>	array(array("variabelvärdeA", "variabelvärdeB"),	false)
-							),
-							
-				"relations" =>	array	(
-							"node_top" =>		array(array(743),	false),
-							"node_bottom" =>	array(array(534),	true),
-							"node_id" =>		array(array(743),	false),
-							"type" =>		array(array("sub"),	false)
-							)
-				)
-
-		$query:
-		Example
-		FETCH object WHERE property:id='12' AND var:b='test' AND relation:node_id='' SORT-BY var:a, !property:version
-*/
 
 function fetch($query, $debug = false)
 {//$_SESSION['debug2']++;// .= $query;

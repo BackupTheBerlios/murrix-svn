@@ -8,6 +8,11 @@ foreach ($parts as $part)
 {
 	$path2 .= "/$part";
 	echo "&nbsp;/&nbsp;";
-	echo cmd($part, "Exec('show', 'zone_main', Hash('path', '$path2'))");
+
+	$object = new mObject(resolvePath($path2));
+	if ($object->hasRight("read"))
+		echo cmd($part, "Exec('show', 'zone_main', Hash('path', '$path2'))");
+	else
+		echo $part;
 }
 ?>

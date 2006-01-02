@@ -25,6 +25,12 @@ function cmd($name, $cmd, $class = "", $title = "")
 	return "<a ".(!empty($title) ? "title=\"$title\"" : "")." ".(!empty($class) ? "class=\"$class\"" : "")." href=\"history.php?cmd=$cmd\" target=\"history\">$name</a>";
 }
 
+function externcmd($name, $cmd, $class = "", $title = "")
+{
+	$cmd = urlencode($cmd);
+	return "<a ".(!empty($title) ? "title=\"$title\"" : "")." ".(!empty($class) ? "class=\"$class\"" : "")." href=\"extern.php?cmd=$cmd\" target=\"history\">$name</a>";
+}
+
 function imgpath($append = "")
 {
 	global $wwwpath;

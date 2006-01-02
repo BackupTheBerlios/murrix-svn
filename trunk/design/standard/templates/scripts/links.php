@@ -1,8 +1,10 @@
 <?
+echo externcmd(img(geticon("global"))." ".ucf(i18n("external link here")), $_SESSION['murrix']['lastcmd'], "externlink");
+
 $current_view = "links";
 include(gettpl("adminpanel", $object));
 
-$left = "<span style=\"font-weight: bold; font-size: 18px;\">".img(geticon("link"))."&nbsp;".ucf(i18n("links"))."</span>";
+$left = img(geticon("link"))."&nbsp;".ucf(i18n("links"));
 $right = $center = "";
 include(gettpl("big_title"));
 
@@ -26,8 +28,6 @@ foreach ($links as $link)
 
 	$linklist[] = array($link['type'], $remote, ucf(i18n($link['direction'])), $delete);
 }
-?>
 
-<div style="margin-top: 5px">
-	<? table($linklist, "% ".i18n("rows")) ?>
-</div>
+table($linklist, "% ".i18n("rows"))
+?>

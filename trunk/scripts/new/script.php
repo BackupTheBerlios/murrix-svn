@@ -60,6 +60,8 @@ class sNew extends Script
 				if ($object->save())
 				{
 					$object->linkWithNode($parent->getNodeId());
+
+					$_SESSION['murrix']['lastcmd'] = "Exec('show', '".$this->zone."', Hash('node_id', '".$object->getNodeId()."'))";
 					$system->ExecIntern($response, "show", $this->zone, array("node_id" => $object->getNodeId()));
 				}
 				else

@@ -13,11 +13,19 @@ require_once("session.php");
 		<script type="text/javascript">
 		<!--
 			<?
-			$cmd = urldecode($_GET['cmd']);
+			if (empty($_GET['cmd']))
+			{
+				$cmd = urldecode($_SESSION['murrix']['cmd']);
+				unset($_SESSION['murrix']['cmd']);
+			}
+			else
+				$cmd = urldecode($_GET['cmd']);
+				
 			if (!empty($cmd))
 			{
 				$cmd = str_replace("\\", "", $cmd);
 				echo "parent.$cmd";
+				$_SESSION['murrix']['lastcmd'] = $cmd;
 			}
 			?>
 		// -->

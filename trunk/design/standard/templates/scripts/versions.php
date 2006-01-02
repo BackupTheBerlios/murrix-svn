@@ -1,9 +1,10 @@
 <?
+echo externcmd(img(geticon("global"))." ".ucf(i18n("external link here")), $_SESSION['murrix']['lastcmd'], "externlink");
 
 $current_view = "versions";
 include(gettpl("adminpanel", $object));
 
-$left = "<span style=\"font-weight: bold; font-size: 18px;\">".img(geticon("list"))."&nbsp;".ucw(i18n("versions"))."</span>";
+$left = img(geticon("list"))."&nbsp;".ucw(i18n("versions"));
 $right = $center = "";
 include(gettpl("big_title"));
 
@@ -13,7 +14,7 @@ foreach ($_SESSION['murrix']['languages'] as $language)
 {
 	$versions = fetch("FETCH object WHERE property:node_id='".$object->getNodeId()."' AND property:language='$language' NODESORTBY property:version,property:name");
 
-	$left = "<span style=\"font-weight: bold;\">".img(imgpath("$language.jpg"))."&nbsp;".ucf(i18n($language))."</span>";
+	$left = img(imgpath("$language.jpg"))."&nbsp;".ucf(i18n($language));
 	$right = $center = "";
 	include(gettpl("medium_title"));
 
@@ -46,12 +47,8 @@ foreach ($_SESSION['murrix']['languages'] as $language)
 		
 		$versionlist[] = array($version->getVersion(), $version->getCreated(),  $version->getClassName(), $version->getName(), $creator, "$delete $edit");
 	}
-	?>
 	
-	<div style="margin-top: 5px">
-		<? table($versionlist, "% ".i18n("rows")) ?>
-	</div>
-	<?
+	table($versionlist, "% ".i18n("rows"));
 }
 
 ?>

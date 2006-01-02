@@ -1,4 +1,5 @@
 <?
+echo externcmd(img(geticon("global"))." ".ucf(i18n("external link here")), $_SESSION['murrix']['lastcmd'], "externlink");
 
 $view_form = "";
 if ($object->hasRight("edit"))

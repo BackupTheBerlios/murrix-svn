@@ -38,6 +38,8 @@ class sDelete extends Script
 				$_SESSION['murrix']['path'] = GetParentPath($object->getPath());
 				$object->deleteNode();
 
+				$_SESSION['murrix']['lastcmd'] = "Exec('show', '".$this->zone."', Hash('path', '".$_SESSION['murrix']['path']."'))";
+
 				$system->SetZone("show", $this->zone);
 				$system->TriggerEventIntern($response, "newlocation");
 				return;
