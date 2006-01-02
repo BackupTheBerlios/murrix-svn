@@ -45,6 +45,8 @@ foreach ($files as $file)
 	$_SESSION['murrix']['translations'][$parts['name']] = $translation;
 }
 
+if (!isset($_SESSION['murrix']['lastcmd'])) $_SESSION['murrix']['lastcmd'] = "";
+
 $files = GetSubfiles("$abspath/design/".$_SESSION['murrix']['site']."/include");
 foreach ($files as $file)
 {

@@ -59,21 +59,33 @@
 				</form>
 			</div>
 		</div>
-		
-		<div id="menu"></div>
 
+		<div id="clear"></div>
+		
 		<div id="main">
-			<div id="content">
-				<div id="zone_main"></div>
-			</div>
-			
+
+			<table class="invisible" style="width: 100%" cellspacing="0">
+				<tr>
+					<td>
+					<?
+						$menu_id = resolvePath("/Root/Public/Menu");
+						include(gettpl("menu"));
+					?>
+					</td>
+					<td style="width: 100%">
+						<div id="content">
+							<div id="zone_main"></div>
+						</div>
+					</td>
+				</tr>
+			</table>
+
 			<div id="footer">
 				<? include(gettpl("footer")) ?>
 			</div>
-
-			<iframe src="history.php" id="history" name="history" style="width: 0; height: 0; display:none;"></iframe>
 		</div>
-
+		
+		<iframe src="history.php" id="history" name="history" style="width: 0; height: 0; display:none;"></iframe>
 		<script type="text/javascript">
 		<!--
 			//Load initial ajax-scripts

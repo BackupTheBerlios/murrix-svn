@@ -568,6 +568,8 @@ class mVar
 		
 		if ($data == "")
 			return $this->Remove();
+
+		$data = str_replace("'", "\'", $data);
 	
 		if ($this->value_id > 0)
 		{

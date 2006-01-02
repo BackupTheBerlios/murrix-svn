@@ -356,7 +356,8 @@ class sInstall extends Script
 				$query .= "('forum_post', 'comment', 15),";
 				$query .= "('forum_thread', 'comment', 16),";
 				$query .= "('file_folder', 'file_folder', 17),";
-				$query .= "('file', 'file', 18);";
+				$query .= "('file', 'file', 18),";
+				$query .= "('internal_link', 'location', 19);";
 				
 				if (mysql_query($query))
 					$this->db_log .= "Inserted classes into ".$this->db_prefix."classes.<br/>";
@@ -381,7 +382,8 @@ class sInstall extends Script
 				$query .= "(8, 11, 'sub', 10),";
 				$query .= "(8, 12, 'sub', 11),";
 				$query .= "(8, 13, 'sub', 12),";
-				$query .= "(8, 14, 'sub', 13);";
+				$query .= "(8, 14, 'sub', 13),";
+				$query .= "(3, 15, 'sub', 14);";
 				
 				if (mysql_query($query))
 					$this->db_log .= "Inserted links into ".$this->db_prefix."links.<br/>";
@@ -409,7 +411,8 @@ class sInstall extends Script
 				$query .= "(11, '$datetime'),";
 				$query .= "(12, '$datetime'),";
 				$query .= "(13, '$datetime'),";
-				$query .= "(14, '$datetime');";
+				$query .= "(14, '$datetime'),";
+				$query .= "(15, '$datetime');";
 				
 				if (mysql_query($query))
 					$this->db_log .= "Inserted nodes into ".$this->db_prefix."nodes.<br/>";
@@ -434,10 +437,11 @@ class sInstall extends Script
 				$query .= "(8, 'Administrators', 8, 9, '$datetime', 'group', 1, 'eng', ''),";
 				$query .= "(9, 'Administrator', 9, 9, '$datetime', 'user', 1, 'eng', ''),";
 				$query .= "(10, 'Create Subnodes Root', 10, 9, '$datetime', 'right_create_subnodes', 1, 'eng', ''),";
-				$query .= "(11, 'Delete Root', 11, 6, '$datetime', 'right_delete', 1, 'eng', ''),";
-				$query .= "(12, 'Edit Root', 12, 6, '$datetime', 'right_edit', 1, 'eng', ''),";
-				$query .= "(13, 'Read Root', 13, 6, '$datetime', 'right_read', 1, 'eng', ''),";
-				$query .= "(14, 'Read Subnodes Root', 14, 6, '$datetime', 'right_read_subnodes', 1, 'eng', '');";
+				$query .= "(11, 'Delete Root', 11, 9, '$datetime', 'right_delete', 1, 'eng', ''),";
+				$query .= "(12, 'Edit Root', 12, 9, '$datetime', 'right_edit', 1, 'eng', ''),";
+				$query .= "(13, 'Read Root', 13, 9, '$datetime', 'right_read', 1, 'eng', ''),";
+				$query .= "(14, 'Read Subnodes Root', 14, 9, '$datetime', 'right_read_subnodes', 1, 'eng', ''),";
+				$query .= "(15, 'Menu', 15, 9, '$datetime', 'folder', 1, 'eng', '');";
 				
 				if (mysql_query($query))
 					$this->db_log .= "Inserted objects into ".$this->db_prefix."objects.<br/>";
@@ -506,7 +510,8 @@ class sInstall extends Script
 				$query .= "(28, 'file', 'file', 10, 'file', ''),";
 				$query .= "(29, 'file', 'description', 20, 'text', '100x10'),";
 				$query .= "(30, 'file', 'thumbnail_id', 30, 'thumbnailid', ''),";
-				$query .= "(40, 'event', 'day', 30, 'selection', '1=1,2=2,3=3,4=4,5=5,6=6,7=7,8=8,9=9,10=10,11=11,12=12,13=13,14=14,15=15,16=16,17=17,18=18,19=19,20=20,21=21,22=22,23=23,24=24,25=25,26=26,27=27,28=28,29=29,30=30,31=31');";
+				$query .= "(40, 'event', 'day', 30, 'selection', '1=1,2=2,3=3,4=4,5=5,6=6,7=7,8=8,9=9,10=10,11=11,12=12,13=13,14=14,15=15,16=16,17=17,18=18,19=19,20=20,21=21,22=22,23=23,24=24,25=25,26=26,27=27,28=28,29=29,30=30,31=31'),";
+				$query .= "(41, 'internal_link', 'command', 10, 'textline', '');";
 				
 				if (mysql_query($query))
 					$this->db_log .= "Inserted vars into ".$this->db_prefix."vars.<br/>";
@@ -516,27 +521,37 @@ class sInstall extends Script
 					$this->done = false;
 				}
 			}
-			
-			$conffile = fopen("$abspath/config.inc.php", "w");
 
-			fwrite($conffile, "<?\n");
-			fwrite($conffile, "\$anonymous_id = 5;\n");
-			fwrite($conffile, "\$root_id = 1;\n");
-			fwrite($conffile, "\n");
-			fwrite($conffile, "\$mysql_address = \"".$this->db_address."\";\n");
-			fwrite($conffile, "\$mysql_user = \"".$this->db_username."\";\n");
-			fwrite($conffile, "\$mysql_pass = \"".$this->db_password."\";\n");
-			fwrite($conffile, "\$mysql_db = \"".$this->db_name."\";\n");
-			fwrite($conffile, "\$db_prefix = \"".$this->db_prefix."\";\n");
-			fwrite($conffile, "\n");
-			fwrite($conffile, "\$default_theme = \"".$this->site."\";\n");
-			fwrite($conffile, "?>");
+			$confdata = "<?\n";
+			$confdata .= "\$anonymous_id = 5;\n";
+			$confdata .= "\$root_id = 1;\n";
+			$confdata .= "\n";
+			$confdata .= "\$mysql_address = \"".$this->db_address."\";\n";
+			$confdata .= "\$mysql_user = \"".$this->db_username."\";\n";
+			$confdata .= "\$mysql_pass = \"".$this->db_password."\";\n";
+			$confdata .= "\$mysql_db = \"".$this->db_name."\";\n";
+			$confdata .= "\$db_prefix = \"".$this->db_prefix."\";\n";
+			$confdata .= "\n";
+			$confdata .= "\$default_theme = \"".$this->site."\";\n";
+			$confdata .= "?>";
 
-			fclose($conffile);
-
-			chmod("$abspath/config.inc.php", 0600);
-
-			$this->db_log .= "Wrote config, $abspath/config.inc.php.<br/>";
+			if (is_writable($abspath))
+			{
+				$conffile = fopen("$abspath/config.inc.php", "w");
+				fwrite($conffile, $confdata);
+				fclose($conffile);
+				chmod("$abspath/config.inc.php", 0600);
+				$this->db_log .= "Wrote config, $abspath/config.inc.php.<br/>";
+			}
+			else
+			{
+				$this->db_log .= "Unable to write config file.<br/>";
+				$this->db_log .= "Please put the folowing into \"config.inc.php\" and place it in MURRiXs rootpath:<br/>";
+				$this->db_log .= "<br/>";
+				$this->db_log .= nl2br($confdata);
+				$this->db_log .= "<br/>";
+			}
+			$this->db_log .= "Installation complete!<br/>";
 		}
 		
 		$this->Draw($system, $response, $args);

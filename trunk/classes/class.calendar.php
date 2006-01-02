@@ -26,7 +26,61 @@ class Calendar
 		return $week;
 	}
 
+	function drawDay($date, $color = "")
+	{
+		$class = "day";
+		if (date("Y-m-d") == $date)
+			$class = "today";
 
+		$class = $class.$color;
+		?>
+		<td class="<?=$class?>">
+		<?
+			$day = date("j", strtotime($date));
+			if ($day == 1) echo ucf(i18n(strtolower(date("F", strtotime($date)))))." $day";
+			else echo $day;
+			?>
+			<hr/>
+			<div class="day">
+				<nobr>
+				<?
+				$node_id = resolvePath("/Root/Etek/Hidden/Events", "eng");
+
+				$day = date("j", strtotime($date));
+				$month = date("n", strtotime($date));
+				$year = date("Y", strtotime($date));
+
+				$children = fetch("FETCH node WHERE link:node_top='$node_id' AND link:type='sub' AND property:class_name='event' AND var:day='$day' AND (var:month='$month' OR var:month='-1') AND (var:year='$year' OR var:year='-1') NODESORTBY !property:version SORTBY property:name");
+
+
+				foreach ($children as $child)
+				{
+					echo cmd($child->getName(), "Exec('show', 'zone_main', Hash('path', '".$child->getPath()."'))", "", $child->getName());
+					echo "<br/>";
+				}
+				?>
+				</nobr>
+			</div>
+		</td>
+	<?
+	}
+	
+	function drawWeek($week)
+	{
+	?>
+		<tr>
+			<td class="week">
+				<?=date("W", strtotime($week[0]))?>
+				<div class="week_text">
+					<?=date("Y", strtotime($week[0]))?>
+				</div>
+			</td>
+			<?
+			for ($n = 0; $n < count($week); $n++)
+				$this->drawDay($week[$n], $n > 4 ? "_red" : "");
+			?>
+		</tr>
+	<?
+	}
 }
-
 ?>

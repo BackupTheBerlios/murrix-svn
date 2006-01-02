@@ -1,6 +1,6 @@
 <?
 
-$left = "<span style=\"font-weight: bold;\">".img(geticon("comment"))."&nbsp;".ucf(i18n("comments"))."</span>";
+$left = img(geticon("comment"))."&nbsp;".ucf(i18n("comments"));
 $center = $right = "";
 if ($object->hasRight("create_subnodes", array("comment")))
 {

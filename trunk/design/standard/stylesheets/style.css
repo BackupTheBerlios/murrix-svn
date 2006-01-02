@@ -54,6 +54,25 @@ a:hover {
 	color: #0016DA;
 }
 
+table.invisible
+{
+	padding: 0;
+	margin: 0;
+}
+
+table.invisible tr
+{
+	padding: 0;
+	margin: 0;
+}
+
+table.invisible td
+{
+	padding: 0;
+	margin: 0;
+	vertical-align: top;
+}
+
 /*
 =========================
 == Content definitions ==
@@ -81,56 +100,156 @@ a:hover {
 	background-color: #E1E3FF;
 }
 
-#content .big_title
+#content .calendar_head
 {
 	border: 1px solid #B6BAFF;
 	color: #000000;
 	margin: 0;
 	margin-bottom: 5px;
 	padding: 5px;
-	clear: both;
+	text-align: center;
 }
 
-#content .big_title .big_title_left
+#content table.calendar
+{
+	width: 100%;
+	margin: 0;
+	padding: 0;	
+}
+
+#content table.calendar td
+{
+	margin: 5px;
+}
+
+#content table.calendar td.head
+{
+	text-align: center;
+	margin-top: 5px;
+	border: 1px solid #B6BAFF;
+}
+
+#content table.calendar td.week
+{
+	text-align: center;
+	padding-right: 5px;
+	height: 100px;
+	font-size: 25px;
+	font-weight: bold;
+	vertical-align: middle;
+	width: 0%;
+}
+
+#content table.calendar td.week div.week_text
+{
+	font-size: 11px;
+}
+
+#content table.calendar hr
+{
+	border-width: 0;
+	color: #B6BAFF;
+	background-color: #B6BAFF;
+	height: 1px;
+	margin: 0;
+}
+
+#content table.calendar div.day
+{
+	font-weight: normal;
+	font-size: 9px;
+	text-align: left;
+	overflow: auto;
+	border-width: 0;
+}
+
+#content table.calendar td.day
+{
+	text-align: right;
+	height: 100px;
+	padding: 5px;
+	margin: 5px;
+	border: 1px solid #B6BAFF;
+}
+
+#content table.calendar td.day_red
+{
+	border: 1px solid #B6BAFF;
+	text-align: right;
+	height: 100px;
+	color: red;
+	padding: 5px;
+	margin: 5px;
+}
+
+#content table.calendar td.today
+{
+	text-align: right;
+	height: 100px;
+	border: 2px solid red;
+	font-weight: bold;
+	padding: 5px;
+	margin: 5px;
+}
+
+#content table.calendar td.today_red
+{
+	text-align: right;
+	height: 100px;
+	border: 2px solid red;
+	color: red;
+	padding: 5px;
+	margin: 5px;
+}
+
+.big_title
+{
+	border: 1px solid #B6BAFF;
+	color: #000000;
+	margin: 0;
+	margin-bottom: 5px;
+	padding: 5px;
+}
+
+.big_title .big_title_left
 {
 	font-size: 18px;
 	float: left;
 }
 
-#content .big_title .big_title_right
+.big_title .big_title_right
 {
 	float: right;
 }
 
-#content .big_title .big_title_inner
+.big_title .big_title_inner
 {
 	margin: 0;
 	padding: 5px;
 	background-color: #B6BAFF;
 }
 
-#content .medium_title
+.medium_title
 {
 	border: 1px solid #B6BAFF;
 	color: #000000;
 	margin: 0;
 	margin-bottom: 5px;
 	padding: 5px;
-	clear: both;
 }
 
-#content .medium_title .medium_title_left
+.medium_title .medium_title_left
 {
 	font-size: 14px;
 	float: left;
 }
 
-#content .medium_title .medium_title_right
+.medium_title .medium_title_right
 {
 	float: right;
 }
 
-#content .medium_title .medium_title_inner
+.medium_title .medium_title_inner
 {
 	margin: 0;
 	padding: 5px;
@@ -342,7 +461,6 @@ a:hover {
 	margin: 0;
 	margin-bottom: 5px;
 	padding: 5px;
-	clear: both;
 }
 
 #content .top_edit_table
@@ -362,6 +480,40 @@ a:hover {
 {
 	margin: 0;
 	padding: 0;
+}
+
+/*
+=========================
+== Menu definitions ==
+=========================
+*/
+
+#menu
+{
+	margin: 5px;
+	margin-right: 0;
+	padding: 0;
+	width: 200px;
+}
+
+#menu .menu_items
+{
+	border: 1px solid #B6BAFF;
+	color: #000000;
+	margin: 0;
+	margin-bottom: 5px;
+	padding: 0;
+}
+
+#menu .menu_items a
+{
+	padding: 5px;
+	display: block;
+}
+
+#menu .menu_items a:hover
+{
+	background-color: #E1E3FF;
 }
 
 /*
@@ -389,6 +541,7 @@ a:hover {
 #header #header_name
 {
 	font-size: 40px;
+	font-family: "Trebuchet MS",Trebuchet,Arial,Verdana,Sans-serif;
 }
 
 #header #header_logo
@@ -463,7 +616,6 @@ a:hover {
 	padding: 0;
 	height: 17px;
 	vertical-align: middle;
-	clear: both;
 }
 
 #bar #zone_addressbar
@@ -511,7 +663,6 @@ a:hover {
 	color: #000000;
 	margin: 5px;
 	padding: 5px;
-	clear: both;
 }
 
 #footer #footer_left
