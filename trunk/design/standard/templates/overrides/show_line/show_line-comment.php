@@ -5,7 +5,7 @@ if (!isset($com_count))
 
 <div class="show_line" style="margin-left: <?=($com_count*30)?>px;">
 	<div class="show_line_logo">
-		<?=cmd(img(geticon($child->getIcon(), 64)), "Exec('show','zone_main', Hash('path', '".$child->getPath()."'))", "titel")?>
+		<?=cmd(img(geticon($child->getIcon(), 64)), "Exec('show','zone_main', Hash('path', '".$child->getPath()."'))")?>
 	</div>
 	<div class="show_line_logo_hidden"></div>
 	<div class="show_line_main_right">
@@ -36,7 +36,7 @@ if (!isset($com_count))
 	<div class="show_line_main">
 		<div class="show_line_main_top">
 			<div class="show_line_main_top_inner">
-				<span class="show_line_main_top_inner_title"><?=cmd($child->getName(), "Exec('show','zone_main', Hash('path', '".$child->getPath()."'))", "titel")?></span> - <?=ucf(i18n("posted by"))?>
+				<span class="show_line_main_top_inner_title"><?=cmd($child->getName(), "Exec('show','zone_main', Hash('path', '".$child->getPath()."'))")?></span> - <?=ucf(i18n("posted by"))?>
 				<?
 				if ($child->creator == 0)
 					echo ucf(i18n("unknown"));

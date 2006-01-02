@@ -60,7 +60,7 @@
 			</div>
 		</div>
 
-		<div id="clear"></div>
+		<div class="clear"></div>
 		
 		<div id="main">
 

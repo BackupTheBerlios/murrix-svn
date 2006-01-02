@@ -12,10 +12,7 @@ if (!empty($vars))
 		{
 			if (!$vars_flag)
 			{
-				?>
-				<div class="main_bg" style="margin-top: 5px">
-				<div class="main">
-				<?
+				?><div class="main"><?
 				$vars_flag = true;
 			}
 
@@ -33,10 +30,7 @@ if (!empty($vars))
 
 	if ($vars_flag)
 	{
-		?>
-		</div>
-		</div>
-		<?
+		?></div><?
 	}
 }
 

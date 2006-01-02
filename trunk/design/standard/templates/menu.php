@@ -8,11 +8,10 @@ if ($menu_id > 0)
 		$menuroot = new mObject($menu_id);
 		?>
 		<div id="menu">
-		<?
-			$left = cmd($menuroot->getName(), "Exec('show', 'zone_main', Hash('path', '".$menuroot->getPath()."'))");
-			$center = $right = "";
-			include(gettpl("medium_title", $menuroot));
-			?>
+			<div class="header">
+				<?=cmd($menuroot->getName(), "Exec('show', 'zone_main', Hash('path', '".$menuroot->getPath()."'))")?>
+			</div>
+			
 			<div class="menu_items">
 			<?
 				foreach ($children as $child)

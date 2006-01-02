@@ -8,7 +8,7 @@ if (count($children) > 0)
 	{
 		case "thumbnailes":
 		?>
-			<div class="main_bg" style="margin-top: 5px; padding-bottom: 15px;">
+			<div class="show_item_wrapper">
 			<?
 				for ($i = $start; $i < $end; $i++)
 				{
@@ -16,7 +16,7 @@ if (count($children) > 0)
 					include(gettpl("show_item", $child));
 				}
 				?>
-				<div style="clear: both"></div>
+				<div class="clear"></div>
 			</div>
 			<?
 			break;

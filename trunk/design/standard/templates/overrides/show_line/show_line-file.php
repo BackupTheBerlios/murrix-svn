@@ -1,6 +1,9 @@
 <div class="show_line">
 	<div class="show_line_logo">
-		<?=cmd(img(geticon($child->getIcon(), 64)), "Exec('show','zone_main', Hash('path', '".$child->getPath()."'))")?>
+		<?
+		$pathinfo = pathinfo($child->getVarValue("file"));
+		echo cmd(img(geticon(getfiletype($pathinfo['extension']), 64)), "Exec('show','zone_main', Hash('path', '".$child->getPath()."'))");
+		?>
 	</div>
 	<div class="show_line_logo_hidden"></div>
 	<div class="show_line_main_right">
@@ -24,7 +27,7 @@
 	<div class="show_line_main">
 		<div class="show_line_main_top">
 			<div class="show_line_main_top_inner">
-				<span class="show_line_main_top_inner_title"><?=cmd($child->getName(), "Exec('show','zone_main', Hash('path', '".$child->getPath()."'))")?></span>
+				<span class="show_line_main_top_inner_title"><?=cmd($child->getName(), "Exec('show','zone_main', Hash('path', '".$child->getPath()."'))", "titel")?></span>
 			</div>
 		</div>
 
