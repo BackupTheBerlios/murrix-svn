@@ -16,7 +16,7 @@ $abspath = getcwd();
 $wwwpath = GetParentPath($_SERVER['REQUEST_URI']);
 
 session_id($_GET['PHPSESSID']);
-session_name("MURRIX21");
+session_name("MURRiX");
 session_start();
 
 if (($str = db_connect()) !== true)

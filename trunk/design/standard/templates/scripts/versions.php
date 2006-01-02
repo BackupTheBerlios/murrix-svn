@@ -49,7 +49,7 @@ foreach ($_SESSION['murrix']['languages'] as $language)
 	?>
 	
 	<div style="margin-top: 5px">
-		<? guiList($versionlist, "% ".i18n("rows")) ?>
+		<? table($versionlist, "% ".i18n("rows")) ?>
 	</div>
 	<?
 }

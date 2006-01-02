@@ -31,6 +31,59 @@ function imgpath($append = "")
 	return "$wwwpath/design/".$_SESSION['murrix']['site']."/images/$append";
 }
 
+function table($list, $endstring = "% rows")
+{
+	?><div class="listwrapper">
+		<table>
+			<thead>
+				<tr>
+				<?
+					foreach ($list[0] as $titelname)
+					{
+						?><td>
+							<?=$titelname?>
+						</td><?
+					}
+				?>
+				</tr>
+			</thead>
+			<tbody>
+			<?
+				if (count($list) > 1)
+				{
+					for ($n = 1; $n < count($list); $n++)
+					{
+						?><tr><?
+						
+						$class = $n%2 ? "row" : "row_selected";
+						foreach ($list[$n] as $data)
+						{
+						?>
+							<td class="<?=$class?>">
+								<?=$data?>
+							</td>
+						<?
+						}
+						?></tr><?
+					}
+				}
+				else
+				{
+					?><tr><td colspan="<?=count($list[0])?>" class="empty"></td></tr><?
+				}
+			?>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="<?=count($list[0])?>">
+						<?=str_replace("%", count($list)-1, $endstring)?>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+	</div><?
+}
+
 function getfiletype($extension)
 {
 	switch ($extension)

@@ -1,11 +1,6 @@
 <?
-require_once("system/functions.php");
-
-$abspath = getcwd();
-$wwwpath = GetParentPath($_SERVER['REQUEST_URI']);
-
-session_name("MURRIX21");
-session_start();
+require_once("vars.php");
+require_once("session.php");
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">

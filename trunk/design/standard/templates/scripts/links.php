@@ -29,5 +29,5 @@ foreach ($links as $link)
 ?>
 
 <div style="margin-top: 5px">
-	<? guiList($linklist, "% ".i18n("rows")) ?>
+	<? table($linklist, "% ".i18n("rows")) ?>
 </div>

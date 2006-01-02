@@ -1,2 +1,2 @@
-Run the setup.php script.
+Run the install.php script in your webbrowser.
 

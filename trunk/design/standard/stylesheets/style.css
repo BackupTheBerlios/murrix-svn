@@ -11,6 +11,8 @@ img
 {
 	border-width: 0;
 	vertical-align: middle;
+
+	/* This is IE-specific! Should not be included in other browsers then IE, makes CSS invalid */
 	behavior: url("design/standard/stylesheets/pngbehavior.htc");
 }
 
@@ -118,6 +120,66 @@ a:hover {
 	margin: 0;
 	padding: 5px;
 	background-color: #B6BAFF;
+}
+
+#content .listwrapper
+{
+	border: 1px solid #B6BAFF;
+	margin: 0;
+	padding: 0px;
+	margin-bottom: 5px;
+}
+
+#content .listwrapper table
+{
+	margin: 0;
+	padding: 0;
+	border-width: 0;
+	width: 100%;
+}
+
+#content .listwrapper table thead
+{
+	margin: 0;
+	padding: 5px;
+	background-color: #B6BAFF;
+}
+
+#content .listwrapper table thead td
+{
+	padding: 5px;
+}
+
+#content .listwrapper table tfoot td
+{
+	padding: 5px;
+}
+
+#content .listwrapper table tbody .row
+{
+}
+
+#content .listwrapper table tbody .row_selected
+{
+	background-color: #E1E3FF;
+}
+
+#content .listwrapper table tfoot
+{
+	margin: 0;
+	padding: 5px;
+	background-color: #B6BAFF;
+}
+
+#content .listwrapper table tbody
+{
+	margin: 0;
+	padding: 5px;
+}
+
+#content .listwrapper table .empty
+{
+	height: 10px;
 }
 
 #content .show_line

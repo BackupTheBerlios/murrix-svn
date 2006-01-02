@@ -1,10 +1,9 @@
 <?
+require_once("vars.php");
+
 require_once("system/functions.php");
 require_once("system/design.php");
 require_once("system/system.php");
-
-$abspath = getcwd();
-$wwwpath = GetParentPath($_SERVER['REQUEST_URI']);
 
 if (!file_exists("config.inc.php"))
 {
@@ -22,10 +21,6 @@ require_once("classes/class.calendar.php");
 
 require_once("3dparty/exifer/exif.php");
 
-
-
-
-
 $folders = GetSubfolders("$abspath/design");
 foreach ($folders as $folder)
 	require_once("$abspath/design/$folder/theme.php");
@@ -35,11 +30,7 @@ $folders = GetSubfolders("$abspath/scripts");
 foreach ($folders as $folder)
 	require_once("$abspath/scripts/$folder/script.php");
 
-session_name("MURRIX21");
-session_start();
-
-
-
+require_once("session.php");
 /*
 if (empty($_SESSION['murrix']['site']))
 	$_SESSION['murrix']['site'] = $site_config['default'];

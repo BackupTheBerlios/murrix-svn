@@ -1,5 +1,9 @@
+<?
+global $version;
+?>
+
 <div id="footer_left">
-	<a href="http://murrix.berlios.de">MURRiX</a> version 2.1<br/>
+	<a href="http://murrix.berlios.de">MURRiX</a> version <?=$version?><br/>
 	MURRiX is released under the <a href="./LICENSE.txt">GNU Public License</a>
 </div>
 <div id="footer_right">
