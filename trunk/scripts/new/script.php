@@ -28,10 +28,36 @@ class sNew extends Script
 		else
 			$parent = new mObject(resolvePath($_SESSION['murrix']['path']));
 			
+		$class_name = "";
+		if (!empty($args['class_name']))
+		{
+			if ($parent->HasRight("create_subnodes", array($args['class_name'])))
+				$class_name = $args['class_name'];
+		}
+
+		if (empty($class_name))
+		{
+			if ($parent->HasRight("create_subnodes", array("folder")))
+				$class_name = "folder";
+		}
+
+		if (empty($class_name))
+		{
+			$classes = getClassList();
+
+			foreach ($classes as $class)
+			{
+				if ($parent->HasRight("create_subnodes", array($class)))
+				{
+					$class_name = $class;
+					break;
+				}
+			}
+		}
+			
 		if (isset($args['action']) && $args['action'] == "save")
 		{
-			$class_name = isset($args['class_name']) ? $args['class_name'] : "folder";
-			if ($parent->HasRight("create_subnodes", array($class_name)))
+			if (!empty($class_name))
 			{
 				$bError = false;
 				if (empty($args['name']))
@@ -77,7 +103,7 @@ class sNew extends Script
 			}
 		}
 
-		$this->Draw($system, $response, array("class_name" => (isset($args['class_name']) ? $args['class_name'] : "folder"), "path" => $parent->getPath()));
+		$this->Draw($system, $response, array("class_name" => $class_name, "path" => $parent->getPath()));
 	}
 	
 	function Draw(&$system, &$response, $args)

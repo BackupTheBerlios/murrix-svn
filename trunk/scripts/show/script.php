@@ -43,35 +43,15 @@ class sShow extends Script
 		{
 			if (isset($args['meta']))
 				$object->setMeta($args['meta'], $args['value']);
-	
+
+			// Special case for files
 			if (isset($args['rebuild_thumb']))
 			{
-				$thumb_id = $object->getVarValue("thumbnail_id");
-				$thumbnail = new mThumbnail($thumb_id);
-	
-				$angle = $object->getMeta("angle");
-	
-				if (empty($angle))
-					$angle = GetFileAngle($filename);
-	
-				if ($angle < 0) $angle = 360+$angle;
-				else if ($angle > 360) $angle = 360-$angle;
-	
-				$filename = $object->getVarValue("file");
-				$pathinfo = pathinfo($filename);
-	
-				$maxsize = 150;
-				if ($thumbnail->CreateFromFile($filename, $pathinfo['extension'], $maxsize, $maxsize, $angle))
-				{
-					if (!$thumbnail->Save())
-						echo "Failed to create thumbnail<br>";
-	
-					if (empty($thumb_id))
-					{
-						$object->setVarValue("thumbnail_id", $thumbnail->id);
-						$object->save();
-					}
-				}
+				$thumbnail = new mThumbnail($object->getVarValue("thumbnail_id"));
+				$thumbnail->setRebuild();
+
+				$thumbnail = new mThumbnail($object->getVarValue("imagecache_id"));
+				$thumbnail->setRebuild();
 			}
 		}
 

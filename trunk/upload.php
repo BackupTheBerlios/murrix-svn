@@ -12,12 +12,11 @@ require_once("system/functions.php");
 require_once("system/design.php");
 require_once("system/system.php");
 
-$abspath = getcwd();
-$wwwpath = GetParentPath($_SERVER['REQUEST_URI']);
+require_once("vars.php");
 
 session_id($_GET['PHPSESSID']);
-session_name("MURRiX");
-session_start();
+
+require_once("session.php");
 
 if (($str = db_connect()) !== true)
 	echo "Failed to connect to database!";
@@ -111,7 +110,7 @@ if (($str = db_connect()) !== true)
 
 			$object->setVarValue("file", $object->name.":".$tempName);
 
-
+/*
 			$thumbnail = new mThumbnail();
 
 			$angle = GetFileAngle($tempName);
@@ -124,7 +123,7 @@ if (($str = db_connect()) !== true)
 
 				$object->setVarValue("thumbnail_id", $thumbnail->id);
 			}
-
+*/
 			
 /*			$vars = $object->getVars();
 

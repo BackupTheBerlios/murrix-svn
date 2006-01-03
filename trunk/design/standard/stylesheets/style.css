@@ -16,6 +16,12 @@ img
 	behavior: url("design/standard/stylesheets/pngbehavior.htc");
 }
 
+img.image-border
+{
+	border: 1px solid #000000;
+	vertical-align: middle;
+}
+
 form
 {
 	display: inline;

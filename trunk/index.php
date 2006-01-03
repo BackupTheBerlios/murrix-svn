@@ -91,7 +91,10 @@ else if (isset($_GET['file']))
 	$filename = $file->getVarValue("file");
 
 	if (!isset($_GET['maxwidth']) && !isset($_GET['angle']))
+	{
+		header("Content-type: " . image_type_to_mime_type(IMAGETYPE_JPEG));
 		@readfile($filename);
+	}
 	else
 	{
 		$quality = 100;
@@ -99,6 +102,8 @@ else if (isset($_GET['file']))
 		{
 			$image = imagecreatefromjpeg($filename);
 			$angle = $_GET['angle'];
+
+			header("Content-type: " . image_type_to_mime_type(IMAGETYPE_JPEG));
 			
 			if (!empty($angle))
 			{

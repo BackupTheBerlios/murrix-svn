@@ -98,6 +98,10 @@ class mVarThumbnailid extends mVar
 	
 	function Save()
 	{
+		$thumbnail = new mThumbnail();
+		$thumbnail->Save();
+		$this->value = $thumbnail->id;
+	
 		return parent::Save();
 	}
 	
@@ -221,8 +225,10 @@ class mVarFile extends mVar
 	
 	function getEdit($formname)
 	{
-		return "<input class=\"form\" disabled id=\"nv$this->id\" name=\"nv$this->id\" type=\"text\"/> <a href=\"javascript:void(null);\" onclick=\"popWin = open('upload.php?varid=v$this->id','PopUpWindow','width=210,height=80,scrollbars=0,status=0'); popWin.opener = self; popWin.focus(); popWin.moveTo(150,50); return false\">Upload File</a><input class=\"hidden\" id=\"v$this->id\" name=\"v$this->id\" type=\"hidden\"/>";
-//<input id =\"$this->id\" name=\"$this->id\" type=\"file\"/>";
+		return "<input class=\"form\" disabled id=\"nv$this->id\" name=\"nv$this->id\" type=\"text\" value=\"$this->value\"/> <a href=\"javascript:void(null);\" onclick=\"popWin = open('single_upload.php?varid=v$this->id','PopUpWindow','width=250,height=80,scrollbars=0,status=0'); popWin.opener = self; popWin.focus(); popWin.moveTo(150,50); return false\">Upload File</a><input class=\"hidden\" id=\"v$this->id\" name=\"v$this->id\" value=\"".$this->value.":".$this->getValue()."\" type=\"hidden\"/>";
+
+		//<input disabled class=\"form\" id=\"v$this->id\" name=\"v$this->id\" type=\"text\" value=\"".$this->value."\"/>
+
 	}
 }
 

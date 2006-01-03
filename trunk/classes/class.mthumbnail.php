@@ -36,7 +36,7 @@ class mThumbnail
 	function Show($return = false)
 	{
 		global $wwwpath;
-		$str = "<img src=\"?thumbnail=$this->id\" class=\"image-border\" width=\"$this->width\" height=\"$this->height\">";
+		$str = "<img src=\"?thumbnail=$this->id\" class=\"image-border\" width=\"$this->width\" height=\"$this->height\"/>";
 
 		if ($return)
 			return $str;
@@ -47,8 +47,23 @@ class mThumbnail
 	function Output()
 	{
 		global $abspath;
+		header("Content-type: " . image_type_to_mime_type($this->type));
 		@readfile("$abspath/thumbnails/".$this->id.".jpg");
 		return;
+	}
+
+	function setRebuild()
+	{
+		$this->width = 0;
+		$this->height = 0;
+		$this->type = 0;
+		$this->data = "";
+		$this->Save();
+	}
+
+	function getRebuild()
+	{
+		return ($this->width == 0 || $this->height == 0 || $this->type == 0);
 	}
 	
 	function CreateFromFile($filename, $extension, $maxsizex, $maxsizey = 0, $angle = 0)
@@ -142,10 +157,15 @@ class mThumbnail
 			}
 
 			$this->id = mysql_insert_id();
-
-			$file = fopen("$abspath/thumbnails/".$this->id.".jpg", "w");
+$file = fopen("$abspath/thumbnails/".$this->id.".jpg", "w");
 			fwrite($file, $this->data);
 			fclose($file);
+			if (!empty($this->data))
+			{
+				$file = fopen("$abspath/thumbnails/".$this->id.".jpg", "w");
+				fwrite($file, $this->data);
+				fclose($file);
+			}
 			
 			return true;
 		}
@@ -166,9 +186,13 @@ class mThumbnail
 			}
 
 			@unlink("$abspath/thumbnails/".$this->id.".jpg");
-			$file = fopen("$abspath/thumbnails/".$this->id.".jpg", "w");
-			fwrite($file, $this->data);
-			fclose($file);
+
+			if (!empty($this->data))
+			{
+				$file = fopen("$abspath/thumbnails/".$this->id.".jpg", "w");
+				fwrite($file, $this->data);
+				fclose($file);
+			}
 			
 			return true;
 		}
