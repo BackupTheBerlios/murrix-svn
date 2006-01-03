@@ -31,7 +31,7 @@ class sNew extends Script
 		if (isset($args['action']) && $args['action'] == "save")
 		{
 			$class_name = isset($args['class_name']) ? $args['class_name'] : "folder";
-			if ($object->HasRight("create_subnodes", array($class_name)))
+			if ($parent->HasRight("create_subnodes", array($class_name)))
 			{
 				$bError = false;
 				if (empty($args['name']))
