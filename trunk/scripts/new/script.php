@@ -86,8 +86,7 @@ class sNew extends Script
 			$object = new mObject(resolvePath($args['path']));
 		else
 		{
-			$object = new mObject();
-			$object->loadByObjectId($args['object_id']);
+			$object = new mObject($_SESSION['murrix']['path']);
 		}
 		
 		$newobject = new mObject();

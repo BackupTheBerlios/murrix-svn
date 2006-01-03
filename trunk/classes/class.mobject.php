@@ -577,7 +577,7 @@ class mObject
 								$hasright = true;
 							else
 							{
-								if (!isset($classes))
+								if (empty($classes))
 								{
 									$hasright = true;
 								}

@@ -10,7 +10,7 @@ foreach ($classlist as $class_name)
 	if ($class_name == $newobject->getClassName())
 		$selected = "selected";
 
-	if ($object->hasRight("create_subnodes", array($newobject->getClassName())))
+	if ($object->hasRight("create_subnodes", array($class_name)))
 		$class_form .= "<option $selected value=\"$class_name\">".ucwords(str_replace("_", " ", $class_name))."</option>";
 }
 $class_form .= "</select>";
