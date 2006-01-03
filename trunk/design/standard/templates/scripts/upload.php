@@ -16,7 +16,7 @@ global $wwwpath;
 <div class="main">
 	<object classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93"
 		codetype="application/java-vm"
-		width="100%"
+		width="90%"
 		height="500"
 		name="JUpload"
 		codebase="http://java.sun.com/products/plugin/autodl/jinstall-1_4-windows-i586.cab#Version=1,4,0,0">

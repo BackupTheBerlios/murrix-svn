@@ -7,6 +7,14 @@ require_once("system/design.php");
 require_once("vars.php");
 require_once("session.php");
 
+$parent = new mObject(resolvePath($_SESSION['murrix']['path']));
+
+if (!$parent->hasRight("create_subnodes", array("file", "file_folder")))
+{
+	echo "You do not have enough rights to upload files.";
+	exit;
+}
+
 if (isset($_POST['action']) && $_POST['action'] == "upload")
 {
 	move_uploaded_file($_FILES['file']['tmp_name'], $_FILES['file']['tmp_name']."_tmpfile");
@@ -17,7 +25,7 @@ if (isset($_POST['action']) && $_POST['action'] == "upload")
 		self.close();
 	</script>
 	<?
-	return;
+	exit;
 }
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
