@@ -1,3 +1,3 @@
 <div class="main">
-	<?=$object->getVarValue("text")?>
+	<?=html_entity_decode($object->getVarValue("text"))?>
 </div>
