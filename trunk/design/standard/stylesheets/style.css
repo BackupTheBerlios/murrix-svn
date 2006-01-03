@@ -5,6 +5,7 @@ body
 	padding: 0;
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 10px;
+	background-color: #EEEEEE;
 }
 
 img
@@ -73,6 +74,7 @@ a:hover
 
 table.invisible
 {
+	background-color: #EEEEEE;
 	padding: 0;
 	margin: 0;
 }
@@ -98,7 +100,7 @@ table.invisible td
 
 #content
 {
-	margin: 5px;
+	margin: 0;
 	padding: 0;
 }
 
@@ -110,6 +112,7 @@ table.invisible td
 	border-bottom-width: 0;
 	margin-right: 5px;
 	display: block;
+	background-color: #FFFFFF;
 }
 
 #content a.externlink:hover
@@ -119,6 +122,7 @@ table.invisible td
 
 #content .calendar_head
 {
+	background-color: #FFFFFF;
 	border: 1px solid #B6BAFF;
 	color: #000000;
 	margin: 0;
@@ -144,6 +148,7 @@ table.invisible td
 	text-align: center;
 	margin-top: 5px;
 	border: 1px solid #B6BAFF;
+	background-color: #FFFFFF;
 }
 
 #content table.calendar td.week
@@ -187,6 +192,7 @@ table.invisible td
 	padding: 5px;
 	margin: 5px;
 	border: 1px solid #B6BAFF;
+	background-color: #FFFFFF;
 }
 
 #content table.calendar td.day_red
@@ -197,6 +203,7 @@ table.invisible td
 	color: red;
 	padding: 5px;
 	margin: 5px;
+	background-color: #FFFFFF;
 }
 
 #content table.calendar td.today
@@ -207,6 +214,7 @@ table.invisible td
 	font-weight: bold;
 	padding: 5px;
 	margin: 5px;
+	background-color: #FFFFFF;
 }
 
 #content table.calendar td.today_red
@@ -226,6 +234,7 @@ table.invisible td
 	margin: 0;
 	margin-bottom: 5px;
 	padding: 5px;
+	background-color: #FFFFFF;
 }
 
 .big_title .big_title_left
@@ -253,6 +262,7 @@ table.invisible td
 	margin: 0;
 	margin-bottom: 5px;
 	padding: 5px;
+	background-color: #FFFFFF;
 }
 
 .medium_title .medium_title_left
@@ -277,8 +287,9 @@ table.invisible td
 {
 	border: 1px solid #B6BAFF;
 	margin: 0;
-	padding: 0px;
+	padding: 5px;
 	margin-bottom: 5px;
+	background-color: #FFFFFF;
 }
 
 #content .listwrapper table
@@ -302,6 +313,11 @@ table.invisible td
 }
 
 #content .listwrapper table tfoot td
+{
+	padding: 5px;
+}
+
+#content .listwrapper table tbody td
 {
 	padding: 5px;
 }
@@ -339,6 +355,7 @@ table.invisible td
 	margin: 0;
 	padding: 5px;
 	margin-bottom: 5px;
+	background-color: #FFFFFF;
 }
 
 #content .show_item_wrapper .show_item
@@ -356,6 +373,7 @@ table.invisible td
 	margin: 0;
 	padding: 5px;
 	margin-bottom: 5px;
+	background-color: #FFFFFF;
 }
 
 #content .show_line hr
@@ -424,6 +442,7 @@ table.invisible td
 	margin: 0;
 	padding: 0;
 	font-size: 12px;
+	background-color: #FFFFFF;
 }
 
 
@@ -433,6 +452,7 @@ table.invisible td
 	margin: 0;
 	padding: 2px;
 	font-size: 12px;
+	background-color: #FFFFFF;
 }
 
 #content .form
@@ -441,6 +461,7 @@ table.invisible td
 	margin: 0;
 	padding: 2px;
 	font-size: 12px;
+	background-color: #FFFFFF;
 }
 
 #content .container
@@ -470,6 +491,7 @@ table.invisible td
 	border-bottom-width: 0;
 	margin-left: 5px;
 	display: block;
+	background-color: #FFFFFF;
 }
 
 #content .adminpanel a.tab:hover
@@ -495,6 +517,7 @@ table.invisible td
 	margin: 0;
 	margin-bottom: 5px;
 	padding: 5px;
+	background-color: #FFFFFF;
 }
 
 #content .main .file
@@ -517,8 +540,9 @@ table.invisible td
 
 #main
 {
-	margin: 0;
+	margin: 5px;
 	padding: 0;
+	background-color: #FFFFFF;
 }
 
 /*
@@ -529,11 +553,12 @@ table.invisible td
 
 #menu
 {
-	margin: 5px;
-	margin-right: 0;
+	margin: 0;
+	margin-right: 5px;
 	padding: 0;
 	width: 200px;
 	border: 1px solid #B6BAFF;
+	background-color: #FFFFFF;
 }
 
 #menu .header
@@ -715,8 +740,7 @@ table.invisible td
 {
 	border: 1px solid #B6BAFF;
 	color: #000000;
-	margin: 5px;
-	margin-top: 0;
+	margin: 0;
 	padding: 5px;
 }
 

@@ -40,7 +40,7 @@ function imgpath($append = "")
 function table($list, $endstring = "% rows")
 {
 	?><div class="listwrapper">
-		<table>
+		<table cellspacing="0">
 			<thead>
 				<tr>
 				<?

@@ -474,29 +474,9 @@ function img($img, $alt = "")
 	global $abspath, $wwwpath;
 
 	$parent_path = substr($abspath, 0, strlen($abspath)-strlen($wwwpath));
-	$paths = pathinfo("$parent_path/$img");
+	list($width, $height, $type, $attr) = getimagesize("$parent_path/$img");
 
-	switch (strtolower($paths['extension']))
-	{
-		case "jpeg":
-		case "jpg":
-		$image = imagecreatefromjpeg("$parent_path/$img");
-		break;
-
-		case "png":
-		$image = imagecreatefrompng("$parent_path/$img");
-		break;
-
-		case "gif":
-		$image = imagecreatefromgif("$parent_path/$img");
-		break;
-
-		case "bmp":
-		$image = imagecreatefromwbmp("$parent_path/$img");
-		break;
-	}
-
-	return "<img src=\"$img\" alt=\"$alt\" style=\"width: ".imagesx($image)."px; height: ".imagesy($image)."px;\"/>";
+	return "<img src=\"$img\" alt=\"$alt\" style=\"width: ".$width."px; height: ".$height."px;\"/>";
 }
 
 function SplitFilepath($filepath)

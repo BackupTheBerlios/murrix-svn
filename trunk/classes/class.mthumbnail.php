@@ -47,8 +47,12 @@ class mThumbnail
 	function Output()
 	{
 		global $abspath;
+		$filename = "$abspath/thumbnails/".$this->id.".jpg";
+		
 		header("Content-type: " . image_type_to_mime_type($this->type));
-		@readfile("$abspath/thumbnails/".$this->id.".jpg");
+		header('Last-Modified: '.gmdate('D, d M Y H:i:s', strtotime($this->created)).' GMT');
+		header("Content-Length: ".filesize($filename));
+		@readfile($filename);
 		return;
 	}
 
