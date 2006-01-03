@@ -43,7 +43,7 @@ if (!isset($com_count))
 				else
 				{
 				
-					$creator = new mObject($object->getCreator());
+					$creator = new mObject($child->getCreator());
 
 					if (!$creator->hasRight("read"))
 						echo $creator->getName();
