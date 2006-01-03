@@ -69,6 +69,23 @@ class mThumbnail
 	{
 		return ($this->width == 0 || $this->height == 0 || $this->type == 0);
 	}
+
+	function duplicate()
+	{
+		global $abspath;
+		$filename = "$abspath/thumbnails/".$this->id.".jpg";
+		
+		$image = imagecreatefromjpeg($filename);
+		
+		$this->id = 0;
+		
+		ob_start(); // Start capturing stdout. 
+		imagejpeg($image); // As though output to browser.
+		$binaryThumbnail = ob_get_contents(); // the raw jpeg image data. 
+		ob_end_clean(); // Dump the stdout so it does not screw other output.
+
+		$this->data = $binaryThumbnail;
+	}
 	
 	function CreateFromFile($filename, $extension, $maxsizex, $maxsizey = 0, $angle = 0)
 	{
@@ -161,9 +178,7 @@ class mThumbnail
 			}
 
 			$this->id = mysql_insert_id();
-$file = fopen("$abspath/thumbnails/".$this->id.".jpg", "w");
-			fwrite($file, $this->data);
-			fclose($file);
+
 			if (!empty($this->data))
 			{
 				$file = fopen("$abspath/thumbnails/".$this->id.".jpg", "w");

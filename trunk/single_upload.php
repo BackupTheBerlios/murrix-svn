@@ -1,11 +1,23 @@
 <?
 
 require_once("config.inc.php");
+
+require_once("classes/class.mvar.php");
+require_once("classes/class.mobject.php");
+require_once("classes/class.mthumbnail.php");
+require_once("classes/class.script.php");
+
+require_once("3dparty/exifer/exif.php");
+
 require_once("system/functions.php");
 require_once("system/design.php");
+require_once("system/system.php");
 
 require_once("vars.php");
 require_once("session.php");
+
+if (($str = db_connect()) !== true)
+	echo "Failed to connect to database!";
 
 $parent = new mObject(resolvePath($_SESSION['murrix']['path']));
 

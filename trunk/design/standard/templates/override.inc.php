@@ -7,6 +7,10 @@ $count++;
 $templates_override['show_line.php'][$count]['filename'] = "show_line/show_line-file.php";
 $templates_override['show_line.php'][$count]['match']['class'] = "file";
 
+$count++;
+$templates_override['show_line.php'][$count]['filename'] = "show_line/show_line-contact.php";
+$templates_override['show_line.php'][$count]['match']['class'] = "contact";
+
 
 
 
@@ -25,6 +29,11 @@ $count = 0;
 $templates_override['show_item.php'][$count]['filename'] = "show_item/show_item-file.php";
 $templates_override['show_item.php'][$count]['match']['class'] = "file";
 
+$count++;
+$templates_override['show_item.php'][$count]['filename'] = "show_item/show_item-contact.php";
+$templates_override['show_item.php'][$count]['match']['class'] = "contact";
+
+
 
 
 $count = 0;
@@ -34,4 +43,5 @@ $templates_override['data_show.php'][$count]['match']['class'] = "file";
 $count++;
 $templates_override['data_show.php'][$count]['filename'] = "data_show/data_show-article.php";
 $templates_override['data_show.php'][$count]['match']['class'] = "article";
+
 ?>

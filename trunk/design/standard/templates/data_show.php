@@ -23,6 +23,13 @@ if (!empty($vars))
 					echo $line."<br/>";
 				echo "</div><br/>";
 			}
+			else if ($var->getType() == "thumbnail")
+			{
+				$thumbnail = new mThumbnail($value);
+				echo "<b>".$var->getName().":</b> <div>";
+				$thumbnail->Show();
+				echo "</div><br/>";
+			}
 			else
 				echo "<b>".$var->getName().":</b> <div>$value</div><br/>";
 		}

@@ -225,7 +225,7 @@ class mVarFile extends mVar
 	
 	function getEdit($formname)
 	{
-		return "<input class=\"form\" disabled id=\"nv$this->id\" name=\"nv$this->id\" type=\"text\" value=\"$this->value\"/> <a href=\"javascript:void(null);\" onclick=\"popWin = open('single_upload.php?varid=v$this->id','PopUpWindow','width=250,height=80,scrollbars=0,status=0'); popWin.opener = self; popWin.focus(); popWin.moveTo(150,50); return false\">Upload File</a><input class=\"hidden\" id=\"v$this->id\" name=\"v$this->id\" value=\"".$this->value.":".$this->getValue()."\" type=\"hidden\"/>";
+		return "<input class=\"form\" disabled id=\"nv$this->id\" name=\"nv$this->id\" type=\"text\" value=\"$this->value\"/> <a href=\"javascript:void(null);\" onclick=\"popWin = open('single_upload.php?varid=v$this->id','PopUpWindow','width=250,height=80,scrollbars=0,status=0'); popWin.opener = self; popWin.focus(); popWin.moveTo(150,50); return false\">".ucf(i18n("upload file"))."</a><input class=\"hidden\" id=\"v$this->id\" name=\"v$this->id\" value=\"".$this->value.":".$this->getValue()."\" type=\"hidden\"/>";
 
 		//<input disabled class=\"form\" id=\"v$this->id\" name=\"v$this->id\" type=\"text\" value=\"".$this->value."\"/>
 
@@ -246,27 +246,37 @@ class mVarThumbnail extends mVar
 	
 	function Save()
 	{
-		global $abspath;
-
-		if (empty($_FILES[$this->id]['name']))
+		$data = $this->getValue(true);
+		
+		if (empty($data))
 			return true;
-		
-		$value = parent::getValue($true);
-		
-		$thumbnail = new mThumbnail($value);
-		
-		$filename = $_FILES[$this->id]['tmp_name'];
-		
-		$angle = GetFileAngle($filename);
-		
-		$maxsizex = (empty($this->extra) ? 150 : $this->extra);
-		
-		$thumbnail->CreateFromFile($filename, $maxsizex, $maxsizey, $angle);
+
+		if (!strpos($data, ":"))
+		{
+			$thumbnail = new mThumbnail($data);
+			$thumbnail->duplicate();
+		}
+		else
+		{
+			$names = explode(":", $data);
+	
+			$parts = SplitFilepath($names[0]);
+	
+			$thumbnail = new mThumbnail();
+			
+			$filename = $names[1];
+			
+			$angle = GetFileAngle($filename);
+			
+			$maxsizex = (empty($this->extra) ? 150 : $this->extra);
+			
+			$thumbnail->CreateFromFile($filename, $parts['ext'], $maxsizex, $maxsizex, $angle);
+		}
 		
 		if (!$thumbnail->Save())
 			return false;
 		
-		$this->data = $thumbnail->id;
+		$this->value = $thumbnail->id;
 		
 		return parent::Save();
 	}
@@ -284,7 +294,7 @@ class mVarThumbnail extends mVar
 	
 	function getEdit($formname)
 	{
-		return "<input class=\"form\" id=\"$this->id\" name=\"$this->id\" type=\"file\"/>";
+		return "<input class=\"form\" disabled id=\"nv$this->id\" name=\"nv$this->id\" type=\"text\"/> <a href=\"javascript:void(null);\" onclick=\"popWin = open('single_upload.php?varid=v$this->id','PopUpWindow','width=250,height=80,scrollbars=0,status=0'); popWin.opener = self; popWin.focus(); popWin.moveTo(150,50); return false\">".ucf(i18n("upload thumbnail"))."</a><input class=\"hidden\" id=\"v$this->id\" name=\"v$this->id\" type=\"hidden\" value=\"$this->value\"/>";
 	}
 }
 
