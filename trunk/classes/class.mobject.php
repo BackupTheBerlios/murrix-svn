@@ -577,12 +577,19 @@ class mObject
 								$hasright = true;
 							else
 							{
-								foreach ($classes as $class)
+								if (!isset($classes))
 								{
-									if (in_array($class, $create_classes))
+									$hasright = true;
+								}
+								else
+								{
+									foreach ($classes as $class)
 									{
-										$hasright = true;
-										break;
+										if (in_array($class, $create_classes))
+										{
+											$hasright = true;
+											break;
+										}
 									}
 								}
 							}
