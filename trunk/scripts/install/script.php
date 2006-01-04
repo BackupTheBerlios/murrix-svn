@@ -428,7 +428,7 @@ class sInstall extends Script
 			{
 				$datetime = date("Y-m-d H:i:s");
 			
-				$query = "INSERT INTO `".$this->db_prefix."objects` (`id`, `name`, `node_id`, `creator`, `created`, `class_name`, `version`, `language`, `icon`) VALUES (1, 'Root', 1, 9, '$datetime', 'folder', 1, 'eng', ''),";
+				$query = "INSERT INTO `".$this->db_prefix."objects` (`id`, `name`, `node_id`, `creator`, `created`, `class_name`, `version`, `language`, `icon`) VALUES (1, 'Root', 1, 9, '$datetime', 'folder', 1, 'eng', 'murrix'),";
 				$query .= "(2, 'Users', 2, 9, '$datetime', 'group', 1, 'eng', ''),";
 				$query .= "(3, 'Public', 3, 9, '$datetime', 'folder', 1, 'eng', ''),";
 				$query .= "(4, 'Anonymous', 4, 9, '$datetime', 'group', 1, 'eng', ''),";
@@ -470,6 +470,7 @@ class sInstall extends Script
 				$query .= "(13, 'allow', 13, 13),";
 				$query .= "(14, '/Root', 14, 22),";
 				$query .= "(15, 'allow', 14, 16);";
+				$query .= "(16, 'MURRiX', 1, 1);";
 				
 				if (mysql_query($query))
 					$this->db_log .= "Inserted values into ".$this->db_prefix."values.<br/>";
