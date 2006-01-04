@@ -22,8 +22,9 @@ $_SESSION['murrix']['site'] = "standard";
 $_SESSION['murrix']['languages'] = "eng";
 
 if (!isset($_SESSION['murrix']['System']))
-	$_SESSION['murrix']['System'] = new mSystem($_SERVER['REQUEST_URI']."install.php");
+	$_SESSION['murrix']['System'] = new mSystem($_SERVER['REQUEST_URI']);
 
+$_SESSION['murrix']['System']->xajax->debugOff();
 $_SESSION['murrix']['System']->LoadScripts();
 $_SESSION['murrix']['System']->Process();
 

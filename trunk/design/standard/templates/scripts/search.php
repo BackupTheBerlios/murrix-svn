@@ -14,10 +14,12 @@ include(gettpl("big_title"));
 	<center>
 		<form id="bigSearch" name="bigSearch" action="javascript:void(null);" onsubmit="Post('search', 'zone_main', 'bigSearch')">
 			<br/>
+			<?=ucf(i18n("querystring"))?>
+			<br/>
 			<input style="width: 60%" name="query" class="form" type="text" value="<?=$query_string?>"/>
 			<br/>
 			<br/>
-			<?=ucf(i18n("klass"))?>
+			<?=ucf(i18n("class"))?>
 			<br/>
 			<select class="form" name="class_name">
 			<?
