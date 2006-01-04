@@ -1,6 +1,11 @@
 <?
 require_once("vars.php");
 
+if (file_exists("config.inc.php"))
+{
+	echo "A configfile already exists, remove it to enable the installer.<br/>";
+	exit;
+}
 require_once("system/functions.php");
 require_once("system/design.php");
 require_once("system/system.php");

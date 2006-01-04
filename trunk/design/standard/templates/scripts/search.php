@@ -6,15 +6,15 @@ echo externcmd(img(geticon("global"))." ".ucf(i18n("external link here")), $_SES
 ?><div id="clear"></div><?
 
 $right = $center = "";
-$left = "<span style=\"font-weight: bold; font-size: 18px;\">".img(geticon("search"))."&nbsp;".ucf(i18n("search"))." - $query</span>";
+$left = "<span style=\"font-weight: bold; font-size: 18px;\">".img(geticon("search"))."&nbsp;".ucf(i18n("search"))." - $query_string</span>";
 include(gettpl("big_title"));
 
 ?>
 <div class="main">
 	<center>
-		<form id="search" name="search" action="javascript:void(null);" onsubmit="Post('search', 'zone_main', 'search')">
+		<form id="bigSearch" name="bigSearch" action="javascript:void(null);" onsubmit="Post('search', 'zone_main', 'bigSearch')">
 			<br/>
-			<input style="width: 60%" id="query" name="query" class="form" type="text" value="<?=$query?>"/>
+			<input style="width: 60%" name="query" class="form" type="text" value="<?=$query_string?>"/>
 			<br/>
 			<br/>
 			<?=ucf(i18n("klass"))?>
@@ -35,7 +35,7 @@ include(gettpl("big_title"));
 			</select>
 			<br/>
 			<br/>
-			<input class="submit_search" type="submit" value="<?=ucfirst(i18n("search"))?>"/>
+			<input class="submit" type="submit" value="<?=ucfirst(i18n("search"))?>"/>
 		</form>
 	</center>
 </div>

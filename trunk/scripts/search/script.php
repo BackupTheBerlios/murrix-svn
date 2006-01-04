@@ -13,20 +13,18 @@ class sSearch extends Script
 	
 	function Draw(&$system, &$response, $args)
 	{
-		if (empty($args['query']))
+		$query_string = "";
+		$class = "";
+		$children = array();
+			
+		if (is_array($args) && !empty($args['query']))
 		{
-			$query = "";
-			$class = "";
-			$children = array();
-		}
-		else
-		{
-			$query = $args['query'];
+			$query_string = trim($args['query']);
 			$class = (isset($args['class_name']) ? $args['class_name'] : "");
 			$class_query = (!empty($class) ? " AND property:class_name='$class'" : "");
-			$children = fetch("FETCH node WHERE property:name LIKE '%$query%' $class_query NODESORTBY !property:version SORTBY property:class,property:name");
+			$children = fetch("FETCH node WHERE property:name LIKE '%$query_string%' $class_query NODESORTBY !property:version SORTBY property:class,property:name");
 		}
-		
+
 		ob_start();
 		
 		include(gettpl("scripts/search"));

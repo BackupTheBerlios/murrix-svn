@@ -357,7 +357,8 @@ class sInstall extends Script
 				$query .= "('forum_thread', 'comment', 16),";
 				$query .= "('file_folder', 'file_folder', 17),";
 				$query .= "('file', 'file', 18),";
-				$query .= "('internal_link', 'location', 19);";
+				$query .= "('internal_link', 'location', 19),";
+				$query .= "('contact', 'user', 20);";
 				
 				if (mysql_query($query))
 					$this->db_log .= "Inserted classes into ".$this->db_prefix."classes.<br/>";
@@ -511,8 +512,23 @@ class sInstall extends Script
 				$query .= "(29, 'file', 'description', 20, 'text', '100x10'),";
 				$query .= "(30, 'file', 'thumbnail_id', 30, 'thumbnailid', ''),";
 				$query .= "(40, 'event', 'day', 30, 'selection', '1=1,2=2,3=3,4=4,5=5,6=6,7=7,8=8,9=9,10=10,11=11,12=12,13=13,14=14,15=15,16=16,17=17,18=18,19=19,20=20,21=21,22=22,23=23,24=24,25=25,26=26,27=27,28=28,29=29,30=30,31=31'),";
-				$query .= "(41, 'internal_link', 'command', 10, 'textline', '');";
+				$query .= "(41, 'internal_link', 'command', 10, 'textline', ''),";
 				$query .= "(42, 'file', 'imagecache_id', 40, 'thumbnailid', ''),";
+				$query .= "(43, 'contact', 'thumbnail', 10, 'thumbnail', ''),";
+				$query .= "(44, 'contact', 'fullname', 20, 'textline', ''),";
+				$query .= "(45, 'contact', 'nicknames', 30, 'array', ''),";
+				$query .= "(45, 'contact', 'birthdate', 40, 'date', ''),";
+				$query .= "(46, 'contact', 'emails', 50, 'array', ''),";
+				$query .= "(47, 'contact', 'thumbnail', 60, 'thumbnail', ''),";
+				$query .= "(48, 'contact', 'mobilephone', 70, 'textline', ''),";
+				$query .= "(49, 'contact', 'homephone', 80, 'textline', ''),";
+				$query .= "(50, 'contact', 'workphone', 90, 'textline', ''),";
+				$query .= "(51, 'contact', 'address', 100, 'text', ''),";
+				$query .= "(52, 'contact', 'icq', 110, 'textline', ''),";
+				$query .= "(53, 'contact', 'msn', 120, 'textline', ''),";
+				$query .= "(54, 'contact', 'skype', 130, 'textline', ''),";
+				$query .= "(55, 'contact', 'allergies', 140, 'array', ''),";
+				$query .= "(56, 'contact', 'other', 150, 'text', '');";
 				
 				if (mysql_query($query))
 					$this->db_log .= "Inserted vars into ".$this->db_prefix."vars.<br/>";

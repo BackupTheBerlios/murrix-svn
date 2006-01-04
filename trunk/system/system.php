@@ -95,22 +95,15 @@ class mSystem
 
 	function Exec($name, $zone, $arguments = null)
 	{
-		if (empty($arguments) || $arguments == null)
+		if (empty($arguments) || $arguments == null || !isset($arguments))
                         $arguments = array();
 	
-		//$time = microtime_float();
-		$_SESSION['debug'] = 0;
-		$_SESSION['debug2'] = 0;
-		$_SESSION['sql'] = array();
 		$response = new xajaxResponse();
 		$this->ExecIntern($response, $name, $zone, utf8d($arguments));
+		
 		if (!empty($_SESSION['debug']))
-			$response->addAlert($_SESSION['debug2']." : ".$_SESSION['debug']);
+			$response->addAlert($_SESSION['debug']);
 
-		//$response->addAlert(count($_SESSION['murrix']['querycache']));
-		unset($_SESSION['murrix']['querycache']);
-
-		//$response->addAlert(microtime_float()-$time);
 		return $response->getXML();
 	}
 

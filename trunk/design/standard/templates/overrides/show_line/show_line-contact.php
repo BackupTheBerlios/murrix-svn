@@ -50,7 +50,7 @@
 			<div class="show_line_main_top_inner">
 				<span class="show_line_main_top_inner_title"><?=cmd($child->getName(), "Exec('show','zone_main', Hash('path', '".$child->getPath()."'))")?></span> -
 				<?
-				$emails = $child->getVarValue("email");
+				$emails = $child->getVarValue("emails");
 
 				if (is_array($emails))
 					echo "<a href=\"mailto:".$emails[0]."\">".$emails[0]."</a>";
