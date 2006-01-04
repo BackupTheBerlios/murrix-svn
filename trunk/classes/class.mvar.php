@@ -180,11 +180,13 @@ class mVarFile extends mVar
 		if ($raw)
 			return $value;
 
-		global $abspath;
+		if (empty($value))
+			return "";
 			
-		$data = basename($value);
-		$parts = SplitFilepath($data);
-		return "$abspath/files/".$this->value_id.".".$parts['ext'];
+		global $abspath;
+
+		$parts = SplitFilepath($value);
+		return "$abspath/files/".$this->value_id.".".$parts['extension'];
 	}
 	
 	function Save()
@@ -206,7 +208,7 @@ class mVarFile extends mVar
 		
 		if (parent::Save())
 		{
-			$filename = "$abspath/files/".$this->value_id.".".$parts['ext'];
+			$filename = "$abspath/files/".$this->value_id.".".$parts['extension'];
 			if (!copy($names[1], $filename))
 			{
 				return "Error while moving uploaded file from ".$names[1]." to $filename";

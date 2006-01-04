@@ -473,7 +473,7 @@ table.invisible td
 {
 	border-width: 0;
 	background-color: #B6BAFF;
-	margin: 5px;
+	margin: 0;
 	padding: 2px;
 	font-size: 14px;
 }

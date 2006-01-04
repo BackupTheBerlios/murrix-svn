@@ -212,6 +212,7 @@ class mObject
 		}
 
 		$this->deleteNodeId();
+		$_SESSION['murrix']['querycache'] = array();
 
 		return true;
 	}
@@ -284,6 +285,7 @@ class mObject
 		}
 
 		$this->loadByObjectId($this->id);
+		$_SESSION['murrix']['querycache'] = array();
 
 		return true;
 	}
@@ -1081,7 +1083,7 @@ function clearPathCache()
 		return false;
 	}
 
-	unset($_SESSION['murrix']['pathcache']);
+	$_SESSION['murrix']['pathcache'] = array();
 	
 	return true;
 }

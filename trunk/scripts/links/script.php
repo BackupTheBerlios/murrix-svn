@@ -21,15 +21,46 @@ class sLinks extends Script
 
 	function Exec(&$system, &$response, $args)
 	{
-		if (isset($args['action']) && $args['action'] == "deletelink")
+		if (isset($args['action']))
 		{
-			$object = new mObject($args['node_id']);
+			if ($args['action'] == "deletelink")
+			{
+				$object = new mObject($args['node_id']);
+	
+				if ($object->hasRight("edit"))
+					$object->unlinkWithNode($args['remote_id'], $args['type'], $args['direction']);
+				else
+					$response->addAlert(ucf(i18n("you don't have enough rights to delete this link")));
+			
+				$this->Draw($system, $response, array("path" => $_SESSION['murrix']['path']));
+				return;
+			}
+			else if ($args['action'] == "newlink")
+			{
+				$object = new mObject($args['node_id']);
+	
+				if ($object->hasRight("edit"))
+				{
+					$remote_node_id = resolvePath($args['path']);
 
-			if ($object->hasRight("edit"))
-				$object->unlinkWithNode($args['remote_id'], $args['type']);
-		
-			$this->Draw($system, $response, array("path" => $_SESSION['murrix']['path']));
-			return;
+					if ($remote_node_id > 0)
+					{
+						$remote = new mObject($remote_node_id);
+
+						if ($remote->hasRight("edit"))
+							$object->linkWithNode($remote_node_id, $args['type']);
+						else
+							$response->addAlert(ucf(i18n("you don't have enough rights on the remote object to create this link")));
+					}
+					else
+						$response->addAlert(ucf(i18n("the remote object you specified does not exist")));
+				}
+				else
+					$response->addAlert(ucf(i18n("you don't have enough rights to create a link")));
+			
+				$this->Draw($system, $response, array("path" => $_SESSION['murrix']['path']));
+				return;
+			}
 		}
 		
 		if (isset($args['node_id']))

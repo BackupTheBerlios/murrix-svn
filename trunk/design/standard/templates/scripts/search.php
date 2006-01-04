@@ -31,13 +31,13 @@ include(gettpl("big_title"));
 					if ($class_name == $class)
 						$selected = "selected";
 
-					echo "<option $selected value=\"$class_name\">".ucwords(str_replace("_", " ", $class_name))."</option>";
+					echo "<option $selected value=\"$class_name\">".ucw(str_replace("_", " ", $class_name))."</option>";
 				}
 			?>
 			</select>
 			<br/>
 			<br/>
-			<input class="submit" type="submit" value="<?=ucfirst(i18n("search"))?>"/>
+			<input class="submit" type="submit" value="<?=ucf(i18n("search"))?>"/>
 		</form>
 	</center>
 </div>
