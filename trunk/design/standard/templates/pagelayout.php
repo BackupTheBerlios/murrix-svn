@@ -45,7 +45,7 @@
 				</div>
 				
 				<div id="header_name">
-					<?=cmd($root->getVarValue("description", "Exec('show', 'zone_main', Hash('path', '".$_SESSION['murrix']['default_path']."'))")?>
+					<?=cmd($root->getVarValue("description"), "Exec('show', 'zone_main', Hash('path', '".$_SESSION['murrix']['default_path']."'))")?>
 					<br/>
 					<div id="status_holder">
 						<img alt="Status indicator" align="middle" src="<?=imgpath("indicator.gif")?>" name="status" id="status" border="0"/>
