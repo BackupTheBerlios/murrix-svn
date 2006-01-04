@@ -580,8 +580,18 @@ table.invisible td
 	padding: 0;
 }
 
+#menu .subheader
+{
+	margin: 5px;
+	padding: 1px;
+	background-color: #E1E3FF;
+	font-size: 11px;
+	text-align: center;
+}
+
 #menu .menu_items a
 {
+	margin: 5px;
 	padding: 5px;
 	display: block;
 }

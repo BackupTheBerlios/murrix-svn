@@ -199,7 +199,7 @@ class mObject
 		// Delete all links
 		$links = $this->getLinks();
 		foreach ($links as $link)
-			$this->unlinkWithNode($link['remote_id'], $link['type'], $link['direction']);
+			$this->unlinkWithNode($link['remote_id'], $link['type'], ($link['direction'] == "top" ? "bottom" : "top"));
 
 		// Get all versions of this object
 		$versions = fetch("FETCH object WHERE property:node_id='".$this->getNodeId()."'");

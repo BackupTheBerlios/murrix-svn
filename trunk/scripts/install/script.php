@@ -357,7 +357,7 @@ class sInstall extends Script
 				$query .= "('forum_thread', 'comment', 16),";
 				$query .= "('file_folder', 'file_folder', 17),";
 				$query .= "('file', 'file', 18),";
-				$query .= "('internal_link', 'location', 19),";
+				$query .= "('internal_link', 'intern', 19),";
 				$query .= "('contact', 'user', 20);";
 				
 				if (mysql_query($query))
