@@ -1195,15 +1195,18 @@ function getPaths($node_id, $depth = 0)
 	$array = array();
 
 
-	if (is_array($_SESSION['murrix']['pathcache']))
+	if (isset($_SESSION['murrix']['pathcache']))
 	{
-		foreach ($_SESSION['murrix']['pathcache'] as $key => $value)
+		if (is_array($_SESSION['murrix']['pathcache']))
 		{
-			if ($value == $node_id)
-				array_push($array, GetParentPath($key));
+			foreach ($_SESSION['murrix']['pathcache'] as $key => $value)
+			{
+				if ($value == $node_id)
+					array_push($array, GetParentPath($key));
+			}
 		}
 	}
-
+	
 	if (count($array) > 0)
 	{
 		//$_SESSION['debug'] += microtime_float()-$time;
