@@ -392,7 +392,7 @@ class mVarBoolean extends mVar
 		if ($raw)
 			return $value;
 			
-		return (intval($value) ? "True" : "False");
+		return (intval($value) ? "true" : "false");
 	}
 	
 	function Save()
@@ -407,7 +407,7 @@ class mVarBoolean extends mVar
 	
 	function getEdit($formname)
 	{
-		return "True <input class=\"form\" type=\"radio\" id=\"$this->id\" name=\"$this->id\" value=\"1\"".(intval($this->value) ? " checked" : "").">&nbsp;False <input class=\"form\" type=\"radio\" id=\"$this->id\" name=\"$this->id\" value=\"0\" value=\"0\"".(!intval($this->value) ? " checked" : "").">";
+		return ucf(i18n("true"))." <input class=\"form\" type=\"radio\" id=\"$this->id\" name=\"$this->id\" value=\"1\"".(intval($this->value) ? " checked" : "").">&nbsp;".ucf(i18n("false"))." <input class=\"form\" type=\"radio\" id=\"$this->id\" name=\"$this->id\" value=\"0\" value=\"0\"".(!intval($this->value) ? " checked" : "").">";
 	}
 }
 

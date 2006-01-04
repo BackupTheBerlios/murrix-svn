@@ -6,23 +6,30 @@
 		
 		<div style="text-align: center; width: <?=$maxsize?>px; height: <?=$maxsize?>px;">
 		<?
-			$thumbnail = new mThumbnail($child->getVarValue("thumbnail"));
+			$thumb_id = $child->getVarValue("thumbnail");
 
-			if ($thumbnail->height > $thumbnail->width && $maxsize > 0)// höjden = maxsize;
+			if (!empty($thumb_id))
 			{
-				$h = $maxsize;
-				$w = $thumbnail->width * ($maxsize / $thumbnail->height);
+				$thumbnail = new mThumbnail($child->getVarValue("thumbnail"));
+	
+				if ($thumbnail->height > $thumbnail->width && $maxsize > 0)// höjden = maxsize;
+				{
+					$h = $maxsize;
+					$w = $thumbnail->width * ($maxsize / $thumbnail->height);
+				}
+				else//bredden = maxsize
+				{
+					$h = $thumbnail->height * ($maxsize / $thumbnail->width);
+					$w = $maxsize;
+				}
+	
+				$thumbnail->height = $h;
+				$thumbnail->width = $w;
+				
+				echo cmd($thumbnail->Show(true), "Exec('show','zone_main', Hash('path', '".$child->getPath()."'))");
 			}
-			else//bredden = maxsize
-			{
-				$h = $thumbnail->height * ($maxsize / $thumbnail->width);
-				$w = $maxsize;
-			}
-
-			$thumbnail->height = $h;
-			$thumbnail->width = $w;
-			
-			echo cmd($thumbnail->Show(true), "Exec('show','zone_main', Hash('path', '".$child->getPath()."'))");
+			else
+				echo cmd(img(geticon($child->getIcon(), 64)), "Exec('show','zone_main', Hash('path', '".$child->getPath()."'))");
 		?>
 		</div>
 	</div>
@@ -48,14 +55,17 @@
 	<div class="show_line_main">
 		<div class="show_line_main_top">
 			<div class="show_line_main_top_inner">
-				<span class="show_line_main_top_inner_title"><?=cmd($child->getName(), "Exec('show','zone_main', Hash('path', '".$child->getPath()."'))")?></span> -
+				<span class="show_line_main_top_inner_title"><?=cmd($child->getName(), "Exec('show','zone_main', Hash('path', '".$child->getPath()."'))")?></span>
 				<?
 				$emails = $child->getVarValue("emails");
 
-				if (is_array($emails))
-					echo "<a href=\"mailto:".$emails[0]."\">".$emails[0]."</a>";
-				else
-					echo "<a href=\"mailto:".$emails."\">".$emails."</a>";
+				if (!empty($emails))
+				{
+					if (is_array($emails))
+						echo "- <a href=\"mailto:".$emails[0]."\">".$emails[0]."</a>";
+					else
+						echo "- <a href=\"mailto:".$emails."\">".$emails."</a>";
+				}
 				?>
 			</div>
 		</div>

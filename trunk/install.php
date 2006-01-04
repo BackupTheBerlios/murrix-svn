@@ -11,6 +11,9 @@ require_once("system/design.php");
 require_once("system/system.php");
 
 require_once("classes/class.script.php");
+require_once("classes/class.mobject.php");
+require_once("classes/class.mvar.php");
+require_once("classes/class.mthumbnail.php");
 
 $folders = GetSubfolders("$abspath/scripts");
 foreach ($folders as $folder)
@@ -20,7 +23,7 @@ session_name("MURRiX_Installer");
 session_start();
 
 $_SESSION['murrix']['site'] = "standard";
-$_SESSION['murrix']['languages'] = "eng";
+$_SESSION['murrix']['language'] = "eng";
 
 if (!isset($_SESSION['murrix']['System']))
 	$_SESSION['murrix']['System'] = new mSystem($_SERVER['REQUEST_URI']);

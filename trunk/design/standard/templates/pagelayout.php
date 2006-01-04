@@ -1,10 +1,14 @@
+<?
+global $root_id;
+$root = new mObject($root_id);
+?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 		
-		<link rel="shortcut icon" href="<?=geticon("murrix")?>" type="image/x-icon">
-		<title>MURRiX</title>
+		<link rel="shortcut icon" href="<?=geticon($root->getIcon())?>" type="image/x-icon">
+		<title><?=$root->getVarValue("description")?></title>
 		
 		<?
 		$js = getjs();
@@ -34,11 +38,6 @@
 		<div id="header">
 			<div id="header_wrapper">
 				<div id="zone_login"></div>
-
-				<?
-					global $root_id;
-					$root = new mObject($root_id);
-				?>
 	
 				<div id="header_logo">
 					<?=cmd(img(geticon($root->getIcon(), 64)), "Exec('show', 'zone_main', Hash('path', '".$_SESSION['murrix']['default_path']."'))")?>

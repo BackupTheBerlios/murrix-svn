@@ -262,8 +262,10 @@ class mObject
 		}
 
 		$datetime = date("Y-m-d H:i:s");
+
+		$user_id = (isset($_SESSION['murrix']['user']) ? $_SESSION['murrix']['user']->id : 0);
 		
-		$query = "INSERT INTO `".$db_prefix."objects` (name, node_id, creator, created, class_name, version, language, icon) VALUES('$this->name', '$this->node_id', '".$_SESSION['murrix']['user']->id."', '$datetime', '$this->class_name', '$this->version', '$this->language', '$this->icon')";
+		$query = "INSERT INTO `".$db_prefix."objects` (name, node_id, creator, created, class_name, version, language, icon) VALUES('$this->name', '$this->node_id', '$user_id', '$datetime', '$this->class_name', '$this->version', '$this->language', '$this->icon')";
 
 		if (!($result = mysql_query($query)))
 		{
@@ -932,16 +934,6 @@ function fetch($query, $debug = false)
 		$from .= ", `".$db_prefix."links` AS `links`";
 
 	$sql = "$select $from $where $nodesortby";
-	$_SESSION['query'] = $sql;
-	if ($debug)
-	{
-		echo "$sql<br><br>";
-		return;
-	}
-		
-	if (!is_array($_SESSION['sql']))
-		$_SESSION['sql'] = array();
-	array_push($_SESSION['sql'], $sql);
 
 	$result = mysql_query($sql) or die("fetch " . mysql_errno() . " " . mysql_error());
 
@@ -1108,8 +1100,11 @@ function deleteFromPathCache($path)
 		return false;
 	}
 
-	if (!empty($_SESSION['murrix']['pathcache']) && isset($_SESSION['murrix']['pathcache'][$path]))
-		unset($_SESSION['murrix']['pathcache'][$path]);
+	if (isset($_SESSION['murrix']['pathcache']))
+	{
+		if (!empty($_SESSION['murrix']['pathcache']) && isset($_SESSION['murrix']['pathcache'][$path]))
+			unset($_SESSION['murrix']['pathcache'][$path]);
+	}
 	
 	return true;
 }
@@ -1200,11 +1195,13 @@ function getPaths($node_id, $depth = 0)
 	$array = array();
 
 
-
-	foreach ($_SESSION['murrix']['pathcache'] as $key => $value)
+	if (is_array($_SESSION['murrix']['pathcache']))
 	{
-		if ($value == $node_id)
-			array_push($array, GetParentPath($key));
+		foreach ($_SESSION['murrix']['pathcache'] as $key => $value)
+		{
+			if ($value == $node_id)
+				array_push($array, GetParentPath($key));
+		}
 	}
 
 	if (count($array) > 0)

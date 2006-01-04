@@ -335,8 +335,6 @@ class sInstall extends Script
 				}
 			}
 
-			// Insert initial objects
-
 			if ($this->done)
 			{
 				$query = "INSERT INTO `".$this->db_prefix."classes` (`name`, `default_icon`, `id`) VALUES ('folder', 'folder', 1),";
@@ -371,118 +369,6 @@ class sInstall extends Script
 
 			if ($this->done)
 			{
-				$query = "INSERT INTO `".$this->db_prefix."links` (`node_top`, `node_bottom`, `type`, `id`) VALUES (1, 2, 'sub', 1),";
-				$query .= "(1, 3, 'sub', 2),";
-				$query .= "(2, 4, 'sub', 3),";
-				$query .= "(2, 8, 'sub', 4),";
-				$query .= "(4, 5, 'sub', 5),";
-				$query .= "(4, 6, 'sub', 6),";
-				$query .= "(4, 7, 'sub', 7),";
-				$query .= "(8, 9, 'sub', 8),";
-				$query .= "(8, 10, 'sub', 9),";
-				$query .= "(8, 11, 'sub', 10),";
-				$query .= "(8, 12, 'sub', 11),";
-				$query .= "(8, 13, 'sub', 12),";
-				$query .= "(8, 14, 'sub', 13),";
-				$query .= "(3, 15, 'sub', 14);";
-				
-				if (mysql_query($query))
-					$this->db_log .= "Inserted links into ".$this->db_prefix."links.<br/>";
-				else
-				{
-					$this->db_log .= "Failed to insert links into ".$this->db_prefix."links.<br/>";
-					$this->done = false;
-				}
-			}
-			
-			if ($this->done)
-			{
-				$datetime = date("Y-m-d H:i:s");
-			
-				$query = "INSERT INTO `".$this->db_prefix."nodes` (`id`, `created`) VALUES (1, '$datetime'),";
-				$query .= "(2, '$datetime'),";
-				$query .= "(3, '$datetime'),";
-				$query .= "(4, '$datetime'),";
-				$query .= "(5, '$datetime'),";
-				$query .= "(6, '$datetime'),";
-				$query .= "(7, '$datetime'),";
-				$query .= "(8, '$datetime'),";
-				$query .= "(9, '$datetime'),";
-				$query .= "(10, '$datetime'),";
-				$query .= "(11, '$datetime'),";
-				$query .= "(12, '$datetime'),";
-				$query .= "(13, '$datetime'),";
-				$query .= "(14, '$datetime'),";
-				$query .= "(15, '$datetime');";
-				
-				if (mysql_query($query))
-					$this->db_log .= "Inserted nodes into ".$this->db_prefix."nodes.<br/>";
-				else
-				{
-					$this->db_log .= "Failed to insert nodes into ".$this->db_prefix."nodes.<br/>";
-					$this->done = false;
-				}
-			}
-
-			if ($this->done)
-			{
-				$datetime = date("Y-m-d H:i:s");
-			
-				$query = "INSERT INTO `".$this->db_prefix."objects` (`id`, `name`, `node_id`, `creator`, `created`, `class_name`, `version`, `language`, `icon`) VALUES (1, 'Root', 1, 9, '$datetime', 'folder', 1, 'eng', 'murrix'),";
-				$query .= "(2, 'Users', 2, 9, '$datetime', 'group', 1, 'eng', ''),";
-				$query .= "(3, 'Public', 3, 9, '$datetime', 'folder', 1, 'eng', ''),";
-				$query .= "(4, 'Anonymous', 4, 9, '$datetime', 'group', 1, 'eng', ''),";
-				$query .= "(5, 'Anonymous', 5, 9, '$datetime', 'user', 1, 'eng', ''),";
-				$query .= "(6, 'Read Public', 6, 9, '$datetime', 'right_read', 1, 'eng', ''),";
-				$query .= "(7, 'List Public', 7, 9, '$datetime', 'right_read_subnodes', 1, 'eng', ''),";
-				$query .= "(8, 'Administrators', 8, 9, '$datetime', 'group', 1, 'eng', ''),";
-				$query .= "(9, 'Administrator', 9, 9, '$datetime', 'user', 1, 'eng', ''),";
-				$query .= "(10, 'Create Subnodes Root', 10, 9, '$datetime', 'right_create_subnodes', 1, 'eng', ''),";
-				$query .= "(11, 'Delete Root', 11, 9, '$datetime', 'right_delete', 1, 'eng', ''),";
-				$query .= "(12, 'Edit Root', 12, 9, '$datetime', 'right_edit', 1, 'eng', ''),";
-				$query .= "(13, 'Read Root', 13, 9, '$datetime', 'right_read', 1, 'eng', ''),";
-				$query .= "(14, 'Read Subnodes Root', 14, 9, '$datetime', 'right_read_subnodes', 1, 'eng', ''),";
-				$query .= "(15, 'Menu', 15, 9, '$datetime', 'folder', 1, 'eng', '');";
-				
-				if (mysql_query($query))
-					$this->db_log .= "Inserted objects into ".$this->db_prefix."objects.<br/>";
-				else
-				{
-					$this->db_log .= "Failed to insert objects into ".$this->db_prefix."objects.<br/>";
-					$this->done = false;
-				}
-			}
-
-			if ($this->done)
-			{
-				$query = "INSERT INTO `".$this->db_prefix."values` (`id`, `data`, `object_id`, `var_id`) VALUES (1, '/Root/Public', 7, 22),";
-				$query .= "(2, 'allow', 7, 16),";
-				$query .= "(3, '/Root/Public', 6, 19),";
-				$query .= "(4, 'allow', 6, 13),";
-				$query .= "(5, '".$this->admin_username."', 9, 2),";
-				$query .= "(6, '".md5($this->admin_password)."', 9, 3),";
-				$query .= "(7, '/Root', 10, 18),";
-				$query .= "(8, '/Root', 11, 21),";
-				$query .= "(9, 'allow', 11, 15),";
-				$query .= "(10, '/Root', 12, 20),";
-				$query .= "(11, 'allow', 12, 14),";
-				$query .= "(12, '/Root', 13, 19),";
-				$query .= "(13, 'allow', 13, 13),";
-				$query .= "(14, '/Root', 14, 22),";
-				$query .= "(15, 'allow', 14, 16),";
-				$query .= "(16, 'MURRiX', 1, 1);";
-				
-				if (mysql_query($query))
-					$this->db_log .= "Inserted values into ".$this->db_prefix."values.<br/>";
-				else
-				{
-					$this->db_log .= "Failed to insert values into ".$this->db_prefix."values.<br/>";
-					$this->done = false;
-				}
-			}
-				
-			if ($this->done)
-			{
 				$query = "INSERT INTO `".$this->db_prefix."vars` (`id`, `class_name`, `name`, `priority`, `type`, `extra`) VALUES (1, 'folder', 'description', 10, 'text', '100x20'),";
 				$query .= "(2, 'user', 'username', 10, 'textline', ''),";
 				$query .= "(3, 'user', 'password', 20, 'password', ''),";
@@ -491,45 +377,45 @@ class sInstall extends Script
 				$query .= "(6, 'link', 'address', 10, 'textline', ''),";
 				$query .= "(7, 'news', 'date', 10, 'date', ''),";
 				$query .= "(8, 'news', 'text', 20, 'xhtml', ''),";
-				$query .= "(38, 'event', 'year', 10, 'textline', ''),";
-				$query .= "(39, 'event', 'month', 20, 'selection', '1=1,2=2,3=3,4=4,5=5,6=6,7=7,8=8,9=9,10=10,11=11,12=12,-1=Every month'),";
-				$query .= "(37, 'event', 'description', 40, 'text', '100x10'),";
-				$query .= "(13, 'right_read', 'setting', 10, 'selection', 'allow=Allow,deny=Deny,allowown=Allow if Creator'),";
-				$query .= "(14, 'right_edit', 'setting', 10, 'selection', 'allow=Allow,deny=Deny,allowown=Allow if Creator'),";
-				$query .= "(15, 'right_delete', 'setting', 10, 'selection', 'allow=Allow,deny=Deny,allowown=Allow if Creator'),";
-				$query .= "(16, 'right_read_subnodes', 'setting', 10, 'selection', 'allow=Allow,deny=Deny,allowown=Allow if Creator'),";
-				$query .= "(17, 'right_create_subnodes', 'classes', 10, 'array', ''),";
-				$query .= "(18, 'right_create_subnodes', 'path', 5, 'textline', ''),";
-				$query .= "(19, 'right_read', 'path', 5, 'textline', ''),";
-				$query .= "(20, 'right_edit', 'path', 5, 'textline', ''),";
-				$query .= "(21, 'right_delete', 'path', 5, 'textline', ''),";
-				$query .= "(22, 'right_read_subnodes', 'path', 5, 'textline', ''),";
-				$query .= "(23, 'comment', 'message', 10, 'text', '100x10'),";
-				$query .= "(24, 'forum_topic', 'description', 10, 'text', '100x10'),";
-				$query .= "(25, 'forum_post', 'message', 0, 'text', '100x10'),";
-				$query .= "(26, 'forum_thread', 'message', 10, 'text', '100x10'),";
-				$query .= "(27, 'file_folder', 'description', 10, 'text', '100x20'),";
-				$query .= "(28, 'file', 'file', 10, 'file', ''),";
-				$query .= "(29, 'file', 'description', 20, 'text', '100x10'),";
-				$query .= "(30, 'file', 'thumbnail_id', 30, 'thumbnailid', ''),";
-				$query .= "(40, 'event', 'day', 30, 'selection', '1=1,2=2,3=3,4=4,5=5,6=6,7=7,8=8,9=9,10=10,11=11,12=12,13=13,14=14,15=15,16=16,17=17,18=18,19=19,20=20,21=21,22=22,23=23,24=24,25=25,26=26,27=27,28=28,29=29,30=30,31=31'),";
-				$query .= "(41, 'internal_link', 'command', 10, 'textline', ''),";
-				$query .= "(42, 'file', 'imagecache_id', 40, 'thumbnailid', ''),";
-				$query .= "(43, 'contact', 'thumbnail', 10, 'thumbnail', ''),";
-				$query .= "(44, 'contact', 'fullname', 20, 'textline', ''),";
-				$query .= "(45, 'contact', 'nicknames', 30, 'array', ''),";
-				$query .= "(45, 'contact', 'birthdate', 40, 'date', ''),";
-				$query .= "(46, 'contact', 'emails', 50, 'array', ''),";
-				$query .= "(47, 'contact', 'thumbnail', 60, 'thumbnail', ''),";
-				$query .= "(48, 'contact', 'mobilephone', 70, 'textline', ''),";
-				$query .= "(49, 'contact', 'homephone', 80, 'textline', ''),";
-				$query .= "(50, 'contact', 'workphone', 90, 'textline', ''),";
-				$query .= "(51, 'contact', 'address', 100, 'text', ''),";
-				$query .= "(52, 'contact', 'icq', 110, 'textline', ''),";
-				$query .= "(53, 'contact', 'msn', 120, 'textline', ''),";
-				$query .= "(54, 'contact', 'skype', 130, 'textline', ''),";
-				$query .= "(55, 'contact', 'allergies', 140, 'array', ''),";
-				$query .= "(56, 'contact', 'other', 150, 'text', '');";
+				$query .= "(9, 'event', 'date', 10, 'textline', ''),";
+				$query .= "(10, 'event', 'reoccuring_yearly', 20, 'boolean', ''),";
+				$query .= "(11, 'event', 'reoccuring_monthly', 30, 'boolean', ''),";
+				$query .= "(12, 'event', 'reoccuring_daily', 40, 'boolean', ''),";
+				$query .= "(13, 'event', 'description', 10, 'text', '100x20'),";
+				$query .= "(14, 'right_read', 'setting', 10, 'selection', 'allow=Allow,deny=Deny,allowown=Allow if Creator'),";
+				$query .= "(15, 'right_read', 'path', 5, 'textline', ''),";
+				$query .= "(16, 'right_edit', 'setting', 10, 'selection', 'allow=Allow,deny=Deny,allowown=Allow if Creator'),";
+				$query .= "(17, 'right_edit', 'path', 5, 'textline', ''),";
+				$query .= "(18, 'right_delete', 'setting', 10, 'selection', 'allow=Allow,deny=Deny,allowown=Allow if Creator'),";
+				$query .= "(19, 'right_delete', 'path', 5, 'textline', ''),";
+				$query .= "(20, 'right_read_subnodes', 'setting', 10, 'selection', 'allow=Allow,deny=Deny,allowown=Allow if Creator'),";
+				$query .= "(21, 'right_read_subnodes', 'path', 5, 'textline', ''),";
+				$query .= "(22, 'right_create_subnodes', 'classes', 10, 'array', ''),";
+				$query .= "(23, 'right_create_subnodes', 'path', 5, 'textline', ''),";
+				$query .= "(24, 'comment', 'message', 10, 'text', '100x10'),";
+				$query .= "(25, 'forum_topic', 'description', 10, 'text', '100x10'),";
+				$query .= "(26, 'forum_post', 'message', 0, 'text', '100x10'),";
+				$query .= "(27, 'forum_thread', 'message', 10, 'text', '100x10'),";
+				$query .= "(28, 'file_folder', 'description', 10, 'text', '100x20'),";
+				$query .= "(29, 'file', 'file', 10, 'file', ''),";
+				$query .= "(30, 'file', 'description', 20, 'text', '100x10'),";
+				$query .= "(31, 'file', 'thumbnail_id', 30, 'thumbnailid', ''),";
+				$query .= "(32, 'file', 'imagecache_id', 40, 'thumbnailid', ''),";
+				$query .= "(33, 'internal_link', 'command', 10, 'textline', ''),";
+				$query .= "(34, 'contact', 'thumbnail', 10, 'thumbnail', ''),";
+				$query .= "(35, 'contact', 'fullname', 20, 'textline', ''),";
+				$query .= "(36, 'contact', 'nicknames', 30, 'array', ''),";
+				$query .= "(37, 'contact', 'emails', 50, 'array', ''),";
+				$query .= "(38, 'contact', 'thumbnail', 60, 'thumbnail', ''),";
+				$query .= "(39, 'contact', 'mobilephone', 70, 'textline', ''),";
+				$query .= "(40, 'contact', 'homephone', 80, 'textline', ''),";
+				$query .= "(41, 'contact', 'workphone', 90, 'textline', ''),";
+				$query .= "(42, 'contact', 'address', 100, 'text', ''),";
+				$query .= "(43, 'contact', 'icq', 110, 'textline', ''),";
+				$query .= "(44, 'contact', 'msn', 120, 'textline', ''),";
+				$query .= "(45, 'contact', 'skype', 130, 'textline', ''),";
+				$query .= "(46, 'contact', 'allergies', 140, 'array', ''),";
+				$query .= "(47, 'contact', 'other', 150, 'text', '');";
 				
 				if (mysql_query($query))
 					$this->db_log .= "Inserted vars into ".$this->db_prefix."vars.<br/>";
@@ -540,9 +426,385 @@ class sInstall extends Script
 				}
 			}
 
+			// Insert initial objects
+
+			/*
+			==========
+			== Root ==
+			==========
+			*/
+			$root_obj = new mObject();
+			$root_obj->setClassName("folder");
+			$root_obj->loadVars();
+			$root_obj->setLanguage("eng");
+			$root_obj->setName("Root");
+			$root_obj->setIcon("murrix");
+			
+			$root_obj->setVarValue("description", "MURRiX");
+			$root_obj->setVarValue("icon", "murrix");
+
+			if ($root_obj->save())
+				$this->db_log .= "Created ".$root_obj->getName().".<br/>";
+			else
+			{
+				$this->db_log .= "Failed to create ".$root_obj->getName().".<br/>";
+				$this->done = false;
+			}
+			
+			/*
+			============
+			== Public ==
+			============
+			*/
+			$public_obj = new mObject();
+			$public_obj->setClassName("folder");
+			$public_obj->loadVars();
+			$public_obj->setLanguage("eng");
+			$public_obj->setName("Public");
+
+			$public_obj->setVarValue("description", "This folder is readable by anyone");
+			
+			if ($public_obj->save())
+			{
+				$public_obj->linkWithNode($root_obj->getNodeId());
+				$this->db_log .= "Created ".$public_obj->getName().".<br/>";
+			}
+			else
+			{
+				$this->db_log .= "Failed to create ".$public_obj->getName().".<br/>";
+				$this->done = false;
+			}
+			
+			/*
+			==========
+			== Menu ==
+			==========
+			*/
+			$menu_obj = new mObject();
+			$menu_obj->setClassName("folder");
+			$menu_obj->loadVars();
+			$menu_obj->setLanguage("eng");
+			$menu_obj->setName("Menu");
+
+			$menu_obj->setVarValue("description", "This folder contains the objects visible in the menu");
+			
+			if ($menu_obj->save())
+			{
+				$menu_obj->linkWithNode($public_obj->getNodeId());
+				$this->db_log .= "Created ".$menu_obj->getName().".<br/>";
+			}
+			else
+			{
+				$this->db_log .= "Failed to create ".$menu_obj->getName().".<br/>";
+				$this->done = false;
+			}
+			
+			/*
+			===========
+			== Users ==
+			===========
+			*/
+			$users_obj = new mObject();
+			$users_obj->setClassName("group");
+			$users_obj->loadVars();
+			$users_obj->setLanguage("eng");
+			$users_obj->setName("Users");
+
+			$users_obj->setVarValue("description", "This folder contains all users, groups and rights");
+			
+			if ($users_obj->save())
+			{
+				$users_obj->linkWithNode($root_obj->getNodeId());
+				$this->db_log .= "Created ".$users_obj->getName().".<br/>";
+			}
+			else
+			{
+				$this->db_log .= "Failed to create ".$users_obj->getName().".<br/>";
+				$this->done = false;
+			}
+
+			/*
+			======================
+			== Group: Anonymous ==
+			======================
+			*/
+			$group_anon_obj = new mObject();
+			$group_anon_obj->setClassName("group");
+			$group_anon_obj->loadVars();
+			$group_anon_obj->setLanguage("eng");
+			$group_anon_obj->setName("Anonymous");
+
+			$group_anon_obj->setVarValue("description", "This group contains the anonymous user and it's rights");
+			
+			if ($group_anon_obj->save())
+			{
+				$group_anon_obj->linkWithNode($users_obj->getNodeId());
+				$this->db_log .= "Created ".$group_anon_obj->getName().".<br/>";
+			}
+			else
+			{
+				$this->db_log .= "Failed to create ".$group_anon_obj->getName().".<br/>";
+				$this->done = false;
+			}
+
+			/*
+			======================
+			== User: Anonymous ==
+			======================
+			*/
+			$user_anon_obj = new mObject();
+			$user_anon_obj->setClassName("user");
+			$user_anon_obj->loadVars();
+			$user_anon_obj->setLanguage("eng");
+			$user_anon_obj->setName("Anonymous");
+
+			$user_anon_obj->setVarValue("description", "This is the anonymous user");
+			
+			if ($user_anon_obj->save())
+			{
+				$user_anon_obj->linkWithNode($group_anon_obj->getNodeId());
+				$this->db_log .= "Created ".$user_anon_obj->getName().".<br/>";
+			}
+			else
+			{
+				$this->db_log .= "Failed to create ".$user_anon_obj->getName().".<br/>";
+				$this->done = false;
+			}
+			
+			/*
+			===================================
+			== Right Read: Read Right Public ==
+			===================================
+			*/
+			$read_public_obj = new mObject();
+			$read_public_obj->setClassName("right_read");
+			$read_public_obj->loadVars();
+			$read_public_obj->setLanguage("eng");
+			$read_public_obj->setName("Read Right Public");
+
+			$read_public_obj->setVarValue("setting", "allow");
+			$read_public_obj->setVarValue("path", "/Root/Public");
+			$read_public_obj->setVarValue("description", "This right gives read access to /Root/Public");
+			
+			if ($read_public_obj->save())
+			{
+				$read_public_obj->linkWithNode($group_anon_obj->getNodeId());
+				$this->db_log .= "Created ".$read_public_obj->getName().".<br/>";
+			}
+			else
+			{
+				$this->db_log .= "Failed to create ".$read_public_obj->getName().".<br/>";
+				$this->done = false;
+			}
+			
+			/*
+			============================================
+			== Right Read Subnodes: List Right Public ==
+			============================================
+			*/
+			$list_public_obj = new mObject();
+			$list_public_obj->setClassName("right_read_subnodes");
+			$list_public_obj->loadVars();
+			$list_public_obj->setLanguage("eng");
+			$list_public_obj->setName("List Right Public");
+
+			$list_public_obj->setVarValue("setting", "allow");
+			$list_public_obj->setVarValue("path", "/Root/Public");
+			$list_public_obj->setVarValue("description", "This right gives list access to /Root/Public");
+			
+			if ($list_public_obj->save())
+			{
+				$list_public_obj->linkWithNode($group_anon_obj->getNodeId());
+				$this->db_log .= "Created ".$list_public_obj->getName().".<br/>";
+			}
+			else
+			{
+				$this->db_log .= "Failed to create ".$list_public_obj->getName().".<br/>";
+				$this->done = false;
+			}
+			
+			/*
+			===========================
+			== Group: Administrators ==
+			===========================
+			*/
+			$group_admin_obj = new mObject();
+			$group_admin_obj->setClassName("group");
+			$group_admin_obj->loadVars();
+			$group_admin_obj->setLanguage("eng");
+			$group_admin_obj->setName("Administrators");
+
+			$group_admin_obj->setVarValue("description", "This group contains the administrators and their rights");
+			
+			if ($group_admin_obj->save())
+			{
+				$group_admin_obj->linkWithNode($users_obj->getNodeId());
+				$this->db_log .= "Created ".$group_admin_obj->getName().".<br/>";
+			}
+			else
+			{
+				$this->db_log .= "Failed to create ".$group_admin_obj->getName().".<br/>";
+				$this->done = false;
+			}
+
+			/*
+			=========================
+			== User: Administrator ==
+			=========================
+			*/
+			$user_admin_obj = new mObject();
+			$user_admin_obj->setClassName("user");
+			$user_admin_obj->loadVars();
+			$user_admin_obj->setLanguage("eng");
+			$user_admin_obj->setName("Administrator");
+
+			$user_admin_obj->setVarValue("username", $this->admin_username);
+			$user_admin_obj->setVarValue("password", md5($this->admin_password));
+			$user_admin_obj->setVarValue("description", "This is the administrator");
+			
+			if ($user_admin_obj->save())
+			{
+				$user_admin_obj->linkWithNode($group_admin_obj->getNodeId());
+				$this->db_log .= "Created ".$user_admin_obj->getName().".<br/>";
+			}
+			else
+			{
+				$this->db_log .= "Failed to create ".$user_admin_obj->getName().".<br/>";
+				$this->done = false;
+			}
+
+			/*
+			===================================
+			== Right Read: Read Right Root ==
+			===================================
+			*/
+			$read_root_obj = new mObject();
+			$read_root_obj->setClassName("right_read");
+			$read_root_obj->loadVars();
+			$read_root_obj->setLanguage("eng");
+			$read_root_obj->setName("Read Right Root");
+
+			$read_root_obj->setVarValue("setting", "allow");
+			$read_root_obj->setVarValue("path", "/Root");
+			$read_root_obj->setVarValue("description", "This right gives read access to /Root");
+			
+			if ($read_root_obj->save())
+			{
+				$read_root_obj->linkWithNode($group_admin_obj->getNodeId());
+				$this->db_log .= "Created ".$read_root_obj->getName().".<br/>";
+			}
+			else
+			{
+				$this->db_log .= "Failed to create ".$read_root_obj->getName().".<br/>";
+				$this->done = false;
+			}
+
+			/*
+			===================================
+			== Right List: List Right Root ==
+			===================================
+			*/
+			$list_root_obj = new mObject();
+			$list_root_obj->setClassName("right_read_subnodes");
+			$list_root_obj->loadVars();
+			$list_root_obj->setLanguage("eng");
+			$list_root_obj->setName("List Right Root");
+
+			$list_root_obj->setVarValue("setting", "allow");
+			$list_root_obj->setVarValue("path", "/Root");
+			$list_root_obj->setVarValue("description", "This right gives list access to /Root");
+			
+			if ($list_root_obj->save())
+			{
+				$list_root_obj->linkWithNode($group_admin_obj->getNodeId());
+				$this->db_log .= "Created ".$list_root_obj->getName().".<br/>";
+			}
+			else
+			{
+				$this->db_log .= "Failed to create ".$list_root_obj->getName().".<br/>";
+				$this->done = false;
+			}
+
+			/*
+			===================================
+			== Right Create: Create Right Root ==
+			===================================
+			*/
+			$create_root_obj = new mObject();
+			$create_root_obj->setClassName("right_create_subnodes");
+			$create_root_obj->loadVars();
+			$create_root_obj->setLanguage("eng");
+			$create_root_obj->setName("Create Right Root");
+
+			$create_root_obj->setVarValue("path", "/Root");
+			$create_root_obj->setVarValue("description", "This right gives right to creation of objects under /Root");
+			
+			if ($create_root_obj->save())
+			{
+				$create_root_obj->linkWithNode($group_admin_obj->getNodeId());
+				$this->db_log .= "Created ".$create_root_obj->getName().".<br/>";
+			}
+			else
+			{
+				$this->db_log .= "Failed to create ".$create_root_obj->getName().".<br/>";
+				$this->done = false;
+			}
+			
+			/*
+			===================================
+			== Right Delete: Delete Right Root ==
+			===================================
+			*/
+			$delete_root_obj = new mObject();
+			$delete_root_obj->setClassName("right_delete");
+			$delete_root_obj->loadVars();
+			$delete_root_obj->setLanguage("eng");
+			$delete_root_obj->setName("Delete Right Root");
+
+			$delete_root_obj->setVarValue("setting", "allow");
+			$delete_root_obj->setVarValue("path", "/Root");
+			$delete_root_obj->setVarValue("description", "This right gives right to delete under /Root");
+			
+			if ($delete_root_obj->save())
+			{
+				$delete_root_obj->linkWithNode($group_admin_obj->getNodeId());
+				$this->db_log .= "Created ".$delete_root_obj->getName().".<br/>";
+			}
+			else
+			{
+				$this->db_log .= "Failed to create ".$delete_root_obj->getName().".<br/>";
+				$this->done = false;
+			}
+			
+			/*
+			===================================
+			== Edit Delete: Edit Right Root ==
+			===================================
+			*/
+			$edit_root_obj = new mObject();
+			$edit_root_obj->setClassName("right_edit");
+			$edit_root_obj->loadVars();
+			$edit_root_obj->setLanguage("eng");
+			$edit_root_obj->setName("Edit Right Root");
+
+			$edit_root_obj->setVarValue("setting", "allow");
+			$edit_root_obj->setVarValue("path", "/Root");
+			$edit_root_obj->setVarValue("description", "This right gives right to edit /Root");
+			
+			if ($edit_root_obj->save())
+			{
+				$edit_root_obj->linkWithNode($group_admin_obj->getNodeId());
+				$this->db_log .= "Created ".$edit_root_obj->getName().".<br/>";
+			}
+			else
+			{
+				$this->db_log .= "Failed to create ".$edit_root_obj->getName().".<br/>";
+				$this->done = false;
+			}
+
 			$confdata = "<?\n";
-			$confdata .= "\$anonymous_id = 5;\n";
-			$confdata .= "\$root_id = 1;\n";
+			$confdata .= "\$anonymous_id = ".$user_anon_obj->getNodeId().";\n";
+			$confdata .= "\$root_id = ".$root_obj->getNodeId().";\n";
 			$confdata .= "\n";
 			$confdata .= "\$mysql_address = \"".$this->db_address."\";\n";
 			$confdata .= "\$mysql_user = \"".$this->db_username."\";\n";
