@@ -41,7 +41,7 @@
 				?>
 	
 				<div id="header_logo">
-					<?=cmd(img(geticon($root->getIcon())), "Exec('show', 'zone_main', Hash('path', '".$_SESSION['murrix']['default_path']."'))")?>
+					<?=cmd(img(geticon($root->getIcon(), 64)), "Exec('show', 'zone_main', Hash('path', '".$_SESSION['murrix']['default_path']."'))")?>
 				</div>
 				
 				<div id="header_name">

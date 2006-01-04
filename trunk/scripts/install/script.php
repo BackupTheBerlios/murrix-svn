@@ -469,7 +469,7 @@ class sInstall extends Script
 				$query .= "(12, '/Root', 13, 19),";
 				$query .= "(13, 'allow', 13, 13),";
 				$query .= "(14, '/Root', 14, 22),";
-				$query .= "(15, 'allow', 14, 16);";
+				$query .= "(15, 'allow', 14, 16),";
 				$query .= "(16, 'MURRiX', 1, 1);";
 				
 				if (mysql_query($query))
