@@ -16,7 +16,7 @@ if ($object->hasRight("edit"))
 			<?=ucf(i18n("create new link to "))?>
 			<input name="action" class="hidden" type="hidden" value="newlink"/>
 			<input name="node_id" class="hidden" type="hidden" value="<?=$object->getNodeId()?>"/>
-			<input name="path" class="form" type="text" value="/Root"/>
+			<input name="path" class="input_big" type="text" value="/Root"/>
 			<?=i18n("as")?>
 			<select class="form" name="type">
 			<?

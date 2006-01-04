@@ -74,7 +74,6 @@ a:hover
 
 table.invisible
 {
-	background-color: #EEEEEE;
 	padding: 0;
 	margin: 0;
 }
@@ -86,6 +85,27 @@ table.invisible tr
 }
 
 table.invisible td
+{
+	padding: 0;
+	margin: 0;
+	vertical-align: top;
+}
+
+table.content_table
+{
+	background-color: #EEEEEE;
+	padding: 0;
+	margin: 0;
+	width: 100%
+}
+
+table.content_table tr
+{
+	padding: 0;
+	margin: 0;
+}
+
+table.content_table td
 {
 	padding: 0;
 	margin: 0;
@@ -452,6 +472,16 @@ table.invisible td
 	margin: 0;
 	padding: 2px;
 	font-size: 12px;
+	background-color: #FFFFFF;
+}
+
+#content .input_big
+{
+	border: 1px solid #DCD7FF;
+	margin: 0;
+	padding: 2px;
+	font-size: 12px;
+	width: 300pt;
 	background-color: #FFFFFF;
 }
 

@@ -68,7 +68,7 @@ $root = new mObject($root_id);
 		
 		<div id="main">
 
-			<table class="invisible" style="width: 100%" cellspacing="0">
+			<table class="content_table" cellspacing="0">
 				<tr>
 					<td>
 					<?
