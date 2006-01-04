@@ -32,7 +32,7 @@ class sLinks extends Script
 				else
 					$response->addAlert(ucf(i18n("you don't have enough rights to delete this link")));
 			
-				$this->Draw($system, $response, array("path" => $_SESSION['murrix']['path']));
+				$this->Draw($system, $response, array("path" => $object->getPath()));
 				return;
 			}
 			else if ($args['action'] == "newlink")

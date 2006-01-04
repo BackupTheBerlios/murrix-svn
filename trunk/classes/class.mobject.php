@@ -411,6 +411,8 @@ class mObject
 					addToPathCache("$path/".$child->getName(), $node_id);
 			}
 		}
+
+		$_SESSION['murrix']['querycache'] = array();
 		
 		return true;
 	}
@@ -458,6 +460,8 @@ class mObject
 			$this->error = $message;
 			return false;
 		}
+
+		$_SESSION['murrix']['querycache'] = array();
 		
 		return true;
 	}
