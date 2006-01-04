@@ -25,7 +25,6 @@ $folders = GetSubfolders("$abspath/design");
 foreach ($folders as $folder)
 	require_once("$abspath/design/$folder/theme.php");
 
-	
 $folders = GetSubfolders("$abspath/scripts");
 foreach ($folders as $folder)
 	require_once("$abspath/scripts/$folder/script.php");

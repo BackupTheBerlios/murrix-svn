@@ -157,6 +157,8 @@ class mObject
 				return false;
 			}
 		}
+
+		$_SESSION['murrix']['querycache'] = array();
 		
 		return true;
 	}
@@ -177,6 +179,8 @@ class mObject
 			$this->error = $message;
 			return false;
 		}
+
+		$_SESSION['murrix']['querycache'] = array();
 		
 		return true;
 	}

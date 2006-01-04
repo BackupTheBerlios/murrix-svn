@@ -16,7 +16,8 @@ $folders = GetSubfolders("$abspath/scripts");
 foreach ($folders as $folder)
 	require_once("$abspath/scripts/$folder/script.php");
 
-require_once("session.php");
+session_name("MURRiX_Installer");
+session_start();
 
 $_SESSION['murrix']['site'] = "standard";
 $_SESSION['murrix']['languages'] = "eng";
