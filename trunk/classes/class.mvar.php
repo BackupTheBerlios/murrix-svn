@@ -24,7 +24,7 @@ class mVarPassword extends mVar
 	
 	function getEdit($formname)
 	{
-		return "<input class=\"form\" id=\"$this->id\" name=\"$this->id\" type=\"password\" value=\"\">&nbsp;<input id =\"".$this->id."b\" name=\"".$this->id."b\" type=\"password\" value=\"\">";
+		return "<input class=\"form\" id=\"$this->id\" name=\"$this->id\" type=\"password\" value=\"$this->value\">&nbsp;<input class=\"form\" id =\"".$this->id."b\" name=\"".$this->id."b\" type=\"password\" value=\"$this->value\">";
 	}
 }
 

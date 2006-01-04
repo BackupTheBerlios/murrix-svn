@@ -450,6 +450,31 @@ class sInstall extends Script
 				$this->db_log .= "Failed to create ".$root_obj->getName().".<br/>";
 				$this->done = false;
 			}
+
+			/*
+			===========
+			== Home ==
+			===========
+			*/
+			$home_obj = new mObject();
+			$home_obj->setClassName("folder");
+			$home_obj->loadVars();
+			$home_obj->setLanguage("eng");
+			$home_obj->setName("Home");
+			$home_obj->setIcon("home");
+
+			$home_obj->setVarValue("description", "This folder contains the groups home folders");
+			
+			if ($home_obj->save())
+			{
+				$home_obj->linkWithNode($root_obj->getNodeId());
+				$this->db_log .= "Created ".$home_obj->getName().".<br/>";
+			}
+			else
+			{
+				$this->db_log .= "Failed to create ".$home_obj->getName().".<br/>";
+				$this->done = false;
+			}
 			
 			/*
 			============
