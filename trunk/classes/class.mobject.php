@@ -263,7 +263,7 @@ class mObject
 
 		$datetime = date("Y-m-d H:i:s");
 
-		$user_id = (isset($_SESSION['murrix']['user']) ? $_SESSION['murrix']['user']->id : 0);
+		$user_id = (isset($_SESSION['murrix']['user']) ? $_SESSION['murrix']['user']->getNodeId() : 0);
 		
 		$query = "INSERT INTO `".$db_prefix."objects` (name, node_id, creator, created, class_name, version, language, icon) VALUES('$this->name', '$this->node_id', '$user_id', '$datetime', '$this->class_name', '$this->version', '$this->language', '$this->icon')";
 
@@ -1177,7 +1177,7 @@ function resolvePath($path, $language = "")
 		$language = $_SESSION['murrix']['language'];
 		
 	///FIXME: Language should default to another language if the current is not found	
-	$query = "SELECT objects.node_id AS node_id FROM `".$db_prefix."objects` AS `objects`, `".$db_prefix."links` AS `links` WHERE objects.name = '$name' AND links.type = 'sub' AND links.node_top = '$parent_id' AND links.node_bottom = objects.node_id ORDER BY objects.version DESC LIMIT 1";
+	$query = "SELECT objects.node_id AS node_id FROM `".$db_prefix."objects` AS `objects`, `".$db_prefix."links` AS `links` WHERE objects.name = '$name' AND links.type = 'sub' AND links.node_top = '$parent_id' AND links.node_bottom = objects.node_id ORDER BY objects.version ASC LIMIT 1";
 
 	$result = mysql_query($query) or die("resolvePath: " . mysql_errno() . " " . mysql_error());
 

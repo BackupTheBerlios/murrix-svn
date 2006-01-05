@@ -14,7 +14,7 @@ include(gettpl("big_title"));
 	<div class="left">
 		<?=ucf(i18n("today's date")).": ".date("Y-m-d")?>
 		<br/>
-		<?=ucf(i18n("calendars's date")).": $date"?>
+		<?=ucf(i18n("calendar's date")).": $date"?>
 	</div>
 	<div class="right">
 		<?=cmd(img(imgpath("left.png")), "Exec('calendar', 'zone_main', Hash('date', '".date("Y-m-d", strtotime("$date -1 week"))."'))")?>
