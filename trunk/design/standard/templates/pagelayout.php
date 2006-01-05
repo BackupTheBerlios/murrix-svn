@@ -72,10 +72,6 @@ $root = new mObject($root_id);
 				<tr>
 					<td>
 					<?
-						$menu_id = resolvePath("/Root/Public/Menu");
-						include(gettpl("menu"));
-
-						$menu_id = resolvePath("/Root/Home/".$_SESSION['murrix']['user']->getName()."/Menu");
 						include(gettpl("menu"));
 					?>
 					</td>
