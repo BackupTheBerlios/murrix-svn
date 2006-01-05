@@ -148,7 +148,17 @@ table.content_table td
 	margin: 0;
 	margin-bottom: 5px;
 	padding: 5px;
-	text-align: center;
+}
+
+#content .calendar_head .left
+{
+	float: left;
+}
+
+#content .calendar_head .right
+{
+	text-align: right;
+	float: right;
 }
 
 #content table.calendar

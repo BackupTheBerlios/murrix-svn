@@ -11,17 +11,25 @@ include(gettpl("big_title"));
 
 ?>
 <div class="calendar_head">
-	<?=cmd(img(imgpath("up.png")), "Exec('calendar', 'zone_main', Hash('date', '".date("Y-m-d", strtotime("$date -1 week"))."'))")?>
-	<?=ucf(i18n("week"))?>
-	<?=cmd(img(imgpath("down.png")), "Exec('calendar', 'zone_main', Hash('date', '".date("Y-m-d", strtotime("$date +1 week"))."'))")?>
-	·
-	<?=cmd(img(imgpath("up.png")), "Exec('calendar', 'zone_main', Hash('date', '".date("Y-m-d", strtotime("$date -1 month"))."'))")?>
-	<?=ucf(i18n("month"))?>
-	<?=cmd(img(imgpath("down.png")), "Exec('calendar', 'zone_main', Hash('date', '".date("Y-m-d", strtotime("$date +1 month"))."'))")?>
-	·
-	<?=cmd(img(imgpath("up.png")), "Exec('calendar', 'zone_main', Hash('date', '".date("Y-m-d", strtotime("$date -1 year"))."'))")?>
-	<?=ucf(i18n("year"))?>
-	<?=cmd(img(imgpath("down.png")), "Exec('calendar', 'zone_main', Hash('date', '".date("Y-m-d", strtotime("$date +1 year"))."'))")?>
+	<div class="left">
+		<?=ucf(i18n("today's date")).": ".date("Y-m-d")?>
+		<br/>
+		<?=ucf(i18n("calendars's date")).": $date"?>
+	</div>
+	<div class="right">
+		<?=cmd(img(imgpath("left.png")), "Exec('calendar', 'zone_main', Hash('date', '".date("Y-m-d", strtotime("$date -1 week"))."'))")?>
+		<?=ucf(i18n("week"))?>
+		<?=cmd(img(imgpath("right.png")), "Exec('calendar', 'zone_main', Hash('date', '".date("Y-m-d", strtotime("$date +1 week"))."'))")?>
+		·
+		<?=cmd(img(imgpath("left.png")), "Exec('calendar', 'zone_main', Hash('date', '".date("Y-m-d", strtotime("$date -1 month"))."'))")?>
+		<?=ucf(i18n("month"))?>
+		<?=cmd(img(imgpath("right.png")), "Exec('calendar', 'zone_main', Hash('date', '".date("Y-m-d", strtotime("$date +1 month"))."'))")?>
+		·
+		<?=cmd(img(imgpath("left.png")), "Exec('calendar', 'zone_main', Hash('date', '".date("Y-m-d", strtotime("$date -1 year"))."'))")?>
+		<?=ucf(i18n("year"))?>
+		<?=cmd(img(imgpath("right.png")), "Exec('calendar', 'zone_main', Hash('date', '".date("Y-m-d", strtotime("$date +1 year"))."'))")?>
+	</div>
+	<div class="clear"></div>
 </div>
 
 <table class="calendar">
@@ -52,9 +60,10 @@ include(gettpl("big_title"));
 		</td>
 	</tr>
 	<?
-	$calendar = new Calendar();
+	
+	$calendar = new Calendar($events);
 
-	for ($n = 0; $n <= 5; $n++)
+	for ($n = 0; $n < 5; $n++)
 	{
 		$calendar->drawWeek($calendar->getWeek(date("Y-m-d", strtotime("$date +$n weeks"))));
 	}

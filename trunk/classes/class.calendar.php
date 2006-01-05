@@ -2,8 +2,14 @@
 
 class Calendar
 {
-	function Calendar()
+	var $events;
+	
+	function Calendar($events = null)
 	{
+		if ($events == null)
+			$this->events = array();
+		else
+			$this->events = $events;
 	}
 
 	// Returns an array with the dates for the week
@@ -36,7 +42,8 @@ class Calendar
 		?>
 		<td class="<?=$class?>">
 		<?
-			$day = date("j", strtotime($date));
+			$day_stamp = strtotime($date);
+			$day = date("j", $day_stamp);
 			if ($day == 1) echo ucf(i18n(strtolower(date("F", strtotime($date)))))." $day";
 			else echo $day;
 			?>
@@ -44,19 +51,37 @@ class Calendar
 			<div class="day">
 				<nobr>
 				<?
-				$node_id = resolvePath("/Root/Etek/Hidden/Events", "eng");
-
-				$day = date("j", strtotime($date));
-				$month = date("n", strtotime($date));
-				$year = date("Y", strtotime($date));
-
-				$children = fetch("FETCH node WHERE link:node_top='$node_id' AND link:type='sub' AND property:class_name='event' AND var:day='$day' AND (var:month='$month' OR var:month='-1') AND (var:year='$year' OR var:year='-1') NODESORTBY !property:version SORTBY property:name");
-
-
-				foreach ($children as $child)
+				if (count($this->events) > 0)
 				{
-					echo cmd($child->getName(), "Exec('show', 'zone_main', Hash('path', '".$child->getPath()."'))", "", $child->getName());
-					echo "<br/>";
+					foreach ($this->events as $child)
+					{
+						$event_date = $child->getVarValue("date");
+						$date_parts = explode("-", $event_date);
+
+						$show = false;
+
+						if ($date == $event_date)
+							$show = true;
+							
+						else if ($child->getVarValue("reoccuring_yearly", true) == 1 &&
+							$date_parts[1]."-".$date_parts[2] == date("m-d", $day_stamp))
+							$show = true;
+							
+						else if ($child->getVarValue("reoccuring_yearly", true) == 1 &&
+							$child->getVarValue("reoccuring_monthly", true) == 1 &&
+							$date_parts[2] == date("d", $day_stamp))
+							$show = true;
+							
+						else if ($child->getVarValue("reoccuring_monthly", true) == 1 &&
+							$date_parts[0]."-".$date_parts[2] == date("Y-d", $day_stamp))
+							$show = true;
+
+						if ($show)
+						{
+							echo cmd($child->getName(), "Exec('show', 'zone_main', Hash('path', '".$child->getPath()."'))", "", 	$child->getName());
+							echo "<br/>";
+						}
+					}
 				}
 				?>
 				</nobr>
