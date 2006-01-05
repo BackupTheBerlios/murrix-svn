@@ -292,6 +292,7 @@ class mObject
 
 		$this->loadByObjectId($this->id);
 		$_SESSION['murrix']['querycache'] = array();
+		clearPathCache();
 
 		return true;
 	}
