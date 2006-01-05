@@ -31,8 +31,13 @@ class sLinks extends Script
 					$object->unlinkWithNode($args['remote_id'], $args['type'], $args['direction']);
 				else
 					$response->addAlert(ucf(i18n("you don't have enough rights to delete this link")));
-			
-				$this->Draw($system, $response, array("path" => $object->getPath()));
+
+				$_SESSION['murrix']['path'] = $object->getPath();
+
+				if (!isset($args['path']))
+					$args['path'] = $_SESSION['murrix']['path'];
+		
+				$system->TriggerEventIntern($response, "newlocation", $args);
 				return;
 			}
 			else if ($args['action'] == "newlink")
