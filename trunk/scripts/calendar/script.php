@@ -33,12 +33,7 @@ class sCalendar extends Script
 
 		$children = fetch("FETCH node WHERE property:class_name='event' NODESORTBY !property:version SORTBY property:name");
 	
-		$events = array();
-		for ($n = 0; $n < count($children); $n++)
-		{
-			if ($children[$n]->hasRight("read"))
-				$events[] = $children[$n];
-		}
+		$events = getReadable($children);
 
 		ob_start();
 		

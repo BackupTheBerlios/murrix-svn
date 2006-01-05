@@ -1,5 +1,16 @@
 <?
 
+function getReadable($objects)
+{
+	$objects_readable = array();
+	for ($n = 0; $n < count($objects); $n++)
+	{
+		if ($objects[$n]->hasRight("read"))
+			$objects_readable[] = $objects[$n];
+	}
+	return $objects_readable;
+}
+
 function ob_get_end()
 {
 	$buffer = ob_get_contents();
