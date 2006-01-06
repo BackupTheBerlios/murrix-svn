@@ -557,51 +557,56 @@ class mObject
 	function hasRight($action, $classes = null)
 	{
 		// Check if the right is set for the current user
-		
+
+		$path_list = $this->getPath(true);
 		$hasright = false;
-		$path_parts = explode("/", $this->getPath());
-		array_shift($path_parts);
-	
-		$newpath = "";
 		
-		for ($n = 0; $n < count($path_parts); $n++)
+		foreach ($path_list as $path)
 		{
-			$newpath .= "/".$path_parts[$n];
-			$path_node = resolvePath($newpath);
-//
-//PrintPre($_SESSION['murrix']['rights']);
-			if (@is_array($_SESSION['murrix']['rights']['allow'][$action]))
-			{
-
+			$path_parts = explode("/", $path);
+			array_shift($path_parts);
+		
+			$newpath = "";
 			
-				for ($i = 0; $i < count($_SESSION['murrix']['rights']['allow'][$action]); $i++)
+			for ($n = 0; $n < count($path_parts); $n++)
+			{
+				$newpath .= "/".$path_parts[$n];
+				$path_node = resolvePath($newpath);
+	//
+	//PrintPre($_SESSION['murrix']['rights']);
+				if (@is_array($_SESSION['murrix']['rights']['allow'][$action]))
 				{
-					$node_id = $_SESSION['murrix']['rights']['allow'][$action][$i];
-//echo $path_node."==".$node_id."$newpath<br>";
-
-					if ($path_node == $node_id)
+	
+				
+					for ($i = 0; $i < count($_SESSION['murrix']['rights']['allow'][$action]); $i++)
 					{
-						if ($action != "create_subnodes")
-							$hasright = true;
-						else
+						$node_id = $_SESSION['murrix']['rights']['allow'][$action][$i];
+	//echo $path_node."==".$node_id."$newpath<br>";
+	
+						if ($path_node == $node_id)
 						{
-							$create_classes = $_SESSION['murrix']['rights']['allow']['create_subnodes_classes'][$i];
-							if (empty($create_classes))
+							if ($action != "create_subnodes")
 								$hasright = true;
 							else
 							{
-								if (empty($classes))
-								{
+								$create_classes = $_SESSION['murrix']['rights']['allow']['create_subnodes_classes'][$i];
+								if (empty($create_classes))
 									$hasright = true;
-								}
 								else
 								{
-									foreach ($classes as $class)
+									if (empty($classes))
 									{
-										if (in_array($class, $create_classes))
+										$hasright = true;
+									}
+									else
+									{
+										foreach ($classes as $class)
 										{
-											$hasright = true;
-											break;
+											if (in_array($class, $create_classes))
+											{
+												$hasright = true;
+												break;
+											}
 										}
 									}
 								}
@@ -609,18 +614,18 @@ class mObject
 						}
 					}
 				}
-			}
-			
-			if (@is_array($_SESSION['murrix']['rights']['allowown'][$action]) && $object->getCreator() == $_SESSION['murrix']['user']->id)
-			{
-				if (in_array($path_node, $_SESSION['murrix']['rights']['allowown'][$action]))
-					$hasright = true;
-			}
-			
-			if (@is_array($_SESSION['murrix']['rights']['deny'][$action]))
-			{
-				if (in_array($path_node, $_SESSION['murrix']['rights']['deny'][$action]))
-					$hasright = false;
+				
+				if (@is_array($_SESSION['murrix']['rights']['allowown'][$action]) && $object->getCreator() == $_SESSION['murrix']['user']->id)
+				{
+					if (in_array($path_node, $_SESSION['murrix']['rights']['allowown'][$action]))
+						$hasright = true;
+				}
+				
+				if (@is_array($_SESSION['murrix']['rights']['deny'][$action]))
+				{
+					if (in_array($path_node, $_SESSION['murrix']['rights']['deny'][$action]))
+						$hasright = false;
+				}
 			}
 		}
 		
