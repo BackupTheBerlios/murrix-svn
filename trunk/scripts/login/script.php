@@ -43,6 +43,7 @@ class sLogin extends Script
 				{
 					$_SESSION['murrix']['user'] = $user[0];
 					$system->TriggerEventIntern($response, "login");
+					$response->addScript("window.location.reload(false)");
 				}
 				return;
 			}
@@ -54,6 +55,7 @@ class sLogin extends Script
 				$_SESSION['murrix']['user'] = new mObject($anonymous_id);
 	
 				$system->TriggerEventIntern($response, "logout");
+				$response->addScript("window.location.reload(false)");
 				return;
 			}
 		}
