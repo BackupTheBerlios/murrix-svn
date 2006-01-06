@@ -27,7 +27,7 @@ foreach ($groups as $group)
 	
 
 	$users_count = fetch("FETCH count WHERE link:node_top='".$group->getNodeId()."' AND link:type='sub' AND property:class_name='user' NODESORTBY property:version");
-	$groupslist[] = array(cmd(img(geticon($group->getIcon()))." ".$group->getName(), "Exec('show', 'zone_main', Hash('path', '".$group->getPath()."'))"), $group->getCreated(), $home, $users_count, "");
+	$groupslist[] = array(cmd(img(geticon($group->getIcon()))." ".$group->getName(), "Exec('show', 'zone_main', Hash('path', '".$group->getPathInTree()."'))"), $group->getCreated(), $home, $users_count, "");
 }
 
 table($groupslist, "% ".i18n("rows"));
@@ -43,7 +43,7 @@ $users = fetch("FETCH node WHERE property:class_name='user' NODESORTBY property:
 
 foreach ($users as $user)
 {
-	$userslist[] = array(cmd(img(geticon($user->getIcon()))." ".$user->getName(), "Exec('show', 'zone_main', Hash('path', '".$user->getPath()."'))"), $user->getVarValue("username"), $user->getCreated(), "");
+	$userslist[] = array(cmd(img(geticon($user->getIcon()))." ".$user->getName(), "Exec('show', 'zone_main', Hash('path', '".$user->getPathInTree()."'))"), $user->getVarValue("username"), $user->getCreated(), "");
 }
 
 table($userslist, "% ".i18n("rows"));

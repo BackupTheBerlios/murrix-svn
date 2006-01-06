@@ -38,7 +38,7 @@ else
 	if (!$creator->hasRight("read"))
 		$right .= img(geticon($creator->getIcon()))."&nbsp;".$creator->getName();
 	else
-		$right .= cmd(img(geticon($creator->getIcon()))."&nbsp;".$creator->getName(), "Exec('show','zone_main', Hash('path', '".$creator->getPath()."'))");
+		$right .= cmd(img(geticon($creator->getIcon()))."&nbsp;".$creator->getName(), "Exec('show','zone_main', Hash('path', '".$creator->getPathInTree()."'))");
 }
 $right .= " - ".$object->getCreated().$view_form;
 include(gettpl("big_title", $object));

@@ -14,8 +14,8 @@ include(gettpl("big_title"));
 		<?="<span style=\"font-weight: bold; font-size: 16px;\">".ucf(i18n("are you sure you want to delete"))." \"".$object->getName()."\"?</span>"?>
 		<br/>
 		<?
-		$yes = cmd(img(geticon("yes", 32))."<br/>Yes", "Exec('delete','zone_main', Hash('action', 'delete', 'path', '".$object->getPath()."'))");
-		$no = cmd(img(geticon("no", 32))."<br/>No", "Exec('show','zone_main', Hash('path', '".$object->getPath()."'))");
+		$yes = cmd(img(geticon("yes", 32))."<br/>Yes", "Exec('delete','zone_main', Hash('action', 'delete', 'path', '".$object->getPathInTree()."'))");
+		$no = cmd(img(geticon("no", 32))."<br/>No", "Exec('show','zone_main', Hash('path', '".$object->getPathInTree()."'))");
 		?>
 		<table class="invisible" width="50%">
 			<tr>

@@ -36,7 +36,7 @@ class sVersions extends Script
 		if (isset($args['node_id']))
 		{
 			$object = new mObject($args['node_id']);
-			$_SESSION['murrix']['path'] = $object->getPath();
+			$_SESSION['murrix']['path'] = $object->getPathInTree();
 		}
 		else if (isset($args['path']))
 			$_SESSION['murrix']['path'] = $args['path'];

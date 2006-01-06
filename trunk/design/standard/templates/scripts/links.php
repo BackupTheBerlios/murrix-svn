@@ -43,7 +43,7 @@ foreach ($links as $link)
 	else
 	{
 		$remote_obj = new mObject($link['remote_id']);
-		$remote = cmd(img(geticon($remote_obj->getIcon()))."&nbsp;".$remote_obj->getName(), "Exec('show','zone_main', Hash('path', '".$remote_obj->getPath()."'))");
+		$remote = cmd(img(geticon($remote_obj->getIcon()))."&nbsp;".$remote_obj->getName(), "Exec('show','zone_main', Hash('path', '".$remote_obj->getPathInTree()."'))");
 	}
 
 	if ($object->hasRight("delete"))

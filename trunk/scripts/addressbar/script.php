@@ -27,7 +27,10 @@ class sAddressbar extends Script
 		$paths = $object->getValidPaths("read");
 
 		if (count($paths) > 0)
-			$path = $paths[0];
+		{
+			if (!in_array($path, $paths))
+				$path = $paths[0];
+		}
 
 		include(gettpl("scripts/addressbar"));
 

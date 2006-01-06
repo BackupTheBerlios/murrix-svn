@@ -46,7 +46,7 @@ if ($menu_id > 0 || $custom_menu_id > 0)
 					{
 						?>
 						<div class="subheader">
-							<?=cmd($subfolder->getName(), "Exec('show', 'zone_main', Hash('path', '".$subfolder->getPath()."'))")?>
+							<?=cmd($subfolder->getName(), "Exec('show', 'zone_main', Hash('path', '".$subfolder->getPathInTree()."'))")?>
 						</div>
 		
 						<div class="menu_items">

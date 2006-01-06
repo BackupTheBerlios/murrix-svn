@@ -24,7 +24,7 @@ foreach ($parents as $parent)
 	else
 	{
 		$creator_obj = new mObject($parent->getCreator());
-		$creator = cmd($creator_obj->getName(), "SystemRunScript('show','zone_main', Hash('path', '".$creator_obj->getPath()."'))");
+		$creator = cmd($creator_obj->getName(), "SystemRunScript('show','zone_main', Hash('path', '".$creator_obj->getPathInTree()."'))");
 	}
 
 	$list[] = array($parent->getName(),  $parent->getClassName());
@@ -47,7 +47,7 @@ foreach ($children as $child)
 	else
 	{
 		$creator_obj = new mObject($child->getCreator());
-		$creator = cmd($creator_obj->getName(), "SystemRunScript('show','zone_main', Hash('path', '".$creator_obj->getPath()."'))");
+		$creator = cmd($creator_obj->getName(), "SystemRunScript('show','zone_main', Hash('path', '".$creator_obj->getPathInTree()."'))");
 	}
 
 	$list[] = array($child->getName(),  $child->getClassName());

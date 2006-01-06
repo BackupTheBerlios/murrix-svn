@@ -30,7 +30,7 @@ include(gettpl("big_title"));
 ?>
 <form name="sEdit" id="sEdit" action="javascript:void(null);" onsubmit="Post('new', 'zone_main', 'sEdit');">
 	<input class="hidden" type="hidden" name="action" value="save"/>
-	<input class="hidden" type="hidden" name="path" value="<?=$object->getPath()?>"/>
+	<input class="hidden" type="hidden" name="path" value="<?=$object->getPathInTree()?>"/>
 	<input class="hidden" type="hidden" name="class_name" value="<?=$newobject->getClassName()?>"/>
 	<div class="main">
 		<table class="top_edit_table">

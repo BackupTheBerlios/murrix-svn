@@ -103,7 +103,7 @@ class sNew extends Script
 			}
 		}
 
-		$this->Draw($system, $response, array("class_name" => $class_name, "path" => $parent->getPath()));
+		$this->Draw($system, $response, array("class_name" => $class_name, "path" => $parent->getPathInTree()));
 	}
 	
 	function Draw(&$system, &$response, $args)

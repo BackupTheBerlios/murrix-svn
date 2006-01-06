@@ -350,6 +350,28 @@ class mObject
 		return $paths[0]."/".$this->getName();
 	}
 
+	function getPathInTree($root_path = "")
+	{
+		if (empty($root_path))
+			$root_path = $_SESSION['murrix']['path'];
+	
+		$paths = $this->getValidPaths("read");
+
+		if (count($paths) > 0)
+		{
+			for ($n = 0; $n < count($paths); $n++)
+			{
+				$pos = strpos($paths[$n], $root_path);
+				if ($pos === 0)
+					return $paths[$n];
+			}
+
+			return $paths[0];
+		}
+		
+		return $this->getPath();
+	}
+
 	function addPath($path)
 	{
 		// Create a link with the new path

@@ -78,7 +78,7 @@ class Calendar
 
 						if ($show)
 						{
-							echo cmd($child->getName(), "Exec('show', 'zone_main', Hash('path', '".$child->getPath()."'))", "", 	$child->getName());
+							echo cmd($child->getName(), "Exec('show', 'zone_main', Hash('path', '".$child->getPathInTree()."'))", "", 	$child->getName());
 							echo "<br/>";
 						}
 					}

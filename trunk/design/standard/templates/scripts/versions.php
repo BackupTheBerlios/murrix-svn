@@ -27,7 +27,7 @@ foreach ($_SESSION['murrix']['languages'] as $language)
 		else
 		{
 			$creator_obj = new mObject($version->getCreator());
-			$creator = cmd($creator_obj->getName(), "Exec('show','zone_main', Hash('path', '".$creator_obj->getPath()."'))");
+			$creator = cmd($creator_obj->getName(), "Exec('show','zone_main', Hash('path', '".$creator_obj->getPathInTree()."'))");
 		}
 
 		if ($object->hasRight("edit"))
@@ -38,7 +38,7 @@ foreach ($_SESSION['murrix']['languages'] as $language)
 		if ($object->hasRight("delete"))
 		{
 			if ($num_versions == 1)
-				$delete = cmd(img(geticon("delete"))."&nbsp;".ucf(i18n("delete")), "Exec('delete','zone_main', Hash('path', '".$version->getPath()."'))");
+				$delete = cmd(img(geticon("delete"))."&nbsp;".ucf(i18n("delete")), "Exec('delete','zone_main', Hash('path', '".$version->getPathInTree()."'))");
 			else
 				$delete = cmd(img(geticon("delete"))."&nbsp;".ucf(i18n("delete")), "Exec('versions','zone_main', Hash('action', 'deleteversion', 'object_id', '".$version->getId()."'))");
 		}

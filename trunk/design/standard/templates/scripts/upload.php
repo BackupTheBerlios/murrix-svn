@@ -4,7 +4,7 @@ echo externcmd(img(geticon("global"))." ".ucf(i18n("external link here")), $_SES
 $current_view = "upload";
 include(gettpl("adminpanel", $object));
 
-$vars = $object->GetVars();
+$vars = $object->getVars();
 
 $left = img(geticon("attach"))."&nbsp;".ucf(i18n("upload"));
 $right = $center = "";
