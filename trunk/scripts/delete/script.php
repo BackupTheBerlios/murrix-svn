@@ -24,7 +24,7 @@ class sDelete extends Script
 		if (isset($args['node_id']))
 		{
 			$object = new mObject($args['node_id']);
-			$path = $object->getPath();
+			$path = $object->getPathInTree();
 		}
 		else
 			$path = $args['path'];
@@ -35,7 +35,7 @@ class sDelete extends Script
 
 			if ($object->hasRight("delete"))
 			{
-				$_SESSION['murrix']['path'] = GetParentPath($object->getPath());
+				$_SESSION['murrix']['path'] = GetParentPath($object->getPathInTree());
 				$object->deleteNode();
 
 				$_SESSION['murrix']['lastcmd'] = "Exec('show', '".$this->zone."', Hash('path', '".$_SESSION['murrix']['path']."'))";

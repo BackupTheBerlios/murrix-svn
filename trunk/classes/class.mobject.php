@@ -353,7 +353,12 @@ class mObject
 	function getPathInTree($root_path = "")
 	{
 		if (empty($root_path))
-			$root_path = $_SESSION['murrix']['path'];
+		{
+			if (!isset($_SESSION['murrix']['path']) || empty($_SESSION['murrix']['path']))
+				$root_path = "/Root";
+			else
+				$root_path = $_SESSION['murrix']['path'];
+		}
 	
 		$paths = $this->getValidPaths("read");
 
