@@ -21,6 +21,14 @@ class sAddressbar extends Script
 	{
 		ob_start();
 		$path = $args['path'];
+
+		$object = new mObject(resolvePath($path));
+
+		$paths = $object->getValidPaths("read");
+
+		if (count($paths) > 0)
+			$path = $paths[0];
+
 		include(gettpl("scripts/addressbar"));
 
 		$response->addAssign($this->zone, "innerHTML", utf8e(ob_get_end()));

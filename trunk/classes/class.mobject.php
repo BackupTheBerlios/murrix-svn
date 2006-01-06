@@ -554,15 +554,16 @@ class mObject
 		return true;
 	}
 
-	function hasRight($action, $classes = null)
+	function getValidPaths($action, $classes = null)
 	{
 		// Check if the right is set for the current user
-
 		$path_list = $this->getPath(true);
-		$hasright = false;
-		
+
+		$valid_paths = array();
+	
 		foreach ($path_list as $path)
 		{
+			$hasright = false;
 			$path_parts = explode("/", $path);
 			array_shift($path_parts);
 		
@@ -572,16 +573,12 @@ class mObject
 			{
 				$newpath .= "/".$path_parts[$n];
 				$path_node = resolvePath($newpath);
-	//
-	//PrintPre($_SESSION['murrix']['rights']);
+				
 				if (@is_array($_SESSION['murrix']['rights']['allow'][$action]))
 				{
-	
-				
 					for ($i = 0; $i < count($_SESSION['murrix']['rights']['allow'][$action]); $i++)
 					{
 						$node_id = $_SESSION['murrix']['rights']['allow'][$action][$i];
-	//echo $path_node."==".$node_id."$newpath<br>";
 	
 						if ($path_node == $node_id)
 						{
@@ -627,9 +624,18 @@ class mObject
 						$hasright = false;
 				}
 			}
+
+			if ($hasright)
+				$valid_paths[] = $path;
 		}
-		
-		return $hasright;
+
+		return $valid_paths;
+	}
+
+	function hasRight($action, $classes = null)
+	{
+		$valid_paths = $this->getValidPaths($action, $classes);
+		return (count($valid_paths) > 0);
 	}
 	
 	var $vars;
