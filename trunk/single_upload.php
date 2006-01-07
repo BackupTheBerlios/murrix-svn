@@ -44,6 +44,7 @@ if (isset($_POST['action']) && $_POST['action'] == "upload")
 <html>
 	<head>
 		<title>MURRiX File Upload</title>
+		<META NAME="ROBOTS" CONTENT="NOINDEX">
 		<?
 		$js = getcss();
 		for ($i = 0; $i < count($js); $i++)

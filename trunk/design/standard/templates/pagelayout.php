@@ -5,6 +5,7 @@ $root = new mObject($root_id);
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
+		<META NAME="ROBOTS" CONTENT="NOFOLLOW">
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 		
 		<link rel="shortcut icon" href="<?=geticon($root->getIcon())?>" type="image/x-icon">

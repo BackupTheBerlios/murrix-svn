@@ -14,6 +14,7 @@ session_cache_limiter("public, no-store");
 <html>
 	<head>
 		<title>MURRiX Command Frame</title>
+		<META NAME="ROBOTS" CONTENT="NOINDEX">
 		<meta http-equiv="Pragma" content="no-cache"/>
 		<script type="text/javascript" src="system/murrix.js"></script>
 	</head>
