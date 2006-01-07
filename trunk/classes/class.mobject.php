@@ -63,7 +63,10 @@ class mObject
 	function loadByObjectId($object_id)
 	{
 		if (isset($_SESSION['murrix']['callcache']['object_id'][$object_id]))
+		{
 			$this = $_SESSION['murrix']['callcache']['object_id'][$object_id];
+			return true;
+		}
 	
 		// Load a specific object
 		global $db_prefix;
@@ -1053,10 +1056,10 @@ function fetch($query, $debug = false)
 		$objects2 = array_values($nodes);
 
 		$objects = array();
-		foreach ($objects2 as $object)
+		foreach ($objects2 as $object2)
 		{
 			$object = new mObject();
-			if (!$object->loadByObjectId($object->getId()))
+			if (!$object->loadByObjectId($object2->getId()))
 				echo $object->getLastError();
 			$objects[] = $object;
 		}
