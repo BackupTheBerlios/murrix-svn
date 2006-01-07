@@ -62,6 +62,9 @@ class mObject
 
 	function loadByObjectId($object_id)
 	{
+		if (isset($_SESSION['murrix']['callcache']['object_id'][$object_id]))
+			$this = $_SESSION['murrix']['callcache']['object_id'][$object_id];
+	
 		// Load a specific object
 		global $db_prefix;
 		
@@ -72,7 +75,11 @@ class mObject
 			return false;
 		}
 
-		return $this->loadByArray(mysql_fetch_array($result, MYSQL_ASSOC));
+		$ret = $this->loadByArray(mysql_fetch_array($result, MYSQL_ASSOC));
+
+		$_SESSION['murrix']['callcache']['object_id'][$object_id] = $this;
+
+		return $ret;
 	}
 
 	function loadByArray($data)
@@ -797,7 +804,7 @@ function fetch($query, $debug = false)
 							break;
 
 						case "node":
-							$select = "SELECT objects.id AS id ";
+							$select = "SELECT objects.id AS id, objects.node_id AS node_id, objects.language AS language, objects.version AS version ";
 							$return = "node";
 							break;
 							
@@ -988,17 +995,30 @@ function fetch($query, $debug = false)
 		return $row['count'];
 	}
 
-	$objects = array();
-	while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
+	if ($return == "object")
 	{
-		$object = new mObject();
-		if (!$object->loadByObjectId($row['id']))
-			echo $object->getLastError();
-		$objects[] = $object;
+		$objects = array();
+		while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
+		{
+			$object = new mObject();
+			if (!$object->loadByObjectId($row['id']))
+				echo $object->getLastError();
+			$objects[] = $object;
+		}
 	}
-	
-	if ($return == "node")
+	else if ($return == "node")
 	{
+		$objects = array();
+		while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
+		{
+			$object = new mObject();
+			$object->node_id = $row['node_id'];
+			$object->id = $row['id'];
+			$object->version = $row['version'];
+			$object->language = $row['language'];
+			$objects[] = $object;
+		}
+	
 		$nodes = array();
 		$node_list = array();
 		foreach ($objects as $object)
@@ -1030,7 +1050,16 @@ function fetch($query, $debug = false)
 			}
 		}
 
-		$objects = array_values($nodes);
+		$objects2 = array_values($nodes);
+
+		$objects = array();
+		foreach ($objects2 as $object)
+		{
+			$object = new mObject();
+			if (!$object->loadByObjectId($object->getId()))
+				echo $object->getLastError();
+			$objects[] = $object;
+		}
 	}
 	
 	if (!empty($sort))

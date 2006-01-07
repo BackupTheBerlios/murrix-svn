@@ -30,6 +30,7 @@ foreach ($folders as $folder)
 	require_once("$abspath/scripts/$folder/script.php");
 
 require_once("session.php");
+
 /*
 if (empty($_SESSION['murrix']['site']))
 	$_SESSION['murrix']['site'] = $site_config['default'];
@@ -54,6 +55,8 @@ foreach ($files as $file)
 }
 if (($str = db_connect()) !== true)
 	echo "Failed to connect to database!";
+
+$_SESSION['murrix']['callcache'] = array();
 
 $_SESSION['murrix']['languages'] = $site_config['sites'][$_SESSION['murrix']['site']]['languages'];
 
@@ -139,5 +142,7 @@ else if (isset($_GET['file']))
 }
 
 include(gettpl("pagelayout"));
+
+$_SESSION['murrix']['callcache'] = array();
 
 ?>
