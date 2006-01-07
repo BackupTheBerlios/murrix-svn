@@ -221,7 +221,41 @@ class sAdmin extends Script
 				$this->Draw($system, $response, array("show" => "start"));
 				return;
 			}
+			else if ($args['action'] == "changepassword")
+			{
+				$password1 = trim($args['password1']);
+				$password2 = trim($args['password2']);
+				if (empty($password1) || empty($password2))
+				{
+					$response->addAlert(ucf(i18n("you must enter the password twice")));
+					return;
+				}
+				else if ($password1 != $password2)
+				{
+					$response->addAlert(ucf(i18n("password do not match password confirmation")));
+					return;
+				}
 
+				$user = $_SESSION['murrix']['user'];
+
+				$user->setVarValue("password", md5($password1));
+
+				if (!$user->save())
+				{
+					$message = "Operation unsuccessfull.<br/>";
+					$message .= "Error output:<br/>";
+					$message .= $user->getLastError();
+					$response->addAlert($message);
+					return;
+				}
+
+				$users = new mObject(resolvePath("/Root/Users"));
+				if (!$users->HasRight("create_subnodes"))
+				{
+					$system->ExecIntern($response, "show", $this->zone);
+					return;
+				}
+			}
 		}
 		$this->Draw($system, $response, $args);
 	}
@@ -235,7 +269,9 @@ class sAdmin extends Script
 		
 		ob_start();
 
-		if ($users->HasRight("create_subnodes"))
+		if ($args['show'] == "password_change")
+			include(gettpl("scripts/admin/changepassword"));
+		else if ($users->HasRight("create_subnodes"))
 		{
 			switch ($args['show'])
 			{
@@ -246,7 +282,7 @@ class sAdmin extends Script
 				case "group_create":
 					include(gettpl("scripts/admin/groupcreate"));
 					break;
-	
+
 				case "start":
 				default:
 					include(gettpl("scripts/admin/start"));

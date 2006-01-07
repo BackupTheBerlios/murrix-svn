@@ -30,6 +30,13 @@ class sEdit extends Script
 				$bError = true;
 			}
 
+			if (!(strpos($args['name'], "\\") === false) || !(strpos($args['name'], "/") === false))
+			{
+				$response->addAlert(ucf(i18n("you can not use '\\' or '/' in the name")));
+				$bError = true;
+			}
+
+
 			if (!$bError)
 			{
 				$object = new mObject(resolvePath($_SESSION['murrix']['path']));
@@ -50,13 +57,6 @@ class sEdit extends Script
 				{
 					$_SESSION['murrix']['lastcmd'] = "Exec('show', '".$this->zone."', Hash('path', '".$_SESSION['murrix']['path']."'))";
 					$system->ExecIntern($response, "show", $this->zone);
-					/*if (isset($this->parent_obj))
-					{
-						$this->object->linkWithNode($this->parent_obj->getNodeId());
-						$_SESSION['murrix']['System']->RunScriptIntern($objResponse, "objectmanager", $this->zone, array("node_id" => $this->parent_obj->getNodeId()));
-					}
-					else
-						$_SESSION['murrix']['System']->RunScriptIntern($objResponse, "objectmanager", $this->zone, array("node_id" => $this->object->getNodeId()));*/
 				}
 				else
 				{

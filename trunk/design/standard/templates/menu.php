@@ -44,7 +44,7 @@
 					{
 						?>
 						<div class="subheader">
-							<?=cmd($subfolder->getName(), "Exec('show', 'zone_main', Hash('path', '".$subfolder->getPathInTree()."'))")?>
+							<?=cmd(img(geticon($subfolder->getIcon()))." ".$subfolder->getName(), "Exec('show', 'zone_main', Hash('path', '".$subfolder->getPathInTree()."'))")?>
 						</div>
 
 						<div class="menu_items">
@@ -59,19 +59,28 @@
 			}
 		}
 	}
+
+	$homes = fetch("FETCH node WHERE link:node_top='".resolvePath("/Root/Home")."' AND link:type='sub' AND !property:class_name='comment' NODESORTBY property:version SORTBY property:name");
+	$homes = getReadable($homes);
+
+	if (count($homes) > 0)
+	{
 	?>
-	<div class="subheader">
-		<?=img(geticon("home"))." ".ucf(i18n("home folders"))?>
-	</div>
-
-	<div class="menu_items">
-	<?
-		$homes = fetch("FETCH node WHERE link:node_top='".resolvePath("/Root/Home")."' AND link:type='sub' AND !property:class_name='comment' NODESORTBY property:version SORTBY property:name");
-
-		$homes = getReadable($homes);
+		<div class="subheader">
+			<?=img(geticon("home"))." ".ucf(i18n("home folders"))?>
+		</div>
 	
-		foreach ($homes as $child)
-			include(gettpl("small_line", $child));
-	?>
-	</div>
+		<div class="menu_items">
+		<?
+			
+	
+			
+		
+			foreach ($homes as $child)
+				include(gettpl("small_line", $child));
+		?>
+		</div>
+	<?
+	}
+?>
 </div>

@@ -138,8 +138,9 @@ class mThumbnail
 		}
 		
 		$output = imagecreatetruecolor($w, $h);
-		
-		imagecopyresampled($output, $image, 0, 0, 0, 0, imagesx($output), imagesy($output), imagesx($image), imagesy($image));
+
+		imageCopyResampleBicubic($output, $image, 0, 0, 0, 0, imagesx($output), imagesy($output), imagesx($image), imagesy($image));
+		//imagecopyresampled($output, $image, 0, 0, 0, 0, imagesx($output), imagesy($output), imagesx($image), imagesy($image));
 		
 		imagedestroy($image);
 	
