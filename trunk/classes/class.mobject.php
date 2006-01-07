@@ -501,7 +501,7 @@ class mObject
 		if ($node_id == 0)
 			$node_id = $this->node_id;
 		
-		$query = "SELECT type, IF(node_top = '$node_id', node_bottom, node_top) AS remote_id, IF(node_top = '$node_id', 'bottom', 'top') AS direction FROM `".$db_prefix."links` WHERE (node_top = '$node_id') OR (node_bottom = '$node_id')";
+		$query = "SELECT type, IF(node_top = '$node_id', node_bottom, node_top) AS remote_id, IF(node_top = '$node_id', 'bottom', 'top') AS direction FROM `".$db_prefix."links` WHERE (node_top = '$node_id') OR (node_bottom = '$node_id') ORDER BY type";
 		
 		if (!($result = mysql_query($query)))
 		{

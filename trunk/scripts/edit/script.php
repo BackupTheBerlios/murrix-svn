@@ -30,12 +30,11 @@ class sEdit extends Script
 				$bError = true;
 			}
 
-			if (!(strpos($args['name'], "\\") === false) || !(strpos($args['name'], "/") === false))
+			if (!(strpos($args['name'], "\\") === false) || !(strpos($args['name'], "/") === false) || !(strpos($args['name'], "+") === false))
 			{
-				$response->addAlert(ucf(i18n("you can not use '\\' or '/' in the name")));
+				$response->addAlert(ucf(i18n("you can not use '\\', '/' or '+' in the name")));
 				$bError = true;
 			}
-
 
 			if (!$bError)
 			{
