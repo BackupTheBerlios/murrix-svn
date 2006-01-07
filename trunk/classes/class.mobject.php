@@ -62,9 +62,9 @@ class mObject
 
 	function loadByObjectId($object_id)
 	{
-		if (isset($_SESSION['murrix']['callcache']['object_id'][$object_id]))
+		if (isset($_SESSION['murrix']['querycache'][$object_id]))
 		{
-			$this = $_SESSION['murrix']['callcache']['object_id'][$object_id];
+			$this = $_SESSION['murrix']['querycache'][$object_id];
 			return true;
 		}
 	
@@ -80,7 +80,7 @@ class mObject
 
 		$ret = $this->loadByArray(mysql_fetch_array($result, MYSQL_ASSOC));
 
-		$_SESSION['murrix']['callcache']['object_id'][$object_id] = $this;
+		$_SESSION['murrix']['querycache'][$object_id] = $this;
 
 		return $ret;
 	}
