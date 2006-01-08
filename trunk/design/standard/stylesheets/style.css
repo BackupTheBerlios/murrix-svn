@@ -565,6 +565,22 @@ table.content_table td
 	text-align: center;
 }
 
+#content .main .file .image_control
+{
+	float: right;
+	text-align: center;
+	border: 1px solid #B6BAFF;
+	color: #000000;
+	margin: 5px;
+	padding: 5px;
+	background-color: #FFFFFF;
+}
+
+#content .main .file .image_control .title
+{
+	font-weight: bold;
+}
+
 #content .top_edit_table
 {
 	margin: 0;
