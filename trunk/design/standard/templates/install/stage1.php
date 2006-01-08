@@ -10,7 +10,7 @@
 			This will take you through the necessary parts of installing MURRiX.<br/>
 			<br/>
 			Readme<br/>
-			<iframe style="width: 90%; height: 300px; border: 1px solid #9191C3;" src="<?="$wwwpath/README.txt"?>"></iframe>
+			<iframe style="width: 90%; height: 300px; border: 1px solid #9191C3;" src="<?="$wwwpath/docs/README.txt"?>"></iframe>
 			<br/>
 			<br/>
 			<div style="margin-right: 10px; float: right;">

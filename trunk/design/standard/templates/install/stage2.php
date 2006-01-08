@@ -9,7 +9,7 @@
 		<td align="center">
 			MURRiX is released under the <a target="top" href="http://www.gnu.org/copyleft/gpl.html">GNU GENERAL PUBLIC LICENSE</a>.<br/><br/>
 			License<br/>
-			<iframe style="width: 90%; height: 300px;; border: 1px solid #9191C3;" src="<?="$wwwpath/LICENSE.txt"?>"></iframe>
+			<iframe style="width: 90%; height: 300px;; border: 1px solid #9191C3;" src="<?="$wwwpath/docs/LICENSE.txt"?>"></iframe>
 			<br/>
 			<br/>
 			<div style="margin-left: 10px; float: left;">

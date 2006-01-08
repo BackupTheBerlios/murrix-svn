@@ -1,6 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
+		<META NAME="ROBOTS" CONTENT="NOFOLLOW">
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 		
 		<link rel="shortcut icon" href="<?=geticon("murrix")?>" type="image/x-icon">
@@ -33,18 +34,18 @@
 		<div id="header">
 			<div id="header_wrapper">
 				<div id="header_logo">
-					<img alt="MURRiX logo" src="<?=imgpath("logo64.png")?>"/>
+					<?=img(geticon("murrix", 64))?>
 				</div>
 				
 				<div id="header_name">
-					MURRiX Installer<br/>
+					MURRiX Installer
+					<br/>
 					<div id="status_holder">
-						<img alt="Status indicator" align="middle" src="<?=imgpath("indicator.gif")?>" name="status" id="status" border="0"/>
+						<img alt="Status indicator" src="<?=imgpath("not_loading.gif")?>" name="status" id="status"/>
 					</div>
 				</div>
 			</div>
 		</div>
-
 		<br/>
 		
 		<center>
