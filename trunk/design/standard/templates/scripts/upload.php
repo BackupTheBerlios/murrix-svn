@@ -33,7 +33,6 @@ global $wwwpath;
 		<param name="preventDoubles" value="true">
 		<param name="labelBytes" value="Size">
 		<param name="removeBorders" value="true">
-		<param name="maxTotalRequestSize" value="7000000">
 
 		<comment>
 			<embed type="application/x-java-applet;version=1.4.2"
@@ -52,8 +51,7 @@ global $wwwpath;
 				showFilePaths="true"
 				preventDoubles="true"
 				labelBytes="Size"
-				removeBorders="true"
-				maxTotalRequestSize="7000000">
+				removeBorders="true">
 
 			<noembed>
 				No Java 2 SDK, Standard Edition v 1.4 support for APPLET!

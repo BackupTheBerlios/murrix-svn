@@ -560,26 +560,67 @@ table.content_table td
 	background-color: #FFFFFF;
 }
 
-#content .main .file
+#content .file
 {
-	text-align: center;
-}
-
-#content .main .file .image_control
-{
-	float: right;
+	min-width: 400px;
 	text-align: center;
 	border: 1px solid #B6BAFF;
-	color: #000000;
-	margin: 5px;
-	padding: 5px;
 	background-color: #FFFFFF;
 }
 
-#content .main .file .image_control .title
+#content .file_panel
 {
-	font-weight: bold;
+	text-align: center;
+	border: 1px solid #B6BAFF;
+	color: #000000;
+	margin-left: 5px;
+	padding: 5px;
+	background-color: #FFFFFF;
 }
+#content .file_panel .header
+{
+	padding: 5px;
+	background-color: #B6BAFF;
+	font-weight: bold;
+	font-size: 12px;
+	text-align: center;
+}
+
+#content .file_panel .title
+{
+	margin-top: 5px;
+	padding: 1px;
+	background-color: #E1E3FF;
+	font-size: 11px;
+	text-align: center;
+}
+
+#content  .file_panel a
+{
+	margin-top: 5px;
+	padding: 5px;
+	display: block;
+}
+
+#content .file_panel a:hover
+{
+	background-color: #E1E3FF;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #content .top_edit_table
 {

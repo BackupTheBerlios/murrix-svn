@@ -13,7 +13,7 @@ if ($object->hasRight("edit"))
 ?>
 	<div class="main">
 		<form id="linkForm" name="linkForm" action="javascript:void(null);" onsubmit="Post('links', 'zone_main', 'linkForm')">
-			<?=ucf(i18n("create new link to "))?>
+			<?=ucf(i18n("create new link to"))?> 
 			<input name="action" class="hidden" type="hidden" value="newlink"/>
 			<input name="node_id" class="hidden" type="hidden" value="<?=$object->getNodeId()?>"/>
 			<input name="path" class="input_big" type="text" value="/Root"/>

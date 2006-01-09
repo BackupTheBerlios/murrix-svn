@@ -40,7 +40,7 @@ if (($str = db_connect()) !== true)
 		if ($parent->hasRight("create_subnodes", array("file", "file_folder")))
 		{
 			echo "Staring processing of uploaded files...<br/>";flush();
-			
+
 			foreach($_FILES as $tagname => $object)
 			{
 				// get the temporary name (e.g. /tmp/php34634.tmp)
@@ -49,10 +49,6 @@ if (($str = db_connect()) !== true)
 				// where to save the file?
 				$targetFile = $_POST[$tagname . '_relativePath'];
 				echo "Processing $targetFile<br/>";flush();
-				
-				// replace '\\' with '/'
-				$targetFile = str_replace("\\", "/", $targetFile);
-				$targetFile = str_replace("//", "/", $targetFile);
 	
 				$paths = pathinfo($targetFile);
 	
@@ -89,6 +85,13 @@ if (($str = db_connect()) !== true)
 						$object = new mObject();
 						$object->setClassName("file_folder");
 						$object->loadVars();
+
+										
+						// replace '\\' with '/'
+						$val = str_replace("\\", "", $val);
+						$val = str_replace("/", "", $val);
+						$val = str_replace("+", "", $val);
+
 			
 						$object->name = $val;
 						$object->language = $_SESSION['murrix']['language'];
@@ -111,11 +114,17 @@ if (($str = db_connect()) !== true)
 				$object = new mObject();
 				$object->setClassName("file");
 				$object->loadVars();
-	
-				$object->name = trim($paths['basename']);
+
+				$name = trim($paths['basename']);
+				// replace '\\' with '/'
+				$name = str_replace("\\", "", $name);
+				$name = str_replace("/", "", $name);
+				$name = str_replace("+", "", $name);
+
+				$object->name = $name;
 				$object->language = $_SESSION['murrix']['language'];
 	
-				$object->setVarValue("file", $object->name.":".$tempName);
+				$object->setVarValue("file", trim($paths['basename']).":".$tempName);
 	
 				if ($object->save())
 				{

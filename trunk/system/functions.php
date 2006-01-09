@@ -50,7 +50,7 @@ function utf8d($data)
 	{
 		$new = array();
 		foreach ($data as $key => $d)
-			$new[$key] = utf8_decode($d);
+			$new[$key] = utf8d($d);
 		return $new;
 	}
 

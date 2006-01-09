@@ -21,34 +21,68 @@ class sTools extends Script
 
 	function Exec(&$system, &$response, $args)
 	{
-		if (isset($args['action']) && $args['action'] == "deletelink")
+		if (isset($args['action']))
 		{
-			$object = new mObject($args['node_id']);
-
+			$object = new mObject($args['parent_id']);
+	
 			if ($object->hasRight("edit"))
-				$object->unlinkWithNode($args['remote_id'], $args['type']);
-		
-			$this->Draw($system, $response, array("path" => $_SESSION['murrix']['path']));
-			return;
-		}
-		
-		if (isset($args['node_id']))
-		{
-			$object = new mObject($args['node_id']);
-			$_SESSION['murrix']['path'] = $object->getPathInTree();
-		}
-		else if (isset($args['path']))
-			$_SESSION['murrix']['path'] = $args['path'];
-		else
-		{
-			if (empty($_SESSION['murrix']['path']))
 			{
-				global $site_config;
-				$_SESSION['murrix']['path'] = $site_config['sites'][$_SESSION['murrix']['site']]['start'];
+				if (count($args['node_ids']) == 0)
+				{
+					$response->addAlert(ucf(i18n("you must select at least one object")));
+					return;
+				}
+	
+				$remote_node_id = resolvePath($args['path']);
+	
+				if ($remote_node_id > 0)
+				{
+					$remote = new mObject($remote_node_id);
+	
+					if ($remote->hasRight("edit"))
+					{
+						switch ($args['action'])
+						{
+							case "move":
+							foreach ($args['node_ids'] as $node_id)
+							{
+								$child = new mObject($node_id);
+			
+								$child->linkWithNode($remote_node_id, "sub");
+								$child->unlinkWithNode($object->getNodeId(), "sub", "bottom");
+							}
+							break;
+							
+							case "link":
+							foreach ($args['node_ids'] as $node_id)
+							{
+								$child = new mObject($node_id);
+			
+								$child->linkWithNode($remote_node_id, "sub");
+							}
+							break;
+						}
+					}
+					else
+					{
+						$response->addAlert(ucf(i18n("you don't have enough rights on the target")));
+						return;
+					}
+				}
+				else
+				{
+					$response->addAlert(ucf(i18n("the remote object you specified does not exist")));
+					return;
+				}
+			}
+			else
+			{
+				$response->addAlert(ucf(i18n("you don't have enough rights")));
+				return;
 			}
 		}
-
-		$system->TriggerEventIntern($response, "newlocation");
+		
+		$this->Draw($system, $response, array("path" => $_SESSION['murrix']['path']));
 	}
 	
 	function Draw(&$system, &$response, $args)

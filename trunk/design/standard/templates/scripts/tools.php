@@ -8,37 +8,9 @@ $right = $center = "";
 $left = img(geticon("settings"))."&nbsp;".ucf(i18n("tools"));
 include(gettpl("big_title", $object));
 
-
-$left = ucf(i18n("parentnodes"));
-$center = $right = "";
-include(gettpl("medium_title", $object));
-
-$parents = fetch("FETCH node WHERE link:node_bottom='".$object->getNodeId()."' AND link:type='sub' NODESORTBY property:version SORTBY property:name");
-$list = array();
-$list[] = array(ucf(i18n("name")), ucf(i18n("class")));
-
-foreach ($parents as $parent)
-{
-	if ($parent->getCreator() == 0)
-		$creator = ucf(i18n("unknown"));
-	else
-	{
-		$creator_obj = new mObject($parent->getCreator());
-		$creator = cmd($creator_obj->getName(), "SystemRunScript('show','zone_main', Hash('path', '".$creator_obj->getPathInTree()."'))");
-	}
-
-	$list[] = array($parent->getName(),  $parent->getClassName());
-}
-
-table($list, "% ".i18n("rows"));
-
-$left = ucf(i18n("subnodes"));
-$center = $right = "";
-include(gettpl("medium_title", $object));
-
 $children = fetch("FETCH node WHERE link:node_top='".$object->getNodeId()."' AND link:type='sub' NODESORTBY property:version SORTBY property:name");
 $list = array();
-$list[] = array(ucf(i18n("name")), ucf(i18n("class")));
+$list[] = array(ucf(i18n("name")));
 
 foreach ($children as $child)
 {
@@ -50,9 +22,23 @@ foreach ($children as $child)
 		$creator = cmd($creator_obj->getName(), "SystemRunScript('show','zone_main', Hash('path', '".$creator_obj->getPathInTree()."'))");
 	}
 
-	$list[] = array($child->getName(),  $child->getClassName());
-}
+	$checkbox = "<input type=\"checkbox\" name=\"node_ids[]\" value=\"".$child->getNodeId()."\"/>";
 
-table($list, "% ".i18n("rows"));
+	$list[] = array("$checkbox&nbsp;".img(geticon($child->getIcon()))."&nbsp;".$child->getName());
+}
 ?>
+<form id="toolsObjectList" name="toolsObjectList" action="javascript:void(null);" onsubmit="Post('tools', 'zone_main', 'toolsObjectList')">
+	<? table($list, "% ".i18n("rows")) ?>
+	
+	<div class="main">
+		<?=ucf(i18n("move selected objects to"))?>
+		<input name="action" class="hidden" type="hidden" value="move"/>
+		<input name="parent_id" class="hidden" type="hidden" value="<?=$object->getNodeId()?>"/>
+		<input name="path" class="input_big" type="text" value="/Root"/>
+
+		<input class="submit" type="submit" value="<?=ucf(i18n("move"))?>"/>
+		<input class="submit" type="submit" value="<?=ucf(i18n("link"))?>" onclick="document.getElementById('toolsObjectList').action.value='link';"/>
+	</div>
+
+</form>
 
