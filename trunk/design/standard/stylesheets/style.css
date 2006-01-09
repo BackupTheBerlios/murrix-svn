@@ -8,6 +8,36 @@ body
 	background-color: #EEEEEE;
 }
 
+#loadbox
+{
+	display: none;
+	margin-left: 50%;
+	top: 40%;
+	left: -237px;
+	width: 474px;
+	position: fixed;
+	padding: 0;
+	border: 1px solid #B6BAFF;
+	background-color: #FFFFFF;
+}
+
+#loadbox .header
+{
+	margin: 5px;
+	padding: 2px;
+	background-color: #DCD7FF;
+	font-size: 18px;
+	text-align: center;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+#loadbox div
+{
+	margin: 5px;
+	padding: 0;
+	text-align: center;
+}
+
 img
 {
 	border-width: 0;

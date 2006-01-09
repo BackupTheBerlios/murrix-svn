@@ -30,9 +30,13 @@ $root = new mObject($root_id);
 			function loading(state)
 			{
 				if (state)
-					document.getElementById('status').src = '<?=imgpath("loading.gif")?>';
+				{
+					document.getElementById('loadbox').style.display = "block";
+				}
 				else
-					document.getElementById('status').src = '<?=imgpath("not_loading.gif")?>';
+				{
+					document.getElementById('loadbox').style.display = "none";
+				}
 			}
 
 			function init()
@@ -46,6 +50,15 @@ $root = new mObject($root_id);
 	</head>
 
 	<body>
+		<div id="loadbox">
+			<div class="header">
+				<?=ucf(i18n("loading"))."..."?>
+			</div>
+			<div>
+				<?=img(imgpath("loading.gif"))?>
+			</div>
+		</div>
+	
 		<div id="header">
 			<div id="header_wrapper">
 				<div id="zone_login"></div>
@@ -56,8 +69,6 @@ $root = new mObject($root_id);
 				
 				<div id="header_name">
 					<?=cmd($root->getVarValue("description"), "Exec('show', 'zone_main', Hash('path', '".$_SESSION['murrix']['default_path']."'))")?>
-					<br/>
-					<img alt="Status indicator" src="<?=imgpath("not_loading.gif")?>" id="status"/>
 				</div>
 			</div>
 		</div>
