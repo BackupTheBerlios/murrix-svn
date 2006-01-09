@@ -727,6 +727,11 @@ table.content_table td
 	font-family: "Trebuchet MS",Trebuchet,Arial,Verdana,Sans-serif;
 }
 
+#header #header_name #status
+{
+	vertical-align: top;
+}
+
 #header #header_logo
 {
 	float: left;

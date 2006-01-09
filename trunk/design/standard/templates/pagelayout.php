@@ -57,9 +57,7 @@ $root = new mObject($root_id);
 				<div id="header_name">
 					<?=cmd($root->getVarValue("description"), "Exec('show', 'zone_main', Hash('path', '".$_SESSION['murrix']['default_path']."'))")?>
 					<br/>
-					<div id="status_holder">
-						<img alt="Status indicator" src="<?=imgpath("not_loading.gif")?>" id="status"/>
-					</div>
+					<img alt="Status indicator" src="<?=imgpath("not_loading.gif")?>" id="status"/>
 				</div>
 			</div>
 		</div>

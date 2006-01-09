@@ -49,7 +49,6 @@ class Calendar
 			?>
 			<hr/>
 			<div class="day">
-				<nobr>
 				<?
 				if (count($this->events) > 0)
 				{
@@ -78,13 +77,13 @@ class Calendar
 
 						if ($show)
 						{
+							echo "<nobr>";
 							echo cmd($child->getName(), "Exec('show', 'zone_main', Hash('path', '".$child->getPathInTree()."'))", "", 	$child->getName());
-							echo "<br/>";
+							echo "</nobr><br/>";
 						}
 					}
 				}
 				?>
-				</nobr>
 			</div>
 		</td>
 	<?
