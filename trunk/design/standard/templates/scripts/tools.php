@@ -22,10 +22,13 @@ foreach ($children as $child)
 		$creator = cmd($creator_obj->getName(), "SystemRunScript('show','zone_main', Hash('path', '".$creator_obj->getPathInTree()."'))");
 	}
 
-	$checkbox = "<input type=\"checkbox\" name=\"node_ids[]\" value=\"".$child->getNodeId()."\"/>";
+	$id = "node_id_".$child->getNodeId();
 
-	$list[] = array("$checkbox&nbsp;".img(geticon($child->getIcon()))."&nbsp;".$child->getName());
+	$checkbox = "<input type=\"checkbox\" id=\"$id\" name=\"node_ids[]\" value=\"".$child->getNodeId()."\"/>";
+
+	$list[] = array("<a style=\"display: block;\" href=\"javascript:void(null)\" onclick=\"document.getElementById('$id').checked=!document.getElementById('$id').checked\">$checkbox&nbsp;".img(geticon($child->getIcon()))."&nbsp;".$child->getName()."</a>");
 }
+
 ?>
 <form id="toolsObjectList" name="toolsObjectList" action="javascript:void(null);" onsubmit="Post('tools', 'zone_main', 'toolsObjectList')">
 	<? table($list, "% ".i18n("rows")) ?>
