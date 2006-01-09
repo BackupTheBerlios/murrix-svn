@@ -1,6 +1,4 @@
 <?
-echo externcmd(img(geticon("global"))." ".ucf(i18n("external link here")), $_SESSION['murrix']['lastcmd'], "externlink");
-
 $class_form = "<form name=\"sClassSelect\" id=\"sClassSelect\" action=\"javascript:void(null);\" onsubmit=\"javascript:void(null)\">";
 $class_form .= "<select class=\"select\" onchange=\"Post('new','zone_main', 'sClassSelect');\" name=\"class_name\">";
 $classlist = getClassList();

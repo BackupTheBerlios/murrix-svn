@@ -1,6 +1,4 @@
 <?
-echo externcmd(img(geticon("global"))." ".ucf(i18n("external link here")), $_SESSION['murrix']['lastcmd'], "externlink");
-
 $current_view = "delete";
 include(gettpl("adminpanel", $object));
 

@@ -1,10 +1,6 @@
 <?
 global $abspath, $wwwpath;
 
-echo externcmd(img(geticon("global"))." ".ucf(i18n("external link here")), $_SESSION['murrix']['lastcmd'], "externlink");
-
-?><div id="clear"></div><?
-
 $right = $center = "";
 $left = "<span style=\"font-weight: bold; font-size: 18px;\">".img(geticon("search"))."&nbsp;".ucf(i18n("search"))." - $query_string</span>";
 include(gettpl("big_title"));

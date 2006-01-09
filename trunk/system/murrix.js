@@ -1,3 +1,69 @@
+function URLDecode(indata)
+{
+	// Replace + with ' '
+	// Replace %xx with equivalent character
+	// Put [ERROR] in output if %xx is invalid.
+	var HEXCHARS = "0123456789ABCDEFabcdef";
+	var encoded = indata;
+	var plaintext = "";
+	var i = 0;
+
+	while (i < encoded.length)
+	{
+		var ch = encoded.charAt(i);
+		if (ch == "+")
+		{
+			plaintext += " ";
+			i++;
+		}
+		else if (ch == "%")
+		{
+			if (i < (encoded.length-2) && HEXCHARS.indexOf(encoded.charAt(i+1)) != -1 && HEXCHARS.indexOf(encoded.charAt(i+2)) != -1)
+			{
+				plaintext += unescape( encoded.substr(i,3) );
+				i += 3;
+			}
+			else
+			{
+				alert('Bad escape combination near ...' + encoded.substr(i));
+				plaintext += "%[ERROR]";
+				i++;
+			}
+		}
+		else
+		{
+			plaintext += ch;
+			i++;
+		}
+	} // while
+	return plaintext;
+}
+
+var last_command = "";
+
+function Poll()
+{
+	command = window.location.href.split("#")[1];
+	if (typeof command == 'undefined')
+		command = "default";
+
+	if (command != last_command)
+	{
+		if (command == "default")
+		{
+			init();
+			last_command = command;
+		}
+		else
+		{
+			command = window.location.href.split("#")[1];
+
+			last_command = command;
+			eval(URLDecode(last_command));
+		}
+	}
+}
+
 function Hash()
 {
 	var list = new Array();

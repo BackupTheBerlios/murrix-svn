@@ -547,7 +547,7 @@ class mObject
 	{
 		$this->deleteMeta($name);
 
-		if ($value == "")
+		if (empty($value))
 			return true;
 
 		global $db_prefix;

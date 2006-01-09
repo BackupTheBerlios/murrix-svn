@@ -1,10 +1,6 @@
 <?
 global $abspath, $wwwpath;
 
-echo externcmd(img(geticon("global"))." ".ucf(i18n("external link here")), $_SESSION['murrix']['lastcmd'], "externlink");
-
-?><div id="clear"></div><?
-
 $right = $center = "";
 $left = img(geticon("date"))."&nbsp;".ucf(i18n("calendar"));
 include(gettpl("big_title"));

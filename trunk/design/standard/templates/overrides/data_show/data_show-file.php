@@ -81,6 +81,13 @@ $type = getfiletype($pathinfo['extension']);
 					$angle_right = ($angle-90);
 					if ($angle_right < 0) $angle_right = 360+$angle_right;
 					else if ($angle_right > 360) $angle_right = 360-$angle_right;
+
+					if ($angle_left == 0)
+						$angle_left = 360;
+
+					if ($angle_right == 0)
+						$angle_right = 360;
+						
 					?>
 					<div class="title">
 						<?=ucw(i18n("rotate"))?>

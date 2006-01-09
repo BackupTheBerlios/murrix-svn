@@ -21,8 +21,7 @@ function ucf($text)
 
 function cmd($name, $cmd, $class = "", $title = "")
 {
-	$cmd = urlencode($cmd);
-	return "<a ".(!empty($title) ? "title=\"$title\"" : "")." ".(!empty($class) ? "class=\"$class\"" : "")." href=\"history.php?cmd=$cmd\" target=\"history\">$name</a>";
+	return "<a ".(!empty($title) ? "title=\"$title\"" : "")." ".(!empty($class) ? "class=\"$class\"" : "")." href=\"#$cmd\">$name</a>";
 }
 
 function externcmd($name, $cmd, $class = "", $title = "")
