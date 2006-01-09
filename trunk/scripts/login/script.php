@@ -42,6 +42,10 @@ class sLogin extends Script
 				else
 				{
 					$_SESSION['murrix']['user'] = $user[0];
+
+					unset($_SESSION['murrix']['querycache']['rights']);
+					CompileRights();
+					
 					$system->TriggerEventIntern($response, "login");
 					$response->addScript("window.location.reload(false)");
 				}
@@ -53,6 +57,9 @@ class sLogin extends Script
 	
 				unset($_SESSION['murrix']['user']);
 				$_SESSION['murrix']['user'] = new mObject($anonymous_id);
+
+				unset($_SESSION['murrix']['querycache']['rights']);
+				CompileRights();
 	
 				$system->TriggerEventIntern($response, "logout");
 				$response->addScript("window.location.reload(false)");

@@ -619,11 +619,11 @@ class mObject
 				$newpath .= "/".$path_parts[$n];
 				$path_node = resolvePath($newpath);
 				
-				if (@is_array($_SESSION['murrix']['rights']['allow'][$action]))
+				if (@is_array($_SESSION['murrix']['querycache']['rights']['allow'][$action]))
 				{
-					for ($i = 0; $i < count($_SESSION['murrix']['rights']['allow'][$action]); $i++)
+					for ($i = 0; $i < count($_SESSION['murrix']['querycache']['rights']['allow'][$action]); $i++)
 					{
-						$node_id = $_SESSION['murrix']['rights']['allow'][$action][$i];
+						$node_id = $_SESSION['murrix']['querycache']['rights']['allow'][$action][$i];
 	
 						if ($path_node == $node_id)
 						{
@@ -631,7 +631,7 @@ class mObject
 								$hasright = true;
 							else
 							{
-								$create_classes = $_SESSION['murrix']['rights']['allow']['create_subnodes_classes'][$i];
+								$create_classes = $_SESSION['murrix']['querycache']['rights']['allow']['create_subnodes_classes'][$i];
 								if (empty($create_classes))
 									$hasright = true;
 								else
@@ -657,15 +657,15 @@ class mObject
 					}
 				}
 				
-				if (@is_array($_SESSION['murrix']['rights']['allowown'][$action]) && $object->getCreator() == $_SESSION['murrix']['user']->id)
+				if (@is_array($_SESSION['murrix']['querycache']['rights']['allowown'][$action]) && $object->getCreator() == $_SESSION['murrix']['user']->id)
 				{
-					if (in_array($path_node, $_SESSION['murrix']['rights']['allowown'][$action]))
+					if (in_array($path_node, $_SESSION['murrix']['querycache']['rights']['allowown'][$action]))
 						$hasright = true;
 				}
 				
-				if (@is_array($_SESSION['murrix']['rights']['deny'][$action]))
+				if (@is_array($_SESSION['murrix']['querycache']['rights']['deny'][$action]))
 				{
-					if (in_array($path_node, $_SESSION['murrix']['rights']['deny'][$action]))
+					if (in_array($path_node, $_SESSION['murrix']['querycache']['rights']['deny'][$action]))
 						$hasright = false;
 				}
 			}
@@ -675,7 +675,7 @@ class mObject
 		}
 
 		if ($classes != null)
-			$_SESSION['murrix']['querycache'][$action][$this->getNodeId()] = $valid_paths;
+			$_SESSION['murrix']['querycache']['querycache'][$action][$this->getNodeId()] = $valid_paths;
 
 		return $valid_paths;
 	}

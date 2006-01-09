@@ -116,10 +116,11 @@ function GetRightsRecursive($object)
 
 function CompileRights()
 {
+	if (isset($_SESSION['murrix']['querycache']['rights']))
+		return;
+		
 	$rights = GetRightsRecursive($_SESSION['murrix']['user']);
 	
-	unset($_SESSION['murrix']['rights']);
-
 	// deny has precedence over grant
 	//PrintPre($rights);
 	foreach ($rights as $right)
@@ -130,28 +131,27 @@ function CompileRights()
 		switch ($right->getClassName())
 		{
 			case "right_read":
-				$_SESSION['murrix']['rights'][$value]['read'][] = resolvePath($path);
+				$_SESSION['murrix']['querycache']['rights'][$value]['read'][] = resolvePath($path);
 				break;
 
 			case "right_edit":
-				$_SESSION['murrix']['rights'][$value]['edit'][] = resolvePath($path);
+				$_SESSION['murrix']['querycache']['rights'][$value]['edit'][] = resolvePath($path);
 				break;
 
 			case "right_delete":
-				$_SESSION['murrix']['rights'][$value]['delete'][] = resolvePath($path);
+				$_SESSION['murrix']['querycache']['rights'][$value]['delete'][] = resolvePath($path);
 				break;
 
 			case "right_read_subnodes":
-				$_SESSION['murrix']['rights'][$value]['read_subnodes'][] = resolvePath($path);
+				$_SESSION['murrix']['querycache']['rights'][$value]['read_subnodes'][] = resolvePath($path);
 				break;
 
 			case "right_create_subnodes":
-				$_SESSION['murrix']['rights']['allow']['create_subnodes'][] = resolvePath($path);
-				$_SESSION['murrix']['rights']['allow']['create_subnodes_classes'][] = $right->getVarValue("classes");
+				$_SESSION['murrix']['querycache']['rights']['allow']['create_subnodes'][] = resolvePath($path);
+				$_SESSION['murrix']['querycache']['rights']['allow']['create_subnodes_classes'][] = $right->getVarValue("classes");
 				break;
 		}
 	}
-	//PrintPre($_SESSION['murrix']['rights']);
 }
 
 function HasRight($action, $path, $create_classes = array())
