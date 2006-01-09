@@ -62,9 +62,9 @@ class mObject
 
 	function loadByObjectId($object_id)
 	{
-		if (isset($_SESSION['murrix']['querycache'][$object_id]))
+		if (isset($_SESSION['murrix']['objectcache'][$object_id]))
 		{
-			$this = $_SESSION['murrix']['querycache'][$object_id];
+			$this = $_SESSION['murrix']['objectcache'][$object_id];
 			return true;
 		}
 	
@@ -80,7 +80,7 @@ class mObject
 
 		$ret = $this->loadByArray(mysql_fetch_array($result, MYSQL_ASSOC));
 
-		$_SESSION['murrix']['querycache'][$object_id] = $this;
+		$_SESSION['murrix']['objectcache'][$object_id] = $this;
 
 		return $ret;
 	}
@@ -169,6 +169,7 @@ class mObject
 		}
 
 		$_SESSION['murrix']['querycache'] = array();
+		unset($_SESSION['murrix']['objectcache'][$this->getId()]);
 		
 		return true;
 	}
@@ -190,8 +191,6 @@ class mObject
 			return false;
 		}
 
-		$_SESSION['murrix']['querycache'] = array();
-		
 		return true;
 	}
 
@@ -226,7 +225,6 @@ class mObject
 		}
 
 		$this->deleteNodeId();
-		$_SESSION['murrix']['querycache'] = array();
 
 		return true;
 	}
@@ -302,7 +300,6 @@ class mObject
 
 		$this->loadByObjectId($this->id);
 		$_SESSION['murrix']['querycache'] = array();
-		clearPathCache();
 
 		return true;
 	}
@@ -362,6 +359,7 @@ class mObject
 
 	function getPathInTree($root_path = "")
 	{
+		/// FIXME: Se över om vi behöver göra detta bättre
 		if (empty($root_path))
 		{
 			if (!isset($_SESSION['murrix']['path']) || empty($_SESSION['murrix']['path']))
@@ -461,7 +459,13 @@ class mObject
 
 		if ($type == "sub")
 		{
-			clearPathCache();
+
+			$paths = $this->getPath(true);
+
+			/// FIXME: Check that this really works for all cases
+			foreach ($paths as $path)
+				deleteFromPathCache($path);
+		
 			/*
 			if ($direction == "bottom")
 			{
@@ -593,6 +597,9 @@ class mObject
 
 	function getValidPaths($action, $classes = null)
 	{
+		if (isset($_SESSION['murrix']['querycache'][$action][$this->getNodeId()]))
+			return $_SESSION['murrix']['querycache'][$action][$this->getNodeId()];
+	
 		// Check if the right is set for the current user
 		$path_list = $this->getPath(true);
 
@@ -665,6 +672,9 @@ class mObject
 			if ($hasright)
 				$valid_paths[] = $path;
 		}
+
+		if ($classes != null)
+			$_SESSION['murrix']['querycache'][$action][$this->getNodeId()] = $valid_paths;
 
 		return $valid_paths;
 	}
@@ -766,17 +776,10 @@ class mObject
 
 
 function fetch($query, $debug = false)
-{//$_SESSION['debug2']++;// .= $query;
-
-
+{
 	if (isset($_SESSION['murrix']['querycache'][$query]) && !$debug)
 		return $_SESSION['murrix']['querycache'][$query];
 
-	if ($debug)
-		echo "$query<br>";
-
-	//$time = microtime_float();
-		
 	$query2 = $query;
 	$commands = array("FETCH", "WHERE", "NODESORTBY", "SORTBY");
 	$cmdstr = implode("|", $commands);
@@ -789,193 +792,188 @@ function fetch($query, $debug = false)
 
 	$nodesortby = "";
 	
-	$klar = false;
-	while (!$klar)
+	foreach ($commands as $ord)
 	{
-		foreach ($commands as $ord)
+		if (preg_match("/^[ ]*($ord) (.+?)( ($cmdstr|$)|$)/", $query, $matches))
 		{
-			if (preg_match("/^[ ]*($ord) (.+?)( ($cmdstr|$)|$)/", $query, $matches))
+			switch ($matches[1])
 			{
-				switch ($matches[1])
-				{
-					case "FETCH":
-						switch (trim($matches[2]))
-						{
-						case "count":
-							$select = "SELECT count(objects.id) AS count ";
-							$return = "count";
-							break;
-
-						case "node":
-							$select = "SELECT objects.id AS id, objects.node_id AS node_id, objects.language AS language, objects.version AS version ";
-							$return = "node";
-							break;
-							
-						case "object":
-						default:
-							$select = "SELECT objects.id AS id ";
-							$return = "object";
-							break;
-						}
+				case "FETCH":
+					switch (trim($matches[2]))
+					{
+					case "count":
+						$select = "SELECT count(objects.id) AS count ";
+						$return = "count";
 						break;
-
-					case "WHERE":
-						$org_where = trim($matches[2]);
-						if (preg_match_all("/[ ]*(.+?)( AND| OR|$)/", $org_where, $wmatches))
+	
+					case "node":
+						$select = "SELECT objects.id AS id, objects.node_id AS node_id, objects.language AS language, objects.version AS version ";
+						$return = "node";
+						break;
+	
+					case "object":
+					default:
+						$select = "SELECT objects.id AS id ";
+						$return = "object";
+						break;
+					}
+					break;
+	
+				case "WHERE":
+					$org_where = trim($matches[2]);
+					if (preg_match_all("/[ ]*(.+?)( AND| OR|$)/", $org_where, $wmatches))
+					{
+						$wmatches = $wmatches[1];
+						//PrintPre($wmatches);
+						foreach ($wmatches AS $match)
 						{
-							$wmatches = $wmatches[1];
-							//PrintPre($wmatches);
-							foreach ($wmatches AS $match)
+							$match = trim($match);
+							if ($match{0} == "(")
+								$match = substr($match, 1, strlen($match)-1);
+	
+							$parts = explode(":", $match, 2);
+	
+							$invert = "";
+							if ($parts[0]{0} == "!")
 							{
-								$match = trim($match);
-								if ($match{0} == "(")
-									$match = substr($match, 1, strlen($match)-1);
-								
-								$parts = explode(":", $match, 2);
-
-								$invert = "";
-								if ($parts[0]{0} == "!")
+								$invert = "!";
+								$parts[0] = substr($parts[0], 1, strlen($parts[0])-1);
+							}
+	
+							switch ($parts[0])
+							{
+							case "property":
+								$org_where = str_replace($match, "$invert(objects.".$parts[1].")", $org_where);
+								break;
+	
+							case "var":
+								$parts2 = explode("=", $parts[1]);
+	
+								if (!isset($vars_array[$parts2[0]]))
 								{
-									$invert = "!";
-									$parts[0] = substr($parts[0], 1, strlen($parts[0])-1);
+									$vars++;
+									$vars_array[$parts2[0]] = $vars;
 								}
-
-								switch ($parts[0])
+								$num = $vars_array[$parts2[0]];
+								$org_where = str_replace($match, "values$num.data$invert=".$parts2[1], $org_where);
+								break;
+	
+							case "link":
+								$parts2 = explode("=", $parts[1]);
+								switch ($parts2[0])
 								{
-								case "property":
-									$org_where = str_replace($match, "$invert(objects.".$parts[1].")", $org_where);
+								case "node_top":
+									$org_where = str_replace($match, "$invert(links.node_top=".$parts2[1]." AND links.node_bottom=objects.node_id)", $org_where);
 									break;
-
-								case "var":
-									$parts2 = explode("=", $parts[1]);
-									
-									if (!isset($vars_array[$parts2[0]]))
-									{
-										$vars++;
-										$vars_array[$parts2[0]] = $vars;
-									}
-									$num = $vars_array[$parts2[0]];
-									$org_where = str_replace($match, "values$num.data$invert=".$parts2[1], $org_where);
+	
+								case "node_bottom":
+									$org_where = str_replace($match, "$invert(links.node_bottom=".$parts2[1]." AND links.node_top=objects.node_id)", $org_where);
 									break;
-
-								case "link":
-									$parts2 = explode("=", $parts[1]);
-									switch ($parts2[0])
-									{
-									case "node_top":
-										$org_where = str_replace($match, "$invert(links.node_top=".$parts2[1]." AND links.node_bottom=objects.node_id)", $org_where);
-										break;
-
-									case "node_bottom":
-										$org_where = str_replace($match, "$invert(links.node_bottom=".$parts2[1]." AND links.node_top=objects.node_id)", $org_where);
-										break;
-
-									case "type":
-										$org_where = str_replace($match, "$invert(links.type=".$parts2[1].")", $org_where);
-										break;
-
-									case "node_id":
-									default:
-										$org_where = str_replace($match, "$invert((links.node_bottom=".$parts2[1]." AND links.node_top=objects.node_id) OR (links.node_top=".$parts2[1]." AND links.node_bottom=objects.node_id))", $org_where);
-										break;
-									}
-									$links = true;
+	
+								case "type":
+									$org_where = str_replace($match, "$invert(links.type=".$parts2[1].")", $org_where);
+									break;
+	
+								case "node_id":
+								default:
+									$org_where = str_replace($match, "$invert((links.node_bottom=".$parts2[1]." AND links.node_top=objects.node_id) OR (links.node_top=".$parts2[1]." AND links.node_bottom=objects.node_id))", $org_where);
 									break;
 								}
+								$links = true;
+								break;
 							}
 						}
-
-						$where_more = "";
-						foreach ($vars_array as $key => $value)
+					}
+	
+					$where_more = "";
+					foreach ($vars_array as $key => $value)
+					{
+						$where_more .= "(values$value.object_id=objects.id AND values$value.var_id=vars$value.id AND vars$value.name='$key') AND ";
+					}
+	
+					$where = "WHERE $where_more ($org_where)";
+					break;
+	
+				case "NODESORTBY":
+					$org_sort = trim($matches[2]);
+					if (preg_match_all("/[ ]*(.+?)(,|$)/", $org_sort, $wmatches))
+					{
+						$wmatches = $wmatches[1];
+	
+						foreach ($wmatches AS $match)
 						{
-							$where_more .= "(values$value.object_id=objects.id AND values$value.var_id=vars$value.id AND vars$value.name='$key') AND ";
-						}
-						
-						$where = "WHERE $where_more ($org_where)";
-						break;
-
-					case "NODESORTBY":
-						$org_sort = trim($matches[2]);
-						if (preg_match_all("/[ ]*(.+?)(,|$)/", $org_sort, $wmatches))
-						{
-							$wmatches = $wmatches[1];
-							
-							foreach ($wmatches AS $match)
+							$match = trim($match);
+	
+							$parts = explode(":", $match, 2);
+	
+							$invert = " DESC";
+							if ($parts[0]{0} == "!")
 							{
-								$match = trim($match);
-
-								$parts = explode(":", $match, 2);
-
-								$invert = " DESC";
-								if ($parts[0]{0} == "!")
-								{
-									$invert = " ASC";
-									$parts[0] = substr($parts[0], 1, strlen($parts[0])-1);
-								}
-
-								switch ($parts[0])
-								{
-								case "property":
-									$org_sort = str_replace($match, "objects.".$parts[1].$invert, $org_sort);
-									break;
-								}
+								$invert = " ASC";
+								$parts[0] = substr($parts[0], 1, strlen($parts[0])-1);
+							}
+	
+							switch ($parts[0])
+							{
+							case "property":
+								$org_sort = str_replace($match, "objects.".$parts[1].$invert, $org_sort);
+								break;
 							}
 						}
-							$nodesortby = "ORDER BY $org_sort";
-						break;
-
-					case "SORTBY":
-						$org_sort = trim($matches[2]);
-						if (preg_match_all("/[ ]*(.+?)(,|$)/", $org_sort, $wmatches))
+					}
+						$nodesortby = "ORDER BY $org_sort";
+					break;
+	
+				case "SORTBY":
+					$org_sort = trim($matches[2]);
+					if (preg_match_all("/[ ]*(.+?)(,|$)/", $org_sort, $wmatches))
+					{
+						$wmatches = $wmatches[1];
+	
+						foreach ($wmatches AS $match)
 						{
-							$wmatches = $wmatches[1];
-							
-							foreach ($wmatches AS $match)
+							$match = trim($match);
+	
+							$parts = explode(":", $match, 2);
+	
+							$invert = false;
+							if ($parts[0]{0} == "!")
 							{
-								$match = trim($match);
-
-								$parts = explode(":", $match, 2);
-
-								$invert = false;
-								if ($parts[0]{0} == "!")
-								{
-									$invert = true;
-									$parts[0] = substr($parts[0], 1, strlen($parts[0])-1);
-								}
-
-								switch ($parts[0])
-								{
-								case "property":
-									$sort[] = array("property:".$parts[1], $invert);
-									//$org_sort = str_replace($match, "objects.".$parts[1].($invert ? "" : " DESC"), $org_sort);
-									break;
-									
-								case "var":
-									$sort[] = array($parts[1], $invert);
-									break;
-								}
+								$invert = true;
+								$parts[0] = substr($parts[0], 1, strlen($parts[0])-1);
+							}
+	
+							switch ($parts[0])
+							{
+							case "property":
+								$sort[] = array("property:".$parts[1], $invert);
+								//$org_sort = str_replace($match, "objects.".$parts[1].($invert ? "" : " DESC"), $org_sort);
+								break;
+	
+							case "var":
+								$sort[] = array($parts[1], $invert);
+								break;
 							}
 						}
-						//if (!empty($org_sort))
-						//	$sortby = "ORDER BY $org_sort";
-						break;
-				}
-
-				$len = strlen($matches[0]) - strlen($matches[3]);
-				$query = trim(substr($query, $len, strlen($query)-$len));
+					}
+					//if (!empty($org_sort))
+					//	$sortby = "ORDER BY $org_sort";
+					break;
 			}
-			else
+	
+			$len = strlen($matches[0]) - strlen($matches[3]);
+			$query = trim(substr($query, $len, strlen($query)-$len));
+		}
+		else
+		{
+			if (!empty($query))
 			{
-				if (empty($query))
-					$klar = 1;
-				else
-				{
-					echo "nåt galet hände..\n";
-					echo $query;
-				}
+				echo "nåt galet hände..\n";
+				echo $query;
 			}
 		}
 	}
+	
 	global $db_prefix;
 
 	$from = "FROM `".$db_prefix."objects` AS `objects`";
@@ -1161,7 +1159,7 @@ function clearPathCache()
 function deleteFromPathCache($path)
 {
 	global $db_prefix;
-	$query = "DELETE FROM `".$db_prefix."pathcache` WHERE path = '$path'";
+	$query = "DELETE FROM `".$db_prefix."pathcache` WHERE path = '$path%'";
 
 	$result = mysql_query($query);
 	if (!$result)
