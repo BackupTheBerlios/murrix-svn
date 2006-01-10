@@ -64,6 +64,13 @@ function Poll()
 	}
 }
 
+function OnLoadHandler()
+{
+	init();
+	last_command = "default";
+	setInterval("Poll()", 100);
+}
+
 function Hash()
 {
 	var list = new Array();

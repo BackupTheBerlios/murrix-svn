@@ -49,7 +49,7 @@ $root = new mObject($root_id);
 		</script>
 	</head>
 
-	<body>
+	<body onload="OnLoadHandler()">
 		<div id="loadbox">
 			<div class="header">
 				<?=ucf(i18n("loading"))."..."?>
@@ -107,14 +107,6 @@ $root = new mObject($root_id);
 				<? include(gettpl("footer")) ?>
 			</div>
 		</div>
-		
-		<?//<iframe src="history.php" id="history" name="history" style="width: 0; height: 0; display:none;"></iframe>?>
-		<script type="text/javascript">
-		<!--
-			setInterval("Poll()", 100);
-		// -->
-		</script>
-
 	</body>
 </html>
 
