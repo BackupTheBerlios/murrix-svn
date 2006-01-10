@@ -66,8 +66,6 @@ if (!isset($_SESSION['murrix']['language']))
 if (!isset($_SESSION['murrix']['user']))
 	$_SESSION['murrix']['user'] = new mObject($anonymous_id);
 
-CompileRights();
-
 if (!isset($_SESSION['murrix']['System']))
 	$_SESSION['murrix']['System'] = new mSystem();
 

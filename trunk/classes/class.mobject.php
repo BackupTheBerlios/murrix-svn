@@ -145,6 +145,12 @@ class mObject
 
 	function deleteCurrentVersion()
 	{
+		$paths = $this->getPath(true);
+
+		/// FIXME: Check that this really works for all cases
+		foreach ($paths as $path)
+			deleteFromPathCache($path);
+
 		global $db_prefix;
 		$query = "DELETE FROM `".$db_prefix."objects` WHERE id = '$this->id'";
 
@@ -170,8 +176,6 @@ class mObject
 		}
 
 		$_SESSION['murrix']['querycache'] = array();
-		deleteFromPathCache($this->getId());
-		
 		return true;
 	}
 
@@ -209,21 +213,23 @@ class mObject
 			foreach ($subobjects as $subobject)
 				$subobject->deleteNode();
 		}
-
-		// Delete all links
-		$links = $this->getLinks();
-		foreach ($links as $link)
-			$this->unlinkWithNode($link['remote_id'], $link['type'], ($link['direction'] == "top" ? "bottom" : "top"));
-
 		// Get all versions of this object
 		$versions = fetch("FETCH object WHERE property:node_id='".$this->getNodeId()."'");
-
 		// Delete all subobjects
 		if (count($versions) > 0)
 		{
 			foreach ($versions as $version)
 				$version->deleteCurrentVersion();
 		}
+		
+		// Delete all links
+		$links = $this->getLinks();
+		foreach ($links as $link)
+			$this->unlinkWithNode($link['remote_id'], $link['type'], ($link['direction'] == "top" ? "bottom" : "top"));
+
+
+
+
 
 		$this->deleteNodeId();
 
@@ -598,13 +604,15 @@ class mObject
 
 	function getValidPaths($action, $classes = null)
 	{
-		if (isset($_SESSION['murrix']['querycache'][$action][$this->getNodeId()]))
-			return $_SESSION['murrix']['querycache'][$action][$this->getNodeId()];
+		if (isset($_SESSION['murrix']['querycache']['rights'][$action][$this->getNodeId()]))
+			return $_SESSION['murrix']['querycache']['rights'][$action][$this->getNodeId()];
 	
 		// Check if the right is set for the current user
 		$path_list = $this->getPath(true);
 
 		$valid_paths = array();
+
+		CompileRights();
 	
 		foreach ($path_list as $path)
 		{
@@ -675,7 +683,7 @@ class mObject
 		}
 
 		if ($classes != null)
-			$_SESSION['murrix']['querycache']['querycache'][$action][$this->getNodeId()] = $valid_paths;
+			$_SESSION['murrix']['querycache']['rights'][$action][$this->getNodeId()] = $valid_paths;
 
 		return $valid_paths;
 	}
@@ -1216,7 +1224,7 @@ function clearPathCache()
 function deleteFromPathCache($path)
 {
 	global $db_prefix;
-	$query = "DELETE FROM `".$db_prefix."pathcache` WHERE path = '$path%'";
+	$query = "DELETE FROM `".$db_prefix."pathcache` WHERE path LIKE '$path%'";
 
 	$result = mysql_query($query);
 	if (!$result)
@@ -1230,11 +1238,7 @@ function deleteFromPathCache($path)
 		return false;
 	}
 
-	if (isset($_SESSION['murrix']['pathcache']))
-	{
-		if (!empty($_SESSION['murrix']['pathcache']) && isset($_SESSION['murrix']['pathcache'][$path]))
-			unset($_SESSION['murrix']['pathcache'][$path]);
-	}
+	$_SESSION['murrix']['pathcache'] = array();
 	
 	return true;
 }

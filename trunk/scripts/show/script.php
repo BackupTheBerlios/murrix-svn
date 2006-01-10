@@ -36,22 +36,26 @@ class sShow extends Script
 				$_SESSION['murrix']['path'] = $site_config['sites'][$_SESSION['murrix']['site']]['start'];
 			}
 		}
-		
-		$object = new mObject(resolvePath($_SESSION['murrix']['path']));
 
-		if ($object->hasRight("edit"))
+		$node_id = resolvePath($_SESSION['murrix']['path']);
+		if ($node_id > 0)
 		{
-			if (isset($args['meta']))
-				$object->setMeta($args['meta'], $args['value']);
-
-			// Special case for files
-			if (isset($args['rebuild_thumb']))
+			$object = new mObject($node_id);
+	
+			if ($object->hasRight("edit"))
 			{
-				$thumbnail = new mThumbnail($object->getVarValue("thumbnail_id"));
-				$thumbnail->setRebuild();
-
-				$thumbnail = new mThumbnail($object->getVarValue("imagecache_id"));
-				$thumbnail->setRebuild();
+				if (isset($args['meta']))
+					$object->setMeta($args['meta'], $args['value']);
+	
+				// Special case for files
+				if (isset($args['rebuild_thumb']))
+				{
+					$thumbnail = new mThumbnail($object->getVarValue("thumbnail_id"));
+					$thumbnail->setRebuild();
+	
+					$thumbnail = new mThumbnail($object->getVarValue("imagecache_id"));
+					$thumbnail->setRebuild();
+				}
 			}
 		}
 
@@ -65,13 +69,13 @@ class sShow extends Script
 	{
 		if (!isset($args['path']))
 			$args['path'] = $_SESSION['murrix']['path'];
-			
-		$object = new mObject(resolvePath($args['path']));
-	
+
+		$node_id = resolvePath($args['path']);
+
 		ob_start();
-		
-		if ($object->getNodeId() > 0)
+		if ($node_id > 0)
 		{
+			$object = new mObject($node_id);
 			if ($object->HasRight("read"))
 				include(gettpl("scripts/show", $object));
 			else
