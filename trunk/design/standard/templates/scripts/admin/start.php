@@ -1,6 +1,4 @@
 <?
-echo externcmd(img(geticon("global"))." ".ucf(i18n("external link here")), $_SESSION['murrix']['lastcmd'], "externlink");
-
 $current_view = "start";
 include(gettpl("scripts/admin/adminpanel"));
 

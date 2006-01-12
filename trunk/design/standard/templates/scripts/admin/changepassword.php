@@ -2,7 +2,7 @@
 $current_view = "password_change";
 include(gettpl("scripts/admin/adminpanel"));
 
-$left = img(geticon("settings"))."&nbsp;".ucf(i18n("administration")." - ".ucf(i18n("change passord")));
+$left = img(geticon("settings"))."&nbsp;".ucf(i18n("administration")." - ".ucf(i18n("change password")));
 $right = $center = "";
 include(gettpl("big_title"));
 

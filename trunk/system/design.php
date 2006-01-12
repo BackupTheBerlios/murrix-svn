@@ -319,6 +319,19 @@ function i18n($text, $language = "")
 	if (isset($_SESSION['murrix']['translations'][$language][$text]))
 		return $_SESSION['murrix']['translations'][$language][$text];
 
+	if (isset($_SESSION['murrix']['lang_debug']) && $_SESSION['murrix']['lang_debug'] === true)
+	{
+		global $abspath;
+		$translation_path = "$abspath/design/".$_SESSION['murrix']['site'];
+	
+		if (is_writable($translation_path))
+		{
+			$file = fopen("$translation_path/$language.missing.php", "a+");
+			fwrite($file, "\$translation['$text'] = \"\";\n");
+			fclose($file);
+		}
+	}
+
 	return $text;
 }
 
