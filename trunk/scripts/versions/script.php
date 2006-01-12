@@ -28,9 +28,8 @@ class sVersions extends Script
 
 			if ($object->hasRight("edit"))
 				$object->deleteCurrentVersion();
-		
-			$this->Draw($system, $response, array("path" => $_SESSION['murrix']['path']));
-			return;
+
+			$args['node_id'] = $object->getNodeId();
 		}
 		
 		if (isset($args['node_id']))

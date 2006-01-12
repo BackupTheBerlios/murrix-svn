@@ -41,6 +41,8 @@ if (($str = db_connect()) !== true)
 		{
 			echo "Staring processing of uploaded files...<br/>";flush();
 
+			$count = 1;
+
 			foreach($_FILES as $tagname => $object)
 			{
 				// get the temporary name (e.g. /tmp/php34634.tmp)
@@ -48,7 +50,7 @@ if (($str = db_connect()) !== true)
 				
 				// where to save the file?
 				$targetFile = $_POST[$tagname . '_relativePath'];
-				echo "Processing $targetFile<br/>";flush();
+				echo "Processing #$count: $targetFile<br/>";flush();
 	
 				$paths = pathinfo($targetFile);
 	
@@ -138,7 +140,7 @@ if (($str = db_connect()) !== true)
 				}
 			}
 			
-			echo "Done processing of uploaded files!";flush();
+			echo "Done processing of uploaded files. ($count/".count($_FILES).")";flush();
 		}
 		else
 			echo "You do not have enough rights to upload files.";flush();

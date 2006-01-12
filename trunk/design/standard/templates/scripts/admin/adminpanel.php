@@ -12,5 +12,6 @@
 	echo cmd(img(geticon("password"))."&nbsp;".ucf(i18n("change password")), "Exec('admin', 'zone_main', Hash('show', 'password_change'));", ($current_view == "password_change" ? "tab_selected" : "tab"));
 		
 	?>
-	<div id="clear"></div>
 </div>
+
+<div class="clear"></div>

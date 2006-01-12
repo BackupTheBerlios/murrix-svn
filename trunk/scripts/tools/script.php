@@ -81,8 +81,11 @@ class sTools extends Script
 				return;
 			}
 		}
+
+		if (!isset($args['path']))
+			$args['path'] = $_SESSION['murrix']['path'];
 		
-		$this->Draw($system, $response, array("path" => $_SESSION['murrix']['path']));
+		$this->Draw($system, $response, $args);
 	}
 	
 	function Draw(&$system, &$response, $args)

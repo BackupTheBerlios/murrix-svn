@@ -51,11 +51,14 @@ $root = new mObject($root_id);
 
 	<body onload="OnLoadHandler()">
 		<div id="loadbox">
-			<div class="header">
-				<?=ucf(i18n("loading"))."..."?>
-			</div>
-			<div>
-				<?=img(imgpath("loading.gif"))?>
+			<div class="background"></div>
+			<div class="main">
+				<div class="header">
+					<?=ucf(i18n("loading"))."..."?>
+				</div>
+				<div>
+					<?=img(imgpath("loading.gif"))?>
+				</div>
 			</div>
 		</div>
 	
