@@ -313,8 +313,9 @@ class sAdmin extends Script
 		$right->setName("Read right on Home");
 
 		$right->setVarValue("setting", "allow");
-		$right->setVarValue("noce", resolvePath($home_path));
+		$right->setVarValue("node", resolvePath($home_path));
 		$right->setVarValue("type", "all");
+		$right->setVarValue("inheritable", true);
 		$right->setVarValue("description", "This right gives read access");
 
 		if ($right->save())

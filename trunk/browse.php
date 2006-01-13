@@ -24,7 +24,7 @@ if (($str = db_connect()) !== true)
 if (!isset($_GET['path']))
 	$path = "/Root";
 else
-	$path = $_GET['path'];
+	$path = urldecode($_GET['path']);
 
 $object = new mObject(resolvePath($path));
 
@@ -64,7 +64,7 @@ if (!$object->hasRight("read"))
 					<form action="<?=$_SERVER["SCRIPT_NAME"]?>" method="get" name="resolveForm">
 						<input class="hidden" type="hidden" name="input_id" value="<?=$_GET['input_id']?>"/>
 						<input class="hidden" type="hidden" name="form_id" value="<?=$_GET['form_id']?>"/>
-						<input class="form" name="path" type="text" value="<?=$path?>"/>
+						<input class="form" name="path" type="text" value="<?=urlencode($path)?>"/>
 						<input class="submit" name="submit" type="submit" value="<?=ucf(i18n("resolve"))?>"/>
 					</form>
 				</div>
@@ -80,7 +80,7 @@ if (!$object->hasRight("read"))
 					?>
 					<div class="main">
 					<?
-						echo "<a href=\"".$_SERVER["SCRIPT_NAME"]."?input_id=".$_GET['input_id']."&form_id=".$_GET['form_id']."&path=$parent_path\">".img(geticon($parent->getIcon()))." <strong>".ucf(i18n("up one level"))."</strong></a>";
+						echo "<a href=\"".$_SERVER["SCRIPT_NAME"]."?input_id=".$_GET['input_id']."&form_id=".$_GET['form_id']."&path=".urlencode($parent_path)."\">".img(geticon($parent->getIcon()))." <strong>".ucf(i18n("up one level"))."</strong></a>";
 					?>
 					</div>
 				<?
@@ -95,7 +95,7 @@ if (!$object->hasRight("read"))
 					?>
 						<div class="main">
 						<?
-							echo "<a href=\"".$_SERVER["SCRIPT_NAME"]."?input_id=".$_GET['input_id']."&form_id=".$_GET['form_id']."&path=".$child->getPath()."\">".img(geticon($child->getIcon()))." ".$child->getName()."</a>";
+							echo "<a href=\"".$_SERVER["SCRIPT_NAME"]."?input_id=".$_GET['input_id']."&form_id=".$_GET['form_id']."&path=".urlencode($child->getPath())."\">".img(geticon($child->getIcon()))." ".$child->getName()."</a>";
 						?>
 						</div>
 					<?
