@@ -2,7 +2,11 @@
 	<div class="show_line_logo">
 		<?
 		$pathinfo = pathinfo($child->getVarValue("file"));
-		echo cmd(img(geticon(getfiletype($pathinfo['extension']), 64)), "Exec('show','zone_main', Hash('path', '".$child->getPathInTree()."'))");
+		$read_right = $child->hasRight("read");
+		if ($read_right)
+			echo cmd(img(geticon(getfiletype($pathinfo['extension']), 64)), "Exec('show','zone_main', Hash('path', '".$child->getPathInTree()."'))");
+		else
+			echo img(geticon(getfiletype($pathinfo['extension']), 64));
 		?>
 	</div>
 	<div class="show_line_logo_hidden"></div>
@@ -27,12 +31,19 @@
 	<div class="show_line_main">
 		<div class="show_line_main_top">
 			<div class="show_line_main_top_inner">
-				<span class="show_line_main_top_inner_title"><?=cmd($child->getName(), "Exec('show','zone_main', Hash('path', '".$child->getPathInTree()."'))", "titel")?></span>
+				<span class="show_line_main_top_inner_title">
+				<?
+					if ($read_right)
+						echo cmd($child->getName(), "Exec('show','zone_main', Hash('path', '".$child->getPathInTree()."'))");
+					else
+						echo $child->getName();
+				?>
+				</span>
 			</div>
 		</div>
 
 		<div class="show_line_main_bottom">
-			<?=$child->getVarValue("description")?>
+			<? if ($read_right) { echo $child->getVarValue("description"); } ?>
 		</div>
 	</div>
 	<div id="clear"></div>

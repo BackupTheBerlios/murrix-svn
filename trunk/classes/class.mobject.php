@@ -602,7 +602,103 @@ class mObject
 		return true;
 	}
 
-	function getValidPaths($action, $classes = null)
+	function getValidPaths($type, $classes = null)
+	{
+		if ($type == "read_subnodes")
+			$type = "list_sub";
+		else if ($type == "create_subnodes")
+			$type = "create_sub";
+	
+		if (isset($_SESSION['murrix']['querycache']['rights'][$type][$this->getNodeId()]))
+			return $_SESSION['murrix']['querycache']['rights'][$type][$this->getNodeId()];
+
+		if (!isset($_SESSION['murrix']['querycache']['rights_list']))
+		{
+			$rights_unindexed = GetRightsRecursive($_SESSION['murrix']['user']);
+			
+			$rights = array();
+			foreach ($rights_unindexed as $right)
+				$rights[$right->getVarValue("type", true)][$right->getVarValue("node")] = $right;
+
+			$_SESSION['murrix']['querycache']['rights_list'] = $rights;
+		}
+
+		$rights = $_SESSION['murrix']['querycache']['rights_list'];
+		
+		$path_list = $this->getPath(true);
+		$valid_paths = array();
+
+		foreach ($path_list as $path)
+		{
+			$hasright = false;
+			$path_parts = explode("/", $path);
+			array_shift($path_parts);
+		
+			$newpath = "";
+			
+			for ($n = 0; $n < count($path_parts); $n++)
+			{
+				$newpath .= "/".$path_parts[$n];
+				$path_node = resolvePath($newpath);
+
+				$types = array("all", $type);
+				foreach ($types as $type)
+				{
+					if (isset($rights[$type][$path_node]))
+					{
+						$right = $rights[$type][$path_node];
+						
+						// This right is not inheritable, therefor it does not apply to any other node
+						if ($this->getNodeId() != $path_node && $right->getVarValue("inheritable") == "false")
+							continue;
+	
+						$class_hasright = true;
+						if ($type == "list_sub" || $type == "create_sub")
+						{
+							$classes_allowed = $right->getVarValue("classes");
+	
+							if (count($classes_allowed) > 0)
+							{
+								if ($classes == null)
+									$class_hasright = false;
+								else
+								{
+									foreach ($classes as $class)
+									{
+										if (!in_array($class, $classes_allowed))
+										{
+											$class_hasright = false;
+											break;
+										}
+									}
+								}
+							}
+						}
+	
+						$setting = $right->getVarValue("setting");
+						if ($setting == "allow" && $class_hasright)
+							$hasright = true;
+						else if ($setting == "deny")
+							$hasright = false;
+						else if ($setting == "allowown" && $class_hasright)
+							$hasright = ($this->getCreator() == $_SESSION['murrix']['user']->getNodeId());
+						else
+							$hasright = false;
+					}
+				}
+			}
+
+			if ($hasright)
+				$valid_paths[] = $path;
+		}
+
+		if ($classes != null)
+			$_SESSION['murrix']['querycache']['rights'][$type][$this->getNodeId()] = $valid_paths;
+
+		return $valid_paths;
+	}
+/*
+	function getValidPaths2($action, $classes = null)
 	{
 		if (isset($_SESSION['murrix']['querycache']['rights'][$action][$this->getNodeId()]))
 			return $_SESSION['murrix']['querycache']['rights'][$action][$this->getNodeId()];
@@ -687,7 +783,7 @@ class mObject
 
 		return $valid_paths;
 	}
-
+*/
 	function hasRight($action, $classes = null)
 	{
 		$valid_paths = $this->getValidPaths($action, $classes);

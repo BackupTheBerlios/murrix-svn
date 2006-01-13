@@ -91,6 +91,6 @@ $translation['october'] = "oktober";
 $translation['november'] = "november";
 $translation['december'] = "december";
 $translation['is released under the'] = "är släppt under";
-
+$translation['querystring'] = "söksträng";
 
 ?>

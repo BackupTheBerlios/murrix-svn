@@ -103,6 +103,21 @@ function GetRightsRecursive($object)
 	$rights = array();
 	foreach ($parents as $parent)
 	{
+		$children = fetch("FETCH node WHERE link:node_top='".$parent->getNodeId()."' AND link:type='sub' AND property:class_name='right' NODESORTBY property:version SORTBY property:name");
+		
+		$rights = array_merge($rights, $children, GetRightsRecursive($parent));
+	}
+	
+	return $rights;
+}
+/*
+function GetRightsRecursive($object)
+{
+	$parents = fetch("FETCH node WHERE link:node_bottom='".$object->getNodeId()."' AND link:type='sub' AND property:class_name='group' NODESORTBY property:version SORTBY property:name");
+	
+	$rights = array();
+	foreach ($parents as $parent)
+	{
 		$children = fetch("FETCH node WHERE link:node_top='".$parent->getNodeId()."' AND link:type='sub' AND (property:class_name='right_read' OR property:class_name='right_edit' OR property:class_name='right_delete' OR property:class_name='right_create_subnodes' OR property:class_name='right_read_subnodes') NODESORTBY property:version SORTBY property:name");
 		
 		foreach ($children as $child)
@@ -152,7 +167,7 @@ function CompileRights()
 				break;
 		}
 	}
-}
+}*/
 
 function HasRight($action, $path, $create_classes = array())
 {

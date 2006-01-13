@@ -23,14 +23,34 @@
 			function loading(state)
 			{
 				if (state)
-					document.getElementById('status').src = '<?=imgpath("loading.gif")?>';
+				{
+					document.getElementById('loadbox').style.display = "block";
+				}
 				else
-					document.getElementById('status').src = '<?=imgpath("not_loading.gif")?>';
+				{
+					document.getElementById('loadbox').style.display = "none";
+				}
+			}
+
+			function init()
+			{
+				Exec('install','zone_main', '');
 			}
 		// -->
 		</script>
 	</head>
-	<body>
+	<body onload="OnLoadHandler()">
+		<div id="loadbox">
+			<div class="background"></div>
+			<div class="main">
+				<div class="header">
+					<?=ucf(i18n("loading"))."..."?>
+				</div>
+				<div>
+					<?=img(imgpath("loading.gif"))?>
+				</div>
+			</div>
+		</div>
 		<div id="header">
 			<div id="header_wrapper">
 				<div id="header_logo">
@@ -39,10 +59,6 @@
 				
 				<div id="header_name">
 					MURRiX Installer
-					<br/>
-					<div id="status_holder">
-						<img alt="Status indicator" src="<?=imgpath("not_loading.gif")?>" name="status" id="status"/>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -53,13 +69,5 @@
 				<div style="align: center; vertical-align: middle;" id="zone_main"></div>
 			</div>
 		</center>
-		
-		<iframe src="history.php" id="history" name="history" width="0" height="0" style="display:none;"></iframe>
-
-		<script type="text/javascript">
-		<!--
-			Exec('install', 'zone_main', '');
-		// -->
-		</script>
 	</body>
 </html>

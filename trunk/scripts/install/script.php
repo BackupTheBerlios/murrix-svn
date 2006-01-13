@@ -94,6 +94,8 @@ class sInstall extends Script
 						{
 							$this->db_log .= "Table ".$this->db_prefix."$table exists.<br/>";
 							$this->db_tables = true;
+							global $db_prefix;
+							$db_prefix = $this->db_prefix;
 						}
 					}
 				}
@@ -356,7 +358,8 @@ class sInstall extends Script
 				$query .= "('file_folder', 'file_folder', 17),";
 				$query .= "('file', 'file', 18),";
 				$query .= "('internal_link', 'intern', 19),";
-				$query .= "('contact', 'user', 20);";
+				$query .= "('contact', 'user', 20),";
+				$query .= "('right', 'right', 21);";
 				
 				if (mysql_query($query))
 					$this->db_log .= "Inserted classes into ".$this->db_prefix."classes.<br/>";
@@ -415,7 +418,13 @@ class sInstall extends Script
 				$query .= "(44, 'contact', 'msn', 120, 'textline', ''),";
 				$query .= "(45, 'contact', 'skype', 130, 'textline', ''),";
 				$query .= "(46, 'contact', 'allergies', 140, 'array', ''),";
-				$query .= "(47, 'contact', 'other', 150, 'text', '');";
+				$query .= "(47, 'contact', 'other', 150, 'text', ''),";
+				$query .= "(48, 'right', 'node', 10, 'node', ''),";
+				$query .= "(49, 'right', 'setting', 20, 'selection', 'allow=allow,deny=deny,allowown=allow if author'),";
+				$query .= "(50, 'right', 'type', 30, 'selection', 'all=all,read=read,edit=edit,delete=delete,list_sub=list children,create_sub=create children'),";
+				$query .= "(51, 'right', 'inheritable', 40, 'boolean', ''),";
+				$query .= "(52, 'right', 'classes', 50, 'array', ''),";
+				$query .= "(53, 'right', 'description', 60, 'text', '');";
 				
 				if (mysql_query($query))
 					$this->db_log .= "Inserted vars into ".$this->db_prefix."vars.<br/>";
@@ -600,7 +609,7 @@ class sInstall extends Script
 			===================================
 			== Right Read: Read Right Public ==
 			===================================
-			*/
+
 			$read_public_obj = new mObject();
 			$read_public_obj->setClassName("right_read");
 			$read_public_obj->loadVars();
@@ -620,13 +629,13 @@ class sInstall extends Script
 			{
 				$this->db_log .= "Failed to create ".$read_public_obj->getName().".<br/>";
 				$this->done = false;
-			}
+			}*/
 			
 			/*
 			============================================
 			== Right Read Subnodes: List Right Public ==
 			============================================
-			*/
+
 			$list_public_obj = new mObject();
 			$list_public_obj->setClassName("right_read_subnodes");
 			$list_public_obj->loadVars();
@@ -646,7 +655,7 @@ class sInstall extends Script
 			{
 				$this->db_log .= "Failed to create ".$list_public_obj->getName().".<br/>";
 				$this->done = false;
-			}
+			}*/
 			
 			/*
 			===========================
@@ -702,7 +711,7 @@ class sInstall extends Script
 			===================================
 			== Right Read: Read Right Root ==
 			===================================
-			*/
+
 			$read_root_obj = new mObject();
 			$read_root_obj->setClassName("right_read");
 			$read_root_obj->loadVars();
@@ -722,13 +731,13 @@ class sInstall extends Script
 			{
 				$this->db_log .= "Failed to create ".$read_root_obj->getName().".<br/>";
 				$this->done = false;
-			}
+			}*/
 
 			/*
 			===================================
 			== Right List: List Right Root ==
 			===================================
-			*/
+
 			$list_root_obj = new mObject();
 			$list_root_obj->setClassName("right_read_subnodes");
 			$list_root_obj->loadVars();
@@ -748,13 +757,13 @@ class sInstall extends Script
 			{
 				$this->db_log .= "Failed to create ".$list_root_obj->getName().".<br/>";
 				$this->done = false;
-			}
+			}*/
 
 			/*
 			===================================
 			== Right Create: Create Right Root ==
 			===================================
-			*/
+
 			$create_root_obj = new mObject();
 			$create_root_obj->setClassName("right_create_subnodes");
 			$create_root_obj->loadVars();
@@ -773,13 +782,13 @@ class sInstall extends Script
 			{
 				$this->db_log .= "Failed to create ".$create_root_obj->getName().".<br/>";
 				$this->done = false;
-			}
+			}*/
 			
 			/*
 			===================================
 			== Right Delete: Delete Right Root ==
 			===================================
-			*/
+
 			$delete_root_obj = new mObject();
 			$delete_root_obj->setClassName("right_delete");
 			$delete_root_obj->loadVars();
@@ -799,13 +808,13 @@ class sInstall extends Script
 			{
 				$this->db_log .= "Failed to create ".$delete_root_obj->getName().".<br/>";
 				$this->done = false;
-			}
+			}*/
 			
 			/*
 			===================================
 			== Edit Delete: Edit Right Root ==
 			===================================
-			*/
+
 			$edit_root_obj = new mObject();
 			$edit_root_obj->setClassName("right_edit");
 			$edit_root_obj->loadVars();
@@ -825,7 +834,127 @@ class sInstall extends Script
 			{
 				$this->db_log .= "Failed to create ".$edit_root_obj->getName().".<br/>";
 				$this->done = false;
+			}*/
+			
+			/* ======================================================================================= */
+			// Anonymous rights
+
+			$right1 = new mObject();
+			$right1->setClassName("right");
+			$right1->loadVars();
+			$right1->setLanguage("eng");
+			$right1->setName("Read right on Root");
+
+			$right1->setVarValue("node", $root_obj->getNodeId());
+			$right1->setVarValue("setting", "allow");
+			$right1->setVarValue("type", "read");
+			$right1->setVarValue("inheritable", false);
+			$right1->setVarValue("description", "This right gives read access to /Root");
+			
+			if ($right1->save())
+			{
+				$right1->linkWithNode($group_anon_obj->getNodeId());
+				$this->db_log .= "Created ".$right1->getName().".<br/>";
 			}
+			else
+			{
+				$this->db_log .= "Failed to create ".$right1->getName().".<br/>";
+				$this->done = false;
+			}
+
+			$right2 = new mObject();
+			$right2->setClassName("right");
+			$right2->loadVars();
+			$right2->setLanguage("eng");
+			$right2->setName("Read right on Public");
+
+			$right2->setVarValue("node", $public_obj->getNodeId());
+			$right2->setVarValue("setting", "allow");
+			$right2->setVarValue("type", "read");
+			$right2->setVarValue("inheritable", true);
+			$right2->setVarValue("description", "This right gives read access to /Root/Public/*");
+			
+			if ($right2->save())
+			{
+				$right2->linkWithNode($group_anon_obj->getNodeId());
+				$this->db_log .= "Created ".$right2->getName().".<br/>";
+			}
+			else
+			{
+				$this->db_log .= "Failed to create ".$right2->getName().".<br/>";
+				$this->done = false;
+			}
+
+			$right3 = new mObject();
+			$right3->setClassName("right");
+			$right3->loadVars();
+			$right3->setLanguage("eng");
+			$right3->setName("List right on Public");
+
+			$right3->setVarValue("node", $public_obj->getNodeId());
+			$right3->setVarValue("setting", "allow");
+			$right3->setVarValue("type", "list_sub");
+			$right3->setVarValue("inheritable", true);
+			$right3->setVarValue("description", "This right gives list access to /Root/Public/*");
+			
+			if ($right3->save())
+			{
+				$right3->linkWithNode($group_anon_obj->getNodeId());
+				$this->db_log .= "Created ".$right3->getName().".<br/>";
+			}
+			else
+			{
+				$this->db_log .= "Failed to create ".$right3->getName().".<br/>";
+				$this->done = false;
+			}
+
+			$right4 = new mObject();
+			$right4->setClassName("right");
+			$right4->loadVars();
+			$right4->setLanguage("eng");
+			$right4->setName("Read right on Home");
+
+			$right4->setVarValue("node", $home_obj->getNodeId());
+			$right4->setVarValue("setting", "allow");
+			$right4->setVarValue("type", "read");
+			$right4->setVarValue("inheritable", false);
+			$right4->setVarValue("description", "This right gives read access to /Root/Home");
+			
+			if ($right4->save())
+			{
+				$right4->linkWithNode($group_anon_obj->getNodeId());
+				$this->db_log .= "Created ".$right4->getName().".<br/>";
+			}
+			else
+			{
+				$this->db_log .= "Failed to create ".$right4->getName().".<br/>";
+				$this->done = false;
+			}
+
+			$right5 = new mObject();
+			$right5->setClassName("right");
+			$right5->loadVars();
+			$right5->setLanguage("eng");
+			$right5->setName("All access on Root");
+
+			$right5->setVarValue("node", $root_obj->getNodeId());
+			$right5->setVarValue("setting", "allow");
+			$right5->setVarValue("type", "all");
+			$right5->setVarValue("inheritable", true);
+			$right5->setVarValue("description", "This right gives all access to /Root/*");
+			
+			if ($right5->save())
+			{
+				$right5->linkWithNode($group_admin_obj->getNodeId());
+				$this->db_log .= "Created ".$right5->getName().".<br/>";
+			}
+			else
+			{
+				$this->db_log .= "Failed to create ".$right5->getName().".<br/>";
+				$this->done = false;
+			}
+
+			/* ======================================================================================= */
 
 			$confdata = "<?\n";
 			$confdata .= "\$anonymous_id = ".$user_anon_obj->getNodeId().";\n";

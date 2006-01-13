@@ -3,7 +3,6 @@
 		<?
 		$maxsize = 64;
 		?>
-		
 		<div style="text-align: center; width: <?=$maxsize?>px; height: <?=$maxsize?>px;">
 		<?
 			$thumb_id = $child->getVarValue("thumbnail");
@@ -25,11 +24,17 @@
 	
 				$thumbnail->height = $h;
 				$thumbnail->width = $w;
-				
-				echo cmd($thumbnail->Show(true), "Exec('show','zone_main', Hash('path', '".$child->getPathInTree()."'))");
+
+				$img = $thumbnail->Show(true);
 			}
 			else
-				echo cmd(img(geticon($child->getIcon(), 64)), "Exec('show','zone_main', Hash('path', '".$child->getPathInTree()."'))");
+				$img = img(geticon($child->getIcon(), 64));
+				
+			$read_right = $child->hasRight("read");
+			if ($read_right)
+				echo cmd($img, "Exec('show','zone_main', Hash('path', '".$child->getPathInTree()."'))");
+			else
+				echo $img;
 		?>
 		</div>
 	</div>
@@ -55,24 +60,39 @@
 	<div class="show_line_main">
 		<div class="show_line_main_top">
 			<div class="show_line_main_top_inner">
-				<span class="show_line_main_top_inner_title"><?=cmd($child->getName(), "Exec('show','zone_main', Hash('path', '".$child->getPathInTree()."'))")?></span>
+				<span class="show_line_main_top_inner_title">
 				<?
-				$emails = $child->getVarValue("emails");
-
-				if (!empty($emails))
-				{
-					if (is_array($emails))
-						echo "- <a href=\"mailto:".$emails[0]."\">".$emails[0]."</a>";
+					if ($read_right)
+						echo cmd($child->getName(), "Exec('show','zone_main', Hash('path', '".$child->getPathInTree()."'))");
 					else
-						echo "- <a href=\"mailto:".$emails."\">".$emails."</a>";
+						echo $child->getName();
+				?>
+				</span>
+				<?
+				if ($read_right)
+				{
+					$emails = $child->getVarValue("emails");
+	
+					if (!empty($emails))
+					{
+						if (is_array($emails))
+							echo "- <a href=\"mailto:".$emails[0]."\">".$emails[0]."</a>";
+						else
+							echo "- <a href=\"mailto:".$emails."\">".$emails."</a>";
+					}
 				}
 				?>
 			</div>
 		</div>
 
 		<div class="show_line_main_bottom">
-			<b><?=ucf(i18n("mobilephone"))?>:</b> <?=$child->getVarValue("mobilephone")?><br/>
-			<b><?=ucf(i18n("homephone"))?>:</b> <?=$child->getVarValue("homephone")?><br/>
+		<?
+			if ($read_right)
+			{?>
+				<b><?=ucf(i18n("mobilephone"))?>:</b> <?=$child->getVarValue("mobilephone")?><br/>
+				<b><?=ucf(i18n("homephone"))?>:</b> <?=$child->getVarValue("homephone")?><br/>
+			<?}
+		?>
 		</div>
 	</div>
 	<div id="clear"></div>

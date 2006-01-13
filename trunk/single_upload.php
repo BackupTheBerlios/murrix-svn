@@ -53,7 +53,7 @@ if (isset($_POST['action']) && $_POST['action'] == "upload")
 	</head>
 	
 	<body>
-		<form action="<?=$_SERVER["SCRIPT_URI"]?>" enctype="multipart/form-data" method="post" name="uploadForm">
+		<form action="<?=$_SERVER["SCRIPT_NAME"]?>" enctype="multipart/form-data" method="post" name="uploadForm">
 			<input class="hidden" type="hidden" name="MAX_FILE_SIZE" value="2000000"/>
 			<input class="hidden" type="hidden" name="varid" value="<?=$_GET['varid']?>"/>
 			<input class="hidden" name="action" type="hidden" value="upload"/>
