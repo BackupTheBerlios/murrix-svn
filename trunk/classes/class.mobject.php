@@ -145,12 +145,6 @@ class mObject
 
 	function deleteCurrentVersion()
 	{
-		$paths = $this->getPath(true);
-
-		/// FIXME: Check that this really works for all cases
-		foreach ($paths as $path)
-			deleteFromPathCache($path);
-
 		global $db_prefix;
 		$query = "DELETE FROM `".$db_prefix."objects` WHERE id = '$this->id'";
 
@@ -176,6 +170,8 @@ class mObject
 		}
 
 		$_SESSION['murrix']['querycache'] = array();
+		updatePaths($this->getNodeId());
+		
 		return true;
 	}
 
@@ -227,11 +223,8 @@ class mObject
 		foreach ($links as $link)
 			$this->unlinkWithNode($link['remote_id'], $link['type'], ($link['direction'] == "top" ? "bottom" : "top"));
 
-
-
-
-
 		$this->deleteNodeId();
+		updatePaths($this->getNodeId());
 
 		return true;
 	}
@@ -307,6 +300,7 @@ class mObject
 
 		$this->loadByObjectId($this->id);
 		$_SESSION['murrix']['querycache'] = array();
+		updatePaths($this->getNodeId());
 
 		return true;
 	}
@@ -345,23 +339,23 @@ class mObject
 	{
 		///FIXME: Maybe cache this somehow
 		// Return main path, all with main first if allpaths is true
-		$paths = getPaths($this->node_id);
+		$paths = getPaths($this->node_id, $this->getName());
 
 		if ($allpaths)
-		{
+		{/*
 			if ($paths === -1)
 				return array("/".$this->getName());
 		
 			for ($n = 0; $n < count($paths); $n++)
 				$paths[$n] .= "/".$this->getName();
-				
+				*/
 			return $paths;
 		}
 
-		if ($paths === -1)
-			return "/".$this->getName();
+		//if ($paths === -1)
+		//	return "/".$this->getName();
 
-		return $paths[0]."/".$this->getName();
+		return $paths[0];//."/".$this->getName();
 	}
 
 	function getPathInTree($root_path = "")
@@ -392,28 +386,6 @@ class mObject
 		return $this->getPath();
 	}
 
-	function addPath($path)
-	{
-		// Create a link with the new path
-		$node_id = resolvePath($path);
-		if ($node_id > 0)
-			return $this->linkWithNode($node_id);
-
-		$this->error = "mObject::addPath: Could not resolve \"$path\".";
-		return false;
-	}
-
-	function delPath($path)
-	{
-		// Remove a link the object specified by the path
-		$node_id = resolvePath($path);
-		if ($node_id > 0)
-			return $this->unlinkWithNode($node_id, "sub", "bottom");
-
-		$this->error = "mObject::delPath: Could not resolve \"$path\".";
-		return false;
-	}
-
 	function linkWithNode($node_id, $type = "sub", $direction = "bottom")
 	{
 		global $db_prefix;
@@ -441,21 +413,16 @@ class mObject
 			{
 				$parent = new mObject($node_id);
 				$paths = $parent->getPath(true);
-
-				foreach ($paths as $path)
-					addToPathCache("$path/".$this->getName(), $this->node_id);
 			}
 			else
 			{
 				$child = new mObject($node_id);
 				$paths = $this->getPath(true);
-
-				foreach ($paths as $path)
-					addToPathCache("$path/".$child->getName(), $node_id);
 			}
 		}
 
 		$_SESSION['murrix']['querycache'] = array();
+		updatePaths($this->getNodeId());
 		
 		return true;
 	}
@@ -463,34 +430,6 @@ class mObject
 	function unlinkWithNode($node_id, $type, $direction)
 	{
 		global $db_prefix;
-
-		if ($type == "sub")
-		{
-
-			$paths = $this->getPath(true);
-
-			/// FIXME: Check that this really works for all cases
-			foreach ($paths as $path)
-				deleteFromPathCache($path);
-		
-			/*
-			if ($direction == "bottom")
-			{
-				$parent = new mObject($node_id);
-				$paths = $parent->getPath(true);
-
-				foreach ($paths as $path)
-					deleteFromPathCache($path);
-			}
-			else if ($direction == "top")
-			{
-				$child = new mObject($node_id);
-				$paths = $this->getPath(true);
-
-				foreach ($paths as $path)
-					deleteFromPathCache($path);
-			}*/
-		}
 		
 		if ($direction == "bottom")
 			$query = "DELETE FROM `".$db_prefix."links` WHERE type = '$type' AND node_top = '$node_id' AND node_bottom = '$this->node_id'";
@@ -511,6 +450,7 @@ class mObject
 		}
 
 		$_SESSION['murrix']['querycache'] = array();
+		updatePaths($this->getNodeId());
 		
 		return true;
 	}
@@ -1265,7 +1205,7 @@ function delObjectFromCache($object_id)
 	$filename = "$path/cache/$object_id.obj";
 	@unlink($filename);
 }
-
+/*
 function addToPathCache($path, $node_id)
 {
 	global $db_prefix;
@@ -1424,24 +1364,8 @@ function getPaths($node_id, $depth = 0)
 	
 	$array = array();
 
-
-	if (isset($_SESSION['murrix']['pathcache']))
-	{
-		if (is_array($_SESSION['murrix']['pathcache']))
-		{
-			foreach ($_SESSION['murrix']['pathcache'] as $key => $value)
-			{
-				if ($value == $node_id)
-					array_push($array, GetParentPath($key));
-			}
-		}
-	}
-	
-	if (count($array) > 0)
-	{
-		//$_SESSION['debug'] += microtime_float()-$time;
-		return $array;
-	}
+	if (isset($_SESSION['murrix']['rev_pathcache'][$node_id]))
+		return $_SESSION['murrix']['rev_pathcache'][$node_id];
 	
 	global $db_prefix, $root_id;
 
@@ -1516,10 +1440,11 @@ function getPaths($node_id, $depth = 0)
 		}
 	}
 
-	//$_SESSION['debug'] += microtime_float()-$time;
+	$_SESSION['murrix']['rev_pathcache'][$node_id] = $array;
+
 	return $array;
 }
-
+*/
 function getClassList()
 {
 	global $db_prefix;

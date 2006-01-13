@@ -21,12 +21,7 @@ class sShow extends Script
 
 	function Exec(&$system, &$response, $args)
 	{
-		if (isset($args['node_id']))
-		{
-			$paths = getPaths($args['node_id']);
-			$_SESSION['murrix']['path'] = $paths[0];
-		}
-		else if (isset($args['path']))
+		if (isset($args['path']))
 			$_SESSION['murrix']['path'] = $args['path'];
 		else
 		{

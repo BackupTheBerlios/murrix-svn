@@ -9,6 +9,7 @@ if (file_exists("config.inc.php"))
 require_once("system/functions.php");
 require_once("system/design.php");
 require_once("system/system.php");
+require_once("system/paths.php");
 
 require_once("classes/class.script.php");
 require_once("classes/class.mobject.php");

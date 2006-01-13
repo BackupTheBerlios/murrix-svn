@@ -12,6 +12,7 @@ require_once("3dparty/exifer/exif.php");
 require_once("system/functions.php");
 require_once("system/design.php");
 require_once("system/system.php");
+require_once("system/paths.php");
 
 require_once("vars.php");
 require_once("session.php");
@@ -64,7 +65,7 @@ if (!$object->hasRight("read"))
 					<form action="<?=$_SERVER["SCRIPT_NAME"]?>" method="get" name="resolveForm">
 						<input class="hidden" type="hidden" name="input_id" value="<?=$_GET['input_id']?>"/>
 						<input class="hidden" type="hidden" name="form_id" value="<?=$_GET['form_id']?>"/>
-						<input class="form" name="path" type="text" value="<?=urlencode($path)?>"/>
+						<input class="form" name="path" type="text" value="<?=urldecode($path)?>"/>
 						<input class="submit" name="submit" type="submit" value="<?=ucf(i18n("resolve"))?>"/>
 					</form>
 				</div>

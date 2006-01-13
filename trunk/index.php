@@ -4,6 +4,7 @@ require_once("vars.php");
 require_once("system/functions.php");
 require_once("system/design.php");
 require_once("system/system.php");
+require_once("system/paths.php");
 
 if (!file_exists("config.inc.php"))
 {
