@@ -306,99 +306,21 @@ class sAdmin extends Script
 		== Right Read: Read Right Home ==
 		===================================
 		*/
-		$read_home_obj = new mObject();
-		$read_home_obj->setClassName("right_read");
-		$read_home_obj->loadVars();
-		$read_home_obj->setLanguage("eng");
-		$read_home_obj->setName("Read Right Home");
+		$right = new mObject();
+		$right->setClassName("right");
+		$right->loadVars();
+		$right->setLanguage("eng");
+		$right->setName("Read right on Home");
 
-		$read_home_obj->setVarValue("setting", "allow");
-		$read_home_obj->setVarValue("path", $home_path);
-		$read_home_obj->setVarValue("description", "This right gives read access");
+		$right->setVarValue("setting", "allow");
+		$right->setVarValue("noce", resolvePath($home_path));
+		$right->setVarValue("type", "all");
+		$right->setVarValue("description", "This right gives read access");
 
-		if ($read_home_obj->save())
-			$read_home_obj->linkWithNode($group->getNodeId());
+		if ($right->save())
+			$right->linkWithNode($group->getNodeId());
 		else
-			return "Failed to create ".$read_home_obj->getName();
-
-		/*
-		===================================
-		== Right List: List Right Home ==
-		===================================
-		*/
-		$list_home_obj = new mObject();
-		$list_home_obj->setClassName("right_read_subnodes");
-		$list_home_obj->loadVars();
-		$list_home_obj->setLanguage("eng");
-		$list_home_obj->setName("List Right Home");
-
-		$list_home_obj->setVarValue("setting", "allow");
-		$list_home_obj->setVarValue("path", $home_path);
-		$list_home_obj->setVarValue("description", "This right gives list access");
-
-		if ($list_home_obj->save())
-			$list_home_obj->linkWithNode($group->getNodeId());
-		else
-			return "Failed to create ".$list_home_obj->getName();
-
-		/*
-		===================================
-		== Right Create: Create Right Home ==
-		===================================
-		*/
-		$create_home_obj = new mObject();
-		$create_home_obj->setClassName("right_create_subnodes");
-		$create_home_obj->loadVars();
-		$create_home_obj->setLanguage("eng");
-		$create_home_obj->setName("Create Right Home");
-
-		$create_home_obj->setVarValue("path", $home_path);
-		$create_home_obj->setVarValue("description", "This right gives rights to the creation of objects");
-
-		if ($create_home_obj->save())
-			$create_home_obj->linkWithNode($group->getNodeId());
-		else
-			return "Failed to create ".$create_home_obj->getName();
-
-		/*
-		===================================
-		== Right Delete: Delete Right Home ==
-		===================================
-		*/
-		$delete_home_obj = new mObject();
-		$delete_home_obj->setClassName("right_delete");
-		$delete_home_obj->loadVars();
-		$delete_home_obj->setLanguage("eng");
-		$delete_home_obj->setName("Delete Right Home");
-
-		$delete_home_obj->setVarValue("setting", "allow");
-		$delete_home_obj->setVarValue("path", $home_path);
-		$delete_home_obj->setVarValue("description", "This right gives rights to delete");
-
-		if ($delete_home_obj->save())
-			$delete_home_obj->linkWithNode($group->getNodeId());
-		else
-			return "Failed to create ".$delete_home_obj->getName();
-
-		/*
-		===================================
-		== Edit Delete: Edit Right Home ==
-		===================================
-		*/
-		$edit_home_obj = new mObject();
-		$edit_home_obj->setClassName("right_edit");
-		$edit_home_obj->loadVars();
-		$edit_home_obj->setLanguage("eng");
-		$edit_home_obj->setName("Edit Right Home");
-
-		$edit_home_obj->setVarValue("setting", "allow");
-		$edit_home_obj->setVarValue("path", $home_path);
-		$edit_home_obj->setVarValue("description", "This right gives edit rights");
-
-		if ($edit_home_obj->save())
-			$edit_home_obj->linkWithNode($group->getNodeId());
-		else
-			return "Failed to create ".$edit_home_obj->getName();
+			return "Failed to create ".$right->getName();
 
 		return "";
 	}
