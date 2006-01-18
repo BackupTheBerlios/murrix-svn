@@ -133,6 +133,14 @@ function path_add_to_cache($node_id, $paths)
 
 	foreach ($paths as $path)
 	{
+		if (isset($_SESSION['murrix']['pathcache_node'][$path]))
+		{
+			if ($_SESSION['murrix']['pathcache_node'][$path] == $node_id)
+				continue;
+			else
+				path_del_from_cache($node_id);
+		}
+	
 		$query = "INSERT INTO `".$db_prefix."pathcache` (node_id, path) VALUES('$node_id', '$path')";
 		if (!($result = mysql_query($query)))
 		{
