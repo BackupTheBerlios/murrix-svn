@@ -632,7 +632,7 @@ class mObject
 				$valid_paths[] = $path;
 		}
 
-		if ($classes != null)
+		if ($classes == null)
 			$_SESSION['murrix']['querycache']['rights'][$type][$this->getNodeId()] = $valid_paths;
 
 		return $valid_paths;

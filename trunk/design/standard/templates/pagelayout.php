@@ -27,15 +27,20 @@ $root = new mObject($root_id);
 		?>
 		<script type="text/javascript">
 		<!--
+
+			//var effect;
 			function loading(state)
 			{
 				if (state)
 				{
 					document.getElementById('loadbox').style.display = "block";
+					//effect.custom(0, 0.8);
+
 				}
 				else
 				{
 					document.getElementById('loadbox').style.display = "none";
+					//effect.hide();
 				}
 			}
 
@@ -45,11 +50,17 @@ $root = new mObject($root_id);
 				Exec('login','zone_login', '');
 				Exec('show','zone_main', '');
 			}
+
+			/*function loadEffects()
+			{
+				effect = new fx.Opacity('loadbox', {duration: 300});
+				//effect.hide();
+			}*/
 		// -->
 		</script>
 	</head>
 
-	<body onload="OnLoadHandler()">
+	<body onload="OnLoadHandler();">
 		<div id="loadbox">
 			<div class="background"></div>
 			<div class="main">

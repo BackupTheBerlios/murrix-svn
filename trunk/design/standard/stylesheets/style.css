@@ -10,6 +10,7 @@ body
 
 #loadbox
 {
+	float: left;
 	display: none;
 	margin: 0;
 	top: 0;
