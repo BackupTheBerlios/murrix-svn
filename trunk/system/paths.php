@@ -129,8 +129,6 @@ function resolvePath($path)
 
 function path_add_to_cache($node_id, $paths)
 {
-	path_del_from_cache($node_id);
-
 	global $db_prefix;
 
 	foreach ($paths as $path)
