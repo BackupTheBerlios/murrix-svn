@@ -44,7 +44,7 @@ include(gettpl("big_title"));
 		if (isset($object->vars))
 		{
 			foreach ($object->vars as $var)
-				echo $var->getName().": (".$var->getType().")<br/><div class=\"container\">".$var->getEdit("objectmanagerForm")."</div><br/>";
+				echo $var->getName().": (".$var->getType().")<br/><div class=\"container\">".$var->getEdit("sEdit")."</div><br/>";
 		}
 		?>
 		<input class="submit" id="submitButton" type="submit" value="<?=ucf(i18n("save"))?>"/>

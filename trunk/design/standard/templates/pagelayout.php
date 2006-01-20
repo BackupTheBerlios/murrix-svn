@@ -50,18 +50,7 @@ $root = new mObject($root_id);
 	</head>
 
 	<body onload="OnLoadHandler();">
-		<div id="loadbox">
-			<div class="background"></div>
-			<div class="main">
-				<div class="header">
-					<?=ucf(i18n("loading"))."..."?>
-				</div>
-				<div>
-					<?=img(imgpath("loading.gif"))?>
-				</div>
-			</div>
-		</div>
-	
+		
 		<div id="header">
 			<div id="header_wrapper">
 				<div id="zone_login"></div>
@@ -110,6 +99,20 @@ $root = new mObject($root_id);
 				<? include(gettpl("footer")) ?>
 			</div>
 		</div>
+		
+		<div id="loadbox">
+			<div class="background"></div>
+			<div class="main">
+				<div class="header">
+					<?=ucf(i18n("loading"))."..."?>
+				</div>
+				<div>
+					<?=img(imgpath("loading.gif"))?>
+				</div>
+			</div>
+		</div>
+		
+		<div id="popupCalendarDiv" style="visibility:hidden; position:absolute; z-index:11;"></div>
 	</body>
 </html>
 

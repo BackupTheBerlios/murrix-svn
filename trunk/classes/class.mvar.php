@@ -80,7 +80,7 @@ class mVarDate extends mVar
 	
 	function getEdit($formname)
 	{
-		return parent::getEdit($formname);
+		return "<input class=\"form\" id=\"v$this->id\" name=\"v$this->id\" type=\"text\" value=\"$this->value\"/> <a name=\"button$this->id\" id=\"button$this->id\" href=\"javascript:void(null);\" onclick=\"var calendar=new CalendarPopup('popupCalendarDiv');calendar.select(document.getElementById('$formname').v$this->id,'button$this->id','yyyy-MM-dd');\">".img(imgpath("calendar.jpg"), ucf(i18n("calendar")))."</a>";
 	}
 }
 
@@ -191,7 +191,7 @@ class mVarNode extends mVar
 	
 	function getEdit($formname)
 	{
-		return "<input class=\"form\" id=\"v$this->id\" name=\"v$this->id\" type=\"text\" value=\"$this->value\"/> <a href=\"javascript:void(null);\" onclick=\"popWin = open('browse.php?input_id=v$this->id&form_id=sEdit','PopUpWindow','width=300,height=300,scrollbars=1,status=0'); popWin.opener = self; popWin.focus(); popWin.moveTo(150,50); return false\">".ucf(i18n("browse"))."</a>";
+		return "<input class=\"form\" id=\"v$this->id\" name=\"v$this->id\" type=\"text\" value=\"$this->value\"/> <a href=\"javascript:void(null);\" onclick=\"popWin = open('browse.php?input_id=v$this->id&form_id=$formname','PopUpWindow','width=300,height=300,scrollbars=1,status=0'); popWin.opener = self; popWin.focus(); popWin.moveTo(150,50); return false\">".ucf(i18n("browse"))."</a>";
 	}
 }
 
