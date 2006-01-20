@@ -19,15 +19,34 @@ function ucf($text)
 	return $buffer;
 }
 
-function cmd($name, $cmd, $class = "", $title = "")
+function cmd($name, $cmd, $args = "", $title_deprecated = "")
 {
-	return "<a ".(!empty($title) ? "title=\"$title\"" : "")." ".(!empty($class) ? "class=\"$class\"" : "")." href=\"#$cmd\" onclick=\"run_cmd=true;\">$name</a>";
-}
+	$arg_string = "";
 
-function externcmd($name, $cmd, $class = "", $title = "")
-{
-	$cmd = urlencode($cmd);
-	return "<a ".(!empty($title) ? "title=\"$title\"" : "")." ".(!empty($class) ? "class=\"$class\"" : "")." href=\"extern.php?cmd=$cmd\" target=\"history\">$name</a>";
+	if (!empty($title_deprecated))
+		$arg_string .= "title=\"$title_deprecated\" ";
+
+	$onclick_string = "run_cmd=true;";
+	
+	if (!empty($args))
+	{
+		if (is_array($args))
+		{
+			foreach ($args as $key => $value)
+			{
+				if ($key == "onclick")
+					$onclick_string .= "$value;";
+				else
+					$arg_string .= "$key=\"$value\" ";
+			}
+		}
+		else // assume we got class
+		{
+			$arg_string .= "class=\"$args\" ";
+		}
+	}
+	
+	return "<a href=\"#$cmd\" onclick=\"$onclick_string\" $arg_string>$name</a>";
 }
 
 function imgpath($append = "")
@@ -61,7 +80,7 @@ function table($list, $endstring = "% rows")
 						?><tr><?
 						
 						$class = $n%2 ? "row" : "row_selected";
-						foreach ($list[$n] as $data)
+							foreach ($list[$n] as $data)
 						{
 						?>
 							<td class="<?=$class?>">

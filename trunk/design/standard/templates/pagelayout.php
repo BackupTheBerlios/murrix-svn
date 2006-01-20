@@ -26,20 +26,15 @@ $root = new mObject($root_id);
 		?>
 		<script type="text/javascript">
 		<!--
-
-			//var effect;
 			function loading(state)
 			{
 				if (state)
 				{
 					document.getElementById('loadbox').style.display = "block";
-					//effect.custom(0, 0.8);
-
 				}
 				else
 				{
 					document.getElementById('loadbox').style.display = "none";
-					//effect.hide();
 				}
 			}
 
@@ -47,14 +42,9 @@ $root = new mObject($root_id);
 			{
 				Exec('addressbar','zone_addressbar', '');
 				Exec('login','zone_login', '');
-				Exec('show','zone_main', '');
-			}
 
-			/*function loadEffects()
-			{
-				effect = new fx.Opacity('loadbox', {duration: 300});
-				//effect.hide();
-			}*/
+				return "Exec('show','zone_main', '<?=$_SESSION['murrix']['default_path']?>')";
+			}
 		// -->
 		</script>
 	</head>
