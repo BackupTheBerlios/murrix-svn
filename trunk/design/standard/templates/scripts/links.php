@@ -15,6 +15,9 @@ if ($object->hasRight("edit"))
 			<input name="action" class="hidden" type="hidden" value="newlink"/>
 			<input name="node_id" class="hidden" type="hidden" value="<?=$object->getNodeId()?>"/>
 			<input name="path" class="input_big" type="text" value="/Root"/>
+
+			<a class="submit" href="javascript:void(null);" onclick="popWin=open('browse.php?input_path_id=path&form_id=linkForm','PopUpWindow','width=300,height=300,scrollbars=1,status=0');popWin.opener=self; popWin.focus();popWin.moveTo(150,50);return false;"><?=ucf(i18n("browse"))?></a>
+			
 			<?=i18n("as")?>
 			<select class="form" name="type">
 			<?

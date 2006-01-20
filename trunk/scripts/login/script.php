@@ -46,8 +46,8 @@ class sLogin extends Script
 					unset($_SESSION['murrix']['querycache']['rights']);
 					unset($_SESSION['murrix']['querycache']['rights_list']);
 					
-					$system->TriggerEventIntern($response, "login");
-					$response->addScript("window.location.reload(false)");
+					//$system->TriggerEventIntern($response, "login");
+					$response->addScript("window.location.reload()");
 				}
 				return;
 			}
@@ -61,8 +61,8 @@ class sLogin extends Script
 				unset($_SESSION['murrix']['querycache']['rights']);
 				unset($_SESSION['murrix']['querycache']['rights_list']);
 	
-				$system->TriggerEventIntern($response, "logout");
-				$response->addScript("window.location.reload(false)");
+				//$system->TriggerEventIntern($response, "logout");
+				$response->addScript("window.location.reload()");
 				return;
 			}
 		}

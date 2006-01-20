@@ -2,6 +2,7 @@
 
 $translation['swe'] = "svenska";
 $translation['eng'] = "engelska";
+$translation['all classes'] = "alla klasser";
 $translation['loading'] = "laddar";
 $translation['enter search here'] = "skriv söktext här";
 $translation['search'] = "sök";
@@ -16,6 +17,7 @@ $translation['logout'] = "logga ut";
 $translation['change password'] = "ändra lösenord";
 $translation['list'] = "lista";
 $translation['thumbnailes'] = "tumnaglar";
+$translation['table'] = "tabell";
 $translation['edit'] = "ändra";
 $translation['tools'] = "verktyg";
 $translation['delete'] = "ta bort";

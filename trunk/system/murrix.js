@@ -40,6 +40,7 @@ function URLDecode(indata)
 }
 
 var last_command = "";
+var run_cmd = true;
 
 function Poll()
 {
@@ -47,12 +48,12 @@ function Poll()
 	if (typeof command == 'undefined')
 		command = "default";
 
-	if (command != last_command)
+	if (command != last_command || run_cmd)
 	{
 		if (command == "default")
 		{
-			init();
-			last_command = command;
+			command = "#"+init();
+			window.location.href += command;
 		}
 		else
 		{
@@ -61,6 +62,7 @@ function Poll()
 			last_command = command;
 			eval(URLDecode(last_command));
 		}
+		run_cmd = false;
 	}
 }
 

@@ -28,7 +28,9 @@ class sLangswitch extends Script
 				$object = new mObject($node_id);
 				$_SESSION['murrix']['path'] = $object->getPath();
 	
-				$system->TriggerEventIntern($response, "newlang");
+				//$system->TriggerEventIntern($response, "newlang");
+				$response->addScript("window.location.reload()");
+				return;
 			}
 		}
 		$this->Draw($system, $response, $args);

@@ -6,7 +6,7 @@ if ($object->hasRight("edit"))
 	$view_form .= "<input type=\"hidden\" class=\"hidden\" name=\"meta\" value=\"view\">";
 	$view_form .= "<select class=\"select\" onchange=\"Post('show','zone_main', 'sViewSelect');\" name=\"value\">";
 	
-	$viewlist = array("list" => "", "thumbnailes" => "thumbnailes");
+	$viewlist = array("list" => "", "thumbnailes" => "thumbnailes", "table" => "table");
 
 	foreach ($viewlist as $key => $view)
 	{

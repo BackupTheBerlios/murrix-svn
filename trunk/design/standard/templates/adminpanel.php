@@ -29,8 +29,8 @@
 		echo cmd(img(geticon("attach"))."&nbsp;".ucf(i18n("upload")), "Exec('upload', 'zone_main', Hash('path', '".$object->getPathInTree()."'));", ($current_view == "upload" ? "tab_selected" : "tab"));
 	}
 	
-	if ($object->hasRight("edit"))
-		echo cmd(img(geticon("right"))."&nbsp;".ucf(i18n("rights")), "Exec('rights', 'zone_main', Hash('path', '".$object->getPathInTree()."'));", ($current_view == "rights" ? "tab_selected" : "tab"));
+	//if ($object->hasRight("edit"))
+	//	echo cmd(img(geticon("right"))."&nbsp;".ucf(i18n("rights")), "Exec('rights', 'zone_main', Hash('path', '".$object->getPathInTree()."'));", ($current_view == "rights" ? "tab_selected" : "tab"));
 	?>
 </div>
 

@@ -21,7 +21,7 @@ function ucf($text)
 
 function cmd($name, $cmd, $class = "", $title = "")
 {
-	return "<a ".(!empty($title) ? "title=\"$title\"" : "")." ".(!empty($class) ? "class=\"$class\"" : "")." href=\"#$cmd\">$name</a>";
+	return "<a ".(!empty($title) ? "title=\"$title\"" : "")." ".(!empty($class) ? "class=\"$class\"" : "")." href=\"#$cmd\" onclick=\"run_cmd=true;\">$name</a>";
 }
 
 function externcmd($name, $cmd, $class = "", $title = "")

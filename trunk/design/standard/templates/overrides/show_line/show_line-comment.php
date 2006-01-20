@@ -53,7 +53,7 @@ if (!isset($com_count))
 				<?
 				if ($read_right)
 				{
-					echo "- ".ucf(i18n("posted by"));
+					echo "- ".ucf(i18n("posted by"))." ";
 					
 					if ($child->creator == 0)
 						echo ucf(i18n("unknown"));

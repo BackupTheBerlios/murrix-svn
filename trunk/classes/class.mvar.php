@@ -536,7 +536,7 @@ class mVarXhtml extends mVar
 			$parts = explode("x", $this->extra);
 			$text = "<textarea class=\"form\" disabled id=\"v$this->id\" name=\"v$this->id\" cols=\"".$parts[0]."\" rows=\"".$parts[1]."\">$this->value</textarea>";
 		}*/
-
+		return $text;
 		return "$text <a href=\"javascript:void(null);\" onclick=\"popWin = open('richtext.php?varid=v$this->id&formname=$formname','PopUpWindow','width=605,height=400,scrollbars=0,status=0'); popWin.opener = self; popWin.focus(); popWin.moveTo(150,50); return false\">Open Editor</a>";
 	}
 }

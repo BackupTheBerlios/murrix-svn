@@ -12,6 +12,71 @@ class Calendar
 			$this->events = $events;
 	}
 
+	function getEvents($startdate, $enddate, $classes = null)
+	{
+		$class_str = "";
+		if ($classes != null)
+		{
+			foreach ($classes as $class)
+			{
+				if (!empty($class_str))
+					$class_str .= " OR ";
+
+				$class_str .= "property:class_name='$class'";
+			}
+		}
+		else
+			$class_str = "property:class_name='event'";
+
+		$events = fetch("FETCH node WHERE $class_str NODESORTBY property:version SORTBY var:date");
+		$events = getReadable($events);
+
+		$event_list = array();
+
+		$date = $startdate;
+		while (true)
+		{
+			foreach ($events as $child)
+			{
+				$event_date = $child->getVarValue("date");
+				
+				$show = false;
+				
+				if ($child->getClassName() != "event")
+				{
+					$date_parts = explode("-", $event_date);
+					if ($date == $event_date)
+						$show = true;
+	
+					else if ($child->getVarValue("reoccuring_yearly", true) == 1 &&
+						$date_parts[1]."-".$date_parts[2] == date("m-d", $day_stamp))
+						$show = true;
+	
+					else if ($child->getVarValue("reoccuring_yearly", true) == 1 &&
+						$child->getVarValue("reoccuring_monthly", true) == 1 &&
+						$date_parts[2] == date("d", $day_stamp))
+						$show = true;
+	
+					else if ($child->getVarValue("reoccuring_monthly", true) == 1 &&
+						$date_parts[0]."-".$date_parts[2] == date("Y-d", $day_stamp))
+						$show = true;
+				}
+				else if ($event_date == $date)
+					$show = true;
+
+				if ($show)
+					$event_list[] = $child;
+			}
+
+			if ($date == $enddate)
+				break;
+
+			$date = date("Y-m-d", strtotime("+1 day" ,strtotime($date)));
+		}
+		
+		return $event_list;
+	}
+
 	// Returns an array with the dates for the week
 	function getWeek($indate)
 	{

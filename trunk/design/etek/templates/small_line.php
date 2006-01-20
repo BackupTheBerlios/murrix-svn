@@ -1,1 +1,0 @@
-<?=cmd(Img(geticon($child->getIcon()))."&nbsp;".$child->getName(), "Exec('show','zone_main', Hash('path', '".$child->getPath()."'));")?>

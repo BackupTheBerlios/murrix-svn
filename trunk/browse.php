@@ -63,7 +63,17 @@ if (!$object->hasRight("read"))
 				?>
 				<div class="main">
 					<form action="<?=$_SERVER["SCRIPT_NAME"]?>" method="get" name="resolveForm">
-						<input class="hidden" type="hidden" name="input_id" value="<?=$_GET['input_id']?>"/>
+						<?
+						if (isset($_GET['input_id']))
+						{
+							?><input class="hidden" type="hidden" name="input_id" value="<?=$_GET['input_id']?>"/><?
+						}
+
+						if (isset($_GET['input_path_id']))
+						{
+							?><input class="hidden" type="hidden" name="input_path_id" value="<?=$_GET['input_path_id']?>"/><?
+						}
+						?>
 						<input class="hidden" type="hidden" name="form_id" value="<?=$_GET['form_id']?>"/>
 						<input class="form" name="path" type="text" value="<?=urldecode($path)?>"/>
 						<input class="submit" name="submit" type="submit" value="<?=ucf(i18n("resolve"))?>"/>
@@ -81,7 +91,7 @@ if (!$object->hasRight("read"))
 					?>
 					<div class="main">
 					<?
-						echo "<a href=\"".$_SERVER["SCRIPT_NAME"]."?input_id=".$_GET['input_id']."&form_id=".$_GET['form_id']."&path=".urlencode($parent_path)."\">".img(geticon($parent->getIcon()))." <strong>".ucf(i18n("up one level"))."</strong></a>";
+						echo "<a href=\"".$_SERVER["REQUEST_URI"]."&path=".urlencode($parent_path)."\">".img(geticon($parent->getIcon()))." <strong>".ucf(i18n("up one level"))."</strong></a>";
 					?>
 					</div>
 				<?
@@ -96,7 +106,7 @@ if (!$object->hasRight("read"))
 					?>
 						<div class="main">
 						<?
-							echo "<a href=\"".$_SERVER["SCRIPT_NAME"]."?input_id=".$_GET['input_id']."&form_id=".$_GET['form_id']."&path=".urlencode($child->getPath())."\">".img(geticon($child->getIcon()))." ".$child->getName()."</a>";
+							echo "<a href=\"".$_SERVER["REQUEST_URI"]."&path=".urlencode($child->getPath())."\">".img(geticon($child->getIcon()))." ".$child->getName()."</a>";
 						?>
 						</div>
 					<?
@@ -104,7 +114,15 @@ if (!$object->hasRight("read"))
 				}
 				?>
 				<center>
-					<input type="button" class="submit" onclick="opener.document.getElementById('<?=$_GET['form_id']?>').<?=$_GET['input_id']?>.value = '<?=$object->getNodeId()?>';parent.window.close();" value="<?=ucf(i18n("select"))?>"/>
+				<?
+					$js = "";
+					if (isset($_GET['input_id']))
+						$js .= "opener.document.getElementById('".$_GET['form_id']."').".$_GET['input_id'].".value='".$object->getNodeId()."';";
+
+					if (isset($_GET['input_path_id']))
+						$js .= "opener.document.getElementById('".$_GET['form_id']."').".$_GET['input_path_id'].".value='$path';";
+					?>
+					<input type="button" class="submit" onclick="<?=$js?>;parent.window.close();" value="<?=ucf(i18n("select"))?>"/>
 				</center>
 			</div>
 		</div>
