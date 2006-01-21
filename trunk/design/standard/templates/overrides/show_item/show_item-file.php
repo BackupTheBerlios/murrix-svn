@@ -24,7 +24,7 @@ if (!empty($thumb_id))
 		if ($thumbnail->CreateFromFile($filename, $pathinfo['extension'], $maxsize, $maxsize, $angle))
 		{
 			if (!$thumbnail->Save())
-				echo "Failed to create thumbnail<br>";
+				echo "Failed to create thumbnail<br/>";
 			else
 				$showtumb = true;
 		}

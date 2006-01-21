@@ -55,6 +55,16 @@ function imgpath($append = "")
 	return "$wwwpath/design/".$_SESSION['murrix']['site']."/images/$append";
 }
 
+function img($img, $title = "", $style = "")
+{
+	global $abspath, $wwwpath;
+
+	$parent_path = substr($abspath, 0, strlen($abspath)-strlen($wwwpath));
+	list($width, $height, $type, $attr) = getimagesize("$parent_path/$img");
+
+	return "<img src=\"$img\" title=\"$title\" alt=\"$title\" style=\"width: ".$width."px; height: ".$height."px;$style\"/>";
+}
+
 function table($list, $endstring = "% rows")
 {
 	?><div class="listwrapper">

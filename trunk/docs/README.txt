@@ -27,6 +27,6 @@ This is a work in progress.
 
 Credits
 =======
-Björn Ramberg
+Björn Ramberg och hans vän hemliga Molgan
 Fredrik Möllerstrand
 Rickard Avellan

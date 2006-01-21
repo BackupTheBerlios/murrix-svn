@@ -505,6 +505,242 @@ class mVarText extends mVar
 	}
 }
 
+class mVarMarkuptext extends mVar
+{
+	function mVarMarkuptext()
+	{
+		$this->mVar();
+	}
+
+	function processText($text)
+	{
+		$text = preg_replace_callback("/\*\*(.+?)\*\*/", array($this, "processBoldCallback"), $text);
+		$text = preg_replace_callback("/\/\/(.+?)\/\//", array($this, "processItalicCallback"), $text);
+		$text = preg_replace_callback("/__(.+?)__/", array($this, "processUnderlineCallback"), $text);
+		$text = preg_replace_callback("/\-\-(.+?)\-\-/", array($this, "processStrikethroughCallback"), $text);
+		$text = preg_replace_callback("/''(.+?)''/", array($this, "processMonospaceCallback"), $text);
+		$text = preg_replace_callback("#(\s)(([a-zA-Z]+://|www\.)(.+))#", array($this, "processFreeLinkCallback"), $text);
+		$text = preg_replace_callback("/\[(.+?)( +\[(.+)\])?\]/", array($this, "processLinkCallback"), $text);
+		return nl2br($text);
+	}
+
+	function processFreeLinkCallback($matches)
+	{
+		$url = $matches[2];
+	
+		if (substr($url, 0, 4) == "www.")
+			$url = "http://".$url;
+			
+		return $matches[1]."<a href=\"$url\">".$matches[2]."</a>";
+	}
+
+	function processBoldCallback($matches)
+	{
+		return "<span style=\"font-weight:bold;\">".$matches[1]."</span>";
+	}
+
+	function processItalicCallback($matches)
+	{
+		return "<span style=\"font-style:italic;\">".$matches[1]."</span>";
+	}
+
+	function processUnderlineCallback($matches)
+	{
+		return "<span style=\"text-decoration:underline;\">".$matches[1]."</span>";
+	}
+
+	function processStrikethroughCallback($matches)
+	{
+		return "<del>".$matches[1]."</del>";
+	}
+
+	function processMonospaceCallback($matches)
+	{
+		return "<code>".$matches[1]."</code>";
+	}
+
+	/* Link syntax
+	[target_url=...		image_url=...	[Name of link/image]]
+	 target_node=...	image_node=...
+	*/
+	function processLinkCallback($matches)
+	{
+		$args = explode(" ", $matches[1]);
+
+		if (isset($matches[3]))
+			$name = $matches[3];
+		else
+			$name = "";
+
+		$target = "";
+		$target_param = "";
+		$image = "";
+		$image_param = "";
+		$style = "";
+		foreach ($args as $arg)
+		{
+			$parts = explode("=", $arg);
+			$param = $parts[1];
+
+			switch ($parts[0])
+			{
+			case "target_url":
+				$target = "url";
+				$target_param = $param;
+				break;
+
+			case "target_obj":
+				$target = "obj";
+
+				if (is_numeric($param))
+					$target_param = $param;
+				else
+					$target_param = getNode($param);
+				break;
+
+			case "image_url":
+				$image = "url";
+				$image_param = $param;
+				break;
+
+			case "image_obj":
+				$image = "obj";
+
+				if (is_numeric($param))
+					$image_param = $param;
+				else
+					$image_param = getNode($param);
+				break;
+				
+
+			case "float":
+				$style .= "float: $param;";
+				break;
+
+			case "margin":
+				$style = "margin: $param;";
+				break;
+			}
+		}
+
+		$text = $name;
+		switch ($image)
+		{
+		case "url":
+			if (!empty($name))
+				$name = " alt=\"$name\" title=\"$name\"";
+
+			$text = "<img style=\"$style\" src=\"$image_param\"$name/>";
+			break;
+
+		case "obj":
+			$object = new mObject($image_param);
+
+			if ($object->getClassName() == "file")
+			{
+				if (empty($name))
+					$name = $object->getVarValue("description");
+
+				$thumb_id = $object->getVarValue("thumbnail_id");
+				$filename = $object->getVarValue("file");
+				$pathinfo = pathinfo($filename);
+
+				$showtumb = false;
+
+				if (!empty($thumb_id))
+				{
+					$thumbnail = new mThumbnail($thumb_id);
+
+					if ($thumbnail->getRebuild())
+					{
+						$angle = $object->getMeta("angle");
+
+						if (empty($angle))
+							$angle = GetFileAngle($filename);
+
+						if ($angle < 0) $angle = 360+$angle;
+						else if ($angle > 360) $angle = 360-$angle;
+
+						$maxsize = 150;
+						if ($thumbnail->CreateFromFile($filename, $pathinfo['extension'], $maxsize, $maxsize, $angle))
+						{
+							if (!$thumbnail->Save())
+								echo "Failed to create thumbnail<br/>";
+							else
+								$showtumb = true;
+						}
+					}
+					else
+						$showtumb = true;
+				}
+
+				if ($showtumb)
+					$text = $thumbnail->Show(true, $name, $style);
+				else
+					$text = img(geticon(getfiletype($pathinfo['extension']), 128), $name, $style);
+			}
+			else
+				$text = img(geticon("broken", 128), $name, $style);
+			break;
+		}
+
+		switch ($target)
+		{
+		case "url":
+			if (empty($text))
+				$text = htmlentities($target_param);
+			$text = "<a href=\"$target_param\">$text</a>";
+			break;
+
+		case "obj":
+			$object = new mObject($target_param);
+
+			if (empty($text))
+				$text = $object->getName();
+
+			if ($object->hasRight("read"))
+				$text = cmd($text, "Exec('show','zone_main',Hash('path','".$object->getPath()."'))");
+			break;
+		}
+
+		return $text;
+	}
+	
+	function getValue($raw = false)
+	{
+		$value = parent::getValue($raw);
+		if ($raw)
+			return $value;
+
+		
+	
+		return $this->processText($value);
+	}
+	
+	function Save()
+	{
+		return parent::Save();
+	}
+	
+	function Remove()
+	{
+		return parent::Remove();
+	}
+	
+	function getEdit($formname)
+	{
+		//if (empty($this->extra))
+			$text = "<textarea style=\"width: 100%; height: 200px;\" class=\"form\" id=\"v$this->id\" name=\"v$this->id\">$this->value</textarea>";
+		/*else
+		{
+			$parts = explode("x", $this->extra);
+			$text = "<textarea class=\"form\" disabled id=\"v$this->id\" name=\"v$this->id\" cols=\"".$parts[0]."\" rows=\"".$parts[1]."\">$this->value</textarea>";
+		}*/
+		return $text;
+		return "$text <a href=\"javascript:void(null);\" onclick=\"popWin = open('richtext.php?varid=v$this->id&formname=$formname','PopUpWindow','width=605,height=400,scrollbars=0,status=0'); popWin.opener = self; popWin.focus(); popWin.moveTo(150,50); return false\">Open Editor</a>";
+	}
+}
+
 class mVarXhtml extends mVar
 {
 	function mVarText()
@@ -512,7 +748,7 @@ class mVarXhtml extends mVar
 		$this->mVar();
 	}
 	
-		function getValue($raw = false)
+	function getValue($raw = false)
 	{
 		return parent::getValue($raw);
 	}

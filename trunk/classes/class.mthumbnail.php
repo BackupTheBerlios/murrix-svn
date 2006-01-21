@@ -33,10 +33,10 @@ class mThumbnail
 		$this->type = $array['type'];
 	}
 	
-	function Show($return = false)
+	function Show($return = false, $title = "", $style = "")
 	{
 		global $wwwpath;
-		$str = "<img src=\"?thumbnail=$this->id\" class=\"image-border\" width=\"$this->width\" height=\"$this->height\"/>";
+		$str = "<img style=\"$style\" title=\"$title\" alt=\"$title\" src=\"?thumbnail=$this->id\" class=\"image-border\" width=\"$this->width\" height=\"$this->height\"/>";
 
 		if ($return)
 			return $str;
