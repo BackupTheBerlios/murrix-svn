@@ -1,5 +1,35 @@
 <?
 
+function getEventDate($object, $now = "now")
+{
+	$event_date = $object->getVarValue("date");
+	
+	if ($object->getClassName() == "event")
+	{
+		$now_stamp = strtotime($now);
+		
+		$now_year = date("Y", $now_stamp);
+		$now_month = date("m", $now_stamp);
+		$now_day = date("d", $now_stamp);
+	
+		list($year, $month, $day) = explode("-", $event_date);
+
+		$yearly = ($object->getVarValue("reoccuring_yearly", true) == 1);
+		$monthly = ($object->getVarValue("reoccuring_monthly", true) == 1);
+
+		if ($yearly && $monthly)
+			return "$now_year-$now_month-$day";
+
+		if ($yearly)
+			return "$now_year-$month-$day";
+
+		if ($monthly)
+			return "$year-$now_month-$day";
+	}
+
+	return $event_date;
+}
+
 function getReadable($objects)
 {
 	$objects_readable = array();
@@ -122,6 +152,11 @@ function PrintPre($input)
 	echo "<pre>";
 	print_r($input);
 	echo "</pre>";
+}
+
+function GetInput($name, $default = "")
+{
+	return (!isset($_GET[$name]) || empty($_GET[$name]) ? (!isset($_POST[$name]) || empty($_POST[$name]) ? $default : $_POST[$name]) : $_GET[$name]);
 }
 
 function GetSubfolders($dir)

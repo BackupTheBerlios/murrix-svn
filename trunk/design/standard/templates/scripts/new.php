@@ -37,7 +37,8 @@ include(gettpl("big_title"));
 					<?=ucf(i18n("name"))?>: <input class="form" type="text" name="name" value="<?=$newobject->getName()?>">
 				</td>
 				<td>
-					<?=ucf(i18n("icon"))?>: <input class="form" type="text" name="icon" value="">
+					<?=ucf(i18n("icon"))?>: <input class="form" type="text" name="icon" id="icon" value="">
+					<a href="javascript:void(null);" onclick="popWin=open('icon_browse.php?input_id=icon&form_id=sEdit','PopUpWindow','width=500,height=400,scrollbars=1,status=0'); popWin.opener = self; popWin.focus(); popWin.moveTo(150,50); return false"><?=ucf(i18n("browse"))?></a>
 				</td>
 				<td>
 					<?=ucf(i18n("language"))?>:

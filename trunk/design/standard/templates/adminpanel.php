@@ -33,5 +33,5 @@
 	//	echo cmd(img(geticon("right"))."&nbsp;".ucf(i18n("rights")), "Exec('rights', 'zone_main', Hash('path', '".$object->getPathInTree()."'));", ($current_view == "rights" ? "tab_selected" : "tab"));
 	?>
 </div>
-
+<br/>
 <div class="clear"></div>

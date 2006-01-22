@@ -17,8 +17,6 @@ require_once("system/paths.php");
 require_once("vars.php");
 require_once("session.php");
 
-$_SESSION['murrix']['site'] = "standard";
-
 if (($str = db_connect()) !== true)
 	echo "Failed to connect to database!";
 

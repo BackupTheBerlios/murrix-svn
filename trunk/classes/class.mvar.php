@@ -514,14 +514,51 @@ class mVarMarkuptext extends mVar
 
 	function processText($text)
 	{
+		$_SESSION['murrix']['tmp']['processText'] = array();
+		
+		$text = preg_replace_callback("/\=\=\=?\=?\=?\=?(.+?)\=\=\=?\=?\=?\=?\n?/", array($this, "processSectionCallback"), $text);
 		$text = preg_replace_callback("/\*\*(.+?)\*\*/", array($this, "processBoldCallback"), $text);
-		$text = preg_replace_callback("/\/\/(.+?)\/\//", array($this, "processItalicCallback"), $text);
+		$text = preg_replace_callback("/##(.+?)##/", array($this, "processItalicCallback"), $text);
 		$text = preg_replace_callback("/__(.+?)__/", array($this, "processUnderlineCallback"), $text);
 		$text = preg_replace_callback("/\-\-(.+?)\-\-/", array($this, "processStrikethroughCallback"), $text);
 		$text = preg_replace_callback("/''(.+?)''/", array($this, "processMonospaceCallback"), $text);
 		$text = preg_replace_callback("#(\s)(([a-zA-Z]+://|www\.)(.+))#", array($this, "processFreeLinkCallback"), $text);
-		$text = preg_replace_callback("/\[(.+?)( +\[(.+)\])?\]/", array($this, "processLinkCallback"), $text);
+		$text = preg_replace_callback("#\[(.+?)( +\[(.+)\])?\]#", array($this, "processLinkCallback"), $text);
+
+		for ($n = 0; $n < count($_SESSION['murrix']['tmp']['processText']); $n++)
+			$text .= "<div class=\"clear\"></div></div>";
+
+		unset($_SESSION['murrix']['tmp']['processText']);
+		
 		return nl2br($text);
+	}
+
+	function processSectionCallback($matches)
+	{
+		for ($num = 2; $num < strlen($matches[0]); $num++)
+		{
+			if ($matches[0]{$num} != '=')
+				break;
+		}
+		$num--;
+
+		$string = "";
+		if (!empty($_SESSION['murrix']['tmp']['processText']))
+		{
+			while ($section = array_pop($_SESSION['murrix']['tmp']['processText']))
+			{
+				if ($section < $num)
+				{
+					array_push($_SESSION['murrix']['tmp']['processText'], $section);
+					break;
+				}
+
+				$string .= "<div class=\"clear\"></div></div>";
+			}
+		}
+		
+		array_push($_SESSION['murrix']['tmp']['processText'], $num);
+		return "$string<div class=\"clear\"></div><h$num>".$matches[1]."</h$num><div class=\"h{$num}_section\">";
 	}
 
 	function processFreeLinkCallback($matches)
@@ -577,10 +614,15 @@ class mVarMarkuptext extends mVar
 		$image = "";
 		$image_param = "";
 		$style = "";
+		$clear = "";
+		$size = "real";
 		foreach ($args as $arg)
 		{
 			$parts = explode("=", $arg);
-			$param = $parts[1];
+			if (isset($parts[1]))
+				$param = $parts[1];
+			else
+				$param = "";
 
 			switch ($parts[0])
 			{
@@ -611,14 +653,21 @@ class mVarMarkuptext extends mVar
 				else
 					$image_param = getNode($param);
 				break;
-				
+
+			case "size":
+				$size = $param;
+				break;
 
 			case "float":
 				$style .= "float: $param;";
 				break;
 
 			case "margin":
-				$style = "margin: $param;";
+				$style .= "margin: $param;";
+				break;
+
+			case "clear":
+				$clear = "<div style=\"clear: $param;\"></div>";
 				break;
 			}
 		}
@@ -630,7 +679,7 @@ class mVarMarkuptext extends mVar
 			if (!empty($name))
 				$name = " alt=\"$name\" title=\"$name\"";
 
-			$text = "<img style=\"$style\" src=\"$image_param\"$name/>";
+			$text = "<img style=\"$style\" src=\"$image_param\"$name/>$clear";
 			break;
 
 		case "obj":
@@ -675,12 +724,12 @@ class mVarMarkuptext extends mVar
 				}
 
 				if ($showtumb)
-					$text = $thumbnail->Show(true, $name, $style);
+					$text = $thumbnail->Show(true, $name, $style).$clear;
 				else
-					$text = img(geticon(getfiletype($pathinfo['extension']), 128), $name, $style);
+					$text = img(geticon(getfiletype($pathinfo['extension']), 128), $name, $style).$clear;
 			}
 			else
-				$text = img(geticon("broken", 128), $name, $style);
+				$text = img(geticon("broken", 128), $name, $style).$clear;
 			break;
 		}
 
@@ -730,7 +779,7 @@ class mVarMarkuptext extends mVar
 	function getEdit($formname)
 	{
 		//if (empty($this->extra))
-			$text = "<textarea style=\"width: 100%; height: 200px;\" class=\"form\" id=\"v$this->id\" name=\"v$this->id\">$this->value</textarea>";
+			$text = "<textarea style=\"width: 100%; height: 600px;\" class=\"form\" id=\"v$this->id\" name=\"v$this->id\">$this->value</textarea>";
 		/*else
 		{
 			$parts = explode("x", $this->extra);

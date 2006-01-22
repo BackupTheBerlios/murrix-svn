@@ -38,34 +38,12 @@ class Calendar
 		{
 			foreach ($events as $child)
 			{
-				$event_date = $child->getVarValue("date");
-				
-				$show = false;
-				
-				if ($child->getClassName() != "event")
+				$event_date = getEventDate($child, $date);
+				if ($event_date == $date)
 				{
-					$date_parts = explode("-", $event_date);
-					if ($date == $event_date)
-						$show = true;
-	
-					else if ($child->getVarValue("reoccuring_yearly", true) == 1 &&
-						$date_parts[1]."-".$date_parts[2] == date("m-d", $day_stamp))
-						$show = true;
-	
-					else if ($child->getVarValue("reoccuring_yearly", true) == 1 &&
-						$child->getVarValue("reoccuring_monthly", true) == 1 &&
-						$date_parts[2] == date("d", $day_stamp))
-						$show = true;
-	
-					else if ($child->getVarValue("reoccuring_monthly", true) == 1 &&
-						$date_parts[0]."-".$date_parts[2] == date("Y-d", $day_stamp))
-						$show = true;
-				}
-				else if ($event_date == $date)
-					$show = true;
-
-				if ($show)
+					$child->real_date = $date;
 					$event_list[] = $child;
+				}
 			}
 
 			if ($date == $enddate)
@@ -73,8 +51,15 @@ class Calendar
 
 			$date = date("Y-m-d", strtotime("+1 day" ,strtotime($date)));
 		}
+
+		usort($event_list, array("Calendar", "RealDateSort"));
 		
 		return $event_list;
+	}
+
+	function RealDateSort($a, $b)
+	{
+		return date_compare($a->real_date, $b->real_date);
 	}
 
 	// Returns an array with the dates for the week
