@@ -53,15 +53,30 @@ class sLinks extends Script
 						$remote = new mObject($remote_node_id);
 
 						if ($remote->hasRight("edit"))
-							$object->linkWithNode($remote_node_id, $args['type']);
+						{
+							if (!$object->linkWithNode($remote_node_id, $args['type']))
+							{
+								$response->addAlert(ucf(i18n($object->error)));
+								return;
+							}
+						}
 						else
+						{
 							$response->addAlert(ucf(i18n("you don't have enough rights on the remote object to create this link")));
+							return;
+						}
 					}
 					else
+					{
 						$response->addAlert(ucf(i18n("the remote object you specified does not exist")));
+						return;
+					}
 				}
 				else
+				{
 					$response->addAlert(ucf(i18n("you don't have enough rights to create a link")));
+					return;
+				}
 			
 				$this->Draw($system, $response, array("path" => $_SESSION['murrix']['path']));
 				return;

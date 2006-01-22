@@ -32,32 +32,14 @@ class mObject
 		if (empty($language))
 			$language = $_SESSION['murrix']['language'];
 
-		///FIXME; Make the sql-statements use another language if the specified is not found
-
-
 		if ($version == 0)
 			$objects = fetch("FETCH node WHERE property:node_id='$node_id' NODESORTBY property:version");
-			//$query = "SELECT objects.* FROM `".$db_prefix."objects` AS `objects` WHERE objects.language = '$language' AND objects.node_id = '$node_id' ORDER BY objects.version DESC LIMIT 1";
 		else
 			$objects = fetch("FETCH object WHERE property:node_id='$node_id' AND property:version='$version' AND property:language='$language'");
-			//$query = "SELECT objects.* FROM `".$db_prefix."objects` AS `objects` WHERE objects.language = '$language' AND objects.node_id = '$node_id' AND objects.version = '$version'";
 
 
-		$this = $objects[0];
-/*
-		if (!($result = mysql_query($query)))
-		{
-			$this->error = "mObject::loadByNodeId: " . mysql_errno() . " " . mysql_error();
-			return false;
-		}
-
-		if (mysql_num_rows($result) == 0)
-		{
-			$this->error = "mObject::loadByNodeId: No object found.";
-			return false;
-		}
-		
-		return $this->loadByArray(mysql_fetch_array($result, MYSQL_ASSOC));*/
+		if (count($objects) > 0)
+			$this = $objects[0];
 	}
 
 	function loadByObjectId($object_id)
@@ -305,12 +287,6 @@ class mObject
 		return true;
 	}
 	
-	function saveCurrentVersion()
-	{
-		// Save the current version of this object
-		
-	}
-
 	function getVersionNumbers($language = "")
 	{
 		if ($this->node_id <= 0)
@@ -337,30 +313,17 @@ class mObject
 	
 	function getPath($allpaths = false)
 	{
-		///FIXME: Maybe cache this somehow
 		// Return main path, all with main first if allpaths is true
 		$paths = getPaths($this->node_id, $this->getName());
 
 		if ($allpaths)
-		{/*
-			if ($paths === -1)
-				return array("/".$this->getName());
-		
-			for ($n = 0; $n < count($paths); $n++)
-				$paths[$n] .= "/".$this->getName();
-				*/
 			return $paths;
-		}
 
-		//if ($paths === -1)
-		//	return "/".$this->getName();
-
-		return $paths[0];//."/".$this->getName();
+		return $paths[0];
 	}
 
 	function getPathInTree($root_path = "")
 	{
-		/// FIXME: Se över om vi behöver göra detta bättre
 		if (empty($root_path))
 		{
 			if (!isset($_SESSION['murrix']['path']) || empty($_SESSION['murrix']['path']))
@@ -386,15 +349,59 @@ class mObject
 		return $this->getPath();
 	}
 
+	function checkRecursion($node_id, $parent_id)
+	{
+		global $db_prefix;
+		$query = "SELECT node_top FROM `".$db_prefix."links` WHERE node_bottom = '$parent_id' AND type = 'sub'";
+		
+		if (!($result = mysql_query($query)))
+		{
+			$this->error = "mObject::checkRecursion: " . mysql_errno() . " " . mysql_error();
+			return false;
+		}
+
+		while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
+		{
+			if ($row['node_top'] == $node_id)
+				return true;
+
+			if ($this->checkRecursion($node_id, $row['node_top']))
+				return true;
+		}
+
+		return false; // false means there were no recursion found
+	}
+
 	function linkWithNode($node_id, $type = "sub", $direction = "bottom")
 	{
 		global $db_prefix;
-		///FIXME: Validate node_id
+
+		// Validate node_id
+		$remote_obj = new mObject($node_id);
+		if ($remote_obj->node_id == 0)
+		{
+			$this->error = "Remote object with node id $node_id, was not found";
+			return false;
+		}
 
 		if ($direction == "bottom")
+		{
+			if ($this->checkRecursion($this->node_id, $node_id))
+			{
+				$this->error = "Recursion error, link creation denied";
+				return false;
+			}
 			$query = "INSERT INTO `".$db_prefix."links` (node_top, node_bottom, type) VALUES('$node_id', '$this->node_id', '$type')";
+		}
 		else
+		{
+			if ($this->checkRecursion($node_id, $this->node_id))
+			{
+				$this->error = "Recursion error, link creation denied";
+				return false;
+			}
 			$query = "INSERT INTO `".$db_prefix."links` (node_top, node_bottom, type) VALUES('$this->node_id', '$node_id', '$type')";
+		}
 
 		if (!($result = mysql_query($query)))
 		{

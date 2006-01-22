@@ -57,12 +57,13 @@ function Poll()
 		}
 		else
 		{
-			command = window.location.href.split("#")[1];
+			//command = window.location.href.split("#")[1];
 
 			last_command = command;
 			eval(URLDecode(last_command));
+			run_cmd = false;
 		}
-		run_cmd = false;
+
 	}
 }
 
