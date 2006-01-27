@@ -1,3 +1,1 @@
-<nobr>
-	<?=cmd(img(geticon($child->getIcon()))."&nbsp;".$child->getName(), "Exec('show','zone_main', Hash('path', '".$child->getPathInTree()."'));")?>
-</nobr>
+<?=cmd("<nobr>".img(geticon($child->getIcon()))."&nbsp;".$child->getName()."</nobr>", "Exec('show','zone_main', Hash('path', '".$child->getPathInTree()."'));", array("title" => $child->getName()))?>
