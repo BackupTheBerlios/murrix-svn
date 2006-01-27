@@ -2,6 +2,7 @@
 
 $translation['swe'] = "svenska";
 $translation['eng'] = "engelska";
+$translation['browse'] = "bläddra";
 $translation['all classes'] = "alla klasser";
 $translation['loading'] = "laddar";
 $translation['enter search here'] = "skriv söktext här";

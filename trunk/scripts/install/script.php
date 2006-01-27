@@ -18,7 +18,9 @@ class sInstall extends Script
 	
 	function Exec(&$system, &$response, $args)
 	{
-		global $abspath, $wwwpath;
+		global $abspath, $wwwpath, $db_prefix;
+
+		$db_prefix = $this->db_prefix;
 	
 		if (!isset($args['stage']))
 			$args['stage'] = 1;
@@ -371,10 +373,10 @@ class sInstall extends Script
 				$query .= "(2, 'user', 'username', 10, 'textline', ''),";
 				$query .= "(3, 'user', 'password', 20, 'password', ''),";
 				$query .= "(4, 'group', 'description', 10, 'text', '100x20'),";
-				$query .= "(5, 'article', 'text', 10, 'xhtml', ''),";
+				$query .= "(5, 'article', 'text', 10, 'markuptext', ''),";
 				$query .= "(6, 'link', 'address', 10, 'textline', ''),";
 				$query .= "(7, 'news', 'date', 10, 'date', ''),";
-				$query .= "(8, 'news', 'text', 20, 'xhtml', ''),";
+				$query .= "(8, 'news', 'text', 20, 'markuptext', ''),";
 				$query .= "(9, 'event', 'date', 10, 'date', ''),";
 				$query .= "(10, 'event', 'reoccuring_yearly', 20, 'boolean', ''),";
 				$query .= "(11, 'event', 'reoccuring_monthly', 30, 'boolean', ''),";
@@ -442,6 +444,7 @@ class sInstall extends Script
 			else
 			{
 				$this->db_log .= "Failed to create ".$root_obj->getName().".<br/>";
+				$this->db_log .= $root_obj->error;
 				$this->done = false;
 			}
 
@@ -467,6 +470,7 @@ class sInstall extends Script
 			else
 			{
 				$this->db_log .= "Failed to create ".$home_obj->getName().".<br/>";
+				$this->db_log .= $home_obj->error;
 				$this->done = false;
 			}
 			
@@ -491,6 +495,7 @@ class sInstall extends Script
 			else
 			{
 				$this->db_log .= "Failed to create ".$public_obj->getName().".<br/>";
+				$this->db_log .= $public_obj->error;
 				$this->done = false;
 			}
 			
@@ -515,6 +520,7 @@ class sInstall extends Script
 			else
 			{
 				$this->db_log .= "Failed to create ".$menu_obj->getName().".<br/>";
+				$this->db_log .= $menu_obj->error;
 				$this->done = false;
 			}
 			
@@ -539,6 +545,7 @@ class sInstall extends Script
 			else
 			{
 				$this->db_log .= "Failed to create ".$users_obj->getName().".<br/>";
+				$this->db_log .= $users_obj->error;
 				$this->done = false;
 			}
 
@@ -563,6 +570,7 @@ class sInstall extends Script
 			else
 			{
 				$this->db_log .= "Failed to create ".$group_anon_obj->getName().".<br/>";
+				$this->db_log .= $group_anon_obj->error;
 				$this->done = false;
 			}
 
@@ -587,6 +595,7 @@ class sInstall extends Script
 			else
 			{
 				$this->db_log .= "Failed to create ".$user_anon_obj->getName().".<br/>";
+				$this->db_log .= $user_anon_obj->error;
 				$this->done = false;
 			}
 			
@@ -663,6 +672,7 @@ class sInstall extends Script
 			else
 			{
 				$this->db_log .= "Failed to create ".$group_admin_obj->getName().".<br/>";
+				$this->db_log .= $group_admin_obj->error;
 				$this->done = false;
 			}
 
@@ -689,6 +699,7 @@ class sInstall extends Script
 			else
 			{
 				$this->db_log .= "Failed to create ".$user_admin_obj->getName().".<br/>";
+				$this->db_log .= $user_admin_obj->error;
 				$this->done = false;
 			}
 
@@ -844,6 +855,7 @@ class sInstall extends Script
 			else
 			{
 				$this->db_log .= "Failed to create ".$right1->getName().".<br/>";
+				$this->db_log .= $right1->error;
 				$this->done = false;
 			}
 
@@ -867,6 +879,7 @@ class sInstall extends Script
 			else
 			{
 				$this->db_log .= "Failed to create ".$right2->getName().".<br/>";
+				$this->db_log .= $right2->error;
 				$this->done = false;
 			}
 
@@ -890,6 +903,7 @@ class sInstall extends Script
 			else
 			{
 				$this->db_log .= "Failed to create ".$right3->getName().".<br/>";
+				$this->db_log .= $right3->error;
 				$this->done = false;
 			}
 
@@ -913,6 +927,7 @@ class sInstall extends Script
 			else
 			{
 				$this->db_log .= "Failed to create ".$right4->getName().".<br/>";
+				$this->db_log .= $right4->error;
 				$this->done = false;
 			}
 
@@ -936,6 +951,7 @@ class sInstall extends Script
 			else
 			{
 				$this->db_log .= "Failed to create ".$right5->getName().".<br/>";
+				$this->db_log .= $right5->error;
 				$this->done = false;
 			}
 

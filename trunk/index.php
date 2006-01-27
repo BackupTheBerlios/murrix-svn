@@ -68,7 +68,7 @@ if (!isset($_SESSION['murrix']['user']))
 	$_SESSION['murrix']['user'] = new mObject($anonymous_id);
 
 if (!isset($_SESSION['murrix']['System']))
-	$_SESSION['murrix']['System'] = new mSystem();
+	$_SESSION['murrix']['System'] = new mSystem(isset($ajax_path) ? $ajax_path : "");
 
 $_SESSION['murrix']['System']->xajax->debugOff();
 $_SESSION['murrix']['System']->LoadScripts();

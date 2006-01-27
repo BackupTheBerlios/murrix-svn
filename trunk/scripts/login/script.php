@@ -33,7 +33,7 @@ class sLogin extends Script
 				$u = trim($args['username']);
 				$p = md5(trim($args['password']));
 		
-				$user = fetch("FETCH object WHERE property:class_name='user' AND var:username='$u' AND var:password='$p'");
+				$user = fetch("FETCH node WHERE property:class_name='user' AND var:username='$u' AND var:password='$p' NODESORTBY property:version");
 		
 				if (count($user) == 0)
 				{

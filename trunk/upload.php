@@ -134,6 +134,7 @@ if (($str = db_connect()) !== true)
 					$parent = new mObject(resolvePath($parent_path));
 					$object->linkWithNode($parent->getNodeId());
 					echo "Created file". $object->getPath()."<br/>";flush();
+					$count++;
 				}
 				else
 				{

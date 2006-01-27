@@ -67,6 +67,12 @@ function Poll()
 	}
 }
 
+function OnClickCmd(cmd)
+{
+	window.location.href = window.location.href.split("#")[0]+"#"+cmd;
+	cmd_run = true;
+}
+
 function OnLoadHandler()
 {
 	init();

@@ -23,6 +23,8 @@ foreach ($folders as $folder)
 session_name("MURRiX_Installer");
 session_start();
 
+global $db_prefix;
+
 $_SESSION['murrix']['site'] = "standard";
 $_SESSION['murrix']['language'] = "eng";
 
