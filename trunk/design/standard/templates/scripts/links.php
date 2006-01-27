@@ -21,7 +21,7 @@ if ($object->hasRight("edit"))
 			<?=i18n("as")?>
 			<select class="form" name="type">
 			<?
-				$link_types = array("sub" => "child");
+				global $link_types;
 				foreach ($link_types as $key => $link_type)
 				{
 					echo "<option ".($key == "sub" ? "selected" : "")." value=\"$key\">".ucw(str_replace("_", " ", $link_type))."</option>";

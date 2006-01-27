@@ -377,8 +377,13 @@ class mObject
 		global $db_prefix;
 
 		// Validate node_id
-		$remote_obj = new mObject($node_id);
-		if ($remote_obj->node_id == 0)
+		if ($node_id == 0)
+		{
+			$this->error = "Remote object with node id $node_id, was not found";
+			return false;
+		}
+
+		if ($node_id == $this->getNodeId())
 		{
 			$this->error = "Remote object with node id $node_id, was not found";
 			return false;
@@ -386,7 +391,7 @@ class mObject
 
 		if ($direction == "bottom")
 		{
-			if ($this->checkRecursion($this->node_id, $node_id))
+			if ($this->checkRecursion($this->getNodeId(), $node_id) && $type == "sub")
 			{
 				$this->error = "Recursion error, link creation denied";
 				return false;
@@ -395,7 +400,7 @@ class mObject
 		}
 		else
 		{
-			if ($this->checkRecursion($node_id, $this->node_id))
+			if ($this->checkRecursion($node_id, $this->getNodeId()) && $type == "sub")
 			{
 				$this->error = "Recursion error, link creation denied";
 				return false;

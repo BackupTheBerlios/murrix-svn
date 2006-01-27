@@ -26,6 +26,11 @@ $folders = GetSubfolders("$abspath/design");
 foreach ($folders as $folder)
 	require_once("$abspath/design/$folder/theme.php");
 
+if (!isset($link_types))
+	$link_types = array("sub" => "child");
+else if (!isset($link_types['sub']))
+	$link_types = array_merge($link_types, array("sub" => "child"));
+	
 $folders = GetSubfolders("$abspath/scripts");
 foreach ($folders as $folder)
 	require_once("$abspath/scripts/$folder/script.php");
