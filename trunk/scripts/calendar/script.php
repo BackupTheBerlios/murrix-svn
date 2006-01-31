@@ -31,7 +31,7 @@ class sCalendar extends Script
 		else
 			$date = $args['date'];
 
-		$children = fetch("FETCH node WHERE property:class_name='event' AND var:calendar_show='1' NODESORTBY property:version SORTBY property:name");
+		$children = fetch("FETCH node WHERE property:class_name='event' AND !var:calendar_hide='1' NODESORTBY property:version SORTBY property:name");
 	
 		$events = getReadable($children);
 
