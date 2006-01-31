@@ -380,7 +380,7 @@ class sInstall extends Script
 				$query .= "(9, 'event', 'date', 10, 'date', ''),";
 				$query .= "(10, 'event', 'reoccuring_yearly', 20, 'boolean', ''),";
 				$query .= "(11, 'event', 'reoccuring_monthly', 30, 'boolean', ''),";
-				$query .= "(12, 'event', 'reoccuring_daily', 40, 'boolean', ''),";
+				$query .= "(12, 'event', 'calendar_show', 40, 'boolean', ''),";
 				$query .= "(13, 'event', 'description', 10, 'text', '100x20'),";
 				$query .= "(14, 'comment', 'message', 10, 'text', '100x10'),";
 				$query .= "(15, 'forum_topic', 'description', 10, 'text', '100x10'),";

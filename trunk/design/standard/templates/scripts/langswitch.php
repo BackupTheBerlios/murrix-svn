@@ -11,3 +11,4 @@ if (isset($_SESSION['murrix']['languages']) && is_array($_SESSION['murrix']['lan
 		?></a><?
 	}
 }
+?>
