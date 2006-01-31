@@ -1097,7 +1097,7 @@ function fetch($query, $debug = false)
 			$object->language = $row['language'];
 			$objects[] = $object;
 		}
-	
+
 		$nodes = array();
 		$node_list = array();
 		foreach ($objects as $object)
@@ -1130,7 +1130,7 @@ function fetch($query, $debug = false)
 		}
 
 		$objects2 = array_values($nodes);
-
+		
 		$objects = array();
 		foreach ($objects2 as $object2)
 		{

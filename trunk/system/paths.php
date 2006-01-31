@@ -106,8 +106,11 @@ function getNode($path, $language = "")
 		$node_id = $row['node_id'];
 	}
 
-	// We want to cache all paths
-	getPaths($node_id, $name);
+	if ($language == $_SESSION['murrix']['language'])
+	{
+		// We want to cache all paths
+		getPaths($node_id, $name);
+	}
 	
 	return $node_id;
 }
@@ -129,6 +132,7 @@ function resolvePath($path)
 
 function path_add_to_cache($node_id, $paths)
 {
+	path_db_load();
 	global $db_prefix;
 
 	foreach ($paths as $path)
@@ -141,7 +145,7 @@ function path_add_to_cache($node_id, $paths)
 				path_del_from_cache($node_id);
 		}
 	
-		$query = "INSERT INTO `".$db_prefix."pathcache` (node_id, path) VALUES('$node_id', '$path')";
+		$query = "INSERT INTO `".$db_prefix."pathcache` (`node_id` , `path`, `language`) VALUES('$node_id', '$path', '".$_SESSION['murrix']['pathcache_language']."')";
 		if (!($result = mysql_query($query)))
 		{
 			$message = "<b>An error occured while inserting</b><br/>";
@@ -164,15 +168,16 @@ function path_add_to_cache($node_id, $paths)
 
 function path_del_from_cache($node_id)
 {
+	path_db_load();
 	global $db_prefix;
 	
-	$query = "SELECT path FROM `".$db_prefix."pathcache` WHERE node_id='$node_id'";
+	$query = "SELECT path FROM `".$db_prefix."pathcache` WHERE `node_id`='$node_id' AND `language`='".$_SESSION['murrix']['pathcache_language']."'";
 
 	if ($result = mysql_query($query))
 	{
 		while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
 		{
-			$query = "DELETE FROM `".$db_prefix."pathcache` WHERE path LIKE '".$row['path']."%'";
+			$query = "DELETE FROM `".$db_prefix."pathcache` WHERE `path` LIKE '".$row['path']."%' AND `language`='".$_SESSION['murrix']['pathcache_language']."'";
 			mysql_query($query);
 		}
 	}
@@ -183,11 +188,18 @@ function path_del_from_cache($node_id)
 
 function path_db_load()
 {
+	if (!isset($_SESSION['murrix']['pathcache_language']) || $_SESSION['murrix']['pathcache_language'] != $_SESSION['murrix']['language'])
+	{
+		$_SESSION['murrix']['pathcache_language'] = $_SESSION['murrix']['language'];
+		unset($_SESSION['murrix']['pathcache_path']);
+		unset($_SESSION['murrix']['pathcache_node']);
+	}
+
 	if (!isset($_SESSION['murrix']['pathcache_path']) || !isset($_SESSION['murrix']['pathcache_node']))
 	{
 		global $db_prefix;
 	
-		$query = "SELECT node_id, path FROM `".$db_prefix."pathcache` ORDER BY node_id";
+		$query = "SELECT `node_id`, `path` FROM `".$db_prefix."pathcache` WHERE `language`='".$_SESSION['murrix']['pathcache_language']."' ORDER BY `node_id`";
 	
 		if (!($result = mysql_query($query)))
 			return array();

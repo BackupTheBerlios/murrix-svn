@@ -256,6 +256,7 @@ class sInstall extends Script
 				$query .= "`id` int(11) NOT NULL auto_increment,";
 				$query .= "`path` tinytext NOT NULL,";
 				$query .= "`node_id` int(11) NOT NULL default '0',";
+				$query .= "`language` varchar(10) NOT NULL,";
 				$query .= "KEY `id` (`id`)";
 				$query .= ") TYPE=MyISAM;";
 				

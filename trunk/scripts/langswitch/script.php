@@ -23,6 +23,7 @@ class sLangswitch extends Script
 			if ($_SESSION['murrix']['language'] != $args['language']);
 			{
 				$_SESSION['murrix']['language'] = $args['language'];
+				unset($_SESSION['murrix']['querycache']);
 
 				$node_id = resolvePath($_SESSION['murrix']['path']);
 				$object = new mObject($node_id);

@@ -1,4 +1,6 @@
 <?
+$translation['save eng version'] = "spara engelsk version";
+$translation['save swe version'] = "spara svensk version";
 $translation['save all languages'] = "spara alla språk";
 $translation['swe'] = "svenska";
 $translation['eng'] = "engelska";

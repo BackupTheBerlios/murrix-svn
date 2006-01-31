@@ -85,7 +85,7 @@ include(gettpl("big_title"));
 				}
 				?>
 				
-				<input class="submit" id="submitButton" type="submit" onclick="document.getElementById('language').value='<?=$language?>'" value="<?=ucf(i18n("save"))." ".i18n($language)." ".i18n("version")?>"/>
+				<input class="submit" id="submitButton" type="submit" onclick="document.getElementById('language').value='<?=$language?>'" value="<?=ucf(i18n("save $language version"))?>"/>
 			</div>
 		</div>
 	<?
