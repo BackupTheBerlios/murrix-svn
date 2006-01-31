@@ -22,9 +22,9 @@ class mVarPassword extends mVar
 		return parent::Remove();
 	}
 	
-	function getEdit($formname)
+	function getEdit($formname, $var_prefix = "")
 	{
-		return "<input class=\"form\" id=\"$this->id\" name=\"$this->id\" type=\"password\" value=\"$this->value\">&nbsp;<input class=\"form\" id =\"".$this->id."b\" name=\"".$this->id."b\" type=\"password\" value=\"$this->value\">";
+		return "<input class=\"form\" id=\"{$var_prefix}v$this->id\" name=\"{$var_prefix}v$this->id\" type=\"password\" value=\"$this->value\">&nbsp;<input class=\"form\" id =\"".$this->id."b\" name=\"".$this->id."b\" type=\"password\" value=\"$this->value\">";
 	}
 }
 
@@ -50,7 +50,7 @@ class mVarIcon extends mVar
 		return parent::Remove();
 	}
 	
-	function getEdit($formname)
+	function getEdit($formname, $var_prefix = "")
 	{
 		return parent::getEdit($formname);
 	}
@@ -78,9 +78,9 @@ class mVarDate extends mVar
 		return parent::Remove();
 	}
 	
-	function getEdit($formname)
+	function getEdit($formname, $var_prefix = "")
 	{
-		return "<input class=\"form\" id=\"v$this->id\" name=\"v$this->id\" type=\"text\" value=\"$this->value\"/> <a name=\"button$this->id\" id=\"button$this->id\" href=\"javascript:void(null);\" onclick=\"var calendar=new CalendarPopup('popupCalendarDiv');calendar.select(document.getElementById('$formname').v$this->id,'button$this->id','yyyy-MM-dd');\">".img(imgpath("calendar.jpg"), ucf(i18n("calendar")))."</a>";
+		return "<input class=\"form\" id=\"{$var_prefix}v$this->id\" name=\"{$var_prefix}v$this->id\" type=\"text\" value=\"$this->value\"/> <a name=\"button$this->id\" id=\"button$this->id\" href=\"javascript:void(null);\" onclick=\"var calendar=new CalendarPopup('popupCalendarDiv');calendar.setWeekStartDay(1);calendar.select(document.getElementById('$formname').{$var_prefix}v$this->id,'button$this->id','yyyy-MM-dd');\">".img(imgpath("calendar.jpg"), ucf(i18n("calendar")))."</a>";
 	}
 }
 
@@ -116,9 +116,9 @@ class mVarThumbnailid extends mVar
 		return parent::Remove();
 	}
 	
-	function getEdit($formname)
+	function getEdit($formname, $var_prefix = "")
 	{
-		return "<input class=\"form\" id=\"$this->id\" name=\"$this->id\" type=\"hidden\" class=\"hidden\" value=\"$this->value\">";
+		return "<input class=\"form\" id=\"{$var_prefix}v$this->id\" name=\"{$var_prefix}v$this->id\" type=\"hidden\" class=\"hidden\" value=\"$this->value\">";
 	}
 }
 
@@ -144,14 +144,14 @@ class mVarHidden extends mVar
 		return parent::Remove();
 	}
 	
-	function getEdit($formname)
+	function getEdit($formname, $var_prefix = "")
 	{
 		$parts = explode(":", $this->extra);
 				
 		switch ($parts[0])
 		{
 		case "user":
-			$value = $_SESSION['murrix']['user']->$parts[1]; // ? IS THIS CORRECT??!?!?!
+			$value = $_SESSION['murrix']['user']->{$parts[1]}; // ? IS THIS CORRECT??!?!?!
 			break;
 		case "date":
 			$value = date("Y-m-d");
@@ -163,7 +163,7 @@ class mVarHidden extends mVar
 			$value = $this->getValue(true);
 			break;
 		}
-		return "<input class=\"form\" id=\"$this->id\" name=\"$this->id\" type=\"hidden\" class=\"hidden\" value=\"$value\">";
+		return "<input class=\"form\" id=\"{$var_prefix}v$this->id\" name=\"{$var_prefix}v$this->id\" type=\"hidden\" class=\"hidden\" value=\"$value\">";
 	}
 }
 
@@ -189,9 +189,9 @@ class mVarNode extends mVar
 		return parent::Remove();
 	}
 	
-	function getEdit($formname)
+	function getEdit($formname, $var_prefix = "")
 	{
-		return "<input class=\"form\" id=\"v$this->id\" name=\"v$this->id\" type=\"text\" value=\"$this->value\"/> <a href=\"javascript:void(null);\" onclick=\"popWin = open('browse.php?input_id=v$this->id&form_id=$formname','PopUpWindow','width=300,height=300,scrollbars=1,status=0'); popWin.opener = self; popWin.focus(); popWin.moveTo(150,50); return false\">".ucf(i18n("browse"))."</a>";
+		return "<input class=\"form\" id=\"{$var_prefix}v$this->id\" name=\"{$var_prefix}v$this->id\" type=\"text\" value=\"$this->value\"/> <a href=\"javascript:void(null);\" onclick=\"popWin = open('browse.php?input_id={$var_prefix}v$this->id&form_id=$formname','PopUpWindow','width=300,height=300,scrollbars=1,status=0'); popWin.opener = self; popWin.focus(); popWin.moveTo(150,50); return false\">".ucf(i18n("browse"))."</a>";
 	}
 }
 
@@ -253,9 +253,9 @@ class mVarFile extends mVar
 		return parent::Remove();
 	}
 	
-	function getEdit($formname)
+	function getEdit($formname, $var_prefix = "")
 	{
-		return "<input class=\"form\" disabled id=\"nv$this->id\" name=\"nv$this->id\" type=\"text\" value=\"$this->value\"/> <a href=\"javascript:void(null);\" onclick=\"popWin = open('single_upload.php?varid=v$this->id','PopUpWindow','width=250,height=80,scrollbars=0,status=0'); popWin.opener = self; popWin.focus(); popWin.moveTo(150,50); return false\">".ucf(i18n("upload file"))."</a><input class=\"hidden\" id=\"v$this->id\" name=\"v$this->id\" value=\"".$this->value.":".$this->getValue()."\" type=\"hidden\"/>";
+		return "<input class=\"form\" disabled id=\"nv$this->id\" name=\"nv$this->id\" type=\"text\" value=\"$this->value\"/> <a href=\"javascript:void(null);\" onclick=\"popWin = open('single_upload.php?varid={$var_prefix}v$this->id','PopUpWindow','width=250,height=80,scrollbars=0,status=0'); popWin.opener = self; popWin.focus(); popWin.moveTo(150,50); return false\">".ucf(i18n("upload file"))."</a><input class=\"hidden\" id=\"{$var_prefix}v$this->id\" name=\"{$var_prefix}v$this->id\" value=\"$this->value:".$this->getValue()."\" type=\"hidden\"/>";
 
 		//<input disabled class=\"form\" id=\"v$this->id\" name=\"v$this->id\" type=\"text\" value=\"".$this->value."\"/>
 
@@ -322,9 +322,9 @@ class mVarThumbnail extends mVar
 		return parent::Remove();
 	}
 	
-	function getEdit($formname)
+	function getEdit($formname, $var_prefix = "")
 	{
-		return "<input class=\"form\" disabled id=\"nv$this->id\" name=\"nv$this->id\" type=\"text\"/> <a href=\"javascript:void(null);\" onclick=\"popWin = open('single_upload.php?varid=v$this->id','PopUpWindow','width=250,height=80,scrollbars=0,status=0'); popWin.opener = self; popWin.focus(); popWin.moveTo(150,50); return false\">".ucf(i18n("upload thumbnail"))."</a><input class=\"hidden\" id=\"v$this->id\" name=\"v$this->id\" type=\"hidden\" value=\"$this->value\"/>";
+		return "<input class=\"form\" disabled id=\"nv$this->id\" name=\"nv$this->id\" type=\"text\"/> <a href=\"javascript:void(null);\" onclick=\"popWin = open('single_upload.php?varid={$var_prefix}v$this->id','PopUpWindow','width=250,height=80,scrollbars=0,status=0'); popWin.opener = self; popWin.focus(); popWin.moveTo(150,50); return false\">".ucf(i18n("upload thumbnail"))."</a><input class=\"hidden\" id=\"{$var_prefix}v$this->id\" name=\"{$var_prefix}v$this->id\" type=\"hidden\" value=\"$this->value\"/>";
 	}
 }
 
@@ -361,9 +361,9 @@ class mVarSelection extends mVar
 		return parent::Remove();
 	}
 	
-	function getEdit($formname)
+	function getEdit($formname, $var_prefix = "")
 	{
-		$select = "<select class=\"form\" id=\"$this->id\" name=\"$this->id\">";
+		$select = "<select class=\"form\" id=\"{$var_prefix}v$this->id\" name=\"{$var_prefix}v$this->id\">";
 		$selections = explode(",", $this->extra);
 		foreach ($selections as $selection)
 		{
@@ -401,9 +401,9 @@ class mVarArray extends mVar
 		return parent::Remove();
 	}
 	
-	function getEdit($formname)
+	function getEdit($formname, $var_prefix = "")
 	{
-		return "<textarea class=\"form\" id=\"$this->id\" name=\"$this->id\">$this->value</textarea>";
+		return "<textarea class=\"form\" id=\"{$var_prefix}v$this->id\" name=\"{$var_prefix}v$this->id\">$this->value</textarea>";
 	}
 }
 
@@ -433,9 +433,9 @@ class mVarBoolean extends mVar
 		return parent::Remove();
 	}
 	
-	function getEdit($formname)
+	function getEdit($formname, $var_prefix = "")
 	{
-		return ucf(i18n("true"))." <input class=\"form\" type=\"radio\" id=\"$this->id\" name=\"$this->id\" value=\"1\"".(intval($this->value) ? " checked" : "").">&nbsp;".ucf(i18n("false"))." <input class=\"form\" type=\"radio\" id=\"$this->id\" name=\"$this->id\" value=\"0\" value=\"0\"".(!intval($this->value) ? " checked" : "").">";
+		return ucf(i18n("true"))." <input class=\"form\" type=\"radio\" id=\"{$var_prefix}v$this->id\" name=\"{$var_prefix}v$this->id\" value=\"1\"".(intval($this->value) ? " checked" : "").">&nbsp;".ucf(i18n("false"))." <input class=\"form\" type=\"radio\" id=\"{$var_prefix}v$this->id\" name=\"{$var_prefix}v$this->id\" value=\"0\" value=\"0\"".(!intval($this->value) ? " checked" : "").">";
 	}
 }
 
@@ -461,9 +461,9 @@ class mVarTextline extends mVar
 		return parent::Remove();
 	}
 	
-	function getEdit($formname)
+	function getEdit($formname, $var_prefix = "")
 	{
-		return "<input class=\"form\" id=\"$this->id\" name=\"$this->id\" type=\"text\" value=\"$this->value\">";
+		return "<input class=\"form\" id=\"{$var_prefix}v$this->id\" name=\"{$var_prefix}v$this->id\" type=\"text\" value=\"$this->value\">";
 	}
 }
 
@@ -493,10 +493,10 @@ class mVarText extends mVar
 		return parent::Remove();
 	}
 	
-	function getEdit($formname)
+	function getEdit($formname, $var_prefix = "")
 	{
 		//if (empty($this->extra))
-			return "<textarea style=\"width: 100%; height: 200px;\" class=\"form\" id=\"$this->id\" name=\"$this->id\">$this->value</textarea>";
+			return "<textarea style=\"width: 100%; height: 200px;\" class=\"form\" id=\"{$var_prefix}v$this->id\" name=\"{$var_prefix}v$this->id\">$this->value</textarea>";
 		/*else
 		{
 			$parts = explode("x", $this->extra);
@@ -776,17 +776,9 @@ class mVarMarkuptext extends mVar
 		return parent::Remove();
 	}
 	
-	function getEdit($formname)
+	function getEdit($formname, $var_prefix = "")
 	{
-		//if (empty($this->extra))
-			$text = "<textarea style=\"width: 100%; height: 600px;\" class=\"form\" id=\"v$this->id\" name=\"v$this->id\">$this->value</textarea>";
-		/*else
-		{
-			$parts = explode("x", $this->extra);
-			$text = "<textarea class=\"form\" disabled id=\"v$this->id\" name=\"v$this->id\" cols=\"".$parts[0]."\" rows=\"".$parts[1]."\">$this->value</textarea>";
-		}*/
-		return $text;
-		return "$text <a href=\"javascript:void(null);\" onclick=\"popWin = open('richtext.php?varid=v$this->id&formname=$formname','PopUpWindow','width=605,height=400,scrollbars=0,status=0'); popWin.opener = self; popWin.focus(); popWin.moveTo(150,50); return false\">Open Editor</a>";
+		return "<textarea style=\"width: 100%; height: 600px;\" class=\"form\" id=\"{$var_prefix}v$this->id\" name=\"{$var_prefix}v$this->id\">$this->value</textarea>";
 	}
 }
 
@@ -812,17 +804,9 @@ class mVarXhtml extends mVar
 		return parent::Remove();
 	}
 	
-	function getEdit($formname)
+	function getEdit($formname, $var_prefix = "")
 	{
-		//if (empty($this->extra))
-			$text = "<textarea style=\"width: 100%; height: 200px;\" class=\"form\" id=\"v$this->id\" name=\"v$this->id\">$this->value</textarea>";
-		/*else
-		{
-			$parts = explode("x", $this->extra);
-			$text = "<textarea class=\"form\" disabled id=\"v$this->id\" name=\"v$this->id\" cols=\"".$parts[0]."\" rows=\"".$parts[1]."\">$this->value</textarea>";
-		}*/
-		return $text;
-		return "$text <a href=\"javascript:void(null);\" onclick=\"popWin = open('richtext.php?varid=v$this->id&formname=$formname','PopUpWindow','width=605,height=400,scrollbars=0,status=0'); popWin.opener = self; popWin.focus(); popWin.moveTo(150,50); return false\">Open Editor</a>";
+		return "<textarea style=\"width: 100%; height: 200px;\" class=\"form\" id=\"v$this->id\" name=\"v$this->id\">$this->value</textarea>";
 	}
 }
 
@@ -886,9 +870,9 @@ class mVar
 		$this->value = $value;
 	}
 	
-	function getEdit($formname)
+	function getEdit($formname, $var_prefix = "")
 	{
-		return "<input class=\"form\" id=\"$this->id\" name=\"$this->id\" type=\"text\" value=\"$this->value\">";
+		return "<input class=\"form\" id=\"{$var_prefix}v$this->id\" name=\"{$var_prefix}v$this->id\" type=\"text\" value=\"$this->value\">";
 	}
 	
 	function Save()

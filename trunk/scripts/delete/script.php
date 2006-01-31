@@ -37,13 +37,8 @@ class sDelete extends Script
 			{
 				$_SESSION['murrix']['path'] = GetParentPath($object->getPathInTree());
 				$object->deleteNode();
-
 				
-
-				$system->ExecIntern($response, "show", $this->zone);
-
-				//$system->SetZone("show", $this->zone);
-				//$system->TriggerEventIntern($response, "newlocation");
+				$response->addScript("OnClickCmd('Exec(\'show\',\'$this->zone\',Hash(\'path\',\'".urlencode($_SESSION['murrix']['path'])."\'))');");
 				return;
 			}
 		}

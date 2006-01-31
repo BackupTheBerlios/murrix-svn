@@ -30,44 +30,71 @@ include(gettpl("big_title"));
 	<input class="hidden" type="hidden" name="action" value="save"/>
 	<input class="hidden" type="hidden" name="path" value="<?=$object->getPathInTree()?>"/>
 	<input class="hidden" type="hidden" name="class_name" value="<?=$newobject->getClassName()?>"/>
-	<div class="main">
-		<table class="top_edit_table">
-			<tr>
-				<td>
-					<?=ucf(i18n("name"))?>: <input class="form" type="text" name="name" value="<?=$newobject->getName()?>">
-				</td>
-				<td>
-					<?=ucf(i18n("icon"))?>: <input class="form" type="text" name="icon" id="icon" value="">
-					<a href="javascript:void(null);" onclick="popWin=open('icon_browse.php?input_id=icon&form_id=sEdit','PopUpWindow','width=500,height=400,scrollbars=1,status=0'); popWin.opener = self; popWin.focus(); popWin.moveTo(150,50); return false"><?=ucf(i18n("browse"))?></a>
-				</td>
-				<td>
-					<?=ucf(i18n("language"))?>:
-					<select class="select" name="language">
-						<?
-						$selected_lang = $newobject->getLanguage();
-						if (empty($selected_lang))
-							$selected_lang = $_SESSION['murrix']['language'];
 
-						foreach ($_SESSION['murrix']['languages'] as $language)
-						{
-							?><option value="<?=$language?>" <?=($language == $selected_lang ? "selected" : "")?>><?=ucf(i18n($language))?></option><?
-						}
-						?>
-					</select>
-				</td>
-			</tr>
-		</table>
-	</div>
-
-	<div class="main">
-		<?
-		if (isset($newobject->vars))
+	<div class="adminpanel">
+	<?
+		foreach ($_SESSION['murrix']['languages'] as $language)
 		{
-			foreach ($newobject->vars as $var)
-				echo $var->getName().": (".$var->getType().")<br/><div class=\"container\">".$var->getEdit("sEdit")."</div><br/>";
+			$result = array_diff($_SESSION['murrix']['languages'], array($language));
+
+			$hide = "";
+			foreach ($result as $lang)
+				$hide .= "document.getElementById('edit_$lang').style.display='none';document.getElementById('select_$lang').className='tab';";
+
+			$show = "document.getElementById('edit_$language').style.display='block';document.getElementById('select_$language').className='tab_selected';";
+				
+			?><a id="select_<?=$language?>" class="tab<?=($language == $_SESSION['murrix']['language'] ? "_selected" : "")?>" href="javascript:void(null)" onclick="<?=$hide.$show?>"><?=img(imgpath("$language.jpg"))." ".ucf(i18n($language))?></a><?
 		}
-		?>
-		<input class="submit" id="submitButton" type="submit" value="<?=ucf(i18n("save"))?>"/>
+	?>
+	</div>
+	<br/>
+	<div class="clear"></div>
+
+	<?
+	foreach ($_SESSION['murrix']['languages'] as $language)
+	{
+		$style = "";
+		if ($language != $_SESSION['murrix']['language'])
+			$style = "style=\"display: none;\"";
+	
+	?>
+		<div id="edit_<?=$language?>" <?=$style?>>
+			<div class="main">
+				<table class="top_edit_table">
+					<tr>
+						<td>
+							<?=ucf(i18n("name"))?>: <input class="form" type="text" name="<?=$language?>_name"/>
+						</td>
+						<td>
+							<?=ucf(i18n("icon"))?>: <input class="form" type="text" name="<?=$language?>_icon" id="icon"/>
+							<a href="javascript:void(null);" onclick="popWin=open('icon_browse.php?input_id=<?=$language?>_icon&form_id=sEdit','PopUpWindow','width=500,height=400,scrollbars=1,status=0'); popWin.opener = self; popWin.focus(); popWin.moveTo(150,50); return false"><?=ucf(i18n("browse"))?></a>
+						</td>
+						<td>
+							<?=ucf(i18n("language")).": ".img(imgpath("$language.jpg"))?>
+						</td>
+					</tr>
+				</table>
+			</div>
+		
+			<div class="main">
+				<?
+				if (isset($newobject->vars))
+				{
+					foreach ($newobject->vars as $var)
+						echo $var->getName().": (".$var->getType().")<br/><div class=\"container\">".$var->getEdit("sEdit", $language."_")."</div><br/>";
+				}
+				?>
+				
+				<input class="submit" id="submitButton" type="submit" onclick="document.getElementById('language').value='<?=$language?>'" value="<?=ucf(i18n("save"))." ".i18n($language)." ".i18n("version")?>"/>
+			</div>
+		</div>
+	<?
+	}
+	?>
+
+	<div class="main">
+		<input class="hidden" type="hidden" id="language" name="language" value=""/>
+		<input class="submit" id="submitButton" type="submit" value="<?=ucf(i18n("save all languages"))?>"/>
 	</div>
 </form>
 

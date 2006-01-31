@@ -59,52 +59,63 @@ class sNew extends Script
 		{
 			if (!empty($class_name))
 			{
-				$bError = false;
-				if (empty($args['name']))
+				if (!empty($args['language']))
+					$languages = array($args['language']);
+				else
+					$languages = $_SESSION['murrix']['languages'];
+			
+				foreach ($languages as $language)
 				{
-					$response->addAlert(ucf(i18n("please enter a name")));
-					$bError = true;
+					if (empty($args[$language.'_name']))
+					{
+						$response->addAlert(ucf(i18n($language))." ".i18n("version").": ".ucf(i18n("please enter a name")));
+						return;
+					}
+	
+					if (!(strpos($args[$language.'_name'], "\\") === false) || !(strpos($args[$language.'_name'], "/") === false) || !(strpos($args[$language.'_name'], "+") === false))
+					{
+						$response->addAlert(ucf(i18n($language))." ".i18n("version").": ".ucf(i18n("you can not use '\\', '/' or '+' in the name")));
+						return;
+					}
 				}
 
-				if (!(strpos($args['name'], "\\") === false) || !(strpos($args['name'], "/") === false) || !(strpos($args['name'], "+") === false))
+				$object = new mObject();
+				$object->setClassName($class_name);
+				$object->loadVars();
+
+				$saved = false;
+				foreach ($languages as $language)
 				{
-					$response->addAlert(ucf(i18n("you can not use '\\', '/' or '+' in the name")));
-					$bError = true;
-				}
-	
-				if (!$bError)
-				{
-					$object = new mObject();
-					$object->setClassName($class_name);
-					$object->loadVars();
-	
-					$object->name = trim($args['name']);
-					$object->icon = trim($args['icon']);
-					$object->language = trim($args['language']);
-	
+					$object->name = trim($args[$language.'_name']);
+					$object->icon = trim($args[$language.'_icon']);
+					$object->language = $language;
+
 					$vars = $object->getVars();
-	
+
 					foreach ($vars as $var)
 					{
-						$key = "v".$var->id;
-						$object->setVarValue($var->name, isset($args[$key]) ? $args[$key] : (isset($args[$var->id]) ? $args[$var->id] : ""));
+						$key = $language."_v".$var->id;
+						$object->setVarValue($var->name, isset($args[$key]) ? $args[$key] : "");
 					}
-	
+
 					if ($object->save())
-					{
-						$object->linkWithNode($parent->getNodeId());
-	
-						$_SESSION['murrix']['lastcmd'] = "Exec('show', '".$this->zone."', Hash('node_id', '".$object->getNodeId()."'))";
-						$system->ExecIntern($response, "show", $this->zone, array("node_id" => $object->getNodeId()));
-					}
+						$saved = true;
 					else
 					{
 						$message = "Operation unsuccessfull.<br/>";
 						$message .= "Error output:<br/>";
 						$message .= $object->getLastError();
 						$response->addAlert($message);
+						return;
 					}
 				}
+
+				if ($saved)
+				{
+					$object->linkWithNode($parent->getNodeId());
+					$response->addScript("OnClickCmd('Exec(\'show\',\'$this->zone\',Hash(\'path\',\'".urlencode($object->getPathInTree())."\'))');");
+				}
+
 				return;
 			}
 		}

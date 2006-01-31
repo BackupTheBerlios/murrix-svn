@@ -1,5 +1,5 @@
 <?
-
+$translation['save all languages'] = "spara alla språk";
 $translation['swe'] = "svenska";
 $translation['eng'] = "engelska";
 $translation['browse'] = "bläddra";

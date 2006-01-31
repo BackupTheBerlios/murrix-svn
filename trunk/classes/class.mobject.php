@@ -377,7 +377,7 @@ class mObject
 		global $db_prefix;
 
 		// Validate node_id
-		if ($node_id == 0)
+		if ($node_id <= 0)
 		{
 			$this->error = "Remote object with node id $node_id, was not found";
 			return false;
@@ -386,6 +386,12 @@ class mObject
 		if ($node_id == $this->getNodeId())
 		{
 			$this->error = "Remote object with node id $node_id, was not found";
+			return false;
+		}
+
+		if ($this->isLinkedTo($node_id, $type))
+		{
+			$this->error = "A link to remote object already exists";
 			return false;
 		}
 
@@ -465,6 +471,21 @@ class mObject
 		updatePaths($this->getNodeId());
 		
 		return true;
+	}
+
+	function isLinkedTo($remote_id, $type = "sub")
+	{
+		global $db_prefix;
+
+		$query = "SELECT * FROM `".$db_prefix."links` WHERE (node_top = '$remote_id' AND node_bottom = '".$this->getNodeId()."') OR (node_bottom = '$remote_id' AND node_top = '".$this->getNodeId()."')";
+		
+		if (!($result = mysql_query($query)))
+		{
+			$this->error = "mObject::isLinkedTo: " . mysql_errno() . " " . mysql_error();
+			return false;
+		}
+
+		return (mysql_num_rows($result) > 0);
 	}
 
 	function getLinks($node_id = 0)
