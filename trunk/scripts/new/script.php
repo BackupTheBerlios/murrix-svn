@@ -6,7 +6,7 @@ class sNew extends Script
 	{
 	}
 	
-	function EventHandler(&$system, &$response, $event, $args = null)
+	function EventHandler(&$system, &$response, $event, $args)
 	{
 		switch ($event)
 		{
@@ -14,19 +14,15 @@ class sNew extends Script
 			case "newlocation":
 			case "login":
 			case "logout":
-			$this->Draw($system, $response, array('path' => $_SESSION['murrix']['path']));
+			$this->Draw($system, $response, $args);
 			break;
 		}
 	}
 
 	function Exec(&$system, &$response, $args)
 	{
-		if (isset($args['node_id']))
-			$parent = new mObject($args['node_id']);
-		else if (isset($args['path']))
-			$parent = new mObject(resolvePath($args['path']));
-		else
-			$parent = new mObject(resolvePath($_SESSION['murrix']['path']));
+		$parent_id = $this->getNodeId($args);
+		$parent = new mObject($parent_id);
 			
 		$class_name = "";
 		if (!empty($args['class_name']))
@@ -54,7 +50,7 @@ class sNew extends Script
 				}
 			}
 		}
-			
+
 		if (isset($args['action']) && $args['action'] == "save")
 		{
 			if (!empty($class_name))
@@ -113,27 +109,22 @@ class sNew extends Script
 				if ($saved)
 				{
 					$object->linkWithNode($parent->getNodeId());
-					$response->addScript("OnClickCmd('Exec(\'show\',\'$this->zone\',Hash(\'path\',\'".urlencode($object->getPathInTree())."\'))');");
+					$response->addScript("OnClickCmd('Exec(\'show\',\'$this->zone\',Hash(\'node_id\',\'".$object->getNodeId()."\'))');");
 				}
 
 				return;
 			}
 		}
-
-		$this->Draw($system, $response, array("class_name" => $class_name, "path" => $parent->getPathInTree()));
+		
+		$args['class_name'] = $class_name;
+		$this->Draw($system, $response, $args);
 	}
 	
 	function Draw(&$system, &$response, $args)
 	{
-		if (isset($args['node_id']))
-			$object = new mObject($args['node_id']);
-		else if (isset($args['path']))
-			$object = new mObject(resolvePath($args['path']));
-		else
-		{
-			$object = new mObject($_SESSION['murrix']['path']);
-		}
-		
+		$parent_id = $this->getNodeId($args);
+		$object = new mObject($parent_id);
+	
 		$newobject = new mObject();
 		$newobject->setClassName(isset($args['class_name']) ? $args['class_name'] : "folder");
 		$newobject->loadVars();
@@ -144,8 +135,8 @@ class sNew extends Script
 			include(gettpl("scripts/new", $newobject));
 		else
 		{
-			$titel = ucf(i18n("Error"));
-			$text = ucf(i18n("Not enough rights"));
+			$titel = ucf(i18n("error"));
+			$text = ucf(i18n("not enough rights"));
 			include(gettpl("message"));
 		}
 

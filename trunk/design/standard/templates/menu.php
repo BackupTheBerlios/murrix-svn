@@ -3,8 +3,8 @@
 		<?=ucf(i18n("menu"))?>
 	</div>
 	<?
-	$menu_id = resolvePath("/Root/Public/Menu");
-	$custom_menu_id = resolvePath("/Root/Home/".$_SESSION['murrix']['user']->getName()."/Menu");
+	$menu_id = getNode("/Root/Public/Menu");
+	$custom_menu_id = getNode("/Root/Home/".$_SESSION['murrix']['user']->getName()."/Menu");
 
 	if ($menu_id > 0 || $custom_menu_id > 0)
 	{
@@ -44,7 +44,7 @@
 					{
 						?>
 						<div class="subheader">
-							<?=cmd(img(geticon($subfolder->getIcon()))." ".$subfolder->getName(), "Exec('show', 'zone_main', Hash('path', '".$subfolder->getPathInTree()."'))")?>
+							<?=cmd(img(geticon($subfolder->getIcon()))." ".$subfolder->getName(), "Exec('show','zone_main',Hash('node_id','".$subfolder->getNodeId()."'))")?>
 						</div>
 
 						<div class="menu_items">
@@ -60,7 +60,7 @@
 		}
 	}
 
-	$homes = fetch("FETCH node WHERE link:node_top='".resolvePath("/Root/Home")."' AND link:type='sub' AND !property:class_name='comment' NODESORTBY property:version SORTBY property:name");
+	$homes = fetch("FETCH node WHERE link:node_top='".getNode("/Root/Home")."' AND link:type='sub' AND !property:class_name='comment' NODESORTBY property:version SORTBY property:name");
 	$homes = getReadable($homes);
 
 	if (count($homes) > 0)
@@ -72,10 +72,6 @@
 	
 		<div class="menu_items">
 		<?
-			
-	
-			
-		
 			foreach ($homes as $child)
 				include(gettpl("small_line", $child));
 		?>

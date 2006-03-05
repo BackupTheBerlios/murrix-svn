@@ -28,7 +28,7 @@ class Calendar
 		else
 			$class_str = "property:class_name='event'";
 
-		$events = fetch("FETCH node WHERE $class_str AND !var:calendar_hide='1' NODESORTBY property:version SORTBY var:date");
+		$events = fetch("FETCH node WHERE ($class_str) NODESORTBY property:version SORTBY var:date");
 		$events = getReadable($events);
 
 		$event_list = array();
@@ -128,7 +128,7 @@ class Calendar
 						if ($show)
 						{
 							echo "<nobr>";
-							echo cmd($child->getName(), "Exec('show', 'zone_main', Hash('path', '".$child->getPathInTree()."'))", "", 	$child->getName());
+							echo cmd($child->getName(), "Exec('show','zone_main',Hash('node_id','".$child->getNodeId()."'))", "", 	$child->getName());
 							echo "</nobr><br/>";
 						}
 					}

@@ -1,90 +1,166 @@
 <?
+/* ========================= */
+// Load pathvars etc.
+/* ========================= */
 require_once("vars.php");
 
+
+/* ========================= */
+// Load basic functions
+/* ========================= */
 require_once("system/functions.php");
 require_once("system/design.php");
 require_once("system/system.php");
 require_once("system/paths.php");
 
+
+/* ========================= */
+// Se if we should run install
+/* ========================= */
 if (!file_exists("config.inc.php"))
 {
 	header("Location: $wwwpath/install.php");
 	exit;
 }
+
+
+/* ========================= */
+// Load configuration
+/* ========================= */
 require_once("config.inc.php");
 
-$site_config['default'] = $default_theme;
+
+/* ========================= */
+// Load System classes
+/* ========================= */
 require_once("classes/class.mvar.php");
 require_once("classes/class.mobject.php");
 require_once("classes/class.mthumbnail.php");
 require_once("classes/class.script.php");
 require_once("classes/class.calendar.php");
 
+
+/* ========================= */
+// Load 3d-party files
+/* ========================= */
 require_once("3dparty/exifer/exif.php");
 
+/* ========================= */
+// Load themefiles
+/* ========================= */
 $folders = GetSubfolders("$abspath/design");
 foreach ($folders as $folder)
 	require_once("$abspath/design/$folder/theme.php");
 
+
+/* ========================= */
+// Set available linktyes
+/* ========================= */
 if (!isset($link_types))
 	$link_types = array("sub" => "child");
 else if (!isset($link_types['sub']))
 	$link_types = array_merge($link_types, array("sub" => "child"));
-	
+
+
+/* ========================= */
+// Load scriptfiles
+/* ========================= */
 $folders = GetSubfolders("$abspath/scripts");
 foreach ($folders as $folder)
 	require_once("$abspath/scripts/$folder/script.php");
 
+
+/* ========================= */
+// Start session
+/* ========================= */
 require_once("session.php");
 
-/*
-if (empty($_SESSION['murrix']['site']))
-	$_SESSION['murrix']['site'] = $site_config['default'];
-else*/
-	$_SESSION['murrix']['site'] = GetInput("site", $site_config['default']);
 
-$files = GetSubfiles("$abspath/design/".$_SESSION['murrix']['site']."/translations");
-foreach ($files as $file)
-{
-	$parts = SplitFilepath($file);
-	include_once("$abspath/design/".$_SESSION['murrix']['site']."/translations/$file");
-	$_SESSION['murrix']['translations'][$parts['name']] = $translation;
-}
+/* ========================= */
+// Set up system vars!
+/* ========================= */
+$site = GetInput("site", $default_theme);
 
-if (!isset($_SESSION['murrix']['lastcmd'])) $_SESSION['murrix']['lastcmd'] = "";
+$_SESSION['murrix']['site'] = $site;
+$_SESSION['murrix']['default_path'] = $site_config['sites'][$site]['start'];
 
-$files = GetSubfiles("$abspath/design/".$_SESSION['murrix']['site']."/include");
-foreach ($files as $file)
-{
-	$parts = SplitFilepath($file);
-	include_once("$abspath/design/".$_SESSION['murrix']['site']."/include/$file");
-}
-if (($str = db_connect()) !== true)
-	echo "Failed to connect to database!";
-
-$_SESSION['murrix']['callcache'] = array();
-
-$_SESSION['murrix']['languages'] = $site_config['sites'][$_SESSION['murrix']['site']]['languages'];
-
-if (!isset($_SESSION['murrix']['language']))
-	$_SESSION['murrix']['language'] = $_SESSION['murrix']['languages'][0];
-
-if (!isset($_SESSION['murrix']['user']))
-	$_SESSION['murrix']['user'] = new mObject($anonymous_id);
-
-if (!isset($_SESSION['murrix']['System']))
-	$_SESSION['murrix']['System'] = new mSystem(isset($ajax_path) ? $ajax_path : "");
-
-$_SESSION['murrix']['System']->xajax->debugOff();
-$_SESSION['murrix']['System']->LoadScripts();
-$_SESSION['murrix']['System']->Process();
-
-$_SESSION['murrix']['default_path'] = $site_config['sites'][$_SESSION['murrix']['site']]['start'];
-// Set the default path if none is set
 if (empty($_SESSION['murrix']['path']))
 	$_SESSION['murrix']['path'] = $_SESSION['murrix']['default_path'];
 
 
+/* ========================= */
+// Load translations
+/* ========================= */
+$files = GetSubfiles("$abspath/design/$site/translations");
+foreach ($files as $file)
+{
+	$parts = SplitFilepath($file);
+	include_once("$abspath/design/$site/translations/$file");
+	$_SESSION['murrix']['translations'][$parts['name']] = $translation;
+}
+
+/* ========================= */
+// Load theme includes
+/* ========================= */
+$files = GetSubfiles("$abspath/design/$site/include");
+foreach ($files as $file)
+{
+	$parts = SplitFilepath($file);
+	include_once("$abspath/design/$site/include/$file");
+}
+
+
+/* ========================= */
+// Connect to database
+/* ========================= */
+if (($str = db_connect()) !== true)
+	echo "Failed to connect to database!";
+
+
+/* ========================= */
+// Clear cache
+/* ========================= */
+$_SESSION['murrix']['callcache'] = array();
+
+
+/* ========================= */
+// Define available languages
+/* ========================= */
+$_SESSION['murrix']['languages'] = $site_config['sites'][$site]['languages'];
+
+
+/* ========================= */
+// Set default language
+/* ========================= */
+if (!isset($_SESSION['murrix']['language']))
+	$_SESSION['murrix']['language'] = $_SESSION['murrix']['languages'][0];
+
+
+/* ========================= */
+// Load anonymous user
+/* ========================= */
+if (!isset($_SESSION['murrix']['user']))
+	$_SESSION['murrix']['user'] = new mObject($anonymous_id);
+
+
+/* ========================= */
+// Init system
+/* ========================= */
+if (!isset($_SESSION['murrix']['System']))
+	$_SESSION['murrix']['System'] = new mSystem(isset($ajax_path) ? $ajax_path : "");
+	
+$_SESSION['murrix']['System']->LoadScripts();
+
+
+/* ========================= */
+// Process ajax-calls
+$_SESSION['murrix']['System']->xajax->debugOff();
+$_SESSION['murrix']['System']->Process();
+
+
+/* ========================= */
+// Handle files and thumbnails
+/* ========================= */
 if (isset($_GET['thumbnail']))
 {
 	$thumbnail = new mThumbnail($_GET['thumbnail']);
@@ -114,6 +190,11 @@ else if (isset($_GET['file']))
 		case "image":
 			header("Content-type: " . image_type_to_mime_type(IMAGETYPE_JPEG));
 			break;
+		case "pdf":
+			header("Content-type: application/pdf");
+			if (!isset($_GET['download']))
+				header("Content-Disposition: inline; filename=\"".$file->getVarValue("file", true)."\"");
+			break;
 		}
 		
 		@readfile($filename);
@@ -127,5 +208,6 @@ else if (isset($_GET['file']))
 include(gettpl("pagelayout"));
 
 $_SESSION['murrix']['callcache'] = array();
+$_SESSION['murrix']['querycache'] = array();
 
 ?>

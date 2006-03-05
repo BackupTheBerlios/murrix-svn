@@ -9,7 +9,7 @@ foreach ($classlist as $class_name)
 		$selected = "selected";
 
 	if ($object->hasRight("create_subnodes", array($class_name)))
-		$class_form .= "<option $selected value=\"$class_name\">".ucwords(str_replace("_", " ", $class_name))."</option>";
+		$class_form .= "<option $selected value=\"$class_name\">".ucf(str_replace("_", " ", $class_name))."</option>";
 }
 $class_form .= "</select>";
 $class_form .= "</form>";
@@ -28,7 +28,7 @@ include(gettpl("big_title"));
 ?>
 <form name="sEdit" id="sEdit" action="javascript:void(null);" onsubmit="Post('new', 'zone_main', 'sEdit');">
 	<input class="hidden" type="hidden" name="action" value="save"/>
-	<input class="hidden" type="hidden" name="path" value="<?=$object->getPathInTree()?>"/>
+	<input class="hidden" type="hidden" name="node_id" value="<?=$object->getNodeId()?>"/>
 	<input class="hidden" type="hidden" name="class_name" value="<?=$newobject->getClassName()?>"/>
 
 	<div class="adminpanel">

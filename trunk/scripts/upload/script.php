@@ -6,7 +6,7 @@ class sUpload extends Script
 	{
 	}
 	
-	function EventHandler(&$system, &$response, $event, $args = null)
+	function EventHandler(&$system, &$response, $event, $args)
 	{
 		switch ($event)
 		{
@@ -14,49 +14,25 @@ class sUpload extends Script
 			case "newlocation":
 			case "login":
 			case "logout":
-			$this->Draw($system, $response, array('path' => $_SESSION['murrix']['path']));
+			$this->Draw($system, $response, $args);
 			break;
 		}
 	}
 
 	function Exec(&$system, &$response, $args)
 	{
-		if (isset($args['node_id']))
-		{
-			$object = new mObject($args['node_id']);
-			$path = $object->getPath();
-		}
-		else if (isset($args['path']))
-			$path = $args['path'];
-		else
-		{
-			if (empty($_SESSION['murrix']['path']))
-			{
-				global $site_config;
-				$path = $site_config['sites'][$_SESSION['murrix']['site']]['start'];
-			}
-		}
-		
-		$this->Draw($system, $response, array("path" => $path));
+		$this->Draw($system, $response, $args);
 
 	}
 	
 	function Draw(&$system, &$response, $args)
 	{
-		if (isset($args['node_id']))
-			$object = new mObject($args['node_id']);
-		else if (isset($args['path']))
-			$object = new mObject(resolvePath($args['path']));
-		else
-		{
-			$object = new mObject();
-			$object->loadByObjectId($args['object_id']);
-		}
-	
+		$node_id = $this->getNodeId($args);
+
 		ob_start();
-		
-		if ($object->getNodeId() > 0)
+		if ($node_id > 0)
 		{
+			$object = new mObject($node_id);
 			if ($object->HasRight("create_subnodes"))
 				include(gettpl("scripts/upload", $object));
 			else

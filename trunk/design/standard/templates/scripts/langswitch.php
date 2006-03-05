@@ -6,7 +6,7 @@ if (isset($_SESSION['murrix']['languages']) && is_array($_SESSION['murrix']['lan
 		if ($language == $_SESSION['murrix']['language'])
 			continue;
 			
-		?><a onclick="Exec('langswitch','zone_language', Hash('language', '<?=$language?>'));" href="javascript:void(null);"><?
+		?><a onclick="Exec('langswitch','zone_language',Hash('language','<?=$language?>'));" href="javascript:void(null);"><?
 		echo img(imgpath("$language.jpg"));
 		?></a><?
 	}

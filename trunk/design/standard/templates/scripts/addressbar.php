@@ -11,7 +11,7 @@ foreach ($parts as $part)
 
 	$object = new mObject(resolvePath($path2));
 	if ($object->hasRight("read"))
-		echo cmd($part, "Exec('show', 'zone_main', Hash('path', '$path2'))");
+		echo cmd($part, "Exec('show','zone_main',Hash('node_id','".$object->getNodeId()."'))");
 	else
 		echo $part;
 }

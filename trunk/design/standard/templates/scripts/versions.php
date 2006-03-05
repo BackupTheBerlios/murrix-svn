@@ -25,20 +25,20 @@ foreach ($_SESSION['murrix']['languages'] as $language)
 		else
 		{
 			$creator_obj = new mObject($version->getCreator());
-			$creator = cmd($creator_obj->getName(), "Exec('show','zone_main', Hash('path', '".$creator_obj->getPathInTree()."'))");
+			$creator = cmd($creator_obj->getName(), "Exec('show','zone_main',Hash('node_id','".$creator_obj->getNodeId()."'))");
 		}
 
 		if ($object->hasRight("edit"))
-			$edit = cmd(img(geticon("edit"))."&nbsp;".ucf(i18n("new version from here")), "Exec('edit','zone_main', Hash('action', 'editversion', 'object_id', '".$version->getId()."'))");
+			$edit = cmd(img(geticon("edit"))."&nbsp;".ucf(i18n("new version from here")), "Exec('edit','zone_main',Hash('action','editversion','object_id','".$version->getId()."'))");
 		else
 			$edit = "";
 
 		if ($object->hasRight("delete"))
 		{
 			if ($num_versions == 1)
-				$delete = cmd(img(geticon("delete"))."&nbsp;".ucf(i18n("delete")), "Exec('delete','zone_main', Hash('path', '".$version->getPathInTree()."'))");
+				$delete = cmd(img(geticon("delete"))."&nbsp;".ucf(i18n("delete")), "Exec('delete','zone_main',Hash('node_id','".$version->getNodeId()."'))");
 			else
-				$delete = cmd(img(geticon("delete"))."&nbsp;".ucf(i18n("delete")), "Exec('versions','zone_main', Hash('action', 'deleteversion', 'object_id', '".$version->getId()."'))");
+				$delete = cmd(img(geticon("delete"))."&nbsp;".ucf(i18n("delete")), "Exec('versions','zone_main',Hash('action','deleteversion','object_id','".$version->getId()."'))");
 		}
 		else
 			$delete = "";

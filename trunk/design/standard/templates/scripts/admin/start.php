@@ -20,12 +20,13 @@ $groups = fetch("FETCH node WHERE link:node_top='$users_id' AND link:type='sub' 
 foreach ($groups as $group)
 {
 	$home = "&nbsp;";
-	if (resolvePath("/Root/Home/".$group->getName()) > 0)
-		$home = cmd(img(geticon("home"))." ".$group->getName(), "Exec('show', 'zone_main', Hash('path', '/Root/Home/".$group->getName()."'))");
+	$home_id = getNode("/Root/Home/".$group->getName());
+	if ($home_id > 0)
+		$home = cmd(img(geticon("home"))." ".$group->getName(), "Exec('show','zone_main',Hash('node_id','$home_id'))");
 	
 
 	$users_count = fetch("FETCH count WHERE link:node_top='".$group->getNodeId()."' AND link:type='sub' AND property:class_name='user' NODESORTBY property:version");
-	$groupslist[] = array(cmd(img(geticon($group->getIcon()))." ".$group->getName(), "Exec('show', 'zone_main', Hash('path', '".$group->getPathInTree()."'))"), $group->getCreated(), $home, $users_count, "");
+	$groupslist[] = array(cmd(img(geticon($group->getIcon()))." ".$group->getName(), "Exec('show','zone_main',Hash('node_id','".$group->getNodeId()."'))"), $group->getCreated(), $home, $users_count, "");
 }
 
 table($groupslist, "% ".i18n("rows"));
@@ -41,7 +42,7 @@ $users = fetch("FETCH node WHERE property:class_name='user' NODESORTBY property:
 
 foreach ($users as $user)
 {
-	$userslist[] = array(cmd(img(geticon($user->getIcon()))." ".$user->getName(), "Exec('show', 'zone_main', Hash('path', '".$user->getPathInTree()."'))"), $user->getVarValue("username"), $user->getCreated(), "");
+	$userslist[] = array(cmd(img(geticon($user->getIcon()))." ".$user->getName(), "Exec('show','zone_main',Hash('node_id','".$user->getNodeId()."'))"), $user->getVarValue("username"), $user->getCreated(), "");
 }
 
 table($userslist, "% ".i18n("rows"));

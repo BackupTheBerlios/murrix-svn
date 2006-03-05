@@ -26,7 +26,7 @@ $root = new mObject($root_id);
 		?>
 		<script type="text/javascript">
 		<!--
-			function loading(state)
+			function loading(state, zone)
 			{
 				if (state)
 				{
@@ -56,11 +56,11 @@ $root = new mObject($root_id);
 				<div id="zone_login"></div>
 	
 				<div id="header_logo">
-					<?=cmd(img(geticon($root->getIcon(), 64)), "Exec('show', 'zone_main', Hash('path', '".$_SESSION['murrix']['default_path']."'))")?>
+					<?=cmd(img(geticon($root->getIcon(), 64)), "Exec('show','zone_main',Hash('path','".$_SESSION['murrix']['default_path']."'))")?>
 				</div>
 				
 				<div id="header_name">
-					<?=cmd($root->getVarValue("description"), "Exec('show', 'zone_main', Hash('path', '".$_SESSION['murrix']['default_path']."'))")?>
+					<?=cmd($root->getVarValue("description"), "Exec('show','zone_main',Hash('path','".$_SESSION['murrix']['default_path']."'))")?>
 				</div>
 			</div>
 		</div>

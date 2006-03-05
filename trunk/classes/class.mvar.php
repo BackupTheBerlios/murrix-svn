@@ -147,7 +147,7 @@ class mVarHidden extends mVar
 	function getEdit($formname, $var_prefix = "")
 	{
 		$parts = explode(":", $this->extra);
-				
+
 		switch ($parts[0])
 		{
 		case "user":
@@ -529,8 +529,7 @@ class mVarMarkuptext extends mVar
 			$text .= "<div class=\"clear\"></div></div>";
 
 		unset($_SESSION['murrix']['tmp']['processText']);
-		
-		return nl2br($text);
+		return str_replace(array("\r\n", "\n", "\r"), "<br/>", $text);
 	}
 
 	function processSectionCallback($matches)
@@ -678,8 +677,9 @@ class mVarMarkuptext extends mVar
 		case "url":
 			if (!empty($name))
 				$name = " alt=\"$name\" title=\"$name\"";
-
-			$text = "<img style=\"$style\" src=\"$image_param\"$name/>$clear";
+			list($width, $height, $type, $attr) = getimagesize($image_param);
+			
+			$text = "<img style=\"$style; width: {$width}px; height: {$height}px;\" src=\"$image_param\"$name/>$clear";
 			break;
 
 		case "obj":
@@ -778,7 +778,7 @@ class mVarMarkuptext extends mVar
 	
 	function getEdit($formname, $var_prefix = "")
 	{
-		return "<textarea style=\"width: 100%; height: 600px;\" class=\"form\" id=\"{$var_prefix}v$this->id\" name=\"{$var_prefix}v$this->id\">$this->value</textarea>";
+		return "<textarea style=\"width: 100%; height: 200px;\" class=\"form\" id=\"{$var_prefix}v$this->id\" name=\"{$var_prefix}v$this->id\">$this->value</textarea>";
 	}
 }
 

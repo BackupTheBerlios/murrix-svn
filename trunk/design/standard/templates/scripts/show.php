@@ -8,7 +8,7 @@ include(gettpl("title_show", $object));
 include(gettpl("data_show", $object));
 
 $pagername = "children_show";
-$children = fetch("FETCH node WHERE link:node_top='".$object->getNodeId()."' AND link:type='sub' AND !property:class_name='comment' NODESORTBY property:version SORTBY property:name");
+$children = fetch("FETCH node WHERE link:node_top='".$object->getNodeId()."' AND link:type='sub' AND !property:class_name='comment' NODESORTBY property:version SORTBY var:priority,property:name");
 
 $list_sub = $object->hasRight("list_sub");
 

@@ -6,7 +6,7 @@ class sEdit extends Script
 	{
 	}
 	
-	function EventHandler(&$system, &$response, $event, $args = null)
+	function EventHandler(&$system, &$response, $event, $args)
 	{
 		switch ($event)
 		{
@@ -14,7 +14,7 @@ class sEdit extends Script
 			case "newlocation":
 			case "login":
 			case "logout":
-			$this->Draw($system, $response, array('path' => $_SESSION['murrix']['path']));
+			$this->Draw($system, $response, $args);
 			break;
 		}
 	}
@@ -38,74 +38,51 @@ class sEdit extends Script
 
 			if (!$bError)
 			{
-				$object = new mObject(resolvePath($_SESSION['murrix']['path']));
-
-				$object->name = trim($args['name']);
-				$object->icon = trim($args['icon']);
-				$object->language = trim($args['language']);
-
-				$vars = $object->getVars();
-
-				foreach ($vars as $var)
+				$node_id = $this->getNodeId($args);
+				if ($node_id > 0)
 				{
-					$key = "v".$var->id;
-					$object->setVarValue($var->name, isset($args[$key]) ? $args[$key] : (isset($args[$var->id]) ? $args[$var->id] : ""));
-				}
-
-				if ($object->save())
-				{
-					$response->addScript("OnClickCmd('Exec(\'show\',\'$this->zone\',Hash(\'path\',\'".urlencode($_SESSION['murrix']['path'])."\'))');");
-				}
-				else
-				{
-					$message = "Operation unsuccessfull.<br/>";
-					$message .= "Error output:<br/>";
-					$message .= $object->getLastError();
-					$response->addAlert($message);
+					$object = new mObject($node_id);
+	
+					$object->name = trim($args['name']);
+					$object->icon = trim($args['icon']);
+					$object->language = trim($args['language']);
+	
+					$vars = $object->getVars();
+	
+					foreach ($vars as $var)
+					{
+						$key = "v".$var->id;
+						$object->setVarValue($var->name, isset($args[$key]) ? $args[$key] : (isset($args[$var->id]) ? $args[$var->id] : ""));
+					}
+	
+					if ($object->save())
+						$response->addScript("OnClickCmd('Exec(\'show\',\'$this->zone\',Hash(\'node_id\',\'$node_id\'))');");
+					else
+					{
+						$message = "Operation unsuccessfull.<br/>";
+						$message .= "Error output:<br/>";
+						$message .= $object->getLastError();
+						$response->addAlert($message);
+					}
 				}
 			}
 			return;
 		}
 
-		if (isset($args['action']) && $args['action'] == "editversion")
-		{
-			$this->Draw($system, $response, array("object_id" => $args['object_id']));
-			return;
-		}
-
-		if (isset($args['node_id']))
-		{
-			$object = new mObject($args['node_id']);
-			$_SESSION['murrix']['path'] = $object->getPathInTree();
-		}
-		else if (isset($args['path']))
-			$_SESSION['murrix']['path'] = $args['path'];
-		else
-		{
-			if (empty($_SESSION['murrix']['path']))
-			{
-				global $site_config;
-				$_SESSION['murrix']['path'] = $site_config['sites'][$_SESSION['murrix']['site']]['start'];
-			}
-		}
-
-		$system->TriggerEventIntern($response, "newlocation");
+		$this->Draw($system, $response, $args);
 	}
 	
 	function Draw(&$system, &$response, $args)
 	{
-		if (isset($args['node_id']))
-			$object = new mObject($args['node_id']);
-		else if (isset($args['path']))
-			$object = new mObject(resolvePath($args['path']));
-		else
+		if (isset($args['object_id']))
 		{
 			$object = new mObject();
 			$object->loadByObjectId($args['object_id']);
 		}
-	
-		ob_start();
+		else
+			$object = new mObject($this->getNodeId($args));
 		
+		ob_start();
 		if ($object->getNodeId() > 0)
 		{
 			if ($object->HasRight("edit"))

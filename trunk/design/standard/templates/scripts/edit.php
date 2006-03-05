@@ -5,13 +5,14 @@ include(gettpl("adminpanel", $object));
 $vars = $object->GetVars();
 
 $left = img(geticon("settings"))."&nbsp;".ucf(i18n("edit"));
-$right = ucf(i18n("class")).": ".ucwords(str_replace("_", " ", $object->getClassName()));
+$right = ucf(i18n("class")).": ".ucw(str_replace("_", " ", $object->getClassName()));
 $center = "";
 include(gettpl("big_title"));
 
 ?>
 <form name="sEdit" id="sEdit" action="javascript:void(null);" onsubmit="Post('edit', 'zone_main', 'sEdit');">
 	<input class="hidden" type="hidden" name="action" value="save"/>
+	<input class="hidden" type="hidden" name="node_id" value="<?=$object->getNodeId()?>"/>
 	<div class="main">
 		<table class="top_edit_table">
 			<tr>

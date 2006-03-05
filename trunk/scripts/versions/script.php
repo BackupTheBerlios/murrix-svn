@@ -6,7 +6,7 @@ class sVersions extends Script
 	{
 	}
 	
-	function EventHandler(&$system, &$response, $event, $args = null)
+	function EventHandler(&$system, &$response, $event, $args)
 	{
 		switch ($event)
 		{
@@ -14,7 +14,7 @@ class sVersions extends Script
 			case "newlocation":
 			case "login":
 			case "logout":
-			$this->Draw($system, $response, array('path' => $_SESSION['murrix']['path']));
+			$this->Draw($system, $response, $args);
 			break;
 		}
 	}
@@ -32,33 +32,17 @@ class sVersions extends Script
 			$args['node_id'] = $object->getNodeId();
 		}
 		
-		if (isset($args['node_id']))
-		{
-			$object = new mObject($args['node_id']);
-			$_SESSION['murrix']['path'] = $object->getPathInTree();
-		}
-		else if (isset($args['path']))
-			$_SESSION['murrix']['path'] = $args['path'];
-		else
-		{
-			if (empty($_SESSION['murrix']['path']))
-			{
-				global $site_config;
-				$_SESSION['murrix']['path'] = $site_config['sites'][$_SESSION['murrix']['site']]['start'];
-			}
-		}
-
-		$system->TriggerEventIntern($response, "newlocation");
+		$system->TriggerEventIntern($response, "newlocation", $args);
 	}
 	
 	function Draw(&$system, &$response, $args)
 	{
-		$object = new mObject(resolvePath($args['path']));
-	
+		$node_id = $this->getNodeId($args);
+
 		ob_start();
-		
-		if ($object->getNodeId() > 0)
+		if ($node_id > 0)
 		{
+			$object = new mObject($node_id);
 			include(gettpl("scripts/versions", $object));
 		}
 		else

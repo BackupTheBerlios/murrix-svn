@@ -22,7 +22,6 @@ if (count($children) > 0)
 			break;
 
 		case "table":
-		default:
 			$list = array();
 			$list[] = array(ucf(i18n("name")), ucf(i18n("description")), "&nbsp;");
 			for ($i = $start; $i < $end; $i++)
@@ -31,7 +30,7 @@ if (count($children) > 0)
 
 				$read_right = $child->hasRight("read");
 				if ($read_right)
-					$name = cmd(img(geticon($child->getIcon()))." ".$child->getName(), "Exec('show','zone_main', Hash('path', '".$child->getPathInTree()."'))");
+					$name = cmd(img(geticon($child->getIcon()))." ".$child->getName(), "Exec('show','zone_main',Hash('node_id','".$child->getNodeId()."'))");
 				else
 					$name = img(geticon($child->getIcon()))." ".$child->getName();
 
@@ -40,13 +39,13 @@ if (count($children) > 0)
 				$admin = "";
 				if ($child->hasRight("edit"))
 				{
-					$admin .= cmd(img(geticon("edit")), "Exec('edit','zone_main', Hash('path', '".$child->getPathInTree()."'))");
+					$admin .= cmd(img(geticon("edit")), "Exec('edit','zone_main',Hash('node_id','".$child->getNodeId()."'))");
 				}
 		
 				if ($child->hasRight("delete"))
 				{
 					$admin .= "&nbsp;";
-					$admin .= cmd(img(geticon("delete")), "Exec('delete','zone_main', Hash('path', '".$child->getPathInTree()."'))");
+					$admin .= cmd(img(geticon("delete")), "Exec('delete','zone_main',Hash('node_id','".$child->getNodeId()."'))");
 				}
 				
 				$list[] = array($name, $description, $admin);

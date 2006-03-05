@@ -6,7 +6,7 @@ class sTools extends Script
 	{
 	}
 	
-	function EventHandler(&$system, &$response, $event, $args = null)
+	function EventHandler(&$system, &$response, $event, $args)
 	{
 		switch ($event)
 		{
@@ -14,7 +14,7 @@ class sTools extends Script
 			case "newlocation":
 			case "login":
 			case "logout":
-			$this->Draw($system, $response, array('path' => $_SESSION['murrix']['path']));
+			$this->Draw($system, $response, $args);
 			break;
 		}
 	}
@@ -33,7 +33,10 @@ class sTools extends Script
 					return;
 				}
 	
-				$remote_node_id = resolvePath($args['path']);
+				if (isset($args['remote_node_id']))
+					$remote_node_id = $args['remote_node_id'];
+				else
+					$remote_node_id = getNode($args['path']);
 	
 				if ($remote_node_id > 0)
 				{
@@ -82,20 +85,17 @@ class sTools extends Script
 			}
 		}
 
-		if (!isset($args['path']))
-			$args['path'] = $_SESSION['murrix']['path'];
-		
 		$this->Draw($system, $response, $args);
 	}
 	
 	function Draw(&$system, &$response, $args)
 	{
-		$object = new mObject(resolvePath($args['path']));
-	
+		$node_id = $this->getNodeId($args);
+
 		ob_start();
-		
-		if ($object->getNodeId() > 0)
+		if ($node_id > 0)
 		{
+			$object = new mObject($node_id);
 			include(gettpl("scripts/tools", $object));
 
 		}

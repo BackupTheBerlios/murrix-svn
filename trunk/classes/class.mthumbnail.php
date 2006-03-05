@@ -118,7 +118,7 @@ class mThumbnail
 
 		if ($angle < 0) $angle = 360+$angle;
 		else if ($angle >= 360) $angle = 360-$angle;
-			
+
 		if ($angle > 0)
 		{
 			$out = ImageRotate($image, $angle, 180);
@@ -136,12 +136,17 @@ class mThumbnail
 			$h = imagesy($image) * ($maxsizex / imagesx($image));
 			$w = $maxsizex;
 		}
-		
-		$output = imagecreatetruecolor($w, $h);
+
+		global $abspath;
+		$temp = imagecreate($w, $h);
+		imageJPEG($temp, "$abspath/temp.jpg");
+		$output = @imagecreatefromjpeg("$abspath/temp.jpg");
+
+		//$output = imagecreatetruecolor($w, $h);
 
 		imageCopyResampleBicubic($output, $image, 0, 0, 0, 0, imagesx($output), imagesy($output), imagesx($image), imagesy($image));
 		//imagecopyresampled($output, $image, 0, 0, 0, 0, imagesx($output), imagesy($output), imagesx($image), imagesy($image));
-		
+		/*
 		imagedestroy($image);
 	
 		ob_start(); // Start capturing stdout. 
@@ -154,7 +159,7 @@ class mThumbnail
 		$this->created = date("Y-m-d H:i:s");
 		$this->width = $w;
 		$this->height = $h;
-
+*/
 		return true;
 	}
 	

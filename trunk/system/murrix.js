@@ -63,7 +63,6 @@ function Poll()
 			eval(URLDecode(last_command));
 			run_cmd = false;
 		}
-
 	}
 }
 
@@ -131,13 +130,14 @@ var active_zones = new Array();
 
 function startScript(zone)
 {
+	scroll(0,0);
 	if (in_array(zone, active_zones))
 		return;
 
 	active_zones.push(zone);
 
 	if (active_zones.length > 0 && self.loading)
-		loading(true);
+		loading(true, zone);
 }
 
 function endScript(zone)
@@ -156,5 +156,5 @@ function endScript(zone)
 	active_zones = list;
 
 	if (active_zones.length <= 0 && self.loading)
-		loading(false);
+		loading(false, zone);
 }

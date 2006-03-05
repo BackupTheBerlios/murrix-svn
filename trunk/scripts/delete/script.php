@@ -6,7 +6,7 @@ class sDelete extends Script
 	{
 	}
 	
-	function EventHandler(&$system, &$response, $event, $args = null)
+	function EventHandler(&$system, &$response, $event, $args)
 	{
 		switch ($event)
 		{
@@ -14,60 +14,44 @@ class sDelete extends Script
 			case "newlocation":
 			case "login":
 			case "logout":
-			$this->Draw($system, $response, array('path' => $_SESSION['murrix']['path']));
+			$this->Draw($system, $response, $args);
 			break;
 		}
 	}
 
 	function Exec(&$system, &$response, $args)
 	{
-		if (isset($args['node_id']))
-		{
-			$object = new mObject($args['node_id']);
-			$path = $object->getPathInTree();
-		}
-		else
-			$path = $args['path'];
-			
 		if (isset($args['action']) && $args['action'] == "delete")
 		{
-			$object = new mObject(resolvePath($path));
+			$node_id = $this->getNodeId($args);
 
-			if ($object->hasRight("delete"))
+			if ($node_id > 0)
 			{
-				$_SESSION['murrix']['path'] = GetParentPath($object->getPathInTree());
-				$object->deleteNode();
-				
-				$response->addScript("OnClickCmd('Exec(\'show\',\'$this->zone\',Hash(\'path\',\'".urlencode($_SESSION['murrix']['path'])."\'))');");
-				return;
+				$object = new mObject($node_id);
+	
+				if ($object->hasRight("delete"))
+				{
+					$_SESSION['murrix']['path'] = GetParentPath($object->getPathInTree());
+					$node_id = getNode($_SESSION['murrix']['path']);
+					$object->deleteNode();
+
+					$response->addScript("OnClickCmd('Exec(\'show\',\'$this->zone\',Hash(\'node_id\',\'$node_id\'))');");
+					return;
+				}
 			}
 		}
-
-		if (!isset($args['path']))
-			$args['path'] = $_SESSION['murrix']['path'];
 
 		$this->Draw($system, $response, $args);
 	}
 	
 	function Draw(&$system, &$response, $args)
 	{
-		if (!isset($args['path']))
-			$args['path'] = $_SESSION['murrix']['path'];
-	
-		if (isset($args['node_id']))
-			$object = new mObject($args['node_id']);
-		else if (isset($args['path']))
-			$object = new mObject(resolvePath($args['path']));
-		else
-		{
-			$object = new mObject();
-			$object->loadByObjectId($args['object_id']);
-		}
-	
+		$node_id = $this->getNodeId($args);
+
 		ob_start();
-		
-		if ($object->getNodeId() > 0)
+		if ($node_id > 0)
 		{
+			$object = new mObject($node_id);
 			if ($object->HasRight("delete"))
 				include(gettpl("scripts/delete", $object));
 			else

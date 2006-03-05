@@ -6,7 +6,7 @@ class sLinks extends Script
 	{
 	}
 	
-	function EventHandler(&$system, &$response, $event, $args = null)
+	function EventHandler(&$system, &$response, $event, $args)
 	{
 		switch ($event)
 		{
@@ -14,7 +14,7 @@ class sLinks extends Script
 			case "newlocation":
 			case "login":
 			case "logout":
-			$this->Draw($system, $response, array('path' => $_SESSION['murrix']['path']));
+			$this->Draw($system, $response, $args);
 			break;
 		}
 	}
@@ -33,10 +33,6 @@ class sLinks extends Script
 					$response->addAlert(ucf(i18n("you don't have enough rights to delete this link")));
 
 				$_SESSION['murrix']['path'] = $object->getPathInTree();
-
-				if (!isset($args['path']))
-					$args['path'] = $_SESSION['murrix']['path'];
-		
 				$system->TriggerEventIntern($response, "newlocation", $args);
 				return;
 			}
@@ -46,7 +42,10 @@ class sLinks extends Script
 	
 				if ($object->hasRight("edit"))
 				{
-					$remote_node_id = resolvePath($args['path']);
+					if (isset($args['remote_node_id']))
+						$remote_node_id = $args['remote_node_id'];
+					else
+						$remote_node_id = getNode($args['path']);
 
 					if ($remote_node_id > 0)
 					{
@@ -78,40 +77,23 @@ class sLinks extends Script
 					return;
 				}
 			
-				$this->Draw($system, $response, array("path" => $_SESSION['murrix']['path']));
+				$this->Draw($system, $response, $args);
 				return;
 			}
 		}
 		
-		if (isset($args['node_id']))
-		{
-			$object = new mObject($args['node_id']);
-			$_SESSION['murrix']['path'] = $object->getPathInTree();
-		}
-		else if (isset($args['path']))
-			$_SESSION['murrix']['path'] = $args['path'];
-		else
-		{
-			if (empty($_SESSION['murrix']['path']))
-			{
-				global $site_config;
-				$_SESSION['murrix']['path'] = $site_config['sites'][$_SESSION['murrix']['site']]['start'];
-			}
-		}
-
-		$system->TriggerEventIntern($response, "newlocation");
+		$system->TriggerEventIntern($response, "newlocation", $args);
 	}
 	
 	function Draw(&$system, &$response, $args)
 	{
-		$object = new mObject(resolvePath($args['path']));
-	
-		ob_start();
-		
-		if ($object->getNodeId() > 0)
-		{
-			include(gettpl("scripts/links", $object));
+		$node_id = $this->getNodeId($args);
 
+		ob_start();
+		if ($node_id > 0)
+		{
+			$object = new mObject($node_id);
+			include(gettpl("scripts/links", $object));
 		}
 		else
 		{

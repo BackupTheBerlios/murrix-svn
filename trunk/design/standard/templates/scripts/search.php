@@ -2,7 +2,7 @@
 global $abspath, $wwwpath;
 
 $right = $center = "";
-$left = "<span style=\"font-weight: bold; font-size: 18px;\">".img(geticon("search"))."&nbsp;".ucf(i18n("search"))." - $query_string</span>";
+$left = img(geticon("search"))."&nbsp;".ucf(i18n("search"))." - $query_string";
 include(gettpl("big_title"));
 
 ?>

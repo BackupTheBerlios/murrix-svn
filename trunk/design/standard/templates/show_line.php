@@ -3,7 +3,7 @@
 	<?
 		$read_right = $child->hasRight("read");
 		if ($read_right)
-			echo cmd(img(geticon($child->getIcon(), 64)), "Exec('show','zone_main', Hash('path', '".$child->getPathInTree()."'))");
+			echo cmd(img(geticon($child->getIcon(), 64)), "Exec('show','zone_main',Hash('node_id','".$child->getNodeId()."'))");
 		else
 			echo img(geticon($child->getIcon(), 64));
 	?>
@@ -15,13 +15,13 @@
 
 		if ($child->hasRight("edit"))
 		{
-			$admin .= cmd(img(geticon("edit")), "Exec('edit','zone_main', Hash('path', '".$child->getPathInTree()."'))");
+			$admin .= cmd(img(geticon("edit")), "Exec('edit','zone_main',Hash('node_id','".$child->getNodeId()."'))");
 		}
 
 		if ($child->hasRight("delete"))
 		{
 			$admin .= "&nbsp;";
-			$admin .= cmd(img(geticon("delete")), "Exec('delete','zone_main', Hash('path', '".$child->getPathInTree()."'))");
+			$admin .= cmd(img(geticon("delete")), "Exec('delete','zone_main',Hash('node_id','".$child->getNodeId()."'))");
 		}
 
 		echo $admin;
@@ -33,7 +33,7 @@
 				<span class="show_line_main_top_inner_title">
 				<?
 					if ($read_right)
-						echo cmd($child->getName(), "Exec('show','zone_main', Hash('path', '".$child->getPathInTree()."'))");
+						echo cmd($child->getName(), "Exec('show','zone_main',Hash('node_id','".$child->getNodeId()."'))");
 					else
 						echo $child->getName();
 				?>
@@ -45,5 +45,6 @@
 			<? if ($read_right) { echo $child->getVarValue("description"); } ?>
 		</div>
 	</div>
-	<div id="clear"></div>
+
 </div>
+<div class="clear"></div>

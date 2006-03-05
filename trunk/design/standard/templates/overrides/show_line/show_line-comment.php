@@ -8,7 +8,7 @@ if (!isset($com_count))
 	<?
 		$read_right = $child->hasRight("read");
 		if ($read_right)
-			echo cmd(img(geticon($child->getIcon(), 64)), "Exec('show','zone_main', Hash('path', '".$child->getPathInTree()."'))");
+			echo cmd(img(geticon($child->getIcon(), 64)), "Exec('show','zone_main',Hash('node_id','".$child->getNodeId()."'))");
 		else
 			echo img(geticon($child->getIcon(), 64));
 	?>
@@ -21,19 +21,19 @@ if (!isset($com_count))
 		if ($child->hasRight("edit"))
 		{
 			$admin .= "&nbsp;";
-			$admin .= cmd(img(geticon("edit")), "Exec('edit','zone_main', Hash('path', '".$child->getPathInTree()."'))");
+			$admin .= cmd(img(geticon("edit")), "Exec('edit','zone_main',Hash('node_id','".$child->getNodeId()."'))");
 		}
 
 		if ($child->hasRight("delete"))
 		{
 			$admin .= "&nbsp;";
-			$admin .= cmd(img(geticon("delete")), "Exec('delete','zone_main', Hash('path', '".$child->getPathInTree()."'))");
+			$admin .= cmd(img(geticon("delete")), "Exec('delete','zone_main',Hash('node_id','".$child->getNodeId()."'))");
 		}
 
 		if ($child->hasRight("create_subnodes", array("comment")))
 		{
 			$admin .= "&nbsp;";
-			$admin .= cmd(img(geticon("comment"))."&nbsp;".ucf(i18n("answer")), "Exec('new','zone_main', Hash('path', '".$child->getPathInTree()."', 'class_name', 'comment'))");
+			$admin .= cmd(img(geticon("comment"))."&nbsp;".ucf(i18n("answer")), "Exec('new','zone_main',Hash('node_id','".$child->getNodeId()."','class_name','comment'))");
 		}
 
 		echo $admin;
@@ -45,7 +45,7 @@ if (!isset($com_count))
 				<span class="show_line_main_top_inner_title">
 				<?
 					if ($read_right)
-						echo cmd($child->getName(), "Exec('show','zone_main', Hash('path', '".$child->getPathInTree()."'))");
+						echo cmd($child->getName(), "Exec('show','zone_main',Hash('node_id','".$child->getNodeId()."'))");
 					else
 						echo $child->getName();
 				?>
@@ -65,7 +65,7 @@ if (!isset($com_count))
 						if (!$creator->hasRight("read"))
 							echo $creator->getName();
 						else
-							echo cmd($creator->getName(), "Exec('show','zone_main', Hash('path', '".$creator->getPathInTree()."'))");
+							echo cmd($creator->getName(), "Exec('show','zone_main',Hash('node_id','".$creator->getNodeId()."'))");
 					}
 	
 					echo " ".i18n("on")." ".date("Y-m-d H:i", strtotime($child->getCreated()));
@@ -78,9 +78,9 @@ if (!isset($com_count))
 			<? if ($read_right) { echo $child->getVarValue("message"); } ?>
 		</div>
 	</div>
-	<div id="clear"></div>
-</div>
 
+</div>
+<div id="clear"></div>
 <?
 $com_data[$com_count]['children'] = fetch("FETCH node WHERE link:node_top='".$child->getNodeId()."' AND link:type='sub' AND property:class_name='comment' NODESORTBY property:version SORTBY property:created");
 

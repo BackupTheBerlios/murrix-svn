@@ -21,14 +21,14 @@ if (!empty($thumb_id))
 	$thumbnail->height = $h;
 	$thumbnail->width = $w;
 
-	$img = cmd($thumbnail->Show(true), "Exec('show','zone_main', Hash('path', '".$child->getPathInTree()."'))");
+	$img = cmd($thumbnail->Show(true), "Exec('show','zone_main',Hash('node_id','".$child->getNodeId()."'))");
 }
 else
-	$img = cmd(img(geticon($child->getIcon(), 128)), "Exec('show','zone_main', Hash('path', '".$child->getPathInTree()."'))");
+	$img = cmd(img(geticon($child->getIcon(), 128)), "Exec('show','zone_main',Hash('node_id','".$child->getNodeId()."'))");
 
 ?>
 <div class="show_item">
 	<?=$img?>
 	<br/>
-	<?=cmd($child->getName(), "Exec('show','zone_main', Hash('path', '".$child->getPathInTree()."'))")?>
+	<?=cmd($child->getName(), "Exec('show','zone_main',Hash('node_id','".$child->getNodeId()."'))")?>
 </div>

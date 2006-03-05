@@ -17,12 +17,12 @@ foreach ($children as $child)
 	else
 	{
 		$creator_obj = new mObject($child->getCreator());
-		$creator = cmd($creator_obj->getName(), "SystemRunScript('show','zone_main', Hash('path', '".$creator_obj->getPathInTree()."'))");
+		$creator = cmd($creator_obj->getName(), "Exec('show','zone_main',Hash('node_id','".$creator_obj->getNodeId()."'))");
 	}
 
 	$id = "node_id_".$child->getNodeId();
 
-	$checkbox = "<input type=\"checkbox\" id=\"$id\" name=\"node_ids[]\" value=\"".$child->getNodeId()."\"/>";
+	$checkbox = "<input class=\"input\" type=\"checkbox\" id=\"$id\" name=\"node_ids[]\" value=\"".$child->getNodeId()."\"/>";
 
 	$list[] = array("<a style=\"display: block;\" href=\"javascript:void(null)\" onclick=\"document.getElementById('$id').checked=!document.getElementById('$id').checked\">$checkbox&nbsp;".img(geticon($child->getIcon()))."&nbsp;".$child->getName()."</a>");
 }

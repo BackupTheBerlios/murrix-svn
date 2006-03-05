@@ -836,6 +836,13 @@ class mObject
 	function setIcon($icon) { $this->icon = $icon; }
 	function getIcon($class = true)
 	{
+		if (empty($this->icon) && $this->class_name == "file")
+		{
+			$filename = $this->getVarValue("file");
+			$pathinfo = pathinfo($filename);
+			return getfiletype($pathinfo['extension']);
+		}
+	
 		if (empty($this->icon) && $class)
 			return $this->class_icon;
 			
@@ -1146,14 +1153,101 @@ function fetch($query, $debug = false)
 		$sort = array_reverse($sort);
 		foreach ($sort as $sortby)
 		{
-			$compare = ReturnCmpFunc($sortby[0], $sortby[1]);
-			usort(&$objects, $compare);
+			SortBy(&$objects, $sortby[0], $sortby[1]);
+			//$compare = ReturnCmpFunc($sortby[0], $sortby[1]);
+			//usort(&$objects, $compare);
 		}
 	}
 	
 	$_SESSION['murrix']['querycache'][$query2] = $objects;
 	return $objects;
 }
+
+function SortBy(&$list, $sortby, $invert)
+{
+	switch ($sortby)
+	{
+	case "property:name":
+		usort(&$list, "SortByName");
+		break;
+	case "property:class":
+		usort(&$list, "SortByClass");
+		break;
+	case "property:language":
+		usort(&$list, "SortByLanguage");
+		break;
+	case "property:icon":
+		usort(&$list, "SortByIcon");
+		break;
+	case "property:version":
+		usort(&$list, "SortByVersion");
+		break;
+	case "property:created":
+		usort(&$list, "SortByCreated");
+		break;
+	case "property:creator":
+		usort(&$list, "SortByCreator");
+		break;
+
+	default:
+		mergesort(&$list, $sortby);
+		break;
+	}
+
+	if ($invert)
+		$list = array_reverse($list);
+}
+
+function SortByName($a, $b) { return strnatcasecmp($a->getName(), $b->getName()); }
+function SortByClass($a, $b) { return strnatcasecmp($a->getClassName(), $b->getClassName()); }
+function SortByLanguage($a, $b) { return strnatcasecmp($a->getLanguage(), $b->getLanguage()); }
+function SortByIcon($a, $b) { return strnatcasecmp($a->getIcon(), $b->getIcon()); }
+function SortByVersion($a, $b) { return strnatcasecmp($a->getVersion(), $b->getVersion()); }
+function SortByCreated($a, $b) { return strnatcasecmp($a->getCreated(), $b->getCreated()); }
+function SortByCreator($a, $b) { return strnatcasecmp($a->getCreator(), $b->getCreator()); }
+
+function mergesort(&$array, $sortby)
+{
+	// Arrays of size < 2 require no action.
+	if (count($array) < 2)
+		return;
+		
+	// Split the array in half
+	$halfway = count($array) / 2;
+	$array1 = array_slice($array, 0, $halfway);
+	$array2 = array_slice($array, $halfway);
+	
+	// Recurse to sort the two halves
+	mergesort($array1, $sortby);
+	mergesort($array2, $sortby);
+	
+	// If all of $array1 is <= all of $array2, just append them.
+	$last = end($array1);
+	if (strnatcasecmp($last->getVarValue($sortby), $array2[0]->getVarValue($sortby)) < 1)
+	{
+		$array = array_merge($array1, $array2);
+		return;
+	}
+	
+	// Merge the two sorted arrays into a single sorted array
+	$array = array();
+	$ptr1 = $ptr2 = 0;
+	while ($ptr1 < count($array1) && $ptr2 < count($array2))
+	{
+		if (strnatcasecmp($array1[$ptr1]->getVarValue($sortby), $array2[$ptr2]->getVarValue($sortby)) < 1)
+			$array[] = $array1[$ptr1++];
+		else
+			$array[] = $array2[$ptr2++];
+	}
+	
+	// Merge the remainder
+	while ($ptr1 < count($array1))
+		$array[] = $array1[$ptr1++];
+		
+	while ($ptr2 < count($array2))
+		$array[] = $array2[$ptr2++];
+}
+
 
 function ReturnCmpFunc($sortby, $invert)
 {
