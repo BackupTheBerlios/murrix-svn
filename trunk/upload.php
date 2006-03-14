@@ -35,8 +35,7 @@ if (($str = db_connect()) !== true)
 		?>
 	</head>
 	<?
-		$path = $_SESSION['murrix']['path'];
-		$parent = new mObject(resolvePath($path));
+		$parent = new mObject($_GET['node_id']);
 	
 		if ($parent->hasRight("create_subnodes", array("file", "file_folder")))
 		{
@@ -60,14 +59,14 @@ if (($str = db_connect()) !== true)
 				$dir = $paths['dirname'];
 	
 				if (empty($dir) || $dir == ".")
-					$parent_path = $path;
+					$parent_path = $parent->getPathInTree();
 				else
-					$parent_path = "$path/$dir";
+					$parent_path = $parent->getPathInTree()."/$dir";
 	
 				if (resolvePath($parent_path) <= 0)
 				{
 					preg_match_all("/([^\/]*)\/?/i", $dir, $atmp);
-					$base = $path;
+					$base = $parent->getPathInTree();
 					
 					foreach ($atmp[0] as $key => $val)
 					{

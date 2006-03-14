@@ -48,12 +48,12 @@ function Poll()
 	if (typeof command == 'undefined')
 		command = "default";
 
-	if (command != last_command || run_cmd)
+	if (last_command != command || run_cmd)
 	{
 		if (command == "default")
 		{
-			command = "#"+init();
-			window.location.href += command;
+			last_command = command;
+			eval(URLDecode(init()));
 		}
 		else
 		{
@@ -61,22 +61,24 @@ function Poll()
 
 			last_command = command;
 			eval(URLDecode(last_command));
-			run_cmd = false;
+			
 		}
+		run_cmd = false;
 	}
 }
 
 function OnClickCmd(cmd)
 {
 	window.location.href = window.location.href.split("#")[0]+"#"+cmd;
-	cmd_run = true;
+	last_command = cmd;
+	eval(URLDecode(last_command));
 }
 
 function OnLoadHandler()
 {
 	init();
 	last_command = "default";
-	setInterval("Poll()", 100);
+	setInterval("Poll()", 600);
 }
 
 function Hash()

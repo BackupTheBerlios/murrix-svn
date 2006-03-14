@@ -146,7 +146,7 @@ class mThumbnail
 
 		imageCopyResampleBicubic($output, $image, 0, 0, 0, 0, imagesx($output), imagesy($output), imagesx($image), imagesy($image));
 		//imagecopyresampled($output, $image, 0, 0, 0, 0, imagesx($output), imagesy($output), imagesx($image), imagesy($image));
-		/*
+		
 		imagedestroy($image);
 	
 		ob_start(); // Start capturing stdout. 
@@ -159,7 +159,7 @@ class mThumbnail
 		$this->created = date("Y-m-d H:i:s");
 		$this->width = $w;
 		$this->height = $h;
-*/
+
 		return true;
 	}
 	

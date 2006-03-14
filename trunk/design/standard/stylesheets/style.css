@@ -561,6 +561,7 @@ table.content_table td
 	padding: 5px;
 	margin-bottom: 5px;
 	background-color: #FFFFFF;
+	min-height: 70px;
 }
 
 #content .show_line hr

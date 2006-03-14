@@ -22,7 +22,7 @@ global $wwwpath;
 		<param name="code" value="JUpload/startup.class">
 		<param name="progressbar" value="true">
 		<param name="boxmessage" value="Loading JUpload Applet ...">
-		<param name="actionURL" value="<?=$wwwpath?>/upload.php?PHPSESSID=<?=session_id()?>">
+		<param name="actionURL" value="<?=$wwwpath?>/upload.php?PHPSESSID=<?=session_id()?>&node_id=<?=$object->getNodeId()?>">
 		<param name="checkResponse" value="true">
 		<param name="showServerResponse" value="true">
 		<param name="realTimeResponse" value="true">
@@ -42,7 +42,7 @@ global $wwwpath;
 				name="JUpload"
 				pluginspage="http://java.sun.com/j2se/1.4/download.html"
 				progressbar="true"
-				actionURL="<?=$wwwpath?>/upload.php?PHPSESSID=<?=session_id()?>"
+				actionURL="<?=$wwwpath?>/upload.php?PHPSESSID=<?=session_id()?>&node_id=<?=$object->getNodeId()?>"
 				checkResponse="true"
 				showServerResponse="true"
 				realTimeResponse="true"
