@@ -36,9 +36,10 @@ if (($str = db_connect()) !== true)
 	</head>
 	<?
 		$parent = new mObject($_GET['node_id']);
-	
+		
 		if ($parent->hasRight("create_subnodes", array("file", "file_folder")))
 		{
+			clearNodeFileCache($parent->getNodeId());
 			echo "Staring processing of uploaded files...<br/>";flush();
 
 			$count = 1;
@@ -103,6 +104,7 @@ if (($str = db_connect()) !== true)
 							$parent = new mObject(resolvePath($base));
 							$object->linkWithNode($parent->getNodeId());
 							echo "Created file_folder ". $object->getPath()."<br/>";flush();
+							clearNodeFileCache($object->getNodeId());
 						}
 						else
 						{
@@ -132,6 +134,7 @@ if (($str = db_connect()) !== true)
 				{
 					$parent = new mObject(resolvePath($parent_path));
 					$object->linkWithNode($parent->getNodeId());
+					clearNodeFileCache($object->getNodeId());
 					echo "Created file". $object->getPath()."<br/>";flush();
 					$count++;
 				}

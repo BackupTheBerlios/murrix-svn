@@ -1,4 +1,8 @@
 <?
+include_once("profiler.inc.php");
+$prof = new Profiler(true, true);
+
+$prof->startTimer( "include" );
 /* ========================= */
 // Load pathvars etc.
 /* ========================= */
@@ -12,6 +16,7 @@ require_once("system/functions.php");
 require_once("system/design.php");
 require_once("system/system.php");
 require_once("system/paths.php");
+require_once("system/filecache.php");
 
 
 /* ========================= */
@@ -108,14 +113,14 @@ foreach ($files as $file)
 	$parts = SplitFilepath($file);
 	include_once("$abspath/design/$site/include/$file");
 }
-
-
+$prof->stopTimer( "include" );
+$prof->startTimer( "database" );
 /* ========================= */
 // Connect to database
 /* ========================= */
 if (($str = db_connect()) !== true)
 	echo "Failed to connect to database!";
-
+$prof->stopTimer( "database" );
 
 /* ========================= */
 // Clear cache
@@ -142,7 +147,7 @@ if (!isset($_SESSION['murrix']['language']))
 if (!isset($_SESSION['murrix']['user']))
 	$_SESSION['murrix']['user'] = new mObject($anonymous_id);
 
-
+$prof->startTimer( "system" );
 /* ========================= */
 // Init system
 /* ========================= */
@@ -150,7 +155,7 @@ if (!isset($_SESSION['murrix']['System']))
 	$_SESSION['murrix']['System'] = new mSystem(isset($ajax_path) ? $ajax_path : "");
 	
 $_SESSION['murrix']['System']->LoadScripts();
-
+$prof->stopTimer( "system" );
 
 /* ========================= */
 // Process ajax-calls
@@ -205,9 +210,16 @@ else if (isset($_GET['file']))
 	return;
 }
 
+//$prof->startTimer( "pagelayout" );
+
 include(gettpl("pagelayout"));
+
+//$prof->stopTimer( "pagelayout" );
 
 $_SESSION['murrix']['callcache'] = array();
 $_SESSION['murrix']['querycache'] = array();
+
+if (isset($_GET['debug']))
+	$prof->printTimers( true );
 
 ?>

@@ -31,6 +31,9 @@ class sLinks extends Script
 					$object->unlinkWithNode($args['remote_id'], $args['type'], $args['direction']);
 				else
 					$response->addAlert(ucf(i18n("you don't have enough rights to delete this link")));
+					
+				clearNodeFileCache($object->getNodeId());
+				clearNodeFileCache($args['remote_id']);
 
 				$_SESSION['murrix']['path'] = $object->getPathInTree();
 				$system->TriggerEventIntern($response, "newlocation", $args);
@@ -58,6 +61,8 @@ class sLinks extends Script
 								$response->addAlert(ucf(i18n($object->error)));
 								return;
 							}
+							clearNodeFileCache($object->getNodeId());
+							clearNodeFileCache($remote_node_id);
 						}
 						else
 						{

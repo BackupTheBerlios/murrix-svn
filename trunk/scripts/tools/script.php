@@ -53,6 +53,9 @@ class sTools extends Script
 			
 								$child->linkWithNode($remote_node_id, "sub");
 								$child->unlinkWithNode($object->getNodeId(), "sub", "bottom");
+								clearNodeFileCache($object->getNodeId());
+								clearNodeFileCache($child->getNodeId());
+								clearNodeFileCache($remote_node_id);
 							}
 							break;
 							
@@ -62,6 +65,8 @@ class sTools extends Script
 								$child = new mObject($node_id);
 			
 								$child->linkWithNode($remote_node_id, "sub");
+								clearNodeFileCache($remote_node_id);
+								clearNodeFileCache($child->getNodeId());
 							}
 							break;
 						}

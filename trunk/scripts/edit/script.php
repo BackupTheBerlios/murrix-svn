@@ -56,7 +56,10 @@ class sEdit extends Script
 					}
 	
 					if ($object->save())
+					{
 						$response->addScript("OnClickCmd('Exec(\'show\',\'$this->zone\',Hash(\'node_id\',\'$node_id\'))');");
+						clearNodeFileCache($object->getNodeId());
+					}
 					else
 					{
 						$message = "Operation unsuccessfull.<br/>";

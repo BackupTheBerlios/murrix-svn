@@ -33,6 +33,7 @@ class sDelete extends Script
 				{
 					$_SESSION['murrix']['path'] = GetParentPath($object->getPathInTree());
 					$node_id = getNode($_SESSION['murrix']['path']);
+					clearNodeFileCache($object->getNodeId());
 					$object->deleteNode();
 
 					$response->addScript("OnClickCmd('Exec(\'show\',\'$this->zone\',Hash(\'node_id\',\'$node_id\'))');");

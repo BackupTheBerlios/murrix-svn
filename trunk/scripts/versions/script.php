@@ -30,6 +30,7 @@ class sVersions extends Script
 				$object->deleteCurrentVersion();
 
 			$args['node_id'] = $object->getNodeId();
+			clearNodeFileCache($object->getNodeId());
 		}
 		
 		$system->TriggerEventIntern($response, "newlocation", $args);

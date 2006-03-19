@@ -108,6 +108,7 @@ class sNew extends Script
 
 				if ($saved)
 				{
+					clearNodeFileCache($parent->getNodeId());
 					$object->linkWithNode($parent->getNodeId());
 					$response->addScript("OnClickCmd('Exec(\'show\',\'$this->zone\',Hash(\'node_id\',\'".$object->getNodeId()."\'))');");
 				}
