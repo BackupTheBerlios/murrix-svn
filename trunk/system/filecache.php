@@ -47,12 +47,12 @@ function getFileCache($name)
 	if ($_SESSION['murrix']['filecache'][$name]['created'] == "0000-00-00 00:00:00")
 		return false;
 	
-	$query = "SELECT obj.id FROM `".$db_prefix."objects` AS obj, `".$db_prefix."filecache_nodes` AS fn WHERE obj.`created` >= '".$_SESSION['murrix']['filecache'][$name]['created']."' AND obj.`node_id` = fn.`node_id`";
+	/*$query = "SELECT obj.id FROM `".$db_prefix."objects` AS obj, `".$db_prefix."filecache_nodes` AS fn WHERE obj.`created` >= '".$_SESSION['murrix']['filecache'][$name]['created']."' AND obj.`node_id` = fn.`node_id`";
 	
 	$result = mysql_query($query) or die("getFileCache: " . mysql_errno() . " " . mysql_error());
 	
 	if (mysql_num_rows($result) > 0)
-		return false;
+		return false;*/
 	
 	$timestamp = strtotime($_SESSION['murrix']['filecache'][$name]['lifetime'], strtotime($_SESSION['murrix']['filecache'][$name]['created']));
 	
