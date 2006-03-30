@@ -159,7 +159,10 @@ $prof->stopTimer( "system" );
 
 /* ========================= */
 // Process ajax-calls
-$_SESSION['murrix']['System']->xajax->debugOff();
+if (isset($_GET['debug']))
+	$_SESSION['murrix']['System']->xajax->debugOn();
+else
+	$_SESSION['murrix']['System']->xajax->debugOff();
 $_SESSION['murrix']['System']->Process();
 
 

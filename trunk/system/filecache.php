@@ -1,21 +1,23 @@
 <?
 
+$filecache = array();
+
 function registerFileCache($name, $lifetime)
 {
-	global $db_prefix;
+	global $db_prefix, $filecache;
 	
-	if (!isset($_SESSION['murrix']['filecache'][$name]))
+	if (!isset($filecache[$name]))
 	{
-		$query = "SELECT * FROM `".$db_prefix."filecache` WHERE name = '$name'";
+		$query = "SELECT * FROM `".$db_prefix."filecache` WHERE name = '$name' AND language = '".$_SESSION['murrix']['language']."'";
 		$result = mysql_query($query) or die("registerFileCache: " . mysql_errno() . " " . mysql_error());
 		
 		if (mysql_num_rows($result) > 0)
 		{
-			$_SESSION['murrix']['filecache'][$name] = mysql_fetch_array($result, MYSQL_ASSOC);
+			$filecache[$name] = mysql_fetch_array($result, MYSQL_ASSOC);
 		}
 		else
 		{
-			$query = "INSERT INTO `".$db_prefix."filecache` (name, lifetime) VALUES('$name', '$lifetime')";
+			$query = "INSERT INTO `".$db_prefix."filecache` (name, lifetime, language) VALUES('$name', '$lifetime', '".$_SESSION['murrix']['language']."')";
 
 			$result = mysql_query($query);
 			if (!$result)
@@ -29,33 +31,34 @@ function registerFileCache($name, $lifetime)
 				return false;
 			}
 
-			$_SESSION['murrix']['filecache'][$name]['id'] = mysql_insert_id();
-			$_SESSION['murrix']['filecache'][$name]['name'] = $name;
-			$_SESSION['murrix']['filecache'][$name]['lifetime'] = $lifetime;
-			$_SESSION['murrix']['filecache'][$name]['created'] = "0000-00-00 00:00:00";
+			$filecache[$name]['id'] = mysql_insert_id();
+			$filecache[$name]['name'] = $name;
+			$filecache[$name]['lifetime'] = $lifetime;
+			$filecache[$name]['created'] = "0000-00-00 00:00:00";
+			$filecache[$name]['language'] = $_SESSION['murrix']['language'];
 		}
 	}
 }
 
 function getFileCache($name)
 {
-	global $abspath, $db_prefix;
+	global $abspath, $db_prefix, $filecache;
 	
-	$filename = "$abspath/cache/$name.html";
+	$filename = "$abspath/cache/".$_SESSION['murrix']['language'].".$name.html";
 	
 	// Check if file has timedout
-	if ($_SESSION['murrix']['filecache'][$name]['created'] == "0000-00-00 00:00:00")
+	if ($filecache[$name]['created'] == "0000-00-00 00:00:00")
 		return false;
-	
-	/*$query = "SELECT obj.id FROM `".$db_prefix."objects` AS obj, `".$db_prefix."filecache_nodes` AS fn WHERE obj.`created` >= '".$_SESSION['murrix']['filecache'][$name]['created']."' AND obj.`node_id` = fn.`node_id`";
+	//echo $filecache[$name]['created'];
+	/*$query = "SELECT obj.id FROM `".$db_prefix."objects` AS obj, `".$db_prefix."filecache_nodes` AS fn WHERE obj.`created` >= '".$filecache[$name]['created']."' AND obj.`node_id` = fn.`node_id`";
 	
 	$result = mysql_query($query) or die("getFileCache: " . mysql_errno() . " " . mysql_error());
 	
 	if (mysql_num_rows($result) > 0)
 		return false;*/
 	
-	$timestamp = strtotime($_SESSION['murrix']['filecache'][$name]['lifetime'], strtotime($_SESSION['murrix']['filecache'][$name]['created']));
-	
+	$timestamp = strtotime($filecache[$name]['lifetime'], strtotime($filecache[$name]['created']));
+	//echo date("Y-m-d H:i:s", $timestamp).">".date("Y-m-d H:i:s");
 	if ($timestamp > time())
 	{
 		if (file_exists($filename))
@@ -67,29 +70,29 @@ function getFileCache($name)
 
 function startFileCache($name)
 {
-	global $abspath;
+	global $abspath, $filecache;
 	
-	$filename = "$abspath/cache/$name.html";
+	$filename = "$abspath/cache/".$_SESSION['murrix']['language'].".$name.html";
 	
-	$_SESSION['murrix']['filecache'][$name]['file'] = fopen($filename, "w+");
+	$filecache[$name]['file'] = fopen($filename, "w+");
 	
 	ob_start();
 }
 
-function stopFileCache($name, $node_ids)
+function stopFileCache($name, $node_ids, $created = "now")
 {
-	global $db_prefix;
+	global $db_prefix, $filecache;
 
 	$buffer = ob_get_end();
 	
-	fwrite($_SESSION['murrix']['filecache'][$name]['file'], $buffer);
+	fwrite($filecache[$name]['file'], $buffer);
 
-	fclose($_SESSION['murrix']['filecache'][$name]['file']);
+	fclose($filecache[$name]['file']);
 	
-	unset($_SESSION['murrix']['filecache'][$name]['file']);
+	unset($filecache[$name]['file']);
 
-	$datetime = date("Y-m-d H:i:s");
-	$query = "UPDATE `".$db_prefix."filecache` SET created='$datetime' WHERE id = '".$_SESSION['murrix']['filecache'][$name]['id']."'";
+	$datetime = date("Y-m-d H:i:s", strtotime($created));
+	$query = "UPDATE `".$db_prefix."filecache` SET created='$datetime' WHERE id = '".$filecache[$name]['id']."'";
 	
 	$result = mysql_query($query);
 	if (!$result)
@@ -102,9 +105,9 @@ function stopFileCache($name, $node_ids)
 		return $message;
 	}
 	
-	$_SESSION['murrix']['filecache'][$name]['created'] = $datetime;
+	$filecache[$name]['created'] = $datetime;
 
-	$query = "DELETE FROM `".$db_prefix."filecache_nodes` WHERE filecache_id = '".$_SESSION['murrix']['filecache'][$name]['id']."'";
+	$query = "DELETE FROM `".$db_prefix."filecache_nodes` WHERE filecache_id = '".$filecache[$name]['id']."'";
 	
 	$result = mysql_query($query);
 	if (!$result)
@@ -120,7 +123,7 @@ function stopFileCache($name, $node_ids)
 
 	foreach ($node_ids as $node_id)
 	{
-		$query = "INSERT INTO `".$db_prefix."filecache_nodes` (filecache_id, node_id) VALUES('".$_SESSION['murrix']['filecache'][$name]['id']."', '$node_id')";
+		$query = "INSERT INTO `".$db_prefix."filecache_nodes` (filecache_id, node_id) VALUES('".$filecache[$name]['id']."', '$node_id')";
 
 		$result = mysql_query($query);
 		if (!$result)
@@ -140,7 +143,7 @@ function stopFileCache($name, $node_ids)
 
 function clearNodeFileCache($node_id)
 {
-	global $db_prefix;
+	global $db_prefix, $filecache;
 	
 	$query = "UPDATE `".$db_prefix."filecache` AS f, `".$db_prefix."filecache_nodes` AS fn SET f.`created`='0000-00-00 00:00:00' WHERE f.id = fn.filecache_id AND fn.node_id = '$node_id'";
 	

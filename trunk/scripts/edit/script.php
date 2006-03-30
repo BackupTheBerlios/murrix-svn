@@ -59,6 +59,13 @@ class sEdit extends Script
 					{
 						$response->addScript("OnClickCmd('Exec(\'show\',\'$this->zone\',Hash(\'node_id\',\'$node_id\'))');");
 						clearNodeFileCache($object->getNodeId());
+						
+						$links = $object->getLinks();
+						foreach ($links as $link)
+						{
+							if ($link['type'] == "sub")
+								clearNodeFileCache($link['remote_id']);
+						}
 					}
 					else
 					{

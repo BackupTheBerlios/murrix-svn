@@ -31,6 +31,13 @@ class sVersions extends Script
 
 			$args['node_id'] = $object->getNodeId();
 			clearNodeFileCache($object->getNodeId());
+			
+			$links = $object->getLinks();
+			foreach ($links as $link)
+			{
+				if ($link['type'] == "sub")
+					clearNodeFileCache($link['remote_id']);
+			}
 		}
 		
 		$system->TriggerEventIntern($response, "newlocation", $args);
