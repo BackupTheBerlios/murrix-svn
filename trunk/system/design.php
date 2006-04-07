@@ -340,6 +340,15 @@ function gettpl($template, $object = null)
 	return $tpl;
 }
 
+function compiletpl($template, $args)
+{
+	ob_start();
+	
+	include(gettpl($template));
+
+	return ob_get_end();
+}
+
 function i18n($text, $language = "")
 {
 	if (empty($language))

@@ -160,7 +160,10 @@ function path_add_to_cache($node_id, $paths)
 		if (!isset($_SESSION['murrix']['pathcache_path'][$node_id]))
 			$_SESSION['murrix']['pathcache_path'][$node_id] = array($path);
 		else
-			array_push($_SESSION['murrix']['pathcache_path'][$node_id], $path);
+		{
+			if (!in_array($path, $_SESSION['murrix']['pathcache_path'][$node_id]))
+				array_push($_SESSION['murrix']['pathcache_path'][$node_id], $path);
+		}
 
 		$_SESSION['murrix']['pathcache_node'][$path] = $node_id;
 	}

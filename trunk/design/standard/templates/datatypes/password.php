@@ -1,0 +1,1 @@
+<input class="form" id="<?=$args['varname']?>" name="<?=$args['varname']?>" type="password" value="<?=$args['value']?>"/>

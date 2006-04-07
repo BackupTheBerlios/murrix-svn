@@ -1,0 +1,1 @@
+<input class="hidden" id="<?=$args['varname']?>" name="<?=$args['varname']?>" type="hidden" value="<?=$args['value']?>"/>

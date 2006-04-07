@@ -1,0 +1,2 @@
+<?=ucf(i18n("true"))?> <input class="form" type="radio" id="<?=$args['varname']?>" name="<?=$args['varname']?>" value="1" <?=(intval($args['value']) ? "checked" : "")?>/>
+<?=ucf(i18n("false"))?> <input class="form" type="radio" id="<?=$args['varname']?>" name="<?=$args['varname']?>" value="0" <?=(!intval($args['value']) ? " checked" : "")?>/>

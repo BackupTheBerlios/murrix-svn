@@ -1,0 +1,1 @@
+<textarea class="form" id="<?=$args['varname']?>" name="<?=$args['varname']?>"><?=$args['value']?></textarea>
