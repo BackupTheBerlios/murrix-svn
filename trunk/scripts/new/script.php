@@ -91,7 +91,15 @@ class sNew extends Script
 					foreach ($vars as $var)
 					{
 						$key = $language."_v".$var->id;
-						$object->setVarValue($var->name, isset($args[$key]) ? $args[$key] : "");
+						$value = (isset($args[$key]) ? $args[$key] : "");
+						
+						if (empty($value) && $var->getRequired())
+						{
+							$response->addAlert(utf8e(ucf(i18n($language))." ".i18n("version").": ".ucf(str_replace("_", " ", i18n($var->getName(true))))." ".i18n("is a required field")));
+							return;
+						}
+						
+						$object->setVarValue($var->name, $value);
 					}
 
 					if ($object->save())

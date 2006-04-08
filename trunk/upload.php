@@ -11,8 +11,10 @@ require_once("3dparty/exifer/exif.php");
 require_once("system/functions.php");
 require_once("system/design.php");
 require_once("system/system.php");
+require_once("system/fetch.php");
 require_once("system/paths.php");
 require_once("system/filecache.php");
+require_once("system/objectcache.php");
 
 require_once("vars.php");
 

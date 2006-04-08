@@ -667,6 +667,13 @@ table.content_table td
 	width: 99%;
 }
 
+#content fieldset
+{
+	background-color: #ECEDFF;
+	border: 1px solid #B6BAFF;
+	font-weight: bold;
+}
+
 #content .submit
 {
 	border-width: 0;

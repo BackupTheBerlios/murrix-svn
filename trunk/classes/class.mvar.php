@@ -9,6 +9,7 @@ class mVar
 	var $name;
 	var $type;
 	var $extra;
+	var $comment;
 	var $priority;
 	var $object_id;
 	var $value;
@@ -27,6 +28,8 @@ class mVar
 		$this->name = $array['name'];
 		$this->type = $array['type'];
 		$this->extra = $array['extra'];
+		$this->comment = $array['comment'];
+		$this->required = $array['required'];
 		$this->priority = $array['priority'];
 		$this->object_id = $array['object_id'];
 
@@ -39,7 +42,27 @@ class mVar
 		if ($raw)
 			return $this->name;
 		
-		return ucfirst(str_replace("_", " ", $this->name));
+		return ucf(str_replace("_", " ", $this->name));
+	}
+	
+	function getComment()
+	{
+		return $this->comment;
+	}
+	
+	function getRequired()
+	{
+		return $this->required;
+	}
+	
+	function getPriority()
+	{
+		return $this->priority;
+	}
+	
+	function getExtra()
+	{
+		return $this->extra;
 	}
 
 	function getType()

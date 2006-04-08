@@ -81,7 +81,24 @@ include(gettpl("big_title"));
 				if (isset($newobject->vars))
 				{
 					foreach ($newobject->vars as $var)
-						echo $var->getName().": (".$var->getType().")<br/><div class=\"container\">".$var->getEdit("sEdit", $language."_")."</div><br/>";
+					{
+						$req = "";
+						if ($var->getRequired())
+							$req = "<span style=\"color: red;\">*</span> ";
+						?>
+						<div class="container">
+							<fieldset>
+								<legend>
+									
+									<?=$req.ucf(str_replace("_", " ", i18n($var->getName(true))))?> (<?=$var->getType()?>)
+								</legend>
+								<?=$var->getComment()?>
+								<?=$var->getEdit("sEdit", $language."_")?>
+							</fieldset>
+						</div>
+						<br/>
+					<?
+					}
 				}
 				?>
 				

@@ -1,5 +1,31 @@
 <?
 
+function getClassList($fullinfo = false)
+{
+	global $db_prefix;
+	
+	if ($fullinfo)
+	{
+		$query = "SELECT * FROM `".$db_prefix."classes` ORDER BY name";
+		$result = mysql_query($query) or die("getClassList: " . mysql_errno() . " " . mysql_error());
+	
+		$list = array();
+		while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
+			$list[] = $row;
+	
+		return $list;
+	}
+	
+	$query = "SELECT name FROM `".$db_prefix."classes` ORDER BY name";
+	$result = mysql_query($query) or die("getClassList: " . mysql_errno() . " " . mysql_error());
+
+	$list = array();
+	while ($row = mysql_fetch_array($result, MYSQL_ASSOC))
+		$list[] = $row['name'];
+
+	return $list;
+}
+
 function getEventDate($object, $now = "now")
 {
 	$event_date = $object->getVarValue("date");

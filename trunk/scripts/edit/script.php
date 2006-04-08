@@ -52,7 +52,16 @@ class sEdit extends Script
 					foreach ($vars as $var)
 					{
 						$key = "v".$var->id;
-						$object->setVarValue($var->name, isset($args[$key]) ? $args[$key] : (isset($args[$var->id]) ? $args[$var->id] : ""));
+						
+						$value = (isset($args[$key]) ? $args[$key] : (isset($args[$var->id]) ? $args[$var->id] : ""));
+						
+						if (empty($value) && $var->getRequired())
+						{
+							$response->addAlert(utf8e(ucf(str_replace("_", " ", i18n($var->getName(true))))." ".i18n("is a required field")));
+							return;
+						}
+						
+						$object->setVarValue($var->name, $value);
 					}
 	
 					if ($object->save())
