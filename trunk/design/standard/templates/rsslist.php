@@ -40,14 +40,13 @@ $root = new mObject($root_id);
 			</div>
 	
 			<div class="clear"></div>
-			<br/>
 	
-			<div id="main">
+			<div class="rsslist">
 			<?
 			foreach ($args as $feed)
 			{
 			?>
-				<a href="rssbackend.php?id=<?=$feed['id']?>"><?=$feed['title']?></a>
+				<a class="biglink" href="rssbackend.php?id=<?=$feed['id']?>"><?=$feed['title']?></a> - <?=$feed['description']?><br/>
 			<?
 			}
 			?>

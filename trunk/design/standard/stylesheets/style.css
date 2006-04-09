@@ -725,6 +725,17 @@ table.content_table td
 	background-color: #FFFFFF;
 }
 
+.rsslist
+{
+	border: 1px solid #B6BAFF;
+	color: #000000;
+	margin: 5px;
+	padding: 5px;
+	background-color: #FFFFFF;
+	font-size: 20px;
+	font-weight: bold;
+}
+
 #content .file
 {
 	min-width: 400px;
