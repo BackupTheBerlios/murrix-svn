@@ -10,6 +10,14 @@ $root = new mObject($root_id);
 		<meta name="robots" content="nofollow"/>
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
 		
+		<?
+		$rss = new mRSS();
+		$feeds = $rss->getFeeds();
+		
+		foreach ($feeds as $feed)
+			echo "<link rel=\"alternate\" type=\"application/rss+xml\" href=\"xmlbackend.php?id=".$feed['id']."\" title=\"".$feed['title']."\"/>";
+		?>
+		
 		<link rel="shortcut icon" href="<?=geticon($root->getIcon())?>" type="image/x-icon"/>
 		<title><?=$root->getVarValue("description")?></title>
 		
