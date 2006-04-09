@@ -43,6 +43,7 @@ require_once("config.inc.php");
 require_once("classes/class.mvar.php");
 require_once("classes/class.mobject.php");
 require_once("classes/class.mthumbnail.php");
+require_once("classes/class.mrss.php");
 require_once("classes/class.script.php");
 require_once("classes/class.calendar.php");
 
