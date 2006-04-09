@@ -46,7 +46,7 @@ $root = new mObject($root_id);
 			foreach ($args as $feed)
 			{
 			?>
-				<a class="biglink" href="rssbackend.php?id=<?=$feed['id']?>"><?=$feed['title']?></a> - <?=$feed['description']?><br/>
+				<a class="biglink" href="rssbackend.php?id=<?=$feed['id']?>"><?=$feed['title']?></a> - <?=$feed['description']?><br/><br/>
 			<?
 			}
 			?>

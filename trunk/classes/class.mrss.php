@@ -24,6 +24,8 @@ class mRSS
 	
 	function outputFeed($id)
 	{
+		global $db_prefix;
+		
 		$query = "SELECT * FROM `".$db_prefix."rssexports` WHERE `id`='$id'";
 
 		$result = mysql_query($query) or die("outputFeed: " . mysql_errno() . " " . mysql_error());
