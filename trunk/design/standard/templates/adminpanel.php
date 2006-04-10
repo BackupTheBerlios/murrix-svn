@@ -4,7 +4,11 @@
 		echo cmd(img(geticon("search"))."&nbsp;".ucf(i18n("view")), "Exec('show','zone_main',Hash('node_id','".$object->getNodeId()."'))", ($current_view == "show" ? "tab_selected" : "tab"));
 	
 	if ($object->hasRight("edit"))
+	{
 		echo cmd(img(geticon("edit"))."&nbsp;".ucf(i18n("edit")), "Exec('edit','zone_main',Hash('node_id','".$object->getNodeId()."'))", ($current_view == "edit" ? "tab_selected" : "tab"));
+
+		echo cmd(img(geticon("settings"))."&nbsp;".ucf(i18n("settings")), "Exec('settings','zone_main',Hash('node_id','".$object->getNodeId()."'))", ($current_view == "settings" ? "tab_selected" : "tab"));
+	}
 
 	if ($object->hasRight("read"))
 	{
