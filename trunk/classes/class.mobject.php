@@ -287,6 +287,40 @@ class mObject
 		return true;
 	}
 	
+	function saveCurrent()
+	{
+		// Save a new version of this object
+		global $db_prefix;
+
+		$query = "UPDATE `".$db_prefix."objects` SET name='$this->name', icon='$this->icon' WHERE id = '$this->id'";
+		
+		if (!($result = mysql_query($query)))
+		{
+			$message = "<b>An error occured while updateing</b><br/>";
+			$message .= "<b>Table:</b> objects<br/>";
+			$message .= "<b>Query:</b> $query<br/>";
+			$message .= "<b>Error Num:</b> " . mysql_errno() . "<br/>";
+			$message .= "<b>Error:</b> " . mysql_error() . "<br/>";
+			$this->error = $message;
+			return false;
+			///FIXME: Vi borde ta bort nodidt som skapats.
+		}
+
+		foreach ($this->vars as $var)
+		{
+			$ret = $var->Save();
+			if ($ret !== true)
+				return $var->name." failed! $ret";
+		}
+
+		delObjectFromCache($this->id);
+		$_SESSION['murrix']['querycache'] = array();
+		$this->loadByObjectId($this->id);
+		updatePaths($this->getNodeId());
+
+		return true;
+	}
+	
 	function getVersionNumbers($language = "")
 	{
 		if ($this->node_id <= 0)
@@ -510,6 +544,21 @@ class mObject
 		}
 
 		return $linklist;
+	}
+
+	function getAllMeta()
+	{
+		global $db_prefix;
+		$query = "SELECT * FROM `".$db_prefix."meta` WHERE node_id = '$this->node_id'";
+		
+		$result = mysql_query($query);
+
+		$metadata = array();
+
+		while($row = mysql_fetch_array($result, MYSQL_ASSOC))
+			$metadata[] = $row;
+			
+		return $metadata;
 	}
 
 	function getMeta($name, $default = "")
@@ -857,6 +906,37 @@ class mObject
 	function setLanguage($language) { $this->language = $language; }
 	function getLanguage() { return $this->language; }
 
+	function getSerialized()
+	{
+		$array = array();
+		
+		$array['id'] = $this->id;
+		$array['node_id'] = $this->node_id;
+		$array['created'] = $this->created;
+		$array['version'] = $this->version;
+		$array['class_name'] = $this->class_name;
+		$array['name'] = $this->name;
+		$array['icon'] = $this->icon;
+		$array['class_icon'] = $this->class_icon;
+		$array['real_icon'] = $this->getIcon();
+		$array['creator'] = $this->creator;
+		$array['language'] = $this->language;
+		
+		// Links
+		$array['links'] = $this->getLinks();
+		
+		// Meta
+		$array['meta'] = $this->getAllMeta();
+		
+		// Vars
+		foreach ($this->vars as $var)
+			$array['variables'][] = $var->getSerialized();
+	}
+	
+	function setBySerialized($array)
+	{
+	
+	}
 }
 
 ?>

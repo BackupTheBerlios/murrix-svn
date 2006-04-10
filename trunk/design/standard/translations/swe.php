@@ -1,4 +1,5 @@
 <?
+$translation['save as new version'] = "spara som ny version";
 $translation['comment'] = "kommentar";
 $translation['required'] = "obligatorisk";
 $translation['is a required field'] = " måste fyllas i";

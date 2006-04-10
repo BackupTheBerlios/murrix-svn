@@ -45,6 +45,8 @@ class sEdit extends Script
 	
 					$object->name = trim($args['name']);
 					$object->icon = trim($args['icon']);
+					
+					$newlang = ($object->getLanguage() != trim($args['language']));
 					$object->language = trim($args['language']);
 	
 					$vars = $object->getVars();
@@ -63,8 +65,13 @@ class sEdit extends Script
 						
 						$object->setVarValue($var->name, $value);
 					}
-	
-					if ($object->save())
+					
+					if ($args['newversion'] == "on" || $newlang)
+						$ret = $object->save();
+					else
+						$ret = $object->saveCurrent();
+						
+					if ($ret)
 					{
 						$response->addScript("OnClickCmd('Exec(\'show\',\'$this->zone\',Hash(\'node_id\',\'$node_id\'))');");
 						clearNodeFileCache($object->getNodeId());

@@ -65,7 +65,7 @@ include(gettpl("big_title"));
 			}
 		}
 		?>
-		<input class="submit" id="submitButton" type="submit" value="<?=ucf(i18n("save"))?>"/>
+		<input class="submit" id="submitButton" type="submit" value="<?=ucf(i18n("save"))?>"/> <input checked type="checkbox" name="newversion"/> <?=ucf(i18n("save as new version"))?>
 	</div>
 </form>
 

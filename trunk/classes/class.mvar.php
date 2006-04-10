@@ -160,5 +160,20 @@ class mVar
 		}
 		return true;
 	}
+
+	function getSerialized()
+	{
+		$array = array();
+		
+		$array['name'] = $this->name;
+		$array['type'] = $this->type;
+		$array['extra'] = $this->extra;
+		$array['comment'] = $this->comment;
+		$array['priority'] = $this->priority;
+		$array['value_id'] = $this->value_id;
+		$array['value'] = $this->value;
+	
+		return $array;
+	}
 }
 ?>

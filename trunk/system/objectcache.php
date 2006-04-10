@@ -52,7 +52,7 @@ function delObjectFromCache($object_id)
 
 	global $abspath;
 
-	$filename = "$path/cache/$object_id.obj";
+	$filename = "$abspath/cache/$object_id.obj";
 	@unlink($filename);
 }
 
