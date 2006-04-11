@@ -1,2 +1,2 @@
 <input class="form" id="<?=$args['varname']?>" name="<?=$args['varname']?>" type="text" value="<?=$args['value']?>"/>
-<a href="javascript:void(null);" onclick="popWin=open('browse.php?input_id=<?=$args['varname']?>&form_id=$formname','PopUpWindow','width=300,height=300,scrollbars=1,status=0'); popWin.opener = self; popWin.focus(); popWin.moveTo(150,50); return false"><?=ucf(i18n("browse"))?></a>
+<a href="javascript:void(null);" onclick="popWin=open('browse.php?input_id=<?=$args['varname']?>&form_id=<?=$args['formname']?>','PopUpWindow','width=300,height=300,scrollbars=1,status=0'); popWin.opener = self; popWin.focus(); popWin.moveTo(150,50); return false"><?=ucf(i18n("browse"))?></a>

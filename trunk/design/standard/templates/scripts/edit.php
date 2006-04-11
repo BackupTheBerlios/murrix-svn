@@ -4,7 +4,7 @@ include(gettpl("adminpanel", $object));
 
 $vars = $object->GetVars();
 
-$left = img(geticon("settings"))."&nbsp;".ucf(i18n("edit"));
+$left = img(geticon("edit"))."&nbsp;".ucf(i18n("edit"));
 $right = ucf(i18n("class")).": ".ucw(str_replace("_", " ", $object->getClassName()));
 $center = "";
 include(gettpl("big_title"));

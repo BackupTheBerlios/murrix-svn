@@ -1,4 +1,10 @@
 <?
+$translation['default new class'] = "default ny klass";
+$translation['hide linkstab'] = "dölj länkflik";
+$translation['hide versionstab'] = "dölj versionsflik";
+$translation['hide comments'] = "dölj kommentarer";
+$translation['comments per page'] = "kommentarer per sida";
+$translation['settings'] = "inställningar";
 $translation['save as new version'] = "spara som ny version";
 $translation['comment'] = "kommentar";
 $translation['required'] = "obligatorisk";

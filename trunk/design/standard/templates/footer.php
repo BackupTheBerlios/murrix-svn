@@ -1,7 +1,6 @@
 <?
 global $version;
 ?>
-
 <div id="footer_left">
 	<a href="http://murrix.berlios.de">MURRiX</a> <?=i18n("version")?> <?=$version?><br/>
 	MURRiX <?=i18n("is released under the")?> <a href="./LICENSE.txt">GNU General Public License</a>

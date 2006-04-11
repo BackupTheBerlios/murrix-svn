@@ -1,10 +1,11 @@
 <?
-if ($object->hasRight("edit") || $num_pages > 1)
+//if ($object->hasRight("edit") || $num_pages > 1)
+if ($num_pages > 1)
 {
 ?>
 	<div class="main">
 	<?
-		$num_per_page_form = "";
+		/*$num_per_page_form = "";
 		if ($object->hasRight("edit"))
 		{
 			$num_per_page_form = " <form style=\"display: inline;\" name=\"".$pagername."sNumPerPageSelect\" id=\"".$pagername."sNumPerPageSelect\" action=\"javascript:void(null);\" onsubmit=\"javascript:void(null)\">";
@@ -26,9 +27,9 @@ if ($object->hasRight("edit") || $num_pages > 1)
 			$num_per_page_form .= "</form>";
 
 			echo ucf(i18n("items per page"))." $num_per_page_form ";
-		}
+		}*/
 
-		if ($num_pages > 1)
+		//if ($num_pages > 1)
 		{
 			if ($page_num-1 <= 0)
 				echo img(imgpath("leftarrow.png"))." ";

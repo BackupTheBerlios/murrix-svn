@@ -33,8 +33,9 @@ class sNew extends Script
 
 		if (empty($class_name))
 		{
-			if ($parent->HasRight("create_subnodes", array("folder")))
-				$class_name = "folder";
+			$default_class_name = $parent->getMeta("default_class_name", "folder");
+			if ($parent->HasRight("create_subnodes", array($default_class_name)))
+				$class_name = $default_class_name;
 		}
 
 		if (empty($class_name))

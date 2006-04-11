@@ -1,6 +1,6 @@
 <?
 $view_form = "";
-if ($object->hasRight("edit"))
+/*if ($object->hasRight("edit"))
 {
 	$view_form = " <form name=\"sViewSelect\" id=\"sViewSelect\" action=\"javascript:void(null);\" onsubmit=\"javascript:void(null)\">";
 	$view_form .= "<input type=\"hidden\" class=\"hidden\" name=\"meta\" value=\"view\">";
@@ -20,14 +20,14 @@ if ($object->hasRight("edit"))
 	$view_form .= "</select>";
 	$view_form .= "</form>";
 }
-
+*/
 $current_view = "show";
 include(gettpl("adminpanel", $object));
 
 $center = "";
 $left = img(geticon($object->getIcon()))."&nbsp;".$object->getName();
 $right = "";
-if ($object->creator == 0)
+/*if ($object->creator == 0)
 	$right .= ucf(i18n("unknown"));
 else
 {
@@ -38,7 +38,9 @@ else
 	else
 		$right .= cmd(img(geticon($creator->getIcon()))."&nbsp;".$creator->getName(), "Exec('show','zone_main',Hash('node_id','".$creator->getNodeId()."'))");
 }
-$right .= " - ".$object->getCreated().$view_form;
+$right .= " - ";
+*/
+$right .= date("Y-m-d H:i", strtotime($object->getCreated())).$view_form;
 include(gettpl("big_title", $object));
 
 ?>
