@@ -92,7 +92,7 @@ $site = GetInput("site", $default_theme);
 $_SESSION['murrix']['site'] = $site;
 $_SESSION['murrix']['default_path'] = $site_config['sites'][$site]['start'];
 
-if (empty($_SESSION['murrix']['path']))
+if (empty($_SESSION['murrix']['path']) || $_SESSION['murrix']['path'] == "/")
 	$_SESSION['murrix']['path'] = $_SESSION['murrix']['default_path'];
 
 

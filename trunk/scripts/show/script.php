@@ -21,6 +21,9 @@ class sShow extends Script
 
 	function Exec(&$system, &$response, $args)
 	{
+		if (!is_array($args))
+			$args = array();
+	
 		if (isset($args['meta']) || isset($args['rebuild_thumb']))
 		{
 			$node_id = $this->getNodeId($args);
@@ -47,8 +50,12 @@ class sShow extends Script
 			}
 		}
 		$node_id = $this->getNodeId($args);
-		$object = new mObject($node_id);
-		$_SESSION['murrix']['path'] = $object->getPathInTree();
+		
+		if ($node_id > 0)
+		{
+			$object = new mObject($node_id);
+			$_SESSION['murrix']['path'] = $object->getPathInTree();
+		}
 
 		$system->TriggerEventIntern($response, "newlocation", $args);
 	}
@@ -62,7 +69,10 @@ class sShow extends Script
 		{
 			$object = new mObject($node_id);
 			if ($object->HasRight("read"))
+			{
+				
 				include(gettpl("scripts/show", $object));
+			}
 			else
 			{
 				$titel = ucf(i18n("error"));

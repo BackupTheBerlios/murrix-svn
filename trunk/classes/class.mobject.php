@@ -631,7 +631,7 @@ class mObject
 		else if ($type == "create_subnodes")
 			$type = "create_sub";
 	
-		if (isset($_SESSION['murrix']['querycache']['rights'][$type][$this->getNodeId()]))
+		if (isset($_SESSION['murrix']['querycache']['rights'][$type][$this->getNodeId()]) && $classes == null)
 			return $_SESSION['murrix']['querycache']['rights'][$type][$this->getNodeId()];
 
 		if (!isset($_SESSION['murrix']['querycache']['rights_list']))

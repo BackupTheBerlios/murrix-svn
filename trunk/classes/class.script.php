@@ -29,7 +29,7 @@ class Script
 			$args['node_id'] = getNode($args['path']);
 		else
 		{
-			if (empty($_SESSION['murrix']['path']))
+			if (empty($_SESSION['murrix']['path']) || $_SESSION['murrix']['path'] = "/")
 			{
 				global $site_config;
 				$_SESSION['murrix']['path'] = $site_config['sites'][$_SESSION['murrix']['site']]['start'];
