@@ -13,7 +13,7 @@ include(gettpl("big_title"));
 	
 	<div class="main">
 		<?=ucf(i18n("items per page"))?>
-		<select class="form" name="children_show_num_per_page">";
+		<select class="form" name="children_show_num_per_page">
 		<?
 			$list = array(5 => 5, 10 => 10, 25 => "", 50 => 50, 100 => 100, "all" => "all");
 			foreach ($list as $key => $item)
@@ -28,8 +28,33 @@ include(gettpl("big_title"));
 		</select>
 		<br/><br/>
 		
+		<?=ucf(i18n("sort by"))?>
+		<select class="form" name="sort_by">
+		<?
+			$list = array("name" => "property:name", "class" => "property:class", "language" => "property:language", "icon" => "property:icon", "version" => "property:version", "created" => "property:created", "creator" => "property:creator");
+			foreach ($list as $key => $item)
+			{
+				$value = $object->getMeta("sort_by", "property:name");
+				$selected = "";
+				
+				if (($item == $value) || ($item == "property:name" && empty($value)))
+					$selected = "selected";
+
+				echo "<option $selected value=\"$item\">".ucf(i18n($key))."</option>";
+			}
+		?>
+		</select>
+		<br/><br/>
+		
+		<?=ucf(i18n("sort direction"))?>
+		<select class="form" name="sort_direction">
+			<option <?=(($object->getMeta("sort_direction", "") == "") ? "selected" : "")?> value=""><?=ucf(i18n("descending"))?></option>
+			<option <?=($object->getMeta("sort_direction", "") == "asc" ? "selected" : "")?> value="asc"><?=ucf(i18n("ascending"))?></option>
+		</select>
+		<br/><br/>
+		
 		<?=ucf(i18n("comments per page"))?>
-		<select class="form" name="comment_show_num_per_page">";
+		<select class="form" name="comment_show_num_per_page">
 		<?
 			$list = array(5 => 5, 10 => 10, 25 => "", 50 => 50, 100 => 100, "all" => "all");
 			foreach ($list as $key => $item)

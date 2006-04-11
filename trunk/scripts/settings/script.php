@@ -44,6 +44,10 @@ class sSettings extends Script
 					$object->setMeta("view", $args['view']);
 					
 					$object->setMeta("default_class_name", $args['default_class_name']);
+					
+					$object->setMeta("sort_by", $args['sort_by']);
+					
+					$object->setMeta("sort_direction", $args['sort_direction']);
 				}
 			}
 		}
