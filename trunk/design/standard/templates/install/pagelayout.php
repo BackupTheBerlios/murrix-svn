@@ -34,7 +34,7 @@
 
 			function init()
 			{
-				Exec('install','zone_main', '');
+				return "Exec('install','zone_main', '')";
 			}
 		// -->
 		</script>

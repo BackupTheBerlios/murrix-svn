@@ -135,208 +135,24 @@ class sInstall extends Script
 				mysql_select_db($this->db_name);
 			}
 			
-			if ($this->done)
+			$files = GetSubfiles("$abspath/scripts/install/db");
+			foreach ($files as $file)
 			{
-				$query = "DROP TABLE IF EXISTS `".$this->db_prefix."classes`;";
+				$file_parts = explode(".", $file);
+				$query = "DROP TABLE IF EXISTS `".$this->db_prefix.$file_parts[0]."`";
 				mysql_query($query);
-				
-				$query = "CREATE TABLE `".$this->db_prefix."classes` (";
-				$query .= "`name` varchar(100) NOT NULL default '',";
-				$query .= "`default_icon` varchar(100) NOT NULL default '',";
-				$query .= "`id` int(11) NOT NULL auto_increment,";
-				$query .= "KEY `id` (`id`)";
-				$query .= ") TYPE=MyISAM;";
-				
-				if (mysql_query($query))
-					$this->db_log .= "Table ".$this->db_prefix."classes created.<br/>";
-				else
-				{
-					$this->db_log .= "Falied to create table ".$this->db_prefix."classes. Error: " . mysql_errno() . " " . mysql_error()."<br/>";
-					$this->done = false;
-				}
-			}
-
-			if ($this->done)
-			{
-				$query = "DROP TABLE IF EXISTS `".$this->db_prefix."links`;";
-				mysql_query($query);
-				
-				$query = "CREATE TABLE `".$this->db_prefix."links` (";
-				$query .= "`node_top` int(11) NOT NULL default '0',";
-				$query .= "`node_bottom` int(11) NOT NULL default '0',";
-				$query .= "`type` varchar(50) NOT NULL default '',";
-				$query .= "`id` int(11) NOT NULL auto_increment,";
-				$query .= "KEY `id` (`id`)";
-				$query .= ") TYPE=MyISAM;";
 			
-				if (mysql_query($query))
-					$this->db_log .= "Table ".$this->db_prefix."links created.<br/>";
-				else
-				{
-					$this->db_log .= "Falied to create table ".$this->db_prefix."links. Error: " . mysql_errno() . " " . mysql_error()."<br/>";
-					$this->done = false;
-				}
-			}
-			
-			if ($this->done)
-			{
-				$query = "DROP TABLE IF EXISTS `".$this->db_prefix."meta`;";
-				mysql_query($query);
+				$query = str_replace("%PREFIX%", $this->db_prefix, implode("", file("$abspath/scripts/install/db/$file")));
 				
-				$query = "CREATE TABLE `".$this->db_prefix."meta` (";
-				$query .= "`id` int(11) NOT NULL auto_increment,";
-				$query .= "`node_id` int(11) NOT NULL default '0',";
-				$query .= "`name` varchar(100) NOT NULL default '',";
-				$query .= "`value` tinytext NOT NULL,";
-				$query .= "KEY `id` (`id`)";
-				$query .= ") TYPE=MyISAM;";
 				
 				if (mysql_query($query))
-					$this->db_log .= "Table ".$this->db_prefix."meta created.<br/>";
+					$this->db_log .= "Imported $file successfully.<br/>";
 				else
 				{
-					$this->db_log .= "Falied to create table ".$this->db_prefix."meta. Error: " . mysql_errno() . " " . mysql_error()."<br/>";
+					$this->db_log .= "Falied to import $file. Error: " . mysql_errno() . " " . mysql_error()."<br/>";
+					$this->db_log .= $query;
 					$this->done = false;
-				}
-			}
-
-			if ($this->done)
-			{
-				$query = "DROP TABLE IF EXISTS `".$this->db_prefix."nodes`;";
-				mysql_query($query);
-				
-				$query = "CREATE TABLE `".$this->db_prefix."nodes` (";
-				$query .= "`id` int(11) NOT NULL auto_increment,";
-				$query .= "`created` datetime NOT NULL default '0000-00-00 00:00:00',";
-				$query .= "KEY `id` (`id`)";
-				$query .= ") TYPE=MyISAM;";
-				
-				if (mysql_query($query))
-					$this->db_log .= "Table ".$this->db_prefix."nodes created.<br/>";
-				else
-				{
-					$this->db_log .= "Falied to create table ".$this->db_prefix."nodes. Error: " . mysql_errno() . " " . mysql_error()."<br/>";
-					$this->done = false;
-				}
-			}
-			
-			if ($this->done)
-			{
-				$query = "DROP TABLE IF EXISTS `".$this->db_prefix."objects`;";
-				mysql_query($query);
-				
-				$query = "CREATE TABLE `".$this->db_prefix."objects` (";
-				$query .= "`id` int(11) NOT NULL auto_increment,";
-				$query .= "`name` varchar(100) NOT NULL default '',";
-				$query .= "`node_id` int(11) NOT NULL default '0',";
-				$query .= "`creator` int(11) NOT NULL default '0',";
-				$query .= "`created` datetime NOT NULL default '0000-00-00 00:00:00',";
-				$query .= "`class_name` varchar(100) NOT NULL default '',";
-				$query .= "`version` int(11) NOT NULL default '0',";
-				$query .= "`language` char(3) NOT NULL default '',";
-				$query .= "`icon` varchar(100) NOT NULL default '',";
-				$query .= "KEY `id` (`id`)";
-				$query .= ") TYPE=MyISAM;";
-				
-				if (mysql_query($query))
-					$this->db_log .= "Table ".$this->db_prefix."objects created.<br/>";
-				else
-				{
-					$this->db_log .= "Falied to create table ".$this->db_prefix."objects. Error: " . mysql_errno() . " " . mysql_error()."<br/>";
-					$this->done = false;
-				}
-			}
-
-			if ($this->done)
-			{
-				$query = "DROP TABLE IF EXISTS `".$this->db_prefix."pathcache`;";
-				mysql_query($query);
-				
-				$query = "CREATE TABLE `".$this->db_prefix."pathcache` (";
-				$query .= "`id` int(11) NOT NULL auto_increment,";
-				$query .= "`path` tinytext NOT NULL,";
-				$query .= "`node_id` int(11) NOT NULL default '0',";
-				$query .= "`language` varchar(10) NOT NULL,";
-				$query .= "KEY `id` (`id`)";
-				$query .= ") TYPE=MyISAM;";
-				
-				if (mysql_query($query))
-					$this->db_log .= "Table ".$this->db_prefix."pathcache created.<br/>";
-				else
-				{
-					$this->db_log .= "Falied to create table ".$this->db_prefix."pathcache. Error: " . mysql_errno() . " " . mysql_error()."<br/>";
-					$this->done = false;
-				}
-			}
-
-			if ($this->done)
-			{
-				$query = "DROP TABLE IF EXISTS `".$this->db_prefix."thumbnails`;";
-				mysql_query($query);
-				
-				$query = "CREATE TABLE `".$this->db_prefix."thumbnails` (";
-				$query .= "`id` int(11) NOT NULL auto_increment,";
-				$query .= "`data` blob NOT NULL,";
-				$query .= "`created` datetime NOT NULL default '0000-00-00 00:00:00',";
-				$query .= "`width` smallint(6) NOT NULL default '0',";
-				$query .= "`height` smallint(6) NOT NULL default '0',";
-				$query .= "`value_id` int(11) NOT NULL default '0',";
-				$query .= "`type` smallint(6) NOT NULL default '0',";
-				$query .= "KEY `id` (`id`)";
-				$query .= ") TYPE=MyISAM;";
-				
-				if (mysql_query($query))
-					$this->db_log .= "Table ".$this->db_prefix."thumbnails created.<br/>";
-				else
-				{
-					$this->db_log .= "Falied to create table ".$this->db_prefix."thumbnails. Error: " . mysql_errno() . " " . mysql_error()."<br/>";
-					$this->done = false;
-				}
-			}
-
-			if ($this->done)
-			{
-				$query = "DROP TABLE IF EXISTS `".$this->db_prefix."values`;";
-				mysql_query($query);
-				
-				$query = "CREATE TABLE `".$this->db_prefix."values` (";
-				$query .= "`id` int(11) NOT NULL auto_increment,";
-				$query .= "`data` text NOT NULL,";
-				$query .= "`object_id` int(11) NOT NULL default '0',";
-				$query .= "`var_id` int(11) NOT NULL default '0',";
-				$query .= "KEY `id` (`id`)";
-				$query .= ") TYPE=MyISAM;";
-				
-				if (mysql_query($query))
-					$this->db_log .= "Table ".$this->db_prefix."values created.<br/>";
-				else
-				{
-					$this->db_log .= "Falied to create table ".$this->db_prefix."values. Error: " . mysql_errno() . " " . mysql_error()."<br/>";
-					$this->done = false;
-				}
-			}
-
-			if ($this->done)
-			{
-				$query = "DROP TABLE IF EXISTS `".$this->db_prefix."vars`;";
-				mysql_query($query);
-				
-				$query = "CREATE TABLE `".$this->db_prefix."vars` (";
-				$query .= "`id` int(11) NOT NULL auto_increment,";
-				$query .= "`class_name` varchar(100) NOT NULL default '',";
-				$query .= "`name` varchar(100) NOT NULL default '',";
-				$query .= "`priority` int(11) NOT NULL default '0',";
-				$query .= "`type` varchar(50) NOT NULL default '',";
-				$query .= "`extra` tinytext NOT NULL,";
-				$query .= "KEY `id` (`id`)";
-				$query .= ") TYPE=MyISAM;";
-				
-				if (mysql_query($query))
-					$this->db_log .= "Table ".$this->db_prefix."vars created.<br/>";
-				else
-				{
-					$this->db_log .= "Falied to create table ".$this->db_prefix."vars. Error: " . mysql_errno() . " " . mysql_error()."<br/>";
-					$this->done = false;
+					break;
 				}
 			}
 
@@ -505,7 +321,7 @@ class sInstall extends Script
 			== Menu ==
 			==========
 			*/
-			$menu_obj = new mObject();
+			/*$menu_obj = new mObject();
 			$menu_obj->setClassName("folder");
 			$menu_obj->loadVars();
 			$menu_obj->setLanguage("eng");
@@ -524,7 +340,7 @@ class sInstall extends Script
 				$this->db_log .= $menu_obj->error;
 				$this->done = false;
 			}
-			
+			*/
 			/*
 			===========
 			== Users ==
