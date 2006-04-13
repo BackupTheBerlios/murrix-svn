@@ -31,19 +31,26 @@ include(gettpl("big_title"));
 		<?=ucf(i18n("sort by"))?>
 		<select class="form" name="sort_by">
 		<?
-			$list = array("name" => "property:name", "class" => "property:class", "language" => "property:language", "icon" => "property:icon", "version" => "property:version", "created" => "property:created", "creator" => "property:creator");
+			$value = $object->getMeta("sort_by", "property:name");
+			$list = array("custom" => "custom", "name" => "property:name", "class" => "property:class", "language" => "property:language", "icon" => "property:icon", "version" => "property:version", "created" => "property:created", "creator" => "property:creator");
 			foreach ($list as $key => $item)
 			{
-				$value = $object->getMeta("sort_by", "property:name");
 				$selected = "";
 				
-				if (($item == $value) || ($item == "property:name" && empty($value)))
+				if ($item == $value)
 					$selected = "selected";
+					
+				if ($item == "property:name")
+					$item = "";
 
 				echo "<option $selected value=\"$item\">".ucf(i18n($key))."</option>";
 			}
+			
+			$custom = "";
+			if (!in_array($value, $list))
+				$custom = $value;
 		?>
-		</select>
+		</select> <input class="form" type="text" name="sort_by_custom" value="<?=$custom?>"/>
 		<br/><br/>
 		
 		<?=ucf(i18n("sort direction"))?>

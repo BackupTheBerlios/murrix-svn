@@ -69,8 +69,12 @@ $root = new mObject($root_id);
 					<?
 					$menuitems = fetch("FETCH node WHERE link:node_top='".getNode("/Root/Public")."' AND link:type='sub' AND !property:class_name='comment' NODESORTBY property:version SORTBY property:name");
 
-					foreach ($menuitems as $item)
-						echo "&bull;&nbsp;&nbsp;".cmd($item->getName(), "Exec('show','zone_main',Hash('node_id','".$item->getNodeId()."'))")."&nbsp;&nbsp;";
+					foreach ($menuitems as $child)
+					{
+						echo "&bull;&nbsp;&nbsp;";
+						include(gettpl("small_line", $child));
+						echo "&nbsp;&nbsp;";
+					}
 					?>
 					&bull;
 				</div>

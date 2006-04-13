@@ -45,7 +45,10 @@ class sSettings extends Script
 					
 					$object->setMeta("default_class_name", $args['default_class_name']);
 					
-					$object->setMeta("sort_by", $args['sort_by']);
+					if ($args['sort_by'] == "custom")
+						$object->setMeta("sort_by", $args['sort_by_custom']);
+					else
+						$object->setMeta("sort_by", $args['sort_by']);
 					
 					$object->setMeta("sort_direction", $args['sort_direction']);
 				}
