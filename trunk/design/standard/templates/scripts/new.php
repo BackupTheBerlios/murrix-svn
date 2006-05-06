@@ -30,27 +30,32 @@ include(gettpl("big_title"));
 	<input class="hidden" type="hidden" name="action" value="save"/>
 	<input class="hidden" type="hidden" name="node_id" value="<?=$object->getNodeId()?>"/>
 	<input class="hidden" type="hidden" name="class_name" value="<?=$newobject->getClassName()?>"/>
-
-	<div class="adminpanel">
 	<?
-		foreach ($_SESSION['murrix']['languages'] as $language)
-		{
-			$result = array_diff($_SESSION['murrix']['languages'], array($language));
-
-			$hide = "";
-			foreach ($result as $lang)
-				$hide .= "document.getElementById('edit_$lang').style.display='none';document.getElementById('select_$lang').className='tab';";
-
-			$show = "document.getElementById('edit_$language').style.display='block';document.getElementById('select_$language').className='tab_selected';";
-				
-			?><a id="select_<?=$language?>" class="tab<?=($language == $_SESSION['murrix']['language'] ? "_selected" : "")?>" href="javascript:void(null)" onclick="<?=$hide.$show?>"><?=img(imgpath("$language.jpg"))." ".ucf(i18n($language))?></a><?
-		}
+	if (count($_SESSION['murrix']['languages']) > 1)
+	{
 	?>
-	</div>
-	<br/>
-	<div class="clear"></div>
-
-	<?
+		<div class="adminpanel">
+		<?
+			
+			foreach ($_SESSION['murrix']['languages'] as $language)
+			{
+				$result = array_diff($_SESSION['murrix']['languages'], array($language));
+	
+				$hide = "";
+				foreach ($result as $lang)
+					$hide .= "document.getElementById('edit_$lang').style.display='none';document.getElementById('select_$lang').className='tab';";
+	
+				$show = "document.getElementById('edit_$language').style.display='block';document.getElementById('select_$language').className='tab_selected';";
+					
+				?><a id="select_<?=$language?>" class="tab<?=($language == $_SESSION['murrix']['language'] ? "_selected" : "")?>" href="javascript:void(null)" onclick="<?=$hide.$show?>"><?=img(imgpath("$language.jpg"))." ".ucf(i18n($language))?></a><?
+			}
+		?>
+		</div>
+		<br/>
+		<div class="clear"></div>
+		<?
+	}
+	
 	foreach ($_SESSION['murrix']['languages'] as $language)
 	{
 		$style = "";
@@ -100,18 +105,27 @@ include(gettpl("big_title"));
 					<?
 					}
 				}
-				?>
 				
-				<input class="submit" id="submitButton" type="submit" onclick="document.getElementById('language').value='<?=$language?>'" value="<?=ucf(i18n("save $language version"))?>"/>
+				$submit = ucf(i18n("save"));
+				if (count($_SESSION['murrix']['languages']) > 1)
+					$submit = ucf(i18n("save $language version"));
+					
+				?>
+				<input class="submit" id="submitButton" type="submit" onclick="document.getElementById('language').value='<?=$language?>'" value="<?=$submit?>"/>
 			</div>
 		</div>
 	<?
 	}
+	
+	if (count($_SESSION['murrix']['languages']) > 1)
+	{
 	?>
-
-	<div class="main">
-		<input class="hidden" type="hidden" id="language" name="language" value=""/>
-		<input class="submit" id="submitButton" type="submit" value="<?=ucf(i18n("save all languages"))?>"/>
-	</div>
+		<div class="main">
+			<input class="hidden" type="hidden" id="language" name="language" value=""/>
+			<input class="submit" id="submitButton" type="submit" value="<?=ucf(i18n("save all languages"))?>"/>
+		</div>
+	<?
+	}
+	?>
 </form>
 

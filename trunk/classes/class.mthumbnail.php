@@ -136,16 +136,16 @@ class mThumbnail
 			$h = imagesy($image) * ($maxsizex / imagesx($image));
 			$w = $maxsizex;
 		}
-
+/*
 		global $abspath;
 		$temp = imagecreate($w, $h);
 		imageJPEG($temp, "$abspath/temp.jpg");
 		$output = @imagecreatefromjpeg("$abspath/temp.jpg");
+*/
+		$output = imagecreatetruecolor($w, $h);
 
-		//$output = imagecreatetruecolor($w, $h);
-
-		imageCopyResampleBicubic($output, $image, 0, 0, 0, 0, imagesx($output), imagesy($output), imagesx($image), imagesy($image));
-		//imagecopyresampled($output, $image, 0, 0, 0, 0, imagesx($output), imagesy($output), imagesx($image), imagesy($image));
+		//imageCopyResampleBicubic($output, $image, 0, 0, 0, 0, imagesx($output), imagesy($output), imagesx($image), imagesy($image));
+		imagecopyresampled($output, $image, 0, 0, 0, 0, imagesx($output), imagesy($output), imagesx($image), imagesy($image));
 		
 		imagedestroy($image);
 	

@@ -148,6 +148,7 @@ function getfiletype($extension)
 		case "avi":
 		case "divx":
 		case "mov":
+		case "rm":
 		return "video";
 
 		case "txt":

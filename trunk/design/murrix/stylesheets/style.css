@@ -370,6 +370,7 @@ table.content_table td
 	text-align: left;
 	overflow: auto;
 	border-width: 0;
+	height: 100%;
 }
 
 #content table.calendar td.day

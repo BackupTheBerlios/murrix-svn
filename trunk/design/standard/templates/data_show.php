@@ -18,7 +18,7 @@ if (!empty($vars))
 
 			if (is_array($value))
 			{
-				echo "<b>".$var->getName().":</b> <div>";
+				echo "<b>".ucf(str_replace("_", " ", i18n($var->getName(true)))).":</b> <div>";
 				foreach ($value as $line)
 					echo $line."<br/>";
 				echo "</div><br/>";
@@ -26,12 +26,12 @@ if (!empty($vars))
 			else if ($var->getType() == "thumbnail")
 			{
 				$thumbnail = new mThumbnail($value);
-				echo "<b>".$var->getName().":</b> <div>";
+				echo "<b>".ucf(str_replace("_", " ", i18n($var->getName(true)))).":</b> <div>";
 				$thumbnail->Show();
 				echo "</div><br/>";
 			}
 			else
-				echo "<b>".$var->getName().":</b> <div>$value</div><br/>";
+				echo "<b>".ucf(str_replace("_", " ", i18n($var->getName(true)))).":</b> <div>$value</div><br/>";
 		}
 	}
 

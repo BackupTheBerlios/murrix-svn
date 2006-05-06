@@ -1,4 +1,5 @@
 <?
+$translation['attachments'] = "bilagor";
 $translation['default new class'] = "default ny klass";
 $translation['hide linkstab'] = "dölj länkflik";
 $translation['hide versionstab'] = "dölj versionsflik";
