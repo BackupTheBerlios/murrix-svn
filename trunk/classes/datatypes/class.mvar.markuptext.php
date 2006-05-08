@@ -128,6 +128,11 @@ class mVarMarkuptext extends mVar
 				else
 					$target_param = getNode($param);
 				break;
+				
+			case "target_file":
+				$target = "file";
+				$target_param = $param;
+				break;
 
 			case "image_url":
 				$image = "url";
@@ -229,6 +234,12 @@ class mVarMarkuptext extends mVar
 			if (empty($text))
 				$text = htmlentities($target_param);
 			$text = "<a href=\"$target_param\">$text</a>";
+			break;
+			
+		case "file":
+			if (empty($text))
+				$text = htmlentities($target_param);
+			$text = "<a href=\"?file=$target_param\">$text</a>";
 			break;
 
 		case "obj":
