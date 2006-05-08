@@ -49,6 +49,12 @@ class mThumbnail
 		global $abspath;
 		$filename = "$abspath/thumbnails/".$this->id.".jpg";
 		
+		if (!file_exists($filename))
+		{
+			$this->setRebuild();
+			return;
+		}
+		
 		header("Content-type: " . image_type_to_mime_type($this->type));
 		header('Last-Modified: '.gmdate('D, d M Y H:i:s', strtotime($this->created)).' GMT');
 		header("Content-Length: ".filesize($filename));
