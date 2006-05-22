@@ -64,7 +64,7 @@ class mVar
 	{
 		return $this->extra;
 	}
-
+	
 	function getType()
 	{
 		return $this->type;
@@ -83,6 +83,11 @@ class mVar
 	function setValue($value)
 	{
 		$this->value = $value;
+	}
+	
+	function getJavaScript($formname, $var_prefix = "")
+	{
+		return "";
 	}
 	
 	function getEdit($formname, $var_prefix = "")

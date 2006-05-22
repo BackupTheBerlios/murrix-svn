@@ -97,8 +97,12 @@ include(gettpl("big_title"));
 									
 									<?=$req.ucf(str_replace("_", " ", i18n($var->getName(true))))?> (<?=$var->getType()?>)
 								</legend>
-								<?=$var->getComment()?>
-								<?=$var->getEdit("sEdit", $language."_")?>
+								<?
+								echo $var->getComment();
+								echo $var->getEdit("sEdit", $language."_");
+								
+								$javascript .= $var->getJavascript("sEdit", $language."_");
+								?>
 							</fieldset>
 						</div>
 						<br/>

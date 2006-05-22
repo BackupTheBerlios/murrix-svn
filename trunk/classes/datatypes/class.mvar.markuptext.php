@@ -147,6 +147,11 @@ class mVarMarkuptext extends mVar
 				else
 					$image_param = getNode($param);
 				break;
+				
+			case "image_file":
+				$image = "file";
+				$image_param = imgpath($param);
+				break;
 
 			case "size":
 				$size = $param;
@@ -173,6 +178,15 @@ class mVarMarkuptext extends mVar
 			if (!empty($name))
 				$name = " alt=\"$name\" title=\"$name\"";
 			list($width, $height, $type, $attr) = getimagesize($image_param);
+			
+			$text = "<img style=\"$style; width: {$width}px; height: {$height}px;\" src=\"$image_param\"$name/>$clear";
+			break;
+			
+		case "file":
+			global $abspath;
+			if (!empty($name))
+				$name = " alt=\"$name\" title=\"$name\"";
+			list($width, $height, $type, $attr) = getimagesize("$abspath/$image_param");
 			
 			$text = "<img style=\"$style; width: {$width}px; height: {$height}px;\" src=\"$image_param\"$name/>$clear";
 			break;

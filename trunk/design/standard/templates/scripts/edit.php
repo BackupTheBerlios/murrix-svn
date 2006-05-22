@@ -56,8 +56,12 @@ include(gettpl("big_title"));
 						<legend>
 							<?=$req.ucf(str_replace("_", " ", i18n($var->getName(true))))?> (<?=$var->getType()?>)
 						</legend>
-					
-						<?=$var->getEdit("sEdit")?>
+						<?
+						echo $var->getComment();
+						echo $var->getEdit("sEdit");
+						
+						$javascript .= $var->getJavascript("sEdit");
+						?>
 					</fieldset>
 				</div>
 				<br/>

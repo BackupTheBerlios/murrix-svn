@@ -109,6 +109,9 @@ class sEdit extends Script
 			$object = new mObject($this->getNodeId($args));
 		
 		ob_start();
+		
+		$javascript = "";
+		
 		if ($object->getNodeId() > 0)
 		{
 			if ($object->HasRight("edit"))
@@ -128,6 +131,7 @@ class sEdit extends Script
 		}
 
 		$response->addAssign($this->zone, "innerHTML", utf8e(ob_get_end()));
+		$response->addScript($javascript);
 	}
 }
 ?>

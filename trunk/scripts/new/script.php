@@ -141,6 +141,8 @@ class sNew extends Script
 
 		ob_start();
 
+		$javascript = "";
+
 		if ($object->HasRight("create_subnodes", array($newobject->getClassName())))
 			include(gettpl("scripts/new", $newobject));
 		else
@@ -151,6 +153,7 @@ class sNew extends Script
 		}
 
 		$response->addAssign($this->zone, "innerHTML", utf8e(ob_get_end()));
+		$response->addScript($javascript);
 	}
 }
 ?>

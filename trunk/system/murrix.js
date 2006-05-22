@@ -60,7 +60,11 @@ function Poll()
 			//command = window.location.href.split("#")[1];
 
 			last_command = command;
-			eval(URLDecode(last_command));
+			
+			if (isNaN(last_command) != true)
+				Exec('show','zone_main',Hash('node_id',last_command));
+			else
+				eval(URLDecode(last_command));
 			
 		}
 		run_cmd = false;
@@ -125,7 +129,37 @@ function Exec(scriptname, zone, args)
 
 function Post(scriptname, zone, formname)
 {
+	delEditors(formname);
 	return Exec(scriptname, zone, xajax.getFormValues(formname));
+}
+
+var active_editors = new Object();
+
+function addEditor(formname, varid)
+{
+	if (typeof active_editors[formname] == 'undefined')
+		active_editors[formname] = 0;
+
+	tinyMCE.addMCEControl(xajax.$(varid),'MCEControlID_'+active_editors[formname]);
+	tinyMCE.updateContent('MCEControlID_'+active_editors[formname]);
+		
+	active_editors[formname]++;
+}
+
+function delEditors(formname)
+{
+	if (typeof active_editors[formname] == 'undefined')
+		active_editors[formname] = 0;
+		
+	for (var n = 0; n < active_editors[formname]; n++)
+	{
+		var inst = tinyMCE.getInstanceById('MCEControlID_'+n);
+		if (inst)
+			inst.triggerSave(false, false);
+		tinyMCE.removeMCEControl('MCEControlID_'+n);
+	}
+		
+	active_editors[formname] = 0;
 }
 
 var active_zones = new Array();
