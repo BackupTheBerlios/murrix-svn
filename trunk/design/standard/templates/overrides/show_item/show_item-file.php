@@ -4,7 +4,7 @@ $value_id = $child->resolveVarName("file");
 $pathinfo = pathinfo($filename);
 $type = getfiletype($pathinfo['extension']);
 
-$date = "";
+$data = "";
 
 if ($type == "image")
 {
@@ -15,6 +15,8 @@ if ($type == "image")
 		$angle = GetFileAngle($filename);
 		
 	$thumbnail = getThumbnail($value_id, $maxsize, $maxsize, $angle);
+	
+	$_SESSION['murrix']['rightcache']['thumbnail'][] = $thumbnail->id;
 	
 	if ($thumbnail !== false)
 		$data = $thumbnail->Show(true);

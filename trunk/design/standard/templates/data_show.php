@@ -16,7 +16,7 @@ if (!empty($vars))
 				$vars_flag = true;
 			}
 
-			if (is_array($value))
+			/*if (is_array($value))
 			{
 				echo "<b>".ucf(str_replace("_", " ", i18n($var->getName(true)))).":</b> <div>";
 				foreach ($value as $line)
@@ -30,8 +30,8 @@ if (!empty($vars))
 				$thumbnail->Show();
 				echo "</div><br/>";
 			}
-			else
-				echo "<b>".ucf(str_replace("_", " ", i18n($var->getName(true)))).":</b> <div>$value</div><br/>";
+			else*/
+				echo "<b>".ucf(str_replace("_", " ", i18n($var->getName(true)))).":</b> <div>".$var->getShow()."</div><br/>";
 		}
 	}
 

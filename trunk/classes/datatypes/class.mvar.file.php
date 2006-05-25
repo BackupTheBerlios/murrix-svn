@@ -57,7 +57,11 @@ class mVarFile extends mVar
 	function getEdit($formname, $var_prefix = "")
 	{
 		return compiletpl("datatypes/file/edit", $this->getStandardArgs($formname, $var_prefix));
-
+	}
+	
+	function getShow()
+	{
+		return compiletpl("datatypes/file/show", $this->getStandardArgs($formname, $var_prefix));
 	}
 }
 

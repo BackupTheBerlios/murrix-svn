@@ -95,9 +95,14 @@ class mVar
 		return compiletpl("datatypes/standard/edit", $this->getStandardArgs($formname, $var_prefix));
 	}
 	
+	function getShow()
+	{
+		return compiletpl("datatypes/standard/show", $this->getStandardArgs($formname, $var_prefix));
+	}
+	
 	function getStandardArgs($formname, $var_prefix)
 	{
-		return array("formname"=>$formname, "varname"=>"{$var_prefix}v".$this->id, "prefix"=>$var_prefix, "id"=>$this->id, "value"=>$this->value);
+		return array("formname"=>$formname, "varname"=>"{$var_prefix}v".$this->id, "prefix"=>$var_prefix, "id"=>$this->id, "value_id"=>$this->value_id, "value"=>$this->value, "fvalue"=>$this->getValue());
 	}
 	
 	function Save()

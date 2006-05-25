@@ -14,7 +14,8 @@ $datatypes = array(	"array",
 			"textline",
 			"thumbnail",
 			"thumbnailid",
-			"xhtml");
+			"xhtml",
+			"url");
 
 foreach ($datatypes as $datatype)
 	require_once("class.mvar.$datatype.php");

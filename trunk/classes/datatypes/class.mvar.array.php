@@ -15,6 +15,11 @@ class mVarArray extends mVar
 	{
 		return compiletpl("datatypes/array/edit", $this->getStandardArgs($formname, $var_prefix));
 	}
+	
+	function getShow()
+	{
+		return compiletpl("datatypes/array/show", $this->getStandardArgs($formname, $var_prefix));
+	}
 }
 
 ?>

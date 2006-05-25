@@ -160,55 +160,58 @@ if (!isset($_SESSION['murrix']['System']))
 $_SESSION['murrix']['System']->LoadScripts();
 $prof->stopTimer( "system" );
 
-/* ========================= */
-// Process ajax-calls
-if (isset($_GET['debug']))
-	$_SESSION['murrix']['System']->xajax->debugOn();
-else
-	$_SESSION['murrix']['System']->xajax->debugOff();
-$_SESSION['murrix']['System']->Process();
-
 
 /* ========================= */
 // Handle files and thumbnails
 /* ========================= */
 if (isset($_GET['thumbnail']))
 {
-	$thumbnail = new mThumbnail($_GET['thumbnail']);
-	$thumbnail->Output();
+	if (in_array($_GET['thumbnail'], $_SESSION['murrix']['rightcache']['thumbnail']))
+	{
+		$thumbnail = new mThumbnail($_GET['thumbnail']);
+		$thumbnail->Output();
+	}
+	else
+		echo "No rights";
+		
 	return;
 }
 else if (isset($_GET['file']))
 {
-	$file = new mObject($_GET['file']);
+	$query = "SELECT `data` FROM `".$db_prefix."values` WHERE `id`='".$_GET['file']."'";
 
-	if ($file->hasRight("read"))
+	$result = mysql_query($query) or die("index.php: " . mysql_errno() . " " . mysql_error());
+	$data = mysql_fetch_array($result, MYSQL_ASSOC);
+	
+	$filename = $data['data'];
+	
+	$extension = pathinfo($filename, PATHINFO_EXTENSION);
+
+	if (in_array($_GET['file'], $_SESSION['murrix']['rightcache']['file']))
 	{
 		if (isset($_GET['download']))
 		{
 			header("Content-type: application/force-download");
 			header("Content-Description: File Transfer");
-			header("Content-Disposition: attachment; filename=\"".$file->getVarValue("file", true)."\"");
+			header("Content-Disposition: attachment; filename=\"".$data['data']."\"");
 		}
 	
-		$filename = $file->getVarValue("file");
-
-		$pathinfo = pathinfo($filename);
-		$type = getfiletype($pathinfo['extension']);
+		$type = getfiletype($extension);
 
 		switch ($type)
 		{
 		case "image":
 			header("Content-type: " . image_type_to_mime_type(IMAGETYPE_JPEG));
 			break;
+			
 		case "pdf":
 			header("Content-type: application/pdf");
 			if (!isset($_GET['download']))
-				header("Content-Disposition: inline; filename=\"".$file->getVarValue("file", true)."\"");
+				header("Content-Disposition: inline; filename=\"".$data['data']."\"");
 			break;
 		}
 		
-		@readfile($filename);
+		@readfile("$abspath/files/".$_GET['file'].".$extension");
 	}
 	else
 		echo "No rights";
@@ -216,7 +219,17 @@ else if (isset($_GET['file']))
 	return;
 }
 
-//$prof->startTimer( "pagelayout" );
+$_SESSION['murrix']['rightcache']['file'] = array();
+$_SESSION['murrix']['rightcache']['thumbnail'] = array();
+
+/* ========================= */
+// Process ajax-calls
+if (isset($_GET['debug']))
+	$_SESSION['murrix']['System']->xajax->debugOn();
+else
+	$_SESSION['murrix']['System']->xajax->debugOff();
+
+$_SESSION['murrix']['System']->Process();
 
 include(gettpl("pagelayout"));
 

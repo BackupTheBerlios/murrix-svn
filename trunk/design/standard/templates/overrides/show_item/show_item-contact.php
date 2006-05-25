@@ -20,6 +20,8 @@ if (!empty($thumb_id))
 	
 	$thumbnail->height = $h;
 	$thumbnail->width = $w;
+	
+	$_SESSION['murrix']['rightcache']['thumbnail'][] = $thumbnail->id;
 
 	$img = cmd($thumbnail->Show(true), "Exec('show','zone_main',Hash('node_id','".$child->getNodeId()."'))");
 }

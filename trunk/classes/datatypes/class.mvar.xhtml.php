@@ -7,6 +7,11 @@ class mVarXhtml extends mVar
 		return compiletpl("datatypes/xhtml/edit", $this->getStandardArgs($formname, $var_prefix));
 	}
 	
+	function getShow()
+	{
+		return compiletpl("datatypes/xhtml/show", $this->getStandardArgs($formname, $var_prefix));
+	}
+	
 	function getJavaScript($formname, $var_prefix = "")
 	{
 		return "addEditor('$formname', '{$var_prefix}v".$this->id."');";

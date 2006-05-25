@@ -283,6 +283,11 @@ class mVarMarkuptext extends mVar
 	{
 		return compiletpl("datatypes/markuptext/edit", $this->getStandardArgs($formname, $var_prefix));
 	}
+	
+	function getShow()
+	{
+		return compiletpl("datatypes/markuptext/show", $this->getStandardArgs($formname, $var_prefix));
+	}
 }
 
 ?>

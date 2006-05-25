@@ -25,6 +25,8 @@
 				$thumbnail->height = $h;
 				$thumbnail->width = $w;
 
+				$_SESSION['murrix']['rightcache']['thumbnail'][] = $thumbnail->id;
+
 				$img = $thumbnail->Show(true);
 			}
 			else
