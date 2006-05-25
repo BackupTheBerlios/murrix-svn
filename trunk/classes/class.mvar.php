@@ -92,7 +92,7 @@ class mVar
 	
 	function getEdit($formname, $var_prefix = "")
 	{
-		return compiletpl("datatypes/standard", $this->getStandardArgs($formname, $var_prefix));
+		return compiletpl("datatypes/standard/edit", $this->getStandardArgs($formname, $var_prefix));
 	}
 	
 	function getStandardArgs($formname, $var_prefix)
