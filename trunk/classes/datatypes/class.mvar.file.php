@@ -13,8 +13,8 @@ class mVarFile extends mVar
 			
 		global $abspath;
 
-		$parts = SplitFilepath($value);
-		return "$abspath/files/".$this->value_id.".".$parts['extension'];
+		$extension = pathinfo($value, PATHINFO_EXTENSION);
+		return "$abspath/files/".$this->value_id.".$extension";
 	}
 	
 	function Save()
@@ -30,13 +30,13 @@ class mVarFile extends mVar
 
 		$names = explode(":", $data);
 
-		$parts = SplitFilepath($names[0]);
+		$extension = pathinfo($names[0], PATHINFO_EXTENSION);
 
 		$this->value = $names[0];
 		
 		if (parent::Save())
 		{
-			$filename = "$abspath/files/".$this->value_id.".".$parts['extension'];
+			$filename = "$abspath/files/".$this->value_id.".$extension";
 			if (!copy($names[1], $filename))
 			{
 				return "Error while moving uploaded file from ".$names[1]." to $filename";
@@ -49,13 +49,14 @@ class mVarFile extends mVar
 	
 	function Remove()
 	{
+		delThumbnails($this->value_id);
 		@unlink($this->getValue());
 		return parent::Remove();
 	}
 	
 	function getEdit($formname, $var_prefix = "")
 	{
-		return compiletpl("datatypes/file", $this->getStandardArgs($formname, $var_prefix));
+		return compiletpl("datatypes/file/edit", $this->getStandardArgs($formname, $var_prefix));
 
 	}
 }

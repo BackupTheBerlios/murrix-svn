@@ -52,7 +52,7 @@ class mVarThumbnail extends mVar
 	
 	function getEdit($formname, $var_prefix = "")
 	{
-		return compiletpl("datatypes/thumbnail", $this->getStandardArgs($formname, $var_prefix));
+		return compiletpl("datatypes/thumbnail/edit", $this->getStandardArgs($formname, $var_prefix));
 	}
 }
 

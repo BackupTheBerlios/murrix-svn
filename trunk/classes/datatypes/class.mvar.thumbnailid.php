@@ -24,7 +24,7 @@ class mVarThumbnailid extends mVar
 	
 	function getEdit($formname, $var_prefix = "")
 	{
-		return compiletpl("datatypes/hidden", $this->getStandardArgs($formname, $var_prefix));
+		return compiletpl("datatypes/hidden/edit", $this->getStandardArgs($formname, $var_prefix));
 	}
 }
 

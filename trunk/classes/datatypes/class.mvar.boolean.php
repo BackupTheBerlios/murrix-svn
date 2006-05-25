@@ -13,7 +13,7 @@ class mVarBoolean extends mVar
 	
 	function getEdit($formname, $var_prefix = "")
 	{
-		return compiletpl("datatypes/boolean", $this->getStandardArgs($formname, $var_prefix));
+		return compiletpl("datatypes/boolean/edit", $this->getStandardArgs($formname, $var_prefix));
 	}
 }
 

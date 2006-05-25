@@ -40,48 +40,55 @@ function URLDecode(indata)
 }
 
 var last_command = "";
-var run_cmd = true;
+var default_command = "";
+var run_cmd = false;
+
+function getHash()
+{
+	return document.location.hash.substr(1, document.location.hash.length - 1);
+}
+
+function setHash(cmd)
+{
+	document.location.hash = "#"+cmd;
+}
 
 function Poll()
 {
-	command = window.location.href.split("#")[1];
+	command = getHash();
 	if (typeof command == 'undefined')
 		command = "default";
-
+	
 	if (last_command != command || run_cmd)
 	{
 		if (command == "default")
 		{
-			last_command = command;
-			eval(URLDecode(init()));
+			eval(URLDecode(default_command));
 		}
 		else
 		{
-			//command = window.location.href.split("#")[1];
-
-			last_command = command;
-			
-			if (isNaN(last_command) != true)
-				Exec('show','zone_main',Hash('node_id',last_command));
+			if (isNaN(command) != true)
+				Exec('show','zone_main',Hash('node_id',command));
 			else
-				eval(URLDecode(last_command));
-			
+				eval(URLDecode(command));
 		}
+		
+		last_command = command;
 		run_cmd = false;
 	}
 }
 
 function OnClickCmd(cmd)
 {
-	window.location.href = window.location.href.split("#")[0]+"#"+cmd;
+	setHash(cmd);
 	last_command = cmd;
 	eval(URLDecode(last_command));
 }
 
 function OnLoadHandler()
 {
-	init();
-	last_command = "default";
+	default_command = init();
+	last_command = "";
 	setInterval("Poll()", 600);
 }
 

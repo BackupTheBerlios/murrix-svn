@@ -39,13 +39,7 @@ class sShow extends Script
 		
 					// Special case for files
 					if (isset($args['rebuild_thumb']))
-					{
-						$thumbnail = new mThumbnail($object->getVarValue("thumbnail_id"));
-						$thumbnail->setRebuild();
-		
-						$thumbnail = new mThumbnail($object->getVarValue("imagecache_id"));
-						$thumbnail->setRebuild();
-					}
+						delThumbnails($args['rebuild_thumb']);
 				}
 			}
 		}

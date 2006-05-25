@@ -1,40 +1,27 @@
 <?
-$thumb_id = $child->getVarValue("thumbnail_id");
 $filename = $child->getVarValue("file");
+$value_id = $child->resolveVarName("file");
 $pathinfo = pathinfo($filename);
+$type = getfiletype($pathinfo['extension']);
 
-$showtumb = false;
+$date = "";
 
-if (!empty($thumb_id))
+if ($type == "image")
 {
-	$thumbnail = new mThumbnail($thumb_id);
-
-	if ($thumbnail->getRebuild())
-	{
-		$angle = $child->getMeta("angle");
-
-
-		if (empty($angle))
-			$angle = GetFileAngle($filename);
-
-		if ($angle < 0) $angle = 360+$angle;
-		else if ($angle > 360) $angle = 360-$angle;
-
-		$maxsize = 150;
-		if ($thumbnail->CreateFromFile($filename, $pathinfo['extension'], $maxsize, $maxsize, $angle))
-		{
-			if (!$thumbnail->Save())
-				echo "Failed to create thumbnail<br/>";
-			else
-				$showtumb = true;
-		}
-	}
-	else
-		$showtumb = true;
+	$maxsize = 150;
+	$angle = $child->getMeta("angle");
+	
+	if (empty($angle))
+		$angle = GetFileAngle($filename);
+		
+	$thumbnail = getThumbnail($value_id, $maxsize, $maxsize, $angle);
+	
+	if ($thumbnail !== false)
+		$data = $thumbnail->Show(true);
 }
 
-if ($showtumb)
-	$img = cmd($thumbnail->Show(true), "Exec('show','zone_main',Hash('node_id','".$child->getNodeId()."'))");
+if (!empty($data))
+	$img = cmd($data, "Exec('show','zone_main',Hash('node_id','".$child->getNodeId()."'))");
 else
 	$img = cmd(img(geticon(getfiletype($pathinfo['extension']), 128)), "Exec('show','zone_main',Hash('node_id','".$child->getNodeId()."'))");
 

@@ -848,6 +848,14 @@ class mObject
 		// Get the whole varlist
 		return $this->vars;
 	}
+	
+	function resolveVarName($varname)
+	{
+		if (isset($this->vars[$varname]))
+			return $this->vars[$varname]->value_id;
+			
+		return 0;
+	}
 
 	function resolveVarId($varid)
 	{

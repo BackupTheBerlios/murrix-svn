@@ -120,7 +120,7 @@ function table($list, $endstring = "% rows")
 
 function getfiletype($extension)
 {
-	switch ($extension)
+	switch (strtolower($extension))
 	{
 		case "pdf":
 		return "pdf";

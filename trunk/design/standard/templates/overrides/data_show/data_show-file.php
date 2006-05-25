@@ -1,45 +1,24 @@
-<?
-
-$filename = $object->getVarValue("file");
-$pathinfo = pathinfo($filename);
-$type = getfiletype($pathinfo['extension']);
-?>
-
 <table class="invisible" style="width: 100%; margin-bottom: 5px;" cellspacing="0">
 	<tr>
 	<?
+		$value_id = $object->resolveVarName("file");
+		$type = getfiletype(pathinfo($object->getVarValue("file"), PATHINFO_EXTENSION));
+		
 		$data = "";
 		if ($type == "image")
 		{
-			$result = read_exif_data_raw($filename, 0);
+			$maxsize = 640;
 			$angle = $object->getMeta("angle");
-
+			
 			if (empty($angle))
 				$angle = GetFileAngle($filename);
-
-			if ($angle < 0) $angle = 360+$angle;
-			else if ($angle > 360) $angle = 360-$angle;
-
-			$thumb_id = $object->getVarValue("imagecache_id");
-
-			if (!empty($thumb_id))
-			{
-				$thumbnail = new mThumbnail($thumb_id);
-
-				if ($thumbnail->getRebuild())
-				{
-					$maxsize = 640;
-					if ($thumbnail->CreateFromFile($filename, $pathinfo['extension'], $maxsize, 0, $angle))
-					{
-						if (!$thumbnail->Save())
-							$data .= "Failed to create thumbnail<br>";
-					}
-				}
-
+				
+			$thumbnail = getThumbnail($value_id, $maxsize, 0, $angle);
+			
+			if ($thumbnail !== false)
 				$data .= $thumbnail->Show(true);
-			}
-			//else
-			//	$data .= ucf(i18n("file format not supported for inline view"));
+			else
+				$data .= ucf(i18n("file format not supported for inline view"));
 		}
 		//else
 		//	$data .= ucf(i18n("file format not supported for inline view"));
@@ -94,10 +73,10 @@ $type = getfiletype($pathinfo['extension']);
 						<?=ucw(i18n("rotate"))?>
 					</div>
 					<div style="float: left; width: 50%;">
-						<?=cmd(img(imgpath("rotate_left.png")), "Exec('show','zone_main',Hash('node_id','".$object->getNodeId()."','meta','angle','value','$angle_left','rebuild_thumb','1'))")?>
+						<?=cmd(img(imgpath("rotate_left.png")), "Exec('show','zone_main',Hash('node_id','".$object->getNodeId()."','meta','angle','value','$angle_left','rebuild_thumb','$value_id'))")?>
 					</div>
 					<div style="float: right; width: 50%;">
-						<?=cmd(img(imgpath("rotate_right.png")), "Exec('show','zone_main',Hash('node_id','".$object->getNodeId()."','meta','angle','value','$angle_right','rebuild_thumb', '1'))")?>
+						<?=cmd(img(imgpath("rotate_right.png")), "Exec('show','zone_main',Hash('node_id','".$object->getNodeId()."','meta','angle','value','$angle_right','rebuild_thumb', '$value_id'))")?>
 					</div>
 					<div class="clear"></div>
 					<?

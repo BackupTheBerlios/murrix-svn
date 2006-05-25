@@ -36,7 +36,6 @@ include(gettpl("big_title"));
 	?>
 		<div class="adminpanel">
 		<?
-			
 			foreach ($_SESSION['murrix']['languages'] as $language)
 			{
 				$result = array_diff($_SESSION['murrix']['languages'], array($language));

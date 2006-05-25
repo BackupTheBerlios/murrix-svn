@@ -31,7 +31,7 @@ class mVarSelection extends mVar
 			$list[$parts[1]] = $parts[0];
 		}
 		
-		return compiletpl("datatypes/selection", array_merge($this->getStandardArgs($formname, $var_prefix), array("list"=>$list)));
+		return compiletpl("datatypes/selection/edit", array_merge($this->getStandardArgs($formname, $var_prefix), array("list"=>$list)));
 	}
 }
 

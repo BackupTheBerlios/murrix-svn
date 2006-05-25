@@ -73,10 +73,13 @@ $root = new mObject($root_id);
 
 			function init()
 			{
-				Exec('addressbar','zone_addressbar', '');
-				Exec('login','zone_login', '');
-
-				return "Exec('show','zone_main', '<?=$_SESSION['murrix']['default_path']?>')";
+				<?
+					$_SESSION['murrix']['System']->SetZone("addressbar", "zone_addressbar");
+					$_SESSION['murrix']['System']->SetZone("login", "zone_login");
+					$_SESSION['murrix']['System']->SetZone("show", "zone_main");
+					$_SESSION['murrix']['path'] = $_SESSION['murrix']['default_path'];
+				?>
+				return "Exec('show','zone_main','<?=$_SESSION['murrix']['default_path']?>')";
 			}
 		// -->
 		</script>
@@ -86,7 +89,14 @@ $root = new mObject($root_id);
 		
 		<div id="header">
 			<div id="header_wrapper">
-				<div style="margin: 5px;" id="zone_login"></div>
+				<div style="margin: 5px;" id="zone_login">
+				<?
+					if (IsAnonymous())
+						include(gettpl("scripts/login/login"));
+					else
+						include(gettpl("scripts/login/logout"));
+				?>
+				</div>
 				<div style="float: left; width: 310px;">
 					<?=img(imgpath("murrix_logo.png"))?>
 				</div>
@@ -108,7 +118,12 @@ $root = new mObject($root_id);
 		</div>
 
 		<div id="bar">
-			<div id="zone_addressbar"></div>
+			<div id="zone_addressbar">
+			<?
+				$path = $_SESSION['murrix']['path'];
+				include(gettpl("scripts/addressbar"));
+			?>
+			</div>
 
 			<form id="smallSearch" action="javascript:void(null);" onsubmit="Post('search', 'zone_main', 'smallSearch')">
 				<div id="search">
@@ -123,13 +138,21 @@ $root = new mObject($root_id);
 		<div id="main">
 
 			<div id="content">
-				<div id="zone_main"></div>
+				<div id="zone_main">
+				<?
+					$object = new mObject(getNode($_SESSION['murrix']['path']));
+					include(gettpl("scripts/show", $object));
+				?>
+				</div>
 			</div>
 	
 			<div id="footer">
 				<? include(gettpl("footer")) ?>
 			</div>
 		</div>
+		
+		<div id="Exec('show','zone_main',Hash('node_id','4'));"></div>
+		<div id="Exec('show','zone_main',Hash('node_id','15'));"></div>
 		
 		<div id="loadbox">
 			<div class="background"></div>

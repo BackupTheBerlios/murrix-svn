@@ -22,7 +22,7 @@ class mVarHidden extends mVar
 			break;
 		}
 		
-		return compiletpl("datatypes/hidden", $this->getStandardArgs($formname, $var_prefix));
+		return compiletpl("datatypes/hidden/edit", $this->getStandardArgs($formname, $var_prefix));
 	}
 }
 

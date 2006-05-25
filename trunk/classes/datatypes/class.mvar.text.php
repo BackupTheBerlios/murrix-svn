@@ -13,7 +13,7 @@ class mVarText extends mVar
 	
 	function getEdit($formname, $var_prefix = "")
 	{
-		return compiletpl("datatypes/text", $this->getStandardArgs($formname, $var_prefix));
+		return compiletpl("datatypes/text/edit", $this->getStandardArgs($formname, $var_prefix));
 	}
 }
 

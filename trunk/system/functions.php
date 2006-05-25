@@ -367,7 +367,7 @@ function SplitFilepath($filepath)
 	$result['fullpath'] = $filepath;
 	$result['filename'] = $m[0];
 	$result['name'] = $m[1];
-	$result['extension'] = $result['ext'] = strtolower($m[2]);
+	$result['extension'] = $result['ext'] = $m[2];
 	
 	return $result;
 }

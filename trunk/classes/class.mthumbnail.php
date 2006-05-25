@@ -17,10 +17,57 @@ class mThumbnail
 
 		global $db_prefix;
 
-		$query = "SELECT * FROM `".$db_prefix."thumbnails` WHERE id = '$inid'";
+		$query = "SELECT * FROM `".$db_prefix."thumbnails` WHERE `id`='$inid'";
 
 		$result = mysql_query($query) or die("mThumbnail: " . mysql_errno() . " " . mysql_error());
 		$this->SetByArray(mysql_fetch_array($result, MYSQL_ASSOC));
+	}
+	
+	function setBySize($value_id, $maxwidth, $maxheight, $angle = 1000)
+	{
+		global $db_prefix, $abspath;
+
+		$query = "SELECT * FROM `".$db_prefix."thumbnails` WHERE `value_id`='$value_id' AND (`width`='$maxwidth' OR `height`='$maxheight') LIMIT 1";
+
+		$result = mysql_query($query) or die("setBySize: " . mysql_errno() . " " . mysql_error());
+		
+		if (mysql_num_rows($result) > 0)
+		{
+			$this->SetByArray(mysql_fetch_array($result, MYSQL_ASSOC));
+			return true;
+		}
+		else
+		{
+			$query = "SELECT `data` FROM `".$db_prefix."values` WHERE `id`='$value_id'";
+
+			$result = mysql_query($query) or die("setBySize: " . mysql_errno() . " " . mysql_error());
+			$data = mysql_fetch_array($result, MYSQL_ASSOC);
+			
+			$filename = $data['data'];
+			
+			$extension = pathinfo($filename, PATHINFO_EXTENSION);
+		
+			$filename = "$abspath/files/$value_id.$extension";
+			$type = getfiletype($extension);
+		
+			$data = "";
+			if ($type == "image")
+			{
+				if ($angle == 1000)
+					$angle = GetFileAngle($filename);
+	
+				if ($this->CreateFromFile($filename, $extension, $maxwidth, $maxheight, $angle))
+				{
+					$this->value_id = $value_id;
+					if (!$this->Save())
+						return false;
+						
+					return true;
+				}
+			}
+		}
+		
+		return false;
 	}
 	
 	function SetByArray($array)
@@ -142,12 +189,7 @@ class mThumbnail
 			$h = imagesy($image) * ($maxsizex / imagesx($image));
 			$w = $maxsizex;
 		}
-/*
-		global $abspath;
-		$temp = imagecreate($w, $h);
-		imageJPEG($temp, "$abspath/temp.jpg");
-		$output = @imagecreatefromjpeg("$abspath/temp.jpg");
-*/
+
 		$output = imagecreatetruecolor($w, $h);
 
 		//imageCopyResampleBicubic($output, $image, 0, 0, 0, 0, imagesx($output), imagesy($output), imagesx($image), imagesy($image));
@@ -172,10 +214,10 @@ class mThumbnail
 	function Save()
 	{
 		global $db_prefix, $abspath;
-		
+
 		if ($this->id == 0) // Add
 		{
-			$query = "INSERT INTO `".$db_prefix."thumbnails` (created, width, height, value_id, type) VALUES('$this->created', '$this->width', '$this->height', '$this->value_id', '$this->type')";
+			$query = "INSERT INTO `".$db_prefix."thumbnails` (created, width, height, value_id, type) VALUES('$this->created','$this->width','$this->height','$this->value_id','$this->type')";
 
 			$result = mysql_query($query);
 			if (!$result)
@@ -255,4 +297,30 @@ class mThumbnail
 		return true;
 	}
 }
+
+function getThumbnail($value_id, $maxwidth, $maxheight, $angle = 1000)
+{
+	$thumbnail = new mThumbnail();
+	
+	if (!$thumbnail->setBySize($value_id, $maxwidth, $maxheight, $angle))
+		return false;
+		
+	return $thumbnail;
+}
+
+function delThumbnails($value_id)
+{
+	global $db_prefix;
+
+	$query = "SELECT `id` FROM `".$db_prefix."thumbnails` WHERE `value_id`='$value_id'";
+
+	$result = mysql_query($query) or die("delThumbnails: " . mysql_errno() . " " . mysql_error());
+	
+	while ($data = mysql_fetch_array($result, MYSQL_ASSOC))
+	{
+		$thumbnail = new mThumbnail($data['id']);
+		$thumbnail->Remove();
+	}
+}
+
 ?>

@@ -13,7 +13,7 @@ class mVarArray extends mVar
 	
 	function getEdit($formname, $var_prefix = "")
 	{
-		return compiletpl("datatypes/array", $this->getStandardArgs($formname, $var_prefix));
+		return compiletpl("datatypes/array/edit", $this->getStandardArgs($formname, $var_prefix));
 	}
 }
 
