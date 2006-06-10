@@ -16,7 +16,10 @@
 			$thumbnail = getThumbnail($value_id, $maxsize, 0, $angle);
 			
 			if ($thumbnail !== false)
+			{
+				$_SESSION['murrix']['rightcache']['thumbnail'][] = $thumbnail->id;
 				$data .= $thumbnail->Show(true);
+			}
 			else
 				$data .= ucf(i18n("file format not supported for inline view"));
 		}
