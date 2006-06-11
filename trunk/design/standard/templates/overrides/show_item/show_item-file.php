@@ -8,7 +8,7 @@ $data = "";
 
 if ($type == "image")
 {
-	$maxsize = 150;
+	$maxsize = getSetting("THUMBSIZE", 150);
 	$angle = $child->getMeta("angle");
 	
 	if (empty($angle))

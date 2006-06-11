@@ -63,11 +63,11 @@ $root = new mObject($root_id);
 			{
 				if (state)
 				{
-					document.getElementById('loadbox').style.display = "block";
+				//	document.getElementById('loadbox').style.display = "block";
 				}
 				else
 				{
-					document.getElementById('loadbox').style.display = "none";
+				//	document.getElementById('loadbox').style.display = "none";
 				}
 			}
 
@@ -86,7 +86,6 @@ $root = new mObject($root_id);
 	</head>
 
 	<body onload="OnLoadHandler();">
-		
 		<div id="header">
 			<div id="header_wrapper">
 				<div style="margin: 5px;" id="zone_login">

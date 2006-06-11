@@ -909,6 +909,16 @@ class mObject
 	var $creator;
 	function setCreator($creator) { $this->creator = $creator; }
 	function getCreator() { return $this->creator; }
+	function getCreatorObj()
+	{
+		if ($this->creator == 0)
+			return false;
+		else
+		{
+			$creatorbj = new mObject($this->creator);
+			return $creator;
+		}
+	}
 
 	var $language;
 	function setLanguage($language) { $this->language = $language; }

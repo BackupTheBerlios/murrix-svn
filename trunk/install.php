@@ -12,11 +12,14 @@ require_once("system/system.php");
 require_once("system/fetch.php");
 require_once("system/paths.php");
 require_once("system/objectcache.php");
+require_once("system/settings.php");
+require_once("system/user.php");
 
 require_once("classes/class.script.php");
 require_once("classes/class.mobject.php");
 require_once("classes/class.mvar.php");
 require_once("classes/class.mthumbnail.php");
+require_once("classes/class.mtable.php");
 
 $folders = GetSubfolders("$abspath/scripts");
 foreach ($folders as $folder)

@@ -19,6 +19,9 @@ require_once("system/fetch.php");
 require_once("system/paths.php");
 require_once("system/filecache.php");
 require_once("system/objectcache.php");
+require_once("system/settings.php");
+require_once("system/command.php");
+require_once("system/user.php");
 
 
 /* ========================= */
@@ -45,7 +48,9 @@ require_once("classes/class.mobject.php");
 require_once("classes/class.mthumbnail.php");
 require_once("classes/class.mrss.php");
 require_once("classes/class.script.php");
+require_once("classes/class.cscript.php");
 require_once("classes/class.calendar.php");
+require_once("classes/class.mtable.php");
 
 
 /* ========================= */
@@ -79,6 +84,13 @@ foreach ($folders as $folder)
 
 
 /* ========================= */
+// Load console scriptfiles
+/* ========================= */
+$files = GetSubfiles("$abspath/cscripts");
+foreach ($files as $file)
+	require_once("$abspath/cscripts/$file");
+
+/* ========================= */
 // Start session
 /* ========================= */
 require_once("session.php");
@@ -89,6 +101,7 @@ require_once("session.php");
 /* ========================= */
 $site = GetInput("site", $default_theme);
 
+$_SESSION['murrix']['theme'] = $site;
 $_SESSION['murrix']['site'] = $site;
 $_SESSION['murrix']['default_path'] = $site_config['sites'][$site]['start'];
 

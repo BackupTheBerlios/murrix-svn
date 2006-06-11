@@ -7,7 +7,7 @@
 		$data = "";
 		if ($type == "image")
 		{
-			$maxsize = 640;
+			$maxsize = getSetting("IMGSIZE", 640);
 			$angle = $object->getMeta("angle");
 			
 			if (empty($angle))

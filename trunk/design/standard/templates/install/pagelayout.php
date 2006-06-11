@@ -31,9 +31,10 @@
 					document.getElementById('loadbox').style.display = "none";
 				}
 			}
-
+			
 			function init()
 			{
+				<? $_SESSION['murrix']['System']->SetZone("install", "zone_main") ?>
 				return "Exec('install','zone_main', '')";
 			}
 		// -->
@@ -66,7 +67,9 @@
 		
 		<center>
 			<div style="border: 1px solid #5B5B7A; width: 800px;">
-				<div style="align: center; vertical-align: middle;" id="zone_main"></div>
+				<div style="align: center; vertical-align: middle;" id="zone_main">
+					<? include(gettpl("install/stage1")) ?>
+				</div>
 			</div>
 		</center>
 	</body>

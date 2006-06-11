@@ -89,14 +89,14 @@ class sInstall extends Script
 					$this->db_exists = true;
 					$this->db_log .= "Database ".$this->db_name." exists.<br/>";
 
-					$tables = array("classes", "links", "meta", "nodes", "objects", "pathcache", "thumbnails", "values", "vars");
-					foreach ($tables as $table)
+					$files = GetSubfiles("$abspath/scripts/install/db");
+					foreach ($files as $table)
 					{
-						if (mysql_query("SELECT * FROM `".$this->db_prefix."$table"))
+						$table = basename($table, ".sql");
+						if (mysql_query("SELECT * FROM `".$this->db_prefix."$table`"))
 						{
 							$this->db_log .= "Table ".$this->db_prefix."$table exists.<br/>";
 							$this->db_tables = true;
-							global $db_prefix;
 							$db_prefix = $this->db_prefix;
 						}
 					}
@@ -138,8 +138,7 @@ class sInstall extends Script
 			$files = GetSubfiles("$abspath/scripts/install/db");
 			foreach ($files as $file)
 			{
-				$file_parts = explode(".", $file);
-				$query = "DROP TABLE IF EXISTS `".$this->db_prefix.$file_parts[0]."`";
+				$query = "DROP TABLE IF EXISTS `".$this->db_prefix.basename($file, ".sql")."`";
 				mysql_query($query);
 			
 				$query = str_replace("%PREFIX%", $this->db_prefix, implode("", file("$abspath/scripts/install/db/$file")));
@@ -158,87 +157,109 @@ class sInstall extends Script
 
 			if ($this->done)
 			{
-				$query = "INSERT INTO `".$this->db_prefix."classes` (`name`, `default_icon`, `id`) VALUES ('folder', 'folder', 1),";
-				$query .= "('user', 'user', 2),";
-				$query .= "('group', 'group', 3),";
-				$query .= "('article', 'article', 4),";
-				$query .= "('link', 'global', 5),";
-				$query .= "('news', 'news', 6),";
-				$query .= "('event', 'date', 7),";
-				$query .= "('comment', 'comment', 8),";
-				$query .= "('forum_topic', 'comment', 9),";
-				$query .= "('forum_post', 'comment', 10),";
-				$query .= "('forum_thread', 'comment', 11),";
-				$query .= "('file_folder', 'file_folder', 12),";
-				$query .= "('file', 'file', 13),";
-				$query .= "('internal_link', 'intern', 14),";
-				$query .= "('contact', 'user', 15),";
-				$query .= "('right', 'right', 16);";
+				$db_prefix = $this->db_prefix;
+				$table = new mTable("classes");
 				
-				if (mysql_query($query))
-					$this->db_log .= "Inserted classes into ".$this->db_prefix."classes.<br/>";
-				else
+				$list = array();
+				$list[] = array("name" => "folder",		"default_icon" => "folder");
+				$list[] = array("name" => "file_folder",	"default_icon" => "file_folder");
+				$list[] = array("name" => "user",		"default_icon" => "user");
+				$list[] = array("name" => "group",		"default_icon" => "group");
+				$list[] = array("name" => "right",		"default_icon" => "right");
+				$list[] = array("name" => "file",		"default_icon" => "file");
+				$list[] = array("name" => "comment",		"default_icon" => "comment");
+				$list[] = array("name" => "article",		"default_icon" => "article");
+				$list[] = array("name" => "link",		"default_icon" => "global");
+				$list[] = array("name" => "event",		"default_icon" => "date");
+				
+				$list[] = array("name" => "news",		"default_icon" => "news");
+				$list[] = array("name" => "contact",		"default_icon" => "user");
+				
+				$failed = false;
+				foreach ($list as $item)
 				{
-					$this->db_log .= "Failed to insert vars classes ".$this->db_prefix."classes.<br/>";
-					$this->done = false;
+					if ($table->insert($item) === false)
+					{
+						$this->db_log .= "Failed to insert ".$item['name']." into ".$this->db_prefix."classes.<br/>";
+						$failed = true;
+						$this->done = false;
+					}
 				}
+				
+				if (!$failed)
+					$this->db_log .= "Inserted data into ".$this->db_prefix."classes.<br/>";
 			}
 
 			if ($this->done)
 			{
-				$query = "INSERT INTO `".$this->db_prefix."vars` (`id`, `class_name`, `name`, `priority`, `type`, `extra`) VALUES (1, 'folder', 'description', 10, 'text', '100x20'),";
-				$query .= "(2, 'user', 'username', 10, 'textline', ''),";
-				$query .= "(3, 'user', 'password', 20, 'password', ''),";
-				$query .= "(4, 'group', 'description', 10, 'text', '100x20'),";
-				$query .= "(5, 'article', 'text', 10, 'markuptext', ''),";
-				$query .= "(6, 'link', 'address', 10, 'textline', ''),";
-				$query .= "(7, 'news', 'date', 10, 'date', ''),";
-				$query .= "(8, 'news', 'text', 20, 'markuptext', ''),";
-				$query .= "(9, 'event', 'date', 10, 'date', ''),";
-				$query .= "(10, 'event', 'reoccuring_yearly', 20, 'boolean', ''),";
-				$query .= "(11, 'event', 'reoccuring_monthly', 30, 'boolean', ''),";
-				$query .= "(12, 'event', 'calendar_hide', 40, 'boolean', ''),";
-				$query .= "(13, 'event', 'description', 10, 'text', '100x20'),";
-				$query .= "(14, 'comment', 'message', 10, 'text', '100x10'),";
-				$query .= "(15, 'forum_topic', 'description', 10, 'text', '100x10'),";
-				$query .= "(16, 'forum_post', 'message', 0, 'text', '100x10'),";
-				$query .= "(17, 'forum_thread', 'message', 10, 'text', '100x10'),";
-				$query .= "(18, 'file_folder', 'description', 10, 'text', '100x20'),";
-				$query .= "(19, 'file', 'file', 10, 'file', ''),";
-				$query .= "(20, 'file', 'description', 20, 'text', '100x10'),";
-				$query .= "(21, 'file', 'thumbnail_id', 30, 'thumbnailid', ''),";
-				$query .= "(22, 'file', 'imagecache_id', 40, 'thumbnailid', ''),";
-				$query .= "(23, 'internal_link', 'command', 10, 'textline', ''),";
-				$query .= "(24, 'contact', 'thumbnail', 10, 'thumbnail', ''),";
-				$query .= "(25, 'contact', 'fullname', 20, 'textline', ''),";
-				$query .= "(26, 'contact', 'nicknames', 30, 'array', ''),";
-				$query .= "(27, 'contact', 'emails', 50, 'array', ''),";
-				$query .= "(28, 'contact', 'thumbnail', 60, 'thumbnail', ''),";
-				$query .= "(29, 'contact', 'mobilephone', 70, 'textline', ''),";
-				$query .= "(30, 'contact', 'homephone', 80, 'textline', ''),";
-				$query .= "(31, 'contact', 'workphone', 90, 'textline', ''),";
-				$query .= "(32, 'contact', 'address', 100, 'text', ''),";
-				$query .= "(33, 'contact', 'icq', 110, 'textline', ''),";
-				$query .= "(34, 'contact', 'msn', 120, 'textline', ''),";
-				$query .= "(35, 'contact', 'skype', 130, 'textline', ''),";
-				$query .= "(36, 'contact', 'allergies', 140, 'array', ''),";
-				$query .= "(37, 'contact', 'other', 150, 'text', ''),";
-				$query .= "(38, 'right', 'node', 10, 'node', ''),";
-				$query .= "(39, 'right', 'setting', 20, 'selection', 'allow=allow,deny=deny,allowown=allow if author'),";
-				$query .= "(40, 'right', 'type', 30, 'selection', 'all=all,read=read,edit=edit,delete=delete,list_sub=list children,create_sub=create children'),";
-				$query .= "(41, 'right', 'inheritable', 40, 'boolean', ''),";
-				$query .= "(42, 'right', 'classes', 50, 'array', ''),";
-				$query .= "(43, 'right', 'description', 60, 'text', '');";
+				$db_prefix = $this->db_prefix;
+				$table = new mTable("vars");
 				
-				if (mysql_query($query))
-					$this->db_log .= "Inserted vars into ".$this->db_prefix."vars.<br/>";
-				else
-				{
-					$this->db_log .= "Failed to insert vars into ".$this->db_prefix."vars.<br/>";
-					$this->done = false;
-				}
-			}
+				$list = array();
+$list[] = array("class_name" => "folder",	"name" => "description","priority" => "10",	"type" => "text");
 
+$list[] = array("class_name" => "user",		"name" => "username",	"priority" => "10",	"type" => "textline",	"required" => true);
+$list[] = array("class_name" => "user",		"name" => "password",	"priority" => "20",	"type" => "password");
+
+$list[] = array("class_name" => "group",	"name" => "description","priority" => "10",	"type" => "text");
+
+$list[] = array("class_name" => "article",	"name" => "text",	"priority" => "10",	"type" => "xhtml",	"required" => true);
+
+$list[] = array("class_name" => "link",		"name" => "address",	"priority" => "10",	"type" => "url",	"required" => true);
+
+$list[] = array("class_name" => "comment",	"name" => "message",	"priority" => "10",	"type" => "text",	"required" => true);
+
+$list[] = array("class_name" => "file_folder",	"name" => "description","priority" => "10",	"type" => "text");
+
+$list[] = array("class_name" => "file",		"name" => "file",	"priority" => "10",	"type" => "file",	"required" => true);
+$list[] = array("class_name" => "file",		"name" => "description","priority" => "20",	"type" => "text");
+
+$list[] = array("class_name" => "right",	"name" => "node",	"priority" => "10",	"type" => "node",	"required" => true);
+$list[] = array("class_name" => "right",	"name" => "setting",	"priority" => "20",	"type" => "selection",	"extra" => "allow=allow,deny=deny,allowown=allow if author",	"required" => true);
+$list[] = array("class_name" => "right",	"name" => "type",	"priority" => "30",	"type" => "selection",	"extra" => "all=all,read=read,edit=edit,delete=delete,list_sub=list children,create_sub=create children",	"required" => true);
+$list[] = array("class_name" => "right",	"name" => "inheritable","priority" => "40",	"type" => "boolean",	"required" => true);
+$list[] = array("class_name" => "right",	"name" => "classes",	"priority" => "50",	"type" => "array");
+$list[] = array("class_name" => "right",	"name" => "description","priority" => "60",	"type" => "text");
+
+$list[] = array("class_name" => "event", "name" => "date",		"priority" => "10",	"type" => "date",	"required" => true);
+$list[] = array("class_name" => "event", "name" => "reoccuring_yearly",	"priority" => "20",	"type" => "boolean",	"required" => true);
+$list[] = array("class_name" => "event", "name" => "reoccuring_monthly","priority" => "30",	"type" => "boolean",	"required" => true);
+$list[] = array("class_name" => "event", "name" => "description",	"priority" => "40",	"type" => "xhtml");
+$list[] = array("class_name" => "event", "name" => "calendar_hide",	"priority" => "50",	"type" => "boolean",	"required" => true);
+
+$list[] = array("class_name" => "news",		"name" => "date",	"priority" => "10",	"type" => "date");
+$list[] = array("class_name" => "news",		"name" => "last_date",	"priority" => "20",	"type" => "date");
+$list[] = array("class_name" => "news",		"name" => "text",	"priority" => "30",	"type" => "text",	"required" => true);
+
+$list[] = array("class_name" => "contact",	"name" => "thumbnail",	"priority" => "10",	"type" => "thumbnail");
+$list[] = array("class_name" => "contact",	"name" => "fullname",	"priority" => "20",	"type" => "textline");
+$list[] = array("class_name" => "contact",	"name" => "nicknames",	"priority" => "30",	"type" => "array");
+$list[] = array("class_name" => "contact",	"name" => "array",	"priority" => "40",	"type" => "array");
+$list[] = array("class_name" => "contact",	"name" => "mobilephones","priority" => "50",	"type" => "array");
+$list[] = array("class_name" => "contact",	"name" => "homephones",	"priority" => "60",	"type" => "array");
+$list[] = array("class_name" => "contact",	"name" => "workphones",	"priority" => "70",	"type" => "array");
+$list[] = array("class_name" => "contact",	"name" => "address",	"priority" => "80",	"type" => "text");
+$list[] = array("class_name" => "contact",	"name" => "icq",	"priority" => "90",	"type" => "textline");
+$list[] = array("class_name" => "contact",	"name" => "msn",	"priority" => "100",	"type" => "textline");
+$list[] = array("class_name" => "contact",	"name" => "skype",	"priority" => "110",	"type" => "textline");
+$list[] = array("class_name" => "contact",	"name" => "allergies",	"priority" => "120",	"type" => "array");
+$list[] = array("class_name" => "contact",	"name" => "other",	"priority" => "130",	"type" => "text");
+
+				$failed = false;
+				foreach ($list as $item)
+				{
+					if ($table->insert($item) === false)
+					{
+						$this->db_log .= "Failed to insert ".$item['class_name'].".".$item['name']." into ".$this->db_prefix."vars.<br/>";
+						$failed = true;
+						$this->done = false;
+					}
+				}
+				
+				if (!$failed)
+					$this->db_log .= "Inserted data into ".$this->db_prefix."vars.<br/>";
+			}
+			
 			// Insert initial objects
 
 			/*
