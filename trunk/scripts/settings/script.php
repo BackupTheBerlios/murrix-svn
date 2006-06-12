@@ -29,7 +29,7 @@ class sSettings extends Script
 			{
 				$object = new mObject($node_id);
 		
-				if ($object->hasRight("edit"))
+				if ($object->hasRight("write"))
 				{
 					$object->setMeta("children_show_num_per_page", $args['children_show_num_per_page']);
 					
@@ -66,7 +66,7 @@ class sSettings extends Script
 		if ($node_id > 0)
 		{
 			$object = new mObject($node_id);
-			if ($object->HasRight("edit"))
+			if ($object->HasRight("write"))
 				include(gettpl("scripts/settings", $object));
 			else
 			{

@@ -31,38 +31,29 @@ class sLogin extends Script
 			if ($args['action'] == "login")
 			{
 				$u = trim($args['username']);
-				$p = md5(trim($args['password']));
+				$p = trim($args['password']);
 		
-				$user = fetch("FETCH node WHERE property:class_name='user' AND var:username='$u' AND var:password='$p' NODESORTBY property:version");
-		
-				if (count($user) == 0)
-				{
+				if (!login($u, $p))
 					$response->addAlert(utf8e(ucf(i18n("login failed")).". ".ucf(i18n("please try again"))."."));
-				}
 				else
 				{
-					$_SESSION['murrix']['user'] = $user[0];
-
 					unset($_SESSION['murrix']['querycache']['rights']);
 					unset($_SESSION['murrix']['querycache']['rights_list']);
 					
-					//$system->TriggerEventIntern($response, "login");
-					$response->addScript("window.location.reload()");
+					$system->TriggerEventIntern($response, "login", array());
+					//$response->addScript("window.location.reload()");
 				}
 				return;
 			}
 			else if ($args['action'] == "logout")
 			{
-				global $anonymous_id;
-	
-				unset($_SESSION['murrix']['user']);
-				$_SESSION['murrix']['user'] = new mObject($anonymous_id);
+				logout();
 
 				unset($_SESSION['murrix']['querycache']['rights']);
 				unset($_SESSION['murrix']['querycache']['rights_list']);
 	
-				//$system->TriggerEventIntern($response, "logout");
-				$response->addScript("window.location.reload()");
+				$system->TriggerEventIntern($response, "logout", array());
+				//$response->addScript("window.location.reload()");
 				return;
 			}
 		}
@@ -82,7 +73,7 @@ class sLogin extends Script
 		}
 		else
 		{
-			if (IsAnonymous())
+			if (isAnonymous())
 				include(gettpl("scripts/login/login"));
 			else
 				include(gettpl("scripts/login/logout"));

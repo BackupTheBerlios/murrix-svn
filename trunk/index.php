@@ -20,7 +20,6 @@ require_once("system/paths.php");
 require_once("system/filecache.php");
 require_once("system/objectcache.php");
 require_once("system/settings.php");
-require_once("system/command.php");
 require_once("system/user.php");
 
 
@@ -51,19 +50,14 @@ require_once("classes/class.script.php");
 require_once("classes/class.cscript.php");
 require_once("classes/class.calendar.php");
 require_once("classes/class.mtable.php");
+require_once("classes/class.muser.php");
+require_once("classes/class.mgroup.php");
 
 
 /* ========================= */
 // Load 3d-party files
 /* ========================= */
 require_once("3dparty/exifer/exif.php");
-
-/* ========================= */
-// Load themefiles
-/* ========================= */
-$folders = GetSubfolders("$abspath/design");
-foreach ($folders as $folder)
-	require_once("$abspath/design/$folder/theme.php");
 
 
 /* ========================= */
@@ -96,39 +90,7 @@ foreach ($files as $file)
 require_once("session.php");
 
 
-/* ========================= */
-// Set up system vars!
-/* ========================= */
-$site = GetInput("site", $default_theme);
 
-$_SESSION['murrix']['theme'] = $site;
-$_SESSION['murrix']['site'] = $site;
-$_SESSION['murrix']['default_path'] = $site_config['sites'][$site]['start'];
-
-if (empty($_SESSION['murrix']['path']) || $_SESSION['murrix']['path'] == "/")
-	$_SESSION['murrix']['path'] = $_SESSION['murrix']['default_path'];
-
-
-/* ========================= */
-// Load translations
-/* ========================= */
-$files = GetSubfiles("$abspath/design/$site/translations");
-foreach ($files as $file)
-{
-	$parts = SplitFilepath($file);
-	include_once("$abspath/design/$site/translations/$file");
-	$_SESSION['murrix']['translations'][$parts['name']] = $translation;
-}
-
-/* ========================= */
-// Load theme includes
-/* ========================= */
-$files = GetSubfiles("$abspath/design/$site/include");
-foreach ($files as $file)
-{
-	$parts = SplitFilepath($file);
-	include_once("$abspath/design/$site/include/$file");
-}
 $prof->stopTimer( "include" );
 $prof->startTimer( "database" );
 /* ========================= */
@@ -138,6 +100,49 @@ if (($str = db_connect()) !== true)
 	echo "Failed to connect to database!";
 $prof->stopTimer( "database" );
 
+
+/* ========================= */
+// Set initial data
+/* ========================= */
+$root_id = getSetting("ROOT_NODE_ID", 1, "any");
+$anonymous_id = getSetting("ANONYMOUS_ID", 1, "any");
+
+$theme = GetInput("theme", getSetting("DEFAULT_THEME", "standard", "any"));
+
+$_SESSION['murrix']['theme'] = $theme;
+$_SESSION['murrix']['site'] = $theme;
+$_SESSION['murrix']['default_path'] = getSetting("DEFAULT_PATH", "/Root/Public");
+
+if (empty($_SESSION['murrix']['path']) || $_SESSION['murrix']['path'] == "/")
+	$_SESSION['murrix']['path'] = $_SESSION['murrix']['default_path'];
+
+
+/* ========================= */
+// Load theme includes
+/* ========================= */
+$files = GetSubfiles("$abspath/design/$theme/include");
+foreach ($files as $file)
+{
+	$parts = SplitFilepath($file);
+	include_once("$abspath/design/$theme/include/$file");
+}
+
+
+/* ========================= */
+// Load translations
+/* ========================= */
+$files = GetSubfiles("$abspath/design/$theme/translations");
+$_SESSION['murrix']['languages'] = array();
+foreach ($files as $file)
+{
+	include_once("$abspath/design/$theme/translations/$file");
+	$_SESSION['murrix']['languages'][] = basename($file, ".php");
+}
+
+if (!isset($_SESSION['murrix']['language']))
+	$_SESSION['murrix']['language'] = getSetting("DEFAULT_LANG", "eng");
+
+
 /* ========================= */
 // Clear cache
 /* ========================= */
@@ -145,23 +150,10 @@ $_SESSION['murrix']['callcache'] = array();
 
 
 /* ========================= */
-// Define available languages
-/* ========================= */
-$_SESSION['murrix']['languages'] = $site_config['sites'][$site]['languages'];
-
-
-/* ========================= */
-// Set default language
-/* ========================= */
-if (!isset($_SESSION['murrix']['language']))
-	$_SESSION['murrix']['language'] = $_SESSION['murrix']['languages'][0];
-
-
-/* ========================= */
 // Load anonymous user
 /* ========================= */
 if (!isset($_SESSION['murrix']['user']))
-	$_SESSION['murrix']['user'] = new mObject($anonymous_id);
+	$_SESSION['murrix']['user'] = new mUser($anonymous_id);
 
 $prof->startTimer( "system" );
 /* ========================= */

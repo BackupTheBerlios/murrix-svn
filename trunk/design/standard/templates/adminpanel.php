@@ -20,19 +20,16 @@ if ($object->hasRight("read"))
 		$adminpanel .= cmd(img(geticon("link"))."&nbsp;".ucf(i18n("links")), "Exec('links','zone_main',Hash('node_id','".$object->getNodeId()."'))", ($current_view == "links" ? "tab_selected" : "tab"));
 }
 
-if ($object->hasRight("edit"))
+if ($object->hasRight("write"))
 	$adminpanel .= cmd(img(geticon("settings"))."&nbsp;".ucf(i18n("tools")), "Exec('tools','zone_main',Hash('node_id','".$object->getNodeId()."'))", ($current_view == "tools" ? "tab_selected" : "tab"));
 
-if ($object->hasRight("delete"))
+if ($object->hasRight("write"))
 	$adminpanel .= cmd(img(geticon("delete"))."&nbsp;".ucf(i18n("delete")), "Exec('delete','zone_main',Hash('node_id','".$object->getNodeId()."'))", ($current_view == "delete" ? "tab_selected" : "tab"));
 
-if ($object->hasRight("create_subnodes"))
+if ($object->hasRight("create"))
 {
 	$adminpanel .= cmd(img(geticon("file"))."&nbsp;".ucf(i18n("new")), "Exec('new','zone_main',Hash('node_id','".$object->getNodeId()."'))", ($current_view == "new" ? "tab_selected" : "tab"));
-}
-
-if ($object->hasRight("create_subnodes", array("file", "file_folder")))
-{
+	
 	$adminpanel .= cmd(img(geticon("attach"))."&nbsp;".ucf(i18n("upload")), "Exec('upload','zone_main',Hash('node_id','".$object->getNodeId()."'))", ($current_view == "upload" ? "tab_selected" : "tab"));
 }
 

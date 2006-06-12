@@ -12,14 +12,6 @@ $list[] = array(ucf(i18n("name")));
 
 foreach ($children as $child)
 {
-	if ($child->getCreator() == 0)
-		$creator = ucf(i18n("unknown"));
-	else
-	{
-		$creator_obj = new mObject($child->getCreator());
-		$creator = cmd($creator_obj->getName(), "Exec('show','zone_main',Hash('node_id','".$creator_obj->getNodeId()."'))");
-	}
-
 	$id = "node_id_".$child->getNodeId();
 
 	$checkbox = "<input class=\"input\" type=\"checkbox\" id=\"$id\" name=\"node_ids[]\" value=\"".$child->getNodeId()."\"/>";

@@ -33,7 +33,7 @@ class sUpload extends Script
 		if ($node_id > 0)
 		{
 			$object = new mObject($node_id);
-			if ($object->HasRight("create_subnodes"))
+			if ($object->hasRight("create"))
 				include(gettpl("scripts/upload", $object));
 			else
 			{

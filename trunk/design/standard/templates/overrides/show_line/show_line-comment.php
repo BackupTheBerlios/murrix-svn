@@ -22,15 +22,12 @@ if (!isset($com_count))
 		{
 			$admin .= "&nbsp;";
 			$admin .= cmd(img(geticon("edit")), "Exec('edit','zone_main',Hash('node_id','".$child->getNodeId()."'))");
-		}
 
-		if ($child->hasRight("delete"))
-		{
 			$admin .= "&nbsp;";
 			$admin .= cmd(img(geticon("delete")), "Exec('delete','zone_main',Hash('node_id','".$child->getNodeId()."'))");
 		}
 
-		if ($child->hasRight("create_subnodes", array("comment")))
+		if ($child->hasRight("create"))
 		{
 			$admin .= "&nbsp;";
 			$admin .= cmd(img(geticon("comment"))."&nbsp;".ucf(i18n("answer")), "Exec('new','zone_main',Hash('node_id','".$child->getNodeId()."','class_name','comment'))");
@@ -55,19 +52,12 @@ if (!isset($com_count))
 				{
 					echo "- ".ucf(i18n("posted by"))." ";
 					
-					if ($child->creator == 0)
+					$user = $child->getUser();
+					if ($user->id == 0)
 						echo ucf(i18n("unknown"));
 					else
-					{
+						echo $user->name;
 					
-						$creator = new mObject($child->getCreator());
-	
-						if (!$creator->hasRight("read"))
-							echo $creator->getName();
-						else
-							echo cmd($creator->getName(), "Exec('show','zone_main',Hash('node_id','".$creator->getNodeId()."'))");
-					}
-	
 					echo " ".i18n("on")." ".date("Y-m-d H:i", strtotime($child->getCreated()));
 				}
 				?>

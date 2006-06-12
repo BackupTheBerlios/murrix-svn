@@ -1,21 +1,32 @@
 <?
 
+function login($username, $password)
+{
+	$user = new mUser();
+	$password = md5($password);
+	$users = $user->get("`username`='$username' AND `password`='$password'");
+	
+	if (count($users) == 0)
+		return false;
+		
+	$_SESSION['murrix']['user'] = new mUser($users[0]['id']);
+	return true;
+}
+
+function logout()
+{
+	global $anonymous_id;
+	$_SESSION['murrix']['user'] = new mUser($anonymous_id);
+	return true;
+}
+
 function changePassword($user_node_id, $password)
 {
-	$user = new mObject($user_node_id);
-	if (($user_node_id == $_SESSION['murrix']['user']->getNodeId() || $user->HasRight("edit")) && !isAnonymous())
+	$user = new mUser($user_node_id);
+	if (($user_node_id == $_SESSION['murrix']['user']->id || $user->hasRight("write")) && !isAnonymous())
 	{
-		$user->setVarValue("password", md5($password));
-	
-		if (!$user->save())
-		{
-			$message = "Operation unsuccessfull.\n";
-			$message .= "Error output:\n";
-			$message .= $user->getLastError();
-			return $message;
-		}
-		
-		return true;
+		$user->password = md5($password);
+		return $user->save();
 	}
 	
 	return ucf(i18n("not enough rights to change password for \"".$user->getName()."\""));
@@ -33,7 +44,7 @@ function createUser($name, $username, $password)
 	if (empty($username))
 		return ucf(i18n("a username must be specified"));
 
-	$user = fetch("FETCH object WHERE property:class_name='user' AND var:username='$username'");
+	$user = fetch("FETCH node WHERE property:class_name='user' AND var:username='$username' NODESORTBY property:version");
 	if (count($user) > 0)
 		return ucf(i18n("a user with that username already exists"));
 		
@@ -74,8 +85,8 @@ function createGroup($name, $description, $language = "eng")
 
 	if (empty($name))
 		return ucf(i18n("a name must be specified"));
-
-	$group = fetch("FETCH object WHERE property:class_name='group' AND var:name='$name'");
+	
+	$group = fetch("FETCH node WHERE property:class_name='group' AND var:name='$name' NODESORTBY property:version");
 	if (count($group) > 0)
 		return ucf(i18n("a group with that name already exists"));
 

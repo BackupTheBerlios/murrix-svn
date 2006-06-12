@@ -35,9 +35,10 @@ class sConsole extends Script
 				else if ($cmd == "list")
 				{
 					$response->addAssign("cmdline", "value", "");
+					$response->addAppend("console_log", "innerHTML", utf8e("<div class=\"cmd\">] $cmd</div>"));
 					$list = "";
 					foreach ($this->scripts as $key => $script)
-						$list .= "$key\n";
+						$list .= "$key ";
 						
 					$response->addAppend("console_log", "innerHTML", utf8e("<div class=\"out\">".nl2br($list)."</div>"));
 				}

@@ -6,7 +6,7 @@ $left = img(geticon("link"))."&nbsp;".ucf(i18n("links"));
 $right = $center = "";
 include(gettpl("big_title"));
 
-if ($object->hasRight("edit"))
+if ($object->hasRight("write"))
 {
 ?>
 	<div class="main">
@@ -47,7 +47,7 @@ foreach ($links as $link)
 		$remote = cmd(img(geticon($remote_obj->getIcon()))."&nbsp;".$remote_obj->getName(), "Exec('show','zone_main',Hash('node_id','".$remote_obj->getNodeId()."'))");
 	}
 
-	if ($object->hasRight("delete"))
+	if ($object->hasRight("write"))
 		$delete = cmd(img(geticon("delete"))."&nbsp;".ucf(i18n("delete")), "Exec('links','zone_main',Hash('action','deletelink','node_id', '".$object->getNodeId()."','remote_id','".$link['remote_id']."','type','".$link['type']."','direction','".($link['direction'] == "top" ? "bottom" : "top")."'))");
 	else
 		$delete = "";

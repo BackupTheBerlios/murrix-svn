@@ -20,6 +20,8 @@ require_once("classes/class.mobject.php");
 require_once("classes/class.mvar.php");
 require_once("classes/class.mthumbnail.php");
 require_once("classes/class.mtable.php");
+require_once("classes/class.muser.php");
+require_once("classes/class.mgroup.php");
 
 $folders = GetSubfolders("$abspath/scripts");
 foreach ($folders as $folder)

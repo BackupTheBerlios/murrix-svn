@@ -27,7 +27,7 @@ class sLinks extends Script
 			{
 				$object = new mObject($args['node_id']);
 	
-				if ($object->hasRight("edit"))
+				if ($object->hasRight("write"))
 					$object->unlinkWithNode($args['remote_id'], $args['type'], $args['direction']);
 				else
 					$response->addAlert(ucf(i18n("you don't have enough rights to delete this link")));
@@ -43,7 +43,7 @@ class sLinks extends Script
 			{
 				$object = new mObject($args['node_id']);
 	
-				if ($object->hasRight("edit"))
+				if ($object->hasRight("write"))
 				{
 					if (isset($args['remote_node_id']))
 						$remote_node_id = $args['remote_node_id'];
@@ -54,7 +54,7 @@ class sLinks extends Script
 					{
 						$remote = new mObject($remote_node_id);
 
-						if ($remote->hasRight("edit"))
+						if ($remote->hasRight("write"))
 						{
 							if (!$object->linkWithNode($remote_node_id, $args['type']))
 							{

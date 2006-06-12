@@ -13,14 +13,11 @@
 		echo date("Y-m-d H:i", strtotime($child->getCreated()));
 		$admin = "";
 
-		if ($child->hasRight("edit"))
+		if ($child->hasRight("write"))
 		{
 			$admin .= "&nbsp;";
 			$admin .= cmd(img(geticon("edit")), "Exec('edit','zone_main',Hash('node_id','".$child->getNodeId()."'))");
-		}
 
-		if ($child->hasRight("delete"))
-		{
 			$admin .= "&nbsp;";
 			$admin .= cmd(img(geticon("delete")), "Exec('delete','zone_main',Hash('node_id','".$child->getNodeId()."'))");
 		}

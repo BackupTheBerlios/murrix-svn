@@ -23,106 +23,88 @@ class sNew extends Script
 	{
 		$parent_id = $this->getNodeId($args);
 		$parent = new mObject($parent_id);
-			
-		$class_name = "";
-		if (!empty($args['class_name']))
+		
+		if ($parent->hasRight("create"))
 		{
-			if ($parent->HasRight("create_subnodes", array($args['class_name'])))
+			$class_name = "";
+			if (!empty($args['class_name']))
 				$class_name = $args['class_name'];
-		}
-
-		if (empty($class_name))
-		{
-			$default_class_name = $parent->getMeta("default_class_name", "folder");
-			if ($parent->HasRight("create_subnodes", array($default_class_name)))
-				$class_name = $default_class_name;
-		}
-
-		if (empty($class_name))
-		{
-			$classes = getClassList();
-
-			foreach ($classes as $class)
-			{
-				if ($parent->HasRight("create_subnodes", array($class)))
-				{
-					$class_name = $class;
-					break;
-				}
-			}
-		}
-
-		if (isset($args['action']) && $args['action'] == "save")
-		{
-			if (!empty($class_name))
-			{
-				if (!empty($args['language']))
-					$languages = array($args['language']);
-				else
-					$languages = $_SESSION['murrix']['languages'];
-			
-				foreach ($languages as $language)
-				{
-					if (empty($args[$language.'_name']))
-					{
-						$response->addAlert(ucf(i18n($language))." ".i18n("version").": ".ucf(i18n("please enter a name")));
-						return;
-					}
 	
-					if (!(strpos($args[$language.'_name'], "\\") === false) || !(strpos($args[$language.'_name'], "/") === false) || !(strpos($args[$language.'_name'], "+") === false))
-					{
-						$response->addAlert(ucf(i18n($language))." ".i18n("version").": ".ucf(i18n("you can not use '\\', '/' or '+' in the name")));
-						return;
-					}
-				}
-
-				$object = new mObject();
-				$object->setClassName($class_name);
-				$object->loadVars();
-
-				$saved = false;
-				foreach ($languages as $language)
+			if (empty($class_name))
+				$class_name = $parent->getMeta("default_class_name", "folder");
+	
+			if (isset($args['action']) && $args['action'] == "save")
+			{
+				if (!empty($class_name))
 				{
-					$object->name = trim($args[$language.'_name']);
-					$object->icon = trim($args[$language.'_icon']);
-					$object->language = $language;
-
-					$vars = $object->getVars();
-
-					foreach ($vars as $var)
+					if (!empty($args['language']))
+						$languages = array($args['language']);
+					else
+						$languages = $_SESSION['murrix']['languages'];
+				
+					foreach ($languages as $language)
 					{
-						$key = $language."_v".$var->id;
-						$value = (isset($args[$key]) ? $args[$key] : "");
-						
-						if (empty($value) && $var->getRequired())
+						if (empty($args[$language.'_name']))
 						{
-							$response->addAlert(utf8e(ucf(i18n($language))." ".i18n("version").": ".ucf(str_replace("_", " ", i18n($var->getName(true))))." ".i18n("is a required field")));
+							$response->addAlert(ucf(i18n($language))." ".i18n("version").": ".ucf(i18n("please enter a name")));
 							return;
 						}
-						
-						$object->setVarValue($var->name, $value);
+		
+						if (!(strpos($args[$language.'_name'], "\\") === false) || !(strpos($args[$language.'_name'], "/") === false) || !(strpos($args[$language.'_name'], "+") === false))
+						{
+							$response->addAlert(ucf(i18n($language))." ".i18n("version").": ".ucf(i18n("you can not use '\\', '/' or '+' in the name")));
+							return;
+						}
 					}
-
-					if ($object->save())
-						$saved = true;
-					else
+	
+					$object = new mObject();
+					$object->setClassName($class_name);
+					$object->loadVars();
+	
+					$saved = false;
+					foreach ($languages as $language)
 					{
-						$message = "Operation unsuccessfull.<br/>";
-						$message .= "Error output:<br/>";
-						$message .= $object->getLastError();
-						$response->addAlert($message);
-						return;
+						$object->name = trim($args[$language.'_name']);
+						$object->icon = trim($args[$language.'_icon']);
+						$object->language = $language;
+	
+						$vars = $object->getVars();
+	
+						foreach ($vars as $var)
+						{
+							$key = $language."_v".$var->id;
+							$value = (isset($args[$key]) ? $args[$key] : "");
+							
+							if (empty($value) && $var->getRequired())
+							{
+								$response->addAlert(utf8e(ucf(i18n($language))." ".i18n("version").": ".ucf(str_replace("_", " ", i18n($var->getName(true))))." ".i18n("is a required field")));
+								return;
+							}
+							
+							$object->setVarValue($var->name, $value);
+						}
+	
+						if ($object->save())
+							$saved = true;
+						else
+						{
+							$message = "Operation unsuccessfull.<br/>";
+							$message .= "Error output:<br/>";
+							$message .= $object->getLastError();
+							$response->addAlert($message);
+							return;
+						}
 					}
+	
+					if ($saved)
+					{
+						clearNodeFileCache($parent->getNodeId());
+						$object->linkWithNode($parent->getNodeId());
+						$response->addScript("OnClickCmd('Exec(\'show\',\'$this->zone\',Hash(\'node_id\',\'".$object->getNodeId()."\'))');");
+					}
+	
+					return;
 				}
-
-				if ($saved)
-				{
-					clearNodeFileCache($parent->getNodeId());
-					$object->linkWithNode($parent->getNodeId());
-					$response->addScript("OnClickCmd('Exec(\'show\',\'$this->zone\',Hash(\'node_id\',\'".$object->getNodeId()."\'))');");
-				}
-
-				return;
 			}
 		}
 		
@@ -143,7 +125,7 @@ class sNew extends Script
 
 		$javascript = "";
 
-		if ($object->HasRight("create_subnodes", array($newobject->getClassName())))
+		if ($object->HasRight("create"))
 			include(gettpl("scripts/new", $newobject));
 		else
 		{

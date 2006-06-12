@@ -2,7 +2,7 @@
 
 $left = img(geticon("comment"))."&nbsp;".ucf(i18n("comments"));
 $center = $right = "";
-if ($object->hasRight("create_subnodes", array("comment")))
+if ($object->hasRight("create"))
 {
 	$right = cmd(img(geticon("comment"))."&nbsp;".ucf(i18n("post")), "Exec('new','zone_main',Hash('node_id','".$object->getNodeId()."','class_name','comment'))");
 }

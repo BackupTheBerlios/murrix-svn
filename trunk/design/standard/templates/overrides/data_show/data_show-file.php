@@ -55,7 +55,7 @@
 				<a target="top" href="?file=<?=$object->getNodeId()?>"><?=img(geticon(getfiletype($pathinfo['extension'])))." ".ucf(i18n("open orginal"))?></a>
 				
 				<?
-				if ($type == "image" && $object->hasRight("edit"))
+				if ($type == "image" && $object->hasRight("write"))
 				{
 					$angle_left = ($angle+90);
 					if ($angle_left < 0) $angle_left = 360+$angle_left;

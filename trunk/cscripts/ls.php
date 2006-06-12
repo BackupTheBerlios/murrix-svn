@@ -16,24 +16,25 @@ class csLs extends CScript
 			$stdout .= "<td>Rev.</td>";
 			$stdout .= "<td>Lang.</td>";
 			$stdout .= "<td>Class</td>";
-			$stdout .= "<td>Author</td>";
+			$stdout .= "<td>Rights</td>";
+			$stdout .= "<td>User</td>";
+			$stdout .= "<td>Group</td>";
 			$stdout .= "<td>Time</td>";
 			$stdout .= "<td>Name</td>";
 			$stdout .= "</tr>";
 			foreach ($children as $child)
 			{
-				$creator = $child->getCreatorObj();
-				if ($creator === false)
-					$creator = "System";
-				else
-					$creator = $creator->getName();
+				$user = $child->getUser();
+				$group = $child->getGroup();
 				
 				$stdout .= "<tr>";
 				$stdout .= "<td>".$child->getNodeId()."</td>";
 				$stdout .= "<td>".$child->getVersion()."</td>";
 				$stdout .= "<td>".$child->getLanguage()."</td>";
 				$stdout .= "<td>".$child->getClassName()."</td>";
-				$stdout .= "<td>$creator</td>";
+				$stdout .= "<td>".$child->getRights()."</td>";
+				$stdout .= "<td>".$user->username."</td>";
+				$stdout .= "<td>".$group->name."</td>";
 				$stdout .= "<td>".$child->getCreated()."</td>";
 				$stdout .= "<td>".cmd(img(geticon($child->getIcon(), 16))."&nbsp;".$child->getName(), "Exec('show','zone_main',Hash('node_id','".$child->getNodeId()."'))")."</td>";
 				$stdout .= "</tr>";

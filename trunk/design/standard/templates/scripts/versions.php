@@ -17,33 +17,37 @@ foreach ($_SESSION['murrix']['languages'] as $language)
 	include(gettpl("medium_title"));
 
 	$versionlist = array();
-	$versionlist[] = array(ucf(i18n("version")), ucf(i18n("created")), ucf(i18n("class")), ucf(i18n("name")), ucf(i18n("author")), "&nbsp;");
+	$versionlist[] = array(ucf(i18n("version")), ucf(i18n("created")), ucf(i18n("class")), ucf(i18n("name")), ucf(i18n("user")), ucf(i18n("group")), ucf(i18n("rights")), "&nbsp;");
 	foreach ($versions as $version)
 	{
-		if ($version->getCreator() == 0)
-			$creator = ucf(i18n("unknown"));
+		$user = $version->getUser();
+		if ($user->id == 0)
+			$user = ucf(i18n("unknown"));
 		else
-		{
-			$creator_obj = new mObject($version->getCreator());
-			$creator = cmd($creator_obj->getName(), "Exec('show','zone_main',Hash('node_id','".$creator_obj->getNodeId()."'))");
-		}
+			$user = $user->name;
+			
+		$group = $version->getGroup();
+		if ($group->id == 0)
+			$group = ucf(i18n("unknown"));
+		else
+			$group = $group->name;
 
-		if ($object->hasRight("edit"))
+		$edit = "";
+		if ($object->hasRight("write"))
+		{
 			$edit = cmd(img(geticon("edit"))."&nbsp;".ucf(i18n("new version from here")), "Exec('edit','zone_main',Hash('action','editversion','object_id','".$version->getId()."'))");
-		else
-			$edit = "";
 
-		if ($object->hasRight("delete"))
-		{
+			$edit .= " ";
+
 			if ($num_versions == 1)
-				$delete = cmd(img(geticon("delete"))."&nbsp;".ucf(i18n("delete")), "Exec('delete','zone_main',Hash('node_id','".$version->getNodeId()."'))");
+				$edit .= cmd(img(geticon("delete"))."&nbsp;".ucf(i18n("delete")), "Exec('delete','zone_main',Hash('node_id','".$version->getNodeId()."'))");
 			else
-				$delete = cmd(img(geticon("delete"))."&nbsp;".ucf(i18n("delete")), "Exec('versions','zone_main',Hash('action','deleteversion','object_id','".$version->getId()."'))");
+				$edit .= cmd(img(geticon("delete"))."&nbsp;".ucf(i18n("delete")), "Exec('versions','zone_main',Hash('action','deleteversion','object_id','".$version->getId()."'))");
 		}
 		else
 			$delete = "";
 		
-		$versionlist[] = array($version->getVersion(), $version->getCreated(),  $version->getClassName(), $version->getName(), $creator, "$delete $edit");
+		$versionlist[] = array($version->getVersion(), $version->getCreated(),  $version->getClassName(), $version->getName(), $user, $group, $version->getRights(), $edit);
 	}
 	
 	table($versionlist, "% ".i18n("rows"));

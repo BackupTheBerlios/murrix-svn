@@ -3,14 +3,11 @@
 	<br/>
 	
 	<?
-	if ($_SESSION['murrix']['user']->hasRight("read"))
-		echo cmd(img(geticon("user"))." ".$_SESSION['murrix']['user']->getName(), "Exec('show','zone_main',Hash('node_id','".$_SESSION['murrix']['user']->getNodeId()."'))");
-	else
-		echo img(geticon("user"))." ".$_SESSION['murrix']['user']->getName();
+		echo img(geticon("user"))." ".$_SESSION['murrix']['user']->name;
 	?>
 		
 	<br/>
 	<input id="sLoginSubmit" class="submit" type="submit" value="<?=ucf(i18n("logout"))?>"/>
 </form>
 <br/>
-<?=cmd(img(geticon("password"))." ".ucf(i18n("change password")), "Exec('admin','zone_main',Hash('show','password_change'))")?>
+<?//=cmd(img(geticon("password"))." ".ucf(i18n("change password")), "Exec('admin','zone_main',Hash('show','password_change'))")?>

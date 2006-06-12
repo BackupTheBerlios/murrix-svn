@@ -1,1 +1,0 @@
-<?=cmd("<nobr>".img(geticon($child->getIcon()))."&nbsp;".$child->getName()."</nobr>", $child->getVarValue("command"), array("title" => $child->getName()))?>

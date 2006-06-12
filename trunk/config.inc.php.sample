@@ -1,8 +1,5 @@
 <?
 
-$anonymous_id = 5;
-$root_id = 1;
-
 $mysql_address = "localhost";
 $mysql_user = "dbuser";
 $mysql_pass = "dbpass";
@@ -10,5 +7,4 @@ $mysql_db = "murrix";
 
 $db_prefix = "murrix_";
 
-$default_theme = "standard";
 ?>

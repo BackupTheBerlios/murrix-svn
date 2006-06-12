@@ -26,7 +26,7 @@ class sVersions extends Script
 			$object = new mObject();
 			$object->loadByObjectId($args['object_id']);
 
-			if ($object->hasRight("edit"))
+			if ($object->hasRight("write"))
 				$object->deleteCurrentVersion();
 
 			$args['node_id'] = $object->getNodeId();

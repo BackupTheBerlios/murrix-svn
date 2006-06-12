@@ -25,7 +25,7 @@ class sTools extends Script
 		{
 			$object = new mObject($args['parent_id']);
 	
-			if ($object->hasRight("edit"))
+			if ($object->hasRight("write"))
 			{
 				if (count($args['node_ids']) == 0)
 				{
@@ -42,7 +42,7 @@ class sTools extends Script
 				{
 					$remote = new mObject($remote_node_id);
 	
-					if ($remote->hasRight("edit"))
+					if ($remote->hasRight("write"))
 					{
 						switch ($args['action'])
 						{

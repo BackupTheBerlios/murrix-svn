@@ -43,52 +43,55 @@ class sEdit extends Script
 				{
 					$object = new mObject($node_id);
 	
-					$object->name = trim($args['name']);
-					$object->icon = trim($args['icon']);
-					
-					$newlang = ($object->getLanguage() != trim($args['language']));
-					$object->language = trim($args['language']);
-	
-					$vars = $object->getVars();
-	
-					foreach ($vars as $var)
+					if ($object->HasRight("write"))
 					{
-						$key = "v".$var->id;
+						$object->name = trim($args['name']);
+						$object->icon = trim($args['icon']);
 						
-						$value = (isset($args[$key]) ? $args[$key] : (isset($args[$var->id]) ? $args[$var->id] : ""));
-						
-						if (empty($value) && $var->getRequired())
+						$newlang = ($object->getLanguage() != trim($args['language']));
+						$object->language = trim($args['language']);
+		
+						$vars = $object->getVars();
+		
+						foreach ($vars as $var)
 						{
-							$response->addAlert(utf8e(ucf(str_replace("_", " ", i18n($var->getName(true))))." ".i18n("is a required field")));
-							return;
+							$key = "v".$var->id;
+							
+							$value = (isset($args[$key]) ? $args[$key] : (isset($args[$var->id]) ? $args[$var->id] : ""));
+							
+							if (empty($value) && $var->getRequired())
+							{
+								$response->addAlert(utf8e(ucf(str_replace("_", " ", i18n($var->getName(true))))." ".i18n("is a required field")));
+								return;
+							}
+							
+							$object->setVarValue($var->name, $value);
 						}
 						
-						$object->setVarValue($var->name, $value);
-					}
-					
-					if ($args['newversion'] == "on" || $newlang)
-						$ret = $object->save();
-					else
-						$ret = $object->saveCurrent();
-						
-					if ($ret)
-					{
-						$response->addScript("OnClickCmd('Exec(\'show\',\'$this->zone\',Hash(\'node_id\',\'$node_id\'))');");
-						clearNodeFileCache($object->getNodeId());
-						
-						$links = $object->getLinks();
-						foreach ($links as $link)
+						if ($args['newversion'] == "on" || $newlang)
+							$ret = $object->save();
+						else
+							$ret = $object->saveCurrent();
+							
+						if ($ret)
 						{
-							if ($link['type'] == "sub")
-								clearNodeFileCache($link['remote_id']);
+							$response->addScript("OnClickCmd('Exec(\'show\',\'$this->zone\',Hash(\'node_id\',\'$node_id\'))');");
+							clearNodeFileCache($object->getNodeId());
+							
+							$links = $object->getLinks();
+							foreach ($links as $link)
+							{
+								if ($link['type'] == "sub")
+									clearNodeFileCache($link['remote_id']);
+							}
 						}
-					}
-					else
-					{
-						$message = "Operation unsuccessfull.<br/>";
-						$message .= "Error output:<br/>";
-						$message .= $object->getLastError();
-						$response->addAlert($message);
+						else
+						{
+							$message = "Operation unsuccessfull.<br/>";
+							$message .= "Error output:<br/>";
+							$message .= $object->getLastError();
+							$response->addAlert($message);
+						}
 					}
 				}
 			}
@@ -114,7 +117,7 @@ class sEdit extends Script
 		
 		if ($object->getNodeId() > 0)
 		{
-			if ($object->HasRight("edit"))
+			if ($object->HasRight("write"))
 				include(gettpl("scripts/edit", $object));
 			else
 			{

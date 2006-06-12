@@ -37,18 +37,19 @@ class csPasswd extends CScript
 		}
 		
 		if (empty($stdin))
-			$this->user_node_id = $_SESSION['murrix']['user']->getNodeId();
+			$this->user_node_id = $_SESSION['murrix']['user']->id;
 		else
 		{
-			$user = fetch("FETCH node WHERE property:class_name='user' AND var:username='$stdin' NODESORTBY property:version");
+			$user = new mUser();
+			;
 			
-			if (count($user) == 0)
+			if (!$user->setByUsername($stdin))
 			{
 				$stderr = ucf(i18n("No such user"));
 				return true;
 			}
 			
-			$this->user_node_id = $user[0]->getNodeId();
+			$this->user_node_id = $user->id;
 		}
 		
 		$stdout = ucf(i18n("enter new password:"));

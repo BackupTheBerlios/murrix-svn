@@ -4,7 +4,7 @@
 	</div>
 	<?
 	$menu_id = getNode("/Root/Public/Menu");
-	$custom_menu_id = getNode("/Root/Home/".$_SESSION['murrix']['user']->getName()."/Menu");
+	$custom_menu_id = getNode("/Root/Home/".$_SESSION['murrix']['user']->username."/Menu");
 
 	if ($menu_id > 0 || $custom_menu_id > 0)
 	{

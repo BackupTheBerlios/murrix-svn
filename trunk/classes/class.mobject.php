@@ -73,7 +73,9 @@ class mObject
 		$this->id 		= $data['id'];
 		$this->name 		= $data['name'];
 		$this->node_id 		= $data['node_id'];
-		$this->creator 		= $data['creator'];
+		$this->user_id 		= $data['user_id'];
+		$this->group_id 	= $data['group_id'];
+		$this->rights 		= $data['rights'];
 		$this->created 		= $data['created'];
 		$this->class_name 	= $data['class_name'];
 		$this->version 		= $data['version'];
@@ -253,9 +255,9 @@ class mObject
 
 		$datetime = date("Y-m-d H:i:s");
 
-		$user_id = (isset($_SESSION['murrix']['user']) ? $_SESSION['murrix']['user']->getNodeId() : 0);
+		$user_id = (isset($_SESSION['murrix']['user']) ? $_SESSION['murrix']['user']->id : 0);
 		
-		$query = "INSERT INTO `".$db_prefix."objects` (name, node_id, creator, created, class_name, version, language, icon) VALUES('$this->name', '$this->node_id', '$user_id', '$datetime', '$this->class_name', '$this->version', '$this->language', '$this->icon')";
+		$query = "INSERT INTO `".$db_prefix."objects` (name, node_id, user_id, group_id, rights, created, class_name, version, language, icon) VALUES('$this->name', '$this->node_id', '$user_id', '$this->group_id', '$this->rights', '$datetime', '$this->class_name', '$this->version', '$this->language', '$this->icon')";
 
 		if (!($result = mysql_query($query)))
 		{
@@ -626,6 +628,8 @@ class mObject
 
 	function getValidPaths($type, $classes = null)
 	{
+		return $this->getPath(true);
+	
 		if ($type == "read_subnodes")
 			$type = "list_sub";
 		else if ($type == "create_subnodes")
@@ -806,10 +810,78 @@ class mObject
 		return $valid_paths;
 	}
 */
-	function hasRight($action, $classes = null)
+	function hasRight($action)
 	{
-		$valid_paths = $this->getValidPaths($action, $classes);
-		return (count($valid_paths) > 0);
+		$rights = $this->getRights();
+		$group = $this->getGroup();
+		$user_id = $this->getUserId();
+		
+		switch ($action)
+		{
+			case "read":
+				if ($rights{6} == "r") // All
+					return true;
+					
+				if ($rights{3} == "r") // Group
+				{
+					$user_groups = $_SESSION['murrix']['user']->getGroups();
+					foreach ($user_groups as $ug)
+					{
+						if ($ug->name == $group->name)
+							return true;
+					}
+				}
+				
+				if ($rights{0} == "r" && $_SESSION['murrix']['user']->id == $user_id) // User
+					return true;
+					
+				break;
+			
+			case "delete":
+			case "edit":
+			case "write":
+				if ($rights{7} == "w") // All
+					return true;
+					
+				if ($rights{4} == "w") // Group
+				{
+					$user_groups = $_SESSION['murrix']['user']->getGroups();
+					foreach ($user_groups as $ug)
+					{
+						if ($ug == $group->name)
+							return true;
+					}
+				}
+				
+				if ($rights{1} == "w" && $_SESSION['murrix']['user']->id == $user_id) // User
+					return true;
+					
+				break;
+					
+			case "create":
+				if ($rights{8} == "c") // All
+					return true;
+					
+				if ($rights{5} == "c") // Group
+				{
+					$user_groups = $_SESSION['murrix']['user']->getGroups();
+					foreach ($user_groups as $ug)
+					{
+						if ($ug == $group->name)
+							return true;
+					}
+				}
+				
+				if ($rights{2} == "c" && $_SESSION['murrix']['user']->id == $user_id) // User
+					return true;
+					
+				break;
+		}
+		
+		return false;
+	
+		//$valid_paths = $this->getValidPaths($action, $classes);
+		//return (count($valid_paths) > 0);
 	}
 	
 	var $vars;
@@ -906,19 +978,19 @@ class mObject
 		return $this->icon;
 	}
 
-	var $creator;
-	function setCreator($creator) { $this->creator = $creator; }
-	function getCreator() { return $this->creator; }
-	function getCreatorObj()
-	{
-		if ($this->creator == 0)
-			return false;
-		else
-		{
-			$creatorbj = new mObject($this->creator);
-			return $creator;
-		}
-	}
+	var $user_id;
+	function setUserId($user_id) { $this->user_id = $user_id; }
+	function getUserId() { return $this->user_id; }
+	function getUser() { return new mUser($this->user_id); }
+	
+	var $group_id;
+	function setGroupId($group_id) { $this->group_id = $group_id; }
+	function getGroupId() { return $this->group_id; }
+	function getGroup() { return new mGroup($this->group_id); }
+	
+	var $rights;
+	function setRights($rights) { $this->rights = $rights; }
+	function getRights() { return $this->rights; }
 
 	var $language;
 	function setLanguage($language) { $this->language = $language; }
@@ -937,7 +1009,9 @@ class mObject
 		$array['icon'] = $this->icon;
 		$array['class_icon'] = $this->class_icon;
 		$array['real_icon'] = $this->getIcon();
-		$array['creator'] = $this->creator;
+		$array['user_id'] = $this->user_id;
+		$array['group_id'] = $this->group_id;
+		$array['rights'] = $this->rights;
 		$array['language'] = $this->language;
 		
 		// Links

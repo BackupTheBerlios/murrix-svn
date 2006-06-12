@@ -19,7 +19,7 @@ $root = new mObject($root_id);
 		?>
 		
 		<link rel="shortcut icon" href="<?=imgpath("favicon.png")?>" type="image/x-icon"/>
-		<title><?=$root->getVarValue("description")?></title>
+		<title><?=getSetting("TITLE", "Welcome to MURRiX")?></title>
 		
 		<?
 		$js = getjs();

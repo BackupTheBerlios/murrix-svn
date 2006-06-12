@@ -24,6 +24,7 @@ class sShow extends Script
 		if (!is_array($args))
 			$args = array();
 	
+		// This should be checked and possibly moved to the settingsscript
 		if (isset($args['meta']) || isset($args['rebuild_thumb']))
 		{
 			$node_id = $this->getNodeId($args);
@@ -32,7 +33,7 @@ class sShow extends Script
 			{
 				$object = new mObject($node_id);
 		
-				if ($object->hasRight("edit"))
+				if ($object->hasRight("write"))
 				{
 					if (isset($args['meta']))
 						$object->setMeta($args['meta'], $args['value']);

@@ -29,11 +29,9 @@ class Script
 			$args['node_id'] = getNode($args['path']);
 		else
 		{
-			if (empty($_SESSION['murrix']['path']) || $_SESSION['murrix']['path'] = "/")
-			{
-				global $site_config;
-				$_SESSION['murrix']['path'] = $site_config['sites'][$_SESSION['murrix']['site']]['start'];
-			}
+			//if (empty($_SESSION['murrix']['path']) || $_SESSION['murrix']['path'] = "/")
+			//	$_SESSION['murrix']['path'] = $_SESSION['murrix']['default_path'];
+			
 			$args['node_id'] = getNode($_SESSION['murrix']['path']);
 		}
 

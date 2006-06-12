@@ -32,26 +32,53 @@ $root = new mObject($root_id);
 
 		$_SESSION['murrix']['System']->PrintHeader();
 		?>
+		<script language="javascript" type="text/javascript" src="3dparty/tiny_mce/tiny_mce_src.js"></script>
+		
 		<script type="text/javascript">
 		<!--
+			tinyMCE.init({	theme	: "advanced",
+					mode	: "none",
+					language : "<?=($_SESSION['murrix']['language'] == "swe" ? "sv" : "en")?>",
+					plugins : "iespell,table,insertdatetime,preview,searchreplace,print,contextmenu,paste,directionality",
+					theme_advanced_buttons1_add_before : "newdocument,separator",
+					theme_advanced_buttons1_add : "fontselect,fontsizeselect",
+					theme_advanced_buttons2_add : "separator,insertdate,inserttime,preview,separator,forecolor,backcolor,iespell",
+					theme_advanced_buttons2_add_before: "cut,copy,paste,pastetext,pasteword,separator,search,replace,separator",
+					theme_advanced_buttons3_add_before : "tablecontrols,separator",
+					theme_advanced_buttons3_add : "print,separator,ltr,rtl,separator",
+					theme_advanced_toolbar_location : "top",
+					theme_advanced_toolbar_align : "left",
+					content_css : "/example_data/example_full.css",
+					plugin_insertdate_dateFormat : "%Y-%m-%d",
+					plugin_insertdate_timeFormat : "%H:%M:%S",
+					extended_valid_elements : "hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]",
+					theme_advanced_resize_horizontal : false,
+					theme_advanced_resizing : true,
+					apply_source_formatting : true,
+					spellchecker_languages : "+English=en,Swedish=sv,Danish=da,Dutch=nl,Finnish=fi,French=fr,German=de,Italian=it,Polish=pl,Portuguese=pt,Spanish=es"
+					});
+					
 			function loading(state, zone)
 			{
 				if (state)
 				{
-					document.getElementById('loadbox').style.display = "block";
+				//	document.getElementById('loadbox').style.display = "block";
 				}
 				else
 				{
-					document.getElementById('loadbox').style.display = "none";
+				//	document.getElementById('loadbox').style.display = "none";
 				}
 			}
 
 			function init()
 			{
-				Exec('addressbar','zone_addressbar', '');
-				Exec('login','zone_login', '');
-
-				return "Exec('show','zone_main', '<?=$_SESSION['murrix']['default_path']?>')";
+				<?
+					$_SESSION['murrix']['System']->SetZone("addressbar", "zone_addressbar");
+					$_SESSION['murrix']['System']->SetZone("login", "zone_login");
+					$_SESSION['murrix']['System']->SetZone("show", "zone_main");
+					$_SESSION['murrix']['path'] = $_SESSION['murrix']['default_path'];
+				?>
+				return "Exec('show','zone_main','<?=$_SESSION['murrix']['default_path']?>')";
 			}
 		// -->
 		</script>
@@ -61,7 +88,14 @@ $root = new mObject($root_id);
 		
 		<div id="header">
 			<div id="header_wrapper">
-				<div id="zone_login"></div>
+				<div id="zone_login">
+				<?
+					if (IsAnonymous())
+						include(gettpl("scripts/login/login"));
+					else
+						include(gettpl("scripts/login/logout"));
+				?>
+				</div>
 	
 				<div id="header_logo">
 					<?=cmd(img(geticon($root->getIcon(), 64)), "Exec('show','zone_main',Hash('path','".$_SESSION['murrix']['default_path']."'))")?>
@@ -74,7 +108,12 @@ $root = new mObject($root_id);
 		</div>
 
 		<div id="bar">
-			<div id="zone_addressbar"></div>
+			<div id="zone_addressbar">
+			<?
+				$path = $_SESSION['murrix']['path'];
+				include(gettpl("scripts/addressbar"));
+			?>
+			</div>
 
 			<form id="smallSearch" action="javascript:void(null);" onsubmit="Post('search', 'zone_main', 'smallSearch')">
 				<div id="search">
@@ -97,7 +136,12 @@ $root = new mObject($root_id);
 					</td>
 					<td style="width: 100%">
 						<div id="content">
-							<div id="zone_main"></div>
+							<div id="zone_main">
+							<?
+								$object = new mObject(getNode($_SESSION['murrix']['path']));
+								include(gettpl("scripts/show", $object));
+							?>
+							</div>
 						</div>
 					</td>
 				</tr>

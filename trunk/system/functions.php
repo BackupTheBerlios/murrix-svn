@@ -167,7 +167,7 @@ function GetRightsRecursive($object)
 	return $rights;
 }
 
-function IsAnonymous()
+function isAnonymous()
 {
 	global $anonymous_id;
 	return ($_SESSION['murrix']['user']->id == $anonymous_id);

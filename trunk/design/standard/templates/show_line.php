@@ -13,12 +13,12 @@
 	<?
 		$admin = "";
 
-		if ($child->hasRight("edit"))
+		if ($child->hasRight("write"))
 		{
 			$admin .= cmd(img(geticon("edit")), "Exec('edit','zone_main',Hash('node_id','".$child->getNodeId()."'))");
 		}
 
-		if ($child->hasRight("delete"))
+		if ($child->hasRight("create"))
 		{
 			$admin .= "&nbsp;";
 			$admin .= cmd(img(geticon("delete")), "Exec('delete','zone_main',Hash('node_id','".$child->getNodeId()."'))");

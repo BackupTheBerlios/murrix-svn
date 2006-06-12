@@ -29,7 +29,7 @@ class sDelete extends Script
 			{
 				$object = new mObject($node_id);
 	
-				if ($object->hasRight("delete"))
+				if ($object->hasRight("write"))
 				{
 					$_SESSION['murrix']['path'] = GetParentPath($object->getPathInTree());
 					$node_id = getNode($_SESSION['murrix']['path']);
@@ -53,7 +53,7 @@ class sDelete extends Script
 		if ($node_id > 0)
 		{
 			$object = new mObject($node_id);
-			if ($object->HasRight("delete"))
+			if ($object->HasRight("write"))
 				include(gettpl("scripts/delete", $object));
 			else
 			{
