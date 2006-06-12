@@ -77,7 +77,7 @@ class mTable
 			$set .= "`$key`='$value'";
 		}
 
-		$query = "UPDATE `".$db_prefix.$this->table."` SET $set WHERE id = '$id'";
+		$query = "UPDATE `".$db_prefix.$this->table."` SET $set WHERE `id` = '$id'";
 
 		$result = mysql_query($query);
 		if (!$result)
@@ -93,7 +93,7 @@ class mTable
 	{
 		global $db_prefix;
 			
-		$query = "DELETE FROM `".$db_prefix.$this->table."` WHERE id = '$id'";
+		$query = "DELETE FROM `".$db_prefix.$this->table."` WHERE `id` = '$id'";
 		
 		$result = mysql_query($query);
 		if (!$result)

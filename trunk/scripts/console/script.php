@@ -23,7 +23,7 @@ class sConsole extends Script
 		{
 			$cmd = trim($args['cmdline']);
 			
-			if (!empty($cmd))
+			//if (!empty($cmd))
 			{
 				$output = "";
 				
@@ -76,6 +76,9 @@ class sConsole extends Script
 				
 			return true;
 		}
+		
+		if (empty($cmd))
+			return false;
 		
 		list($cmd2, $stdin) = explode(" ", $cmd, 2);
 		

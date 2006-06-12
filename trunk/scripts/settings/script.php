@@ -51,6 +51,10 @@ class sSettings extends Script
 						$object->setMeta("sort_by", $args['sort_by']);
 					
 					$object->setMeta("sort_direction", $args['sort_direction']);
+					
+					$object->setMeta("initial_rights", $args['initial_rights']);
+					
+					$object->setMeta("initial_group", $args['initial_group']);
 				}
 			}
 		}

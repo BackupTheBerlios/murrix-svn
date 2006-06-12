@@ -2,8 +2,19 @@
 
 class csPasswd extends CScript
 {
+	function csPasswd()
+	{
+		$this->stage = 0;
+	}
+	
 	function exec($stdin, &$stdout, &$stderr, &$response, &$system)
 	{
+		if (!(($user_node_id == $_SESSION['murrix']['user']->id || isAdmin()) && !isAnonymous()))
+		{
+			$stderr = ucf(i18n("not enough rights to change password for user"));
+			return true;
+		}
+		
 		switch ($this->stage)
 		{
 			case 1:
@@ -26,8 +37,8 @@ class csPasswd extends CScript
 					}
 					else
 					{
-						$user = new mObject($this->user_node_id);
-						$stdout = ucf(i18n("successfully changed password for"))." ".$user->getName();
+						$user = new mUser($this->user_node_id);
+						$stdout = ucf(i18n("successfully changed password for"))." ".$user->name;
 					}
 				}
 				
@@ -41,7 +52,6 @@ class csPasswd extends CScript
 		else
 		{
 			$user = new mUser();
-			;
 			
 			if (!$user->setByUsername($stdin))
 			{

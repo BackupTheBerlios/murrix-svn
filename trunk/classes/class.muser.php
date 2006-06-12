@@ -22,6 +22,21 @@ class mUser extends mTable
 		}
 	}
 	
+	function getList()
+	{
+		$users = $this->get();
+		
+		$list = array();
+		foreach ($users as $user)
+		{
+			$u = new mUser();
+			$u->setByArray($user);
+			$list[] = $u;
+		}
+		
+		return $list;
+	}
+	
 	function setByUsername($username)
 	{
 		$users = $this->get("`username`='$username'");
@@ -67,7 +82,7 @@ class mUser extends mTable
 	
 	function remove()
 	{
-		return $this->remove($this->id);
+		return parent::remove($this->id);
 	}
 }
 

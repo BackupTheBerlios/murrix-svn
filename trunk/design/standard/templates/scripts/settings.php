@@ -127,6 +127,28 @@ include(gettpl("big_title"));
 		</select>
 		<br/><br/>
 		
+		<?=ucf(i18n("initial group"))?>
+		<select class="form" name="initial_group">
+		<?
+			$group = new mGroup();
+			$groups = $group->getList();
+			echo "<option $selected value=\"\">".ucf(i18n("not set"))."</option>";
+			foreach ($groups as $group)
+			{
+				$selected = "";
+				if ($group->id == $object->getMeta("initial_group", ""))
+					$selected = "selected";
+
+				echo "<option $selected value=\"".$group->id."\">".$group->name."</option>";
+			}
+		?>
+		</select>
+		<br/><br/>
+		
+		<?=ucf(i18n("initial rights"))?>
+		<input class="form" type="text" name="initial_rights" value="<?=$object->getMeta("initial_rights", "")?>"/>
+		<br/><br/>
+		
 		<input class="submit" id="submitButton" type="submit" value="<?=ucf(i18n("save"))?>"/>
 	</div>
 </form>

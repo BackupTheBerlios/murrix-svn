@@ -19,6 +19,32 @@ class mGroup extends mTable
 		}
 	}
 	
+	function getList()
+	{
+		$groups = $this->get();
+		
+		$list = array();
+		foreach ($groups as $group)
+		{
+			$g = new mGroup();
+			$g->setByArray($group);
+			$list[] = $g;
+		}
+		
+		return $list;
+	}
+	
+	function setByName($name)
+	{
+		$groups = $this->get("`name`='$name'");
+		
+		if (count($groups) == 0)
+			return false;
+		
+		$this->setByArray($groups[0]);
+		return true;
+	}
+	
 	function setByArray($array)
 	{
 		$this->id = $array['id'];
@@ -42,7 +68,7 @@ class mGroup extends mTable
 	
 	function remove()
 	{
-		return $this->remove($this->id);
+		return parent::remove($this->id);
 	}
 }
 

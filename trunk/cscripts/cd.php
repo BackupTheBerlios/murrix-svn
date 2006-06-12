@@ -5,6 +5,19 @@ class csCd extends CScript
 	function exec($stdin, &$stdout, &$stderr, &$response, &$system)
 	{
 		$path = $stdin;
+		
+		if (empty($path))
+		{
+			$home_id = $_SESSION['murrix']['user']->home_id;
+			
+			if ($home_id > 0)
+			{
+				$home = new mObject($home_id);
+				$path = $home->getPath();
+			}
+			else
+				return true;
+		}
 			
 		if ($path == ".")
 			return true;

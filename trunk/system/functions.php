@@ -173,6 +173,12 @@ function isAnonymous()
 	return ($_SESSION['murrix']['user']->id == $anonymous_id);
 }
 
+function isAdmin()
+{
+	$user_groups = $_SESSION['murrix']['user']->getGroups();
+	return in_array("admins", $user_groups);
+}
+
 function PrintPre($input)
 {
 	echo "<pre>";

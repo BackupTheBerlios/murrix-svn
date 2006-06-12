@@ -294,7 +294,7 @@ class mObject
 		// Save a new version of this object
 		global $db_prefix;
 
-		$query = "UPDATE `".$db_prefix."objects` SET name='$this->name', icon='$this->icon' WHERE id = '$this->id'";
+		$query = "UPDATE `".$db_prefix."objects` SET `name`='$this->name', `icon`='$this->icon', `user_id`='$this->user_id', `group_id`='$this->group_id', `rights`='$this->rights' WHERE id = '$this->id'";
 		
 		if (!($result = mysql_query($query)))
 		{
@@ -827,7 +827,7 @@ class mObject
 					$user_groups = $_SESSION['murrix']['user']->getGroups();
 					foreach ($user_groups as $ug)
 					{
-						if ($ug->name == $group->name)
+						if ($ug == $group->name)
 							return true;
 					}
 				}

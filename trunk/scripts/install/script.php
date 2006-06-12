@@ -264,7 +264,7 @@ $list[] = array("class_name" => "contact",	"name" => "other",	"priority" => "130
 			$administrator->name = "Administrator";
 			$administrator->username = $this->admin_username;
 			$administrator->password = md5($this->admin_password);
-			$administrator->home = "/Root/Home/".$this->admin_username;
+			$administrator->home_id = 0;
 			$administrator->groups = "admins";
 			$administrator->save();
 			
@@ -345,6 +345,9 @@ $list[] = array("class_name" => "contact",	"name" => "other",	"priority" => "130
 			{
 				$adminhome_obj->linkWithNode($home_obj->getNodeId());
 				$this->db_log .= "Created ".$adminhome_obj->getName().".<br/>";
+				
+				$administrator->home_id = $adminhome_obj->getNodeId();
+				$administrator->save();
 			}
 			else
 			{
