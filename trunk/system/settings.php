@@ -1,5 +1,11 @@
 <?
 
+function getSettings()
+{
+	$table = new mTable("settings");
+	return $table->get();
+}
+
 function getSetting($name, $default = "")
 {
 	$table = new mTable("settings");
@@ -26,16 +32,31 @@ function setSetting($name, $value, $theme = "")
 		$settings[0]['value'] = $value;
 		
 		if (empty($value))
-			return $table->remove($settings[0]['id']);
+		{
+			if (!$table->remove($settings[0]['id']))
+				return $table->error;
+			else
+				return true;
+		}
 		else
-			return $table->update($settings[0]['id'], $settings);
+		{
+			if (!$table->update($settings[0]['id'], $settings[0]))
+				return $table->error;
+			else
+				return true;
+		}
 	}
 	else if (!empty($value))
 	{
 		$setting = array("name" => $name, "value" => $value, "theme" => $theme);
 		
-		return $table->insert($setting);
+		if (!$table->insert($setting))
+			return $table->error;
+		else
+			return true;
 	}
+	
+	return ucf(i18n("no such setting"));
 }
 
 ?>

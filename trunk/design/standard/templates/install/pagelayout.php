@@ -24,11 +24,11 @@
 			{
 				if (state)
 				{
-					document.getElementById('loadbox').style.display = "block";
+					//document.getElementById('loadbox').style.display = "block";
 				}
 				else
 				{
-					document.getElementById('loadbox').style.display = "none";
+					//document.getElementById('loadbox').style.display = "none";
 				}
 			}
 			
@@ -41,36 +41,27 @@
 		</script>
 	</head>
 	<body onload="OnLoadHandler()">
-		<div id="loadbox">
-			<div class="background"></div>
-			<div class="main">
-				<div class="header">
-					<?=ucf(i18n("loading"))."..."?>
-				</div>
-				<div>
-					<?=img(imgpath("loading.gif"))?>
+		<div id="install">
+			<div id="header">
+				<div id="header_wrapper">
+					<div id="header_logo">
+						<?=img(geticon("murrix", 64))?>
+					</div>
+					
+					<div id="header_name">
+						MURRiX Installer
+					</div>
 				</div>
 			</div>
+			<br/>
+			
+			<center>
+				<div class="main_wrapper">
+					<div id="zone_main">
+						<? include(gettpl("install/stage1")) ?>
+					</div>
+				</div>
+			</center>
 		</div>
-		<div id="header">
-			<div id="header_wrapper">
-				<div id="header_logo">
-					<?=img(geticon("murrix", 64))?>
-				</div>
-				
-				<div id="header_name">
-					MURRiX Installer
-				</div>
-			</div>
-		</div>
-		<br/>
-		
-		<center>
-			<div style="border: 1px solid #5B5B7A; width: 800px;">
-				<div style="align: center; vertical-align: middle;" id="zone_main">
-					<? include(gettpl("install/stage1")) ?>
-				</div>
-			</div>
-		</center>
 	</body>
 </html>

@@ -2,11 +2,11 @@
 
 class csRm extends CScript
 {
-	function exec($stdin, &$stdout, &$stderr, &$response, &$system)
+	function exec($args, $stdin, &$stdout, &$stderr, &$response, &$system)
 	{
-		if (!empty($stdin))
+		if (!empty($args))
 		{
-			$path = $stdin;
+			$path = $args;
 			
 			if ($path{0} != "/")
 				$path = $_SESSION['murrix']['path']."/$path";

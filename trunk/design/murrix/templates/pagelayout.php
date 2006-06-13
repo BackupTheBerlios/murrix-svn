@@ -33,7 +33,7 @@ $root = new mObject($root_id);
 		$_SESSION['murrix']['System']->PrintHeader();
 		?>
 		
-		<script language="javascript" type="text/javascript" src="3dparty/tiny_mce/tiny_mce_src.js"></script>
+		<script type="text/javascript" src="3dparty/tiny_mce/tiny_mce_src.js"></script>
 		
 		<script type="text/javascript">
 		<!--

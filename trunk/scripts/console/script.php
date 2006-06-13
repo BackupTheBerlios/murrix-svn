@@ -19,9 +19,20 @@ class sConsole extends Script
 	
 	function Draw(&$system, &$response, $args)
 	{
-		if (isset($args['cmdline']))
+		if (!isset($args['cmdline']))
 		{
-			$cmd = trim($args['cmdline']);
+			ob_start();
+			include(gettpl("scripts/console/console"));
+			$response->addAssign($this->zone, "innerHTML", utf8e(ob_get_end()));
+			$response->addScript("document.getElementById('cmdline').focus();");
+			$this->running = "";
+		}
+		
+		if (isset($args['cmdline']) || isset($args['initcmd']))
+		{
+			$cmd = isset($args['cmdline']) ? $args['cmdline'] : $args['initcmd'];
+		
+			$cmd = trim($cmd);
 			
 			//if (!empty($cmd))
 			{
@@ -42,6 +53,18 @@ class sConsole extends Script
 						
 					$response->addAppend("console_log", "innerHTML", utf8e("<div class=\"out\">".nl2br($list)."</div>"));
 				}
+				else if ($cmd == "zones")
+				{
+					$response->addAssign("cmdline", "value", "");
+					$response->addAppend("console_log", "innerHTML", utf8e("<div class=\"cmd\">] $cmd</div>"));
+					$list = "";
+					for ($n = 0; $n < count($system->scripts); $n++)
+					{
+						$list .= "ZONE=".$system->scripts[$n]->zone." CLASS=".get_class($system->scripts[$n])."\n";
+					}
+						
+					$response->addAppend("console_log", "innerHTML", utf8e("<div class=\"out\">".nl2br($list)."</div>"));
+				}
 				else
 				{
 					if ($this->execCommand($cmd, $stdout, $stderr, $response, $system))
@@ -59,41 +82,53 @@ class sConsole extends Script
 				$response->addScript("var console_log = document.getElementById(\"console_log\");console_log.scrollTop = console_log.scrollHeight;");
 			}
 		}
-		else
-		{
-			ob_start();
-			include(gettpl("scripts/console/console"));
-			$response->addAssign($this->zone, "innerHTML", utf8e(ob_get_end()));
-		}
 	}
 	
 	function execCommand($cmd, &$stdout, &$stderr, &$response, &$system)
 	{
 		if (!empty($this->running) && isset($this->scripts[$this->running]))
 		{
-			if ($this->scripts[$this->running]->exec($cmd, $stdout, $stderr, $response, $system))
+			if ($this->scripts[$this->running]->exec($cmd, $stdin, $stdout, $stderr, $response, $system))
+			{
 				$this->running = "";
+				$response->addAssign("cmdline","type","text");
+			}
 				
 			return true;
 		}
 		
+		$response->addAssign("cmdline","type","text");
+		
 		if (empty($cmd))
 			return false;
-		
-		list($cmd2, $stdin) = explode(" ", $cmd, 2);
+			
+		$cmds = explode("|", $cmd);
 		
 		$response->addAppend("console_log", "innerHTML", utf8e("<div class=\"cmd\">] $cmd</div>"));
 		
-		if (!isset($this->scripts[$cmd2]))
+		foreach ($cmds as $cmd)
 		{
-			$stdout = "Unknown command";
-			return false;
+			$cmd = trim($cmd);
+			list($cmd2, $args) = explode(" ", $cmd, 2);
+			
+			if (!isset($this->scripts[$cmd2]))
+			{
+				$stdout = ucf(i18n("unknown command"))." - $cmd";
+				return false;
+			}
+			
+			$stdout = "";
+			$stderr = "";
+			
+			$this->scripts[$cmd2]->stage = 0;
+			
+			if (!$this->scripts[$cmd2]->exec($args, $stdin, $stdout, $stderr, $response, $system))
+				$this->running = $cmd2;
+			else
+				$this->running = "";
+				
+			$stdin = $stdout;
 		}
-		
-		if (!$this->scripts[$cmd2]->exec($stdin, $stdout, $stderr, $response, $system))
-			$this->running = $cmd2;
-		else
-			$this->running = "";
 		
 		return true;
 	}

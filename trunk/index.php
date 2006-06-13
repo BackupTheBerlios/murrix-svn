@@ -111,7 +111,7 @@ $theme = GetInput("theme", getSetting("DEFAULT_THEME", "standard", "any"));
 
 $_SESSION['murrix']['theme'] = $theme;
 $_SESSION['murrix']['site'] = $theme;
-$_SESSION['murrix']['default_path'] = getSetting("DEFAULT_PATH", "/Root/Public");
+$_SESSION['murrix']['default_path'] = getSetting("DEFAULT_PATH", "/root/public");
 
 if (empty($_SESSION['murrix']['path']) || $_SESSION['murrix']['path'] == "/")
 	$_SESSION['murrix']['path'] = $_SESSION['murrix']['default_path'];
@@ -162,7 +162,7 @@ $prof->startTimer( "system" );
 if (!isset($_SESSION['murrix']['System']))
 	$_SESSION['murrix']['System'] = new mSystem(isset($ajax_path) ? $ajax_path : "");
 	
-$_SESSION['murrix']['System']->LoadScripts();
+//$_SESSION['murrix']['System']->LoadScripts();
 $prof->stopTimer( "system" );
 
 

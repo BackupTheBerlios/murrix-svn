@@ -2,7 +2,7 @@
 
 class csUsers extends CScript
 {
-	function exec($stdin, &$stdout, &$stderr, &$response, &$system)
+	function exec($args, $stdin, &$stdout, &$stderr, &$response, &$system)
 	{
 		$user = new mUser();
 		
@@ -38,6 +38,7 @@ class csUsers extends CScript
 			}
 			$stdout .= "</table>";
 		}
+		
 		return true;
 	}
 }

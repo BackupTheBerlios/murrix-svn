@@ -1,11 +1,13 @@
 <?
 
-class csLs extends CScript
+class csSearch extends CScript
 {
 	function exec($args, $stdin, &$stdout, &$stderr, &$response, &$system)
 	{
-		$object = new mObject(getNode($_SESSION['murrix']['path']));
-		$children = fetch("FETCH node WHERE link:node_top='".$object->getNodeId()."' AND link:type='sub' NODESORTBY property:version SORTBY ".$object->getMeta("sort_by", "property:name"));
+		$args = str_replace("*", "%", $args);
+		
+		$children = fetch("FETCH node WHERE property:name LIKE '%$args%' NODESORTBY property:version SORTBY property:name");
+		$children = getReadable($children);
 		
 		$stdout .= "total ".count($children)."\n";
 		if (count($children) > 0)

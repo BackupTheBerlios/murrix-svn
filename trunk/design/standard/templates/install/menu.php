@@ -1,4 +1,4 @@
-<div style="text-align: left; font-size: 14px; font-weight: bold;">
+<div class="menu">
 <?
 	if ($args['stage'] == 1)
 		echo "<span style=\"color: red;\">Welcome</span>";
@@ -15,9 +15,9 @@
 	echo "<br/><br/>";
 
 	if ($args['stage'] == 3)
-		echo "<span style=\"color: red;\">Adminaccount</span>";
+		echo "<span style=\"color: red;\">Accounts</span>";
 	else
-		echo "Adminaccount";
+		echo "Accounts";
 // 		echo cmd("Adminaccount", "Exec('install', 'zone_main', Hash('stage', '3'))");
 	echo "<br/><br/>";
 
@@ -29,16 +29,16 @@
 	echo "<br/><br/>";
 
 	if ($args['stage'] == 5)
-		echo "<span style=\"color: red;\">Database Tests</span>";
+		echo "<span style=\"color: red;\">Database Checks</span>";
 	else
-		echo "Database Tests";
+		echo "Database Checks";
 // 		echo cmd("Database", "Exec('install', 'zone_main', Hash('stage', '4'))");
 	echo "<br/><br/>";
 
 	if ($args['stage'] == 6)
-		echo "<span style=\"color: red;\">Theme</span>";
+		echo "<span style=\"color: red;\">Settings</span>";
 	else
-		echo "Theme";
+		echo "Settings";
 // 		echo cmd("Theme", "Exec('install', 'zone_main', Hash('stage', '5'))");
 	echo "<br/><br/>";
 

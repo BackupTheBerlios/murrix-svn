@@ -281,7 +281,7 @@ $list[] = array("class_name" => "contact",	"name" => "other",	"priority" => "130
 			$root_obj->setClassName("folder");
 			$root_obj->loadVars();
 			$root_obj->setLanguage("eng");
-			$root_obj->setName("Root");
+			$root_obj->setName("root");
 			$root_obj->setIcon("murrix");
 			$root_obj->setGroupId($administrator_group->id);
 			$root_obj->setRights("rwcrwcr--");
@@ -307,7 +307,7 @@ $list[] = array("class_name" => "contact",	"name" => "other",	"priority" => "130
 			$home_obj->setClassName("folder");
 			$home_obj->loadVars();
 			$home_obj->setLanguage("eng");
-			$home_obj->setName("Home");
+			$home_obj->setName("home");
 			$home_obj->setIcon("home");
 			$home_obj->setGroupId($administrator_group->id);
 			$home_obj->setRights("rwcrwcr--");
@@ -365,7 +365,7 @@ $list[] = array("class_name" => "contact",	"name" => "other",	"priority" => "130
 			$public_obj->setClassName("folder");
 			$public_obj->loadVars();
 			$public_obj->setLanguage("eng");
-			$public_obj->setName("Public");
+			$public_obj->setName("public");
 			$public_obj->setGroupId($administrator_group->id);
 			$public_obj->setRights("rwcrwcr--");
 
@@ -389,7 +389,7 @@ $list[] = array("class_name" => "contact",	"name" => "other",	"priority" => "130
 				setSetting("ROOT_NODE_ID", $root_obj->getNodeId(), "any");
 				setSetting("ANONYMOUS_ID", $anonymous->id, "any");
 				setSetting("DEFAULT_THEME", $this->site, "any");
-				setSetting("DEFAULT_PATH", "/Root/Public", $this->site);
+				setSetting("DEFAULT_PATH", "/root/public", $this->site);
 				setSetting("DEFAULT_LANG", "eng", $this->site);
 				setSetting("TITLE", "Welcome to MURRiX", $this->site);
 	

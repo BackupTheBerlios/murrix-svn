@@ -7,7 +7,7 @@ class csAddgroup extends CScript
 		$this->stage = 0;
 	}
 	
-	function exec($stdin, &$stdout, &$stderr, &$response, &$system)
+	function exec($args, $stdin, &$stdout, &$stderr, &$response, &$system)
 	{
 		if (!isAdmin())
 		{
@@ -18,20 +18,20 @@ class csAddgroup extends CScript
 		switch ($this->stage)
 		{
 			case 1:
-				$this->name = $stdin;
-				$stdout = "$stdin\n";
+				$this->name = $args;
+				$stdout = "$args\n";
 				$stdout .= ucf(i18n("enter description:"));
 				$this->stage = 2;
 				return false;
 				
 			case 2:
-				$this->description = $stdin;
+				$this->description = $args;
 				$stdout .= ucf(i18n("are you sure you want to create this group"))." (Y/n)?";
 				$this->stage = 3;
 				return false;
 				
 			case 3:
-				if (empty($stdin) || strtolower($stdin) == "y" || strtolower($stdin) == "yes")
+				if (empty($args) || strtolower($args) == "y" || strtolower($args) == "yes")
 				{
 					$result = createGroup($this->name, $this->description);
 					
@@ -52,14 +52,14 @@ class csAddgroup extends CScript
 				return true;
 		}
 		
-		if (empty($stdin))
+		if (empty($args))
 		{
 			$stdout = ucf(i18n("enter name:"));
 			$this->stage = 1;
 		}
 		else
 		{
-			$this->name = $stdin;
+			$this->name = $args;
 			$stdout .= ucf(i18n("enter description:"));
 			$this->stage = 2;
 		}

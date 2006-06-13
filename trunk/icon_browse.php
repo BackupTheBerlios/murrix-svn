@@ -59,7 +59,7 @@ require_once("session.php");
 							list($width, $height, $type, $attr) = getimagesize("$abspath/design/standard/icons/64/$file");
 							$file = basename($file);
 							echo "<div style=\"float: left; margin: 5px;\" >\n";
-							echo "<a href=\"javascript:void(null);\" onclick=\"opener.document.getElementById('".$_GET['form_id']."').".$_GET['input_id'].".value='".basename($file, ".png")."';self.close();\">\n";
+							echo "<a href=\"javascript:void(null);\" onclick=\"opener.document.getElementById('".$_GET['form_id']."').".$_GET['input_id'].".value='".basename($file, ".png")."'; opener.document.getElementById('".$_GET['input_id']."_img').src='".geticon(basename($file, ".png"))."';self.close();\">\n";
 							echo "<img src=\"$wwwpath/design/standard/icons/64/$file\"  style=\"width: ".$width."px; height: ".$height."px;\"/>\n";
 							echo "</a>\n</div>\n";
 						}
@@ -76,11 +76,11 @@ require_once("session.php");
 							echo "<hr/>";
 							foreach ($files as $file)
 							{
-								list($width, $height, $type, $attr) = getimagesize("$abspath/design/".$_SESSION['murrix']['site']."/icons/64/$file");
+								list($width, $height, $type, $attr) = getimagesize("$abspath/design/standard/icons/64/$file");
 								$file = basename($file);
 								echo "<div style=\"float: left; margin: 5px;\" >\n";
-								echo "<a href=\"javascript:void(null);\" onclick=\"opener.document.getElementById('".$_GET['form_id']."').".$_GET['input_id'].".value='".basename($file, ".png")."';self.close();\">\n";
-								echo "<img src=\"$wwwpath/design/".$_SESSION['murrix']['site']."/icons/64/$file\"  style=\"width: ".$width."px; height: ".$height."px;\"/>\n";
+								echo "<a href=\"javascript:void(null);\" onclick=\"opener.document.getElementById('".$_GET['form_id']."').".$_GET['input_id'].".value='".basename($file, ".png")."'; opener.document.getElementById('".$_GET['input_id']."_img').src='".geticon(basename($file, ".png"))."';self.close();\">\n";
+								echo "<img src=\"$wwwpath/design/standard/icons/64/$file\"  style=\"width: ".$width."px; height: ".$height."px;\"/>\n";
 								echo "</a>\n</div>\n";
 							}
 							echo "<div class=\"clear\"></div>";

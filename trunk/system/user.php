@@ -10,6 +10,8 @@ function login($username, $password)
 		return false;
 		
 	$_SESSION['murrix']['user'] = new mUser($users[0]['id']);
+	$_SESSION['murrix']['user']->last_login = date("Y-m-d H:i:s");
+	$_SESSION['murrix']['user']->save();
 	return true;
 }
 

@@ -8,6 +8,7 @@ class mUser extends mTable
 	var $password;
 	var $home_id;
 	var $groups;
+	var $last_login;
 
 	function mUser($id = 0)
 	{
@@ -56,6 +57,7 @@ class mUser extends mTable
 		$this->password = $array['password'];
 		$this->home_id = $array['home_id'];
 		$this->groups = $array['groups'];
+		$this->last_login = $array['last_login'];
 	}
 	
 	function getGroups()
@@ -71,6 +73,7 @@ class mUser extends mTable
 		$array['password'] = $this->password;
 		$array['home_id'] = $this->home_id;
 		$array['groups'] = $this->groups;
+		$array['last_login'] = $this->last_login;
 	
 		if ($this->id > 0)
 			return $this->update($this->id, $array);

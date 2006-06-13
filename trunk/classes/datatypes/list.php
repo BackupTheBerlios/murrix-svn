@@ -3,6 +3,7 @@
 $datatypes = array(	"array",
 			"boolean",
 			"date",
+			"time",
 			"file",
 			"hidden",
 			"icon",

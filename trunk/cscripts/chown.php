@@ -2,11 +2,11 @@
 
 class csChown extends CScript
 {
-	function exec($stdin, &$stdout, &$stderr, &$response, &$system)
+	function exec($args, $stdin, &$stdout, &$stderr, &$response, &$system)
 	{
-		if (!empty($stdin))
+		if (!empty($args))
 		{
-			list($ug, $path) = explode(" ", $stdin, 2);
+			list($ug, $path) = explode(" ", $args, 2);
 			
 			list($username, $groupname) = explode(".", $ug);
 			

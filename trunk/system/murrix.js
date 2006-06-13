@@ -156,7 +156,7 @@ function addEditor(formname, varid)
 function delEditors(formname)
 {
 	if (typeof active_editors[formname] == 'undefined')
-		active_editors[formname] = 0;
+		active_editors[formname] = new Object();
 		
 	for (var n = 0; n < active_editors[formname]; n++)
 	{
@@ -166,7 +166,7 @@ function delEditors(formname)
 		tinyMCE.removeMCEControl('MCEControlID_'+n);
 	}
 		
-	active_editors[formname] = 0;
+	active_editors[formname] = new Object();
 }
 
 var active_zones = new Array();

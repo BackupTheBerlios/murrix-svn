@@ -22,6 +22,8 @@ class mSystem
 		
 		$this->xajax->registerFunction("ExecScript");
 		$this->xajax->registerFunction("TriggerEvent");
+		
+		$this->LoadScripts();
 	}
 
 	function PrintHeader()
@@ -84,10 +86,7 @@ class mSystem
 		for ($n = 0; $n < count($this->scripts); $n++)
 		{
 			if (!empty($this->scripts[$n]->zone))
-			{
-				
 				$this->scripts[$n]->EventHandler($this, $response, $event, $arguments);
-			}
 		}
 
 		$response->addScript("endScript('$event');");

@@ -7,28 +7,23 @@ class csPasswd extends CScript
 		$this->stage = 0;
 	}
 	
-	function exec($stdin, &$stdout, &$stderr, &$response, &$system)
+	function exec($args, $stdin, &$stdout, &$stderr, &$response, &$system)
 	{
-		if (!(($user_node_id == $_SESSION['murrix']['user']->id || isAdmin()) && !isAnonymous()))
-		{
-			$stderr = ucf(i18n("not enough rights to change password for user"));
-			return true;
-		}
-		
 		switch ($this->stage)
 		{
 			case 1:
-				$this->password1 = $stdin;
+				$this->password1 = $args;
 				$stdout = ucf(i18n("enter new password again:"));
+				$response->addAssign("cmdline","type","password");
 				$this->stage = 2;
 				return false;
 				
 			case 2:
-				if ($this->password1 != $stdin)
+				if ($this->password1 != $args)
 					$stdout = ucf(i18n("passwords do not match, aborting"));
 				else
 				{
-					$ret = changePassword($this->user_node_id, $stdin);
+					$ret = changePassword($this->user_node_id, $args);
 					if ($ret !== true)
 					{
 						$stderr = $ret;
@@ -47,15 +42,21 @@ class csPasswd extends CScript
 		
 		}
 		
-		if (empty($stdin))
+		if (empty($args))
 			$this->user_node_id = $_SESSION['murrix']['user']->id;
 		else
 		{
 			$user = new mUser();
 			
-			if (!$user->setByUsername($stdin))
+			if (!$user->setByUsername($args))
 			{
 				$stderr = ucf(i18n("No such user"));
+				return true;
+			}
+			
+			if (!(($user_node_id == $_SESSION['murrix']['user']->id || isAdmin()) && !isAnonymous()))
+			{
+				$stderr = ucf(i18n("not enough rights to change password for user"));
 				return true;
 			}
 			
@@ -63,6 +64,7 @@ class csPasswd extends CScript
 		}
 		
 		$stdout = ucf(i18n("enter new password:"));
+		$response->addAssign("cmdline","type","password");
 		$this->stage = 1;
 		return false;
 	}

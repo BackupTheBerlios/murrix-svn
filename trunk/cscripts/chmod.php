@@ -2,11 +2,11 @@
 
 class csChmod extends CScript
 {
-	function exec($stdin, &$stdout, &$stderr, &$response, &$system)
+	function exec($args, $stdin, &$stdout, &$stderr, &$response, &$system)
 	{
-		if (!empty($stdin))
+		if (!empty($args))
 		{
-			list($rights, $path) = explode(" ", $stdin, 2);
+			list($rights, $path) = explode(" ", $args, 2);
 			
 			list($type, $right) = explode("+", $rights);
 			

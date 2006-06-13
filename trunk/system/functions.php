@@ -1,5 +1,37 @@
 <?
 
+function splitArgs($args)
+{
+	$parts = explode(" ", $args);
+	
+	$matches = array();
+	
+	$started = false;
+	$string = "";
+	
+	foreach ($parts as $part)
+	{
+		if ($part{0} == '"')
+			$started = true;
+			
+		$part2 = str_replace('"', '', $part);
+		
+		if ($started)
+			$string .= "$part2 ";
+		else
+			$matches[] = $part2;
+			
+		if ($part{strlen($part)-1} == '"')
+		{
+			$matches[] = trim($string);
+			$string = "";
+			$started = false;
+		}
+	}
+	
+	return $matches;
+}
+
 function getClassList($fullinfo = false)
 {
 	global $db_prefix;

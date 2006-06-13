@@ -7,7 +7,7 @@ class csDeluser extends CScript
 		$this->stage = 0;
 	}
 	
-	function exec($stdin, &$stdout, &$stderr, &$response, &$system)
+	function exec($args, $stdin, &$stdout, &$stderr, &$response, &$system)
 	{
 		if (!isAdmin())
 		{
@@ -18,7 +18,7 @@ class csDeluser extends CScript
 		switch ($this->stage)
 		{
 			case 1:
-				if (empty($stdin) || strtolower($stdin) == "y" || strtolower($stdin) == "yes")
+				if (empty($args) || strtolower($args) == "y" || strtolower($args) == "yes")
 				{
 					$result = delUser($this->username);
 					
@@ -36,14 +36,14 @@ class csDeluser extends CScript
 				return true;
 		}
 		
-		if (empty($stdin))
+		if (empty($args))
 		{
 			$stdout = ucf(i18n("you must specifiy a username"));
 			return true;
 		}
 		else
 		{
-			$this->username = $stdin;
+			$this->username = $args;
 			$stdout = ucf(i18n("are you sure you want to delete this user"))." (Y/n)?";
 			$this->stage = 1;
 		}

@@ -2,9 +2,9 @@
 
 class csCd extends CScript
 {
-	function exec($stdin, &$stdout, &$stderr, &$response, &$system)
+	function exec($args, $stdin, &$stdout, &$stderr, &$response, &$system)
 	{
-		$path = $stdin;
+		$path = $args;
 		
 		if (empty($path))
 		{
@@ -47,7 +47,14 @@ class csCd extends CScript
 			
 		if ($invalid)
 		{
-			$stderr = "No such path \"$path\"";
+			$stderr = ucf(i18n("no such path"))." \"$path\"";
+			return true;
+		}
+		
+		$object = new mObject(getNode($path));
+		if (!$object->hasRight("read"))
+		{
+			$stderr = ucf(i18n("permission denied, no rights"));
 			return true;
 		}
 		

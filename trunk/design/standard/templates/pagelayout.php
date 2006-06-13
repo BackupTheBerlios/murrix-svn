@@ -18,8 +18,8 @@ $root = new mObject($root_id);
 			echo "<link rel=\"alternate\" type=\"application/rss+xml\" href=\"rssbackend.php?id=".$feed['id']."\" title=\"".$feed['title']."\"/>";
 		?>
 		
-		<link rel="shortcut icon" href="<?=geticon($root->getIcon())?>" type="image/x-icon"/>
-		<title><?=$root->getVarValue("description")?></title>
+		<link rel="shortcut icon" href="<?=geticon("murrix")?>" type="image/x-icon"/>
+		<title><?=getSetting("TITLE", "Welcome to MURRiX")?></title>
 		
 		<?
 		$js = getjs();
@@ -32,7 +32,7 @@ $root = new mObject($root_id);
 
 		$_SESSION['murrix']['System']->PrintHeader();
 		?>
-		<script language="javascript" type="text/javascript" src="3dparty/tiny_mce/tiny_mce_src.js"></script>
+		<script type="text/javascript" src="3dparty/tiny_mce/tiny_mce_src.js"></script>
 		
 		<script type="text/javascript">
 		<!--
@@ -102,7 +102,7 @@ $root = new mObject($root_id);
 				</div>
 				
 				<div id="header_name">
-					<?=cmd($root->getVarValue("description"), "Exec('show','zone_main',Hash('path','".$_SESSION['murrix']['default_path']."'))")?>
+					<?=cmd(getSetting("TITLE", "Welcome to MURRiX"), "Exec('show','zone_main',Hash('path','".$_SESSION['murrix']['default_path']."'))")?>
 				</div>
 			</div>
 		</div>

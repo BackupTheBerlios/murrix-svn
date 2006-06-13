@@ -1,0 +1,117 @@
+
+#console_wrapper
+{
+	background-color: black;
+	padding: 5px;
+	margin-bottom: 5px;
+	font-family: monospace;
+}
+
+#console_wrapper #console_log
+{
+	background-color: black;
+	height: 400px;
+	color: white;
+	padding: 0px;
+	margin: 0;
+	overflow: auto;
+	padding-bottom: 5px;
+}
+
+#console_wrapper #console_log table
+{
+	margin: 0;
+	padding: 0;
+}
+
+#console_wrapper #console_log tr
+{
+	margin: 0;
+	padding: 0;
+}
+
+#console_wrapper #console_log tr.table_title td
+{
+	margin: 0;
+	padding: 0;
+	/*border-bottom: 1px gray solid;*/
+	margin-right: 10px;
+	padding-right: 10px;
+	font-weight: bold;
+}
+
+#console_wrapper #console_log td.titlename
+{
+	margin: 0;
+	padding: 0;
+	margin-right: 10px;
+	padding-right: 10px;
+	font-weight: bold;
+}
+
+#console_wrapper #console_log td
+{
+	margin: 0;
+	padding: 0;
+	margin-right: 10px;
+	padding-right: 10px;
+}
+
+
+#console_wrapper #console_log .title
+{
+	font-size: 12px;
+	font-weight: bold;
+	color: gray;
+}
+
+#console_wrapper #console_log .cmd
+{
+	font-weight: bold;
+	color: white;
+}
+
+#console_wrapper #console_log .out
+{
+	font-weight: normal;
+	color: gray;
+}
+
+#console_wrapper #console_log .err
+{
+	font-weight: normal;
+	color: red;
+}
+
+#console_wrapper #console_log .out a
+{
+	color: white;
+}
+
+#console_wrapper #console_log .out a:hover
+{
+	color: white;
+	text-decoration: underline;
+}
+
+#console_wrapper #console_cmd
+{
+	border-top: 1px solid white;
+	padding-top: 5px;
+}
+
+#console_wrapper #cmdline
+{
+	background-color: black;
+	border: 1px solid black;
+	width: 100%;
+	color: white;
+	font-weight: bold;
+	padding: 0px;
+	margin: 0;
+}
+
+#console_wrapper form
+{
+	margin: 1px;
+}

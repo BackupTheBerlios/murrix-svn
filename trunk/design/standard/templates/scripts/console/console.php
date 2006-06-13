@@ -37,7 +37,7 @@
 		</div>
 	</div>
 	<div id="console_cmd">
-		<form id="sConsoleCmd" action="javascript:void(null);" onsubmit="Post('console', 'zone_login', 'sConsoleCmd');">
+		<form id="sConsoleCmd" action="javascript:void(null);" onsubmit="Post('console', 'zone_main', 'sConsoleCmd');">
 			<input autocomplete="off" id="cmdline" name="cmdline" type="text"/>
 		</form>
 	</div>

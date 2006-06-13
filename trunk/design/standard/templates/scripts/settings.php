@@ -120,8 +120,7 @@ include(gettpl("big_title"));
 				if ($class_name == "folder")
 					$class_name2 = "";
 			
-				if ($object->hasRight("create_subnodes", array($class_name)))
-					echo "<option $selected value=\"$class_name2\">".ucf(str_replace("_", " ", $class_name))."</option>";
+				echo "<option $selected value=\"$class_name2\">".ucf(str_replace("_", " ", $class_name))."</option>";
 			}
 		?>
 		</select>

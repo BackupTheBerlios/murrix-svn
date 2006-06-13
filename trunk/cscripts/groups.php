@@ -2,7 +2,7 @@
 
 class csGroups extends CScript
 {
-	function exec($stdin, &$stdout, &$stderr, &$response, &$system)
+	function exec($args, $stdin, &$stdout, &$stderr, &$response, &$system)
 	{
 		$group = new mGroup();
 		

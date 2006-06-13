@@ -2,9 +2,9 @@
 
 class csEcho extends CScript
 {
-	function exec($stdin, &$stdout, &$stderr, &$response, &$system)
+	function exec($args, $stdin, &$stdout, &$stderr, &$response, &$system)
 	{
-		$stdout = $stdin;
+		$stdout = $args;
 		return true;
 	}
 }

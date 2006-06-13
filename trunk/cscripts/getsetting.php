@@ -1,10 +1,14 @@
 <?
 
-class csReadme extends CScript
+class csGetsetting extends CScript
 {
 	function exec($args, $stdin, &$stdout, &$stderr, &$response, &$system)
 	{
-		$stdout = "<a target=\"top\" href=\"./docs/README.txt\">Readme</a>";
+		if (!empty($args))
+		{
+			$stdout = getSetting($args);
+		}
+			
 		return true;
 	}
 }

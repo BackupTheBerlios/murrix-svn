@@ -2,7 +2,7 @@
 
 class csInfo extends CScript
 {
-	function exec($stdin, &$stdout, &$stderr, &$response, &$system)
+	function exec($args, $stdin, &$stdout, &$stderr, &$response, &$system)
 	{
 		$object = new mObject(getNode($_SESSION['murrix']['path']));
 

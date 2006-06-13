@@ -7,7 +7,7 @@ class csDelgroup extends CScript
 		$this->stage = 0;
 	}
 	
-	function exec($stdin, &$stdout, &$stderr, &$response, &$system)
+	function exec($args, $stdin, &$stdout, &$stderr, &$response, &$system)
 	{
 		if (!isAdmin())
 		{
@@ -18,7 +18,7 @@ class csDelgroup extends CScript
 		switch ($this->stage)
 		{
 			case 1:
-				if (empty($stdin) || strtolower($stdin) == "y" || strtolower($stdin) == "yes")
+				if (empty($args) || strtolower($args) == "y" || strtolower($args) == "yes")
 				{
 					$result = delGroup($this->name);
 					
@@ -36,14 +36,14 @@ class csDelgroup extends CScript
 				return true;
 		}
 		
-		if (empty($stdin))
+		if (empty($args))
 		{
 			$stdout = ucf(i18n("you must specifiy a name"));
 			return true;
 		}
 		else
 		{
-			$this->name = $stdin;
+			$this->name = $args;
 			$stdout = ucf(i18n("are you sure you want to delete this group"))." (Y/n)?";
 			$this->stage = 1;
 		}

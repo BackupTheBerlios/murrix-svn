@@ -7,7 +7,7 @@ class csAdduser extends CScript
 		$this->stage = 0;
 	}
 	
-	function exec($stdin, &$stdout, &$stderr, &$response, &$system)
+	function exec($args, $stdin, &$stdout, &$stderr, &$response, &$system)
 	{
 		if (!isAdmin())
 		{
@@ -18,26 +18,26 @@ class csAdduser extends CScript
 		switch ($this->stage)
 		{
 			case 1:
-				$this->username = $stdin;
-				$stdout = "$stdin\n";
+				$this->username = $args;
+				$stdout = "$args\n";
 				$stdout .= ucf(i18n("enter name:"));
 				$this->stage = 2;
 				return false;
 				
 			case 2:
-				$this->name = $stdin;
-				$stdout = "$stdin\n".ucf(i18n("enter groups:"));
+				$this->name = $args;
+				$stdout = "$args\n".ucf(i18n("enter groups:"));
 				$this->stage = 3;
 				return false;
 				
 			case 3:
-				$this->group = $stdin;
-				$stdout = "$stdin\n".ucf(i18n("create home"))." (Y/n)?";
+				$this->group = $args;
+				$stdout = "$args\n".ucf(i18n("create home"))." (Y/n)?";
 				$this->stage = 4;
 				return false;
 				
 			case 4:
-				$this->create_home = (empty($stdin) || strtolower($stdin) == "y" || strtolower($stdin) == "yes");
+				$this->create_home = (empty($args) || strtolower($args) == "y" || strtolower($args) == "yes");
 				if ($this->create_home)
 					$stdout = "yes\n";
 				else
@@ -48,7 +48,7 @@ class csAdduser extends CScript
 				return false;
 				
 			case 5:
-				if (empty($stdin) || strtolower($stdin) == "y" || strtolower($stdin) == "yes")
+				if (empty($args) || strtolower($args) == "y" || strtolower($args) == "yes")
 				{
 					$result = createUser($this->name, $this->username, "", $this->groups, $this->create_home);
 					
@@ -69,14 +69,14 @@ class csAdduser extends CScript
 				return true;
 		}
 		
-		if (empty($stdin))
+		if (empty($args))
 		{
 			$stdout = ucf(i18n("enter username:"));
 			$this->stage = 1;
 		}
 		else
 		{
-			$this->username = $stdin;
+			$this->username = $args;
 			$stdout .= ucf(i18n("enter name:"));
 			$this->stage = 2;
 		}
