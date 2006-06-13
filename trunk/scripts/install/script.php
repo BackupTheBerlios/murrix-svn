@@ -211,9 +211,8 @@ $list[] = array("class_name" => "event", "name" => "reoccuring_monthly","priorit
 $list[] = array("class_name" => "event", "name" => "description",	"priority" => "40",	"type" => "xhtml");
 $list[] = array("class_name" => "event", "name" => "calendar_hide",	"priority" => "50",	"type" => "boolean",	"required" => true);
 
-$list[] = array("class_name" => "news",		"name" => "date",	"priority" => "10",	"type" => "date");
-$list[] = array("class_name" => "news",		"name" => "last_date",	"priority" => "20",	"type" => "date");
-$list[] = array("class_name" => "news",		"name" => "text",	"priority" => "30",	"type" => "text",	"required" => true);
+$list[] = array("class_name" => "news",		"name" => "expire",	"priority" => "10",	"type" => "date",	"required" => true);
+$list[] = array("class_name" => "news",		"name" => "text",	"priority" => "20",	"type" => "text",	"required" => true);
 
 $list[] = array("class_name" => "contact",	"name" => "thumbnail",	"priority" => "10",	"type" => "thumbnail");
 $list[] = array("class_name" => "contact",	"name" => "fullname",	"priority" => "20",	"type" => "textline");

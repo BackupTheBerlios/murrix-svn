@@ -2,9 +2,13 @@
 	<div class="header">
 		<?=ucf(i18n("menu"))?>
 	</div>
+	<div class="menu_items">
+		<?=cmd(img(getIcon("console"))." Console", "Exec('console','zone_main','')")?>
+		<?=cmd(img(getIcon("date"))." Calendar", "Exec('calendar','zone_main','')")?>
+	</div>
 	<?
-	$menu_id = getNode("/Root/Public/Menu");
-	$custom_menu_id = getNode("/Root/Home/".$_SESSION['murrix']['user']->username."/Menu");
+	$menu_id = getNode("/root/public/menu");
+	$custom_menu_id = getNode("/root/home/".$_SESSION['murrix']['user']->username."/menu");
 
 	if ($menu_id > 0 || $custom_menu_id > 0)
 	{
@@ -60,7 +64,7 @@
 		}
 	}
 
-	$homes = fetch("FETCH node WHERE link:node_top='".getNode("/Root/Home")."' AND link:type='sub' AND !property:class_name='comment' NODESORTBY property:version SORTBY property:name");
+	$homes = fetch("FETCH node WHERE link:node_top='".getNode("/root/home")."' AND link:type='sub' AND !property:class_name='comment' NODESORTBY property:version SORTBY property:name");
 	$homes = getReadable($homes);
 
 	if (count($homes) > 0)
