@@ -4,6 +4,7 @@ class sVersions extends Script
 {
 	function sVersions()
 	{
+		$this->zone = "zone_main";
 	}
 	
 	function EventHandler(&$system, &$response, $event, $args)

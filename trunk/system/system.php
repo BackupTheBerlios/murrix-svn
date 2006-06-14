@@ -85,20 +85,20 @@ class mSystem
 	{
 		for ($n = 0; $n < count($this->scripts); $n++)
 		{
-			if (!empty($this->scripts[$n]->zone))
+			if ($this->scripts[$n]->active)
 				$this->scripts[$n]->EventHandler($this, $response, $event, $arguments);
 		}
 
 		$response->addScript("endScript('$event');");
 	}
 
-	function Exec($name, $zone, $arguments = null)
+	function Exec($name, $arguments = null)
 	{
 		if (empty($arguments) || $arguments == null || !isset($arguments))
                         $arguments = array();
 	
 		$response = new xajaxResponse();
-		$this->ExecIntern($response, $name, $zone, utf8d($arguments));
+		$this->ExecIntern($response, $name, utf8d($arguments));
 		
 		if (!empty($_SESSION['debug']))
 			$response->addAlert($_SESSION['debug']);
@@ -106,7 +106,7 @@ class mSystem
 		return $response->getXML();
 	}
 
-	function ExecIntern(&$response, $name, $zone, $arguments = null)
+	function ExecIntern(&$response, $name, $arguments = null)
 	{
 		if (empty($arguments) || $arguments == null)
                         $arguments = array();
@@ -117,18 +117,16 @@ class mSystem
 		{
 			if ("s$name" == get_class($this->scripts[$n]))
 			{
-				$this->SetZone($name, $zone);
+				$this->scripts[$n]->active = true;
 				$this->scripts[$n]->Exec($this, $response, $arguments);
 				$found = true;
 			}
-			else if ($this->scripts[$n]->zone == $zone)
-				$this->scripts[$n]->zone = "";
 		}
 
 		if (!$found)
 			$response->addAlert("Exec: Error: No such script; $name");
 
-		$response->addScript("endScript('$zone');");
+		$response->addScript("endScript('$name');");
 	}
 
 	function SetZone($name, $zone)
@@ -137,15 +135,13 @@ class mSystem
 		{
 			if ("s$name" == get_class($_SESSION['murrix']['System']->scripts[$n]))
 				$this->scripts[$n]->zone = $zone;
-			else if ($this->scripts[$n]->zone == $zone)
-				$this->scripts[$n]->zone = "";
 		}
 	}
 }
 
-function ExecScript($name, $zone, $arguments)
+function ExecScript($name, $arguments)
 {
-	return $_SESSION['murrix']['System']->Exec($name, $zone, $arguments);
+	return $_SESSION['murrix']['System']->Exec($name, $arguments);
 }
 
 function TriggerEvent($event, $arguments)

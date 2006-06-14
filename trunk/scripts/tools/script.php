@@ -4,6 +4,7 @@ class sTools extends Script
 {
 	function sTools()
 	{
+		$this->zone = "zone_main";
 	}
 	
 	function EventHandler(&$system, &$response, $event, $args)

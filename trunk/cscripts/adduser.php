@@ -31,7 +31,7 @@ class csAdduser extends CScript
 				return false;
 				
 			case 3:
-				$this->group = $args;
+				$this->groups = $args;
 				$stdout = "$args\n".ucf(i18n("create home"))." (Y/n)?";
 				$this->stage = 4;
 				return false;

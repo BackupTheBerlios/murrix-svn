@@ -17,6 +17,7 @@ class csUsers extends CScript
 			$stdout .= "<td>Username</td>";
 			$stdout .= "<td>Home</td>";
 			$stdout .= "<td>Groups</td>";
+			$stdout .= "<td>Last login</td>";
 			$stdout .= "</tr>";
 			foreach ($users as $user)
 			{
@@ -34,6 +35,10 @@ class csUsers extends CScript
 					$stdout .= "<td></td>";
 					
 				$stdout .= "<td>".$user->groups."</td>";
+				if ($user->last_login == "0000-00-00 00:00:00")
+					$stdout .= "<td>Never</td>";
+				else
+					$stdout .= "<td>".$user->last_login."</td>";
 				$stdout .= "</tr>";
 			}
 			$stdout .= "</table>";

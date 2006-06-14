@@ -4,6 +4,7 @@ class sUpload extends Script
 {
 	function sUpload()
 	{
+		$this->zone = "zone_main";
 	}
 	
 	function EventHandler(&$system, &$response, $event, $args)

@@ -34,10 +34,11 @@ class csMkdir extends CScript
 			$object->name = basename($path);
 			$object->language = $_SESSION['murrix']['language'];
 			$object->rights = $parent->getMeta("initial_rights", "rwcrwc---");
+			
 			$user_groups = $_SESSION['murrix']['user']->getGroups();
 			$group = new mGroup();
-			$group->setByName($user_groups[0]);
-			$object->group_id = $parent->getMeta("initial_group", $group->id);
+			$group->setByName($parent->getMeta("initial_group", $user_groups[0]));
+			$object->group_id = $group->id;
 
 			if (!$object->save())
 			{

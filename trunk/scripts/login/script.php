@@ -4,6 +4,7 @@ class sLogin extends Script
 {
 	function sLogin()
 	{
+		$this->zone = "zone_login";
 	}
 
 	function EventHandler(&$system, &$response, $event, $args = null)

@@ -4,6 +4,7 @@ class sNew extends Script
 {
 	function sNew()
 	{
+		$this->zone = "zone_main";
 	}
 	
 	function EventHandler(&$system, &$response, $event, $args)

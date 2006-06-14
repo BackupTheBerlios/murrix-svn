@@ -26,14 +26,24 @@ class csAddgroup extends CScript
 				
 			case 2:
 				$this->description = $args;
-				$stdout .= ucf(i18n("are you sure you want to create this group"))." (Y/n)?";
+				$stdout = "$args\n".ucf(i18n("create home"))." (Y/n)?";
 				$this->stage = 3;
 				return false;
 				
 			case 3:
+				$this->create_home = (empty($args) || strtolower($args) == "y" || strtolower($args) == "yes");
+				if ($this->create_home)
+					$stdout = "yes\n";
+				else
+					$stdout = "no\n";
+				$stdout .= ucf(i18n("are you sure you want to create this group"))." (Y/n)?";
+				$this->stage = 4;
+				return false;
+				
+			case 4:
 				if (empty($args) || strtolower($args) == "y" || strtolower($args) == "yes")
 				{
-					$result = createGroup($this->name, $this->description);
+					$result = createGroup($this->name, $this->description, $this->create_home);
 					
 					if (is_numeric($result))
 					{

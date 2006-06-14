@@ -50,6 +50,7 @@ class mGroup extends mTable
 		$this->id = $array['id'];
 		$this->name = $array['name'];
 		$this->description = $array['description'];
+		$this->home_id = $array['home_id'];
 	}
 	
 	function save()
@@ -57,6 +58,7 @@ class mGroup extends mTable
 		$array = array();
 		$array['name'] = $this->name;
 		$array['description'] = $this->description;
+		$array['home_id'] = $this->home_id;
 	
 		if ($this->id > 0)
 			return $this->update($this->id, $array);

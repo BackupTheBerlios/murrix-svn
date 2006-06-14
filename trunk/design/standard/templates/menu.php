@@ -8,7 +8,7 @@
 	</div>
 	<?
 	$menu_id = getNode("/root/public/menu");
-	$custom_menu_id = getNode("/root/home/".$_SESSION['murrix']['user']->username."/menu");
+	$custom_menu_id = getNode("/root/home/users/".$_SESSION['murrix']['user']->username."/menu");
 
 	if ($menu_id > 0 || $custom_menu_id > 0)
 	{
@@ -64,7 +64,7 @@
 		}
 	}
 
-	$homes = fetch("FETCH node WHERE link:node_top='".getNode("/root/home")."' AND link:type='sub' AND !property:class_name='comment' NODESORTBY property:version SORTBY property:name");
+	$homes = fetch("FETCH node WHERE (link:node_top='".getNode("/root/home/users")."' OR link:node_top='".getNode("/root/home/groups")."') AND link:type='sub' AND !property:class_name='comment' NODESORTBY property:version SORTBY property:name");
 	$homes = getReadable($homes);
 
 	if (count($homes) > 0)

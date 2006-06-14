@@ -508,6 +508,29 @@ class mObject
 		
 		return true;
 	}
+	
+	function deleteLink($id)
+	{
+		global $db_prefix;
+		
+		$query = "DELETE FROM `".$db_prefix."links` WHERE `id`='$id'";
+
+		if (!($result = mysql_query($query)))
+		{
+			$message = "<b>An error occured while deleting</b><br/>";
+			$message .= "<b>Table:</b> ".$db_prefix."links<br/>";
+			$message .= "<b>Query:</b> $query<br/>";
+			$message .= "<b>Error Num:</b> " . mysql_errno() . "<br/>";
+			$message .= "<b>Error:</b> " . mysql_error() . "<br/>";
+			$this->error = $message;
+			return false;
+		}
+
+		$_SESSION['murrix']['querycache'] = array();
+		updatePaths($this->getNodeId());
+		
+		return true;
+	}
 
 	function isLinkedTo($remote_id, $type = "sub")
 	{
@@ -531,7 +554,7 @@ class mObject
 		if ($node_id == 0)
 			$node_id = $this->node_id;
 		
-		$query = "SELECT type, IF(node_top = '$node_id', node_bottom, node_top) AS remote_id, IF(node_top = '$node_id', 'bottom', 'top') AS direction FROM `".$db_prefix."links` WHERE (node_top = '$node_id') OR (node_bottom = '$node_id') ORDER BY type";
+		$query = "SELECT id, type, IF(node_top = '$node_id', node_bottom, node_top) AS remote_id, IF(node_top = '$node_id', 'bottom', 'top') AS direction FROM `".$db_prefix."links` WHERE (node_top = '$node_id') OR (node_bottom = '$node_id') ORDER BY type";
 		
 		if (!($result = mysql_query($query)))
 		{

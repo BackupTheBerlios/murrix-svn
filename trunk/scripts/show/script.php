@@ -4,6 +4,7 @@ class sShow extends Script
 {
 	function sShow()
 	{
+		$this->zone = "zone_main";
 	}
 	
 	function EventHandler(&$system, &$response, $event, $args)

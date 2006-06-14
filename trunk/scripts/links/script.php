@@ -4,6 +4,7 @@ class sLinks extends Script
 {
 	function sLinks()
 	{
+		$this->zone = "zone_main";
 	}
 	
 	function EventHandler(&$system, &$response, $event, $args)

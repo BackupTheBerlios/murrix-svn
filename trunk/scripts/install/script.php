@@ -285,8 +285,7 @@ $list[] = array("class_name" => "contact",	"name" => "other",	"priority" => "130
 			$root_obj->setGroupId($administrator_group->id);
 			$root_obj->setRights("rwcrwcr--");
 			
-			$root_obj->setVarValue("description", "This is the root object");
-			$root_obj->setVarValue("icon", "murrix");
+			$root_obj->setVarValue("description", "This is the root node");
 
 			if ($root_obj->save())
 				$this->db_log .= "Created ".$root_obj->getName().".<br/>";
@@ -311,7 +310,7 @@ $list[] = array("class_name" => "contact",	"name" => "other",	"priority" => "130
 			$home_obj->setGroupId($administrator_group->id);
 			$home_obj->setRights("rwcrwcr--");
 
-			$home_obj->setVarValue("description", "This folder contains users home folders");
+			$home_obj->setVarValue("description", "This folder contain home folders");
 			
 			if ($home_obj->save())
 			{
@@ -321,7 +320,63 @@ $list[] = array("class_name" => "contact",	"name" => "other",	"priority" => "130
 			else
 			{
 				$this->db_log .= "Failed to create ".$home_obj->getName().".<br/>";
-				$this->db_log .= $adminhome_obj->error;
+				$this->db_log .= $home_obj->error;
+				$this->done = false;
+			}
+			
+			/*
+			================
+			== Users Home ==
+			================
+			*/
+			$users_home_obj = new mObject();
+			$users_home_obj->setClassName("folder");
+			$users_home_obj->loadVars();
+			$users_home_obj->setLanguage("eng");
+			$users_home_obj->setName("users");
+			$users_home_obj->setIcon("user");
+			$users_home_obj->setGroupId($administrator_group->id);
+			$users_home_obj->setRights("rwcrwcr--");
+
+			$users_home_obj->setVarValue("description", "This folder contain home folders");
+			
+			if ($users_home_obj->save())
+			{
+				$users_home_obj->linkWithNode($home_obj->getNodeId());
+				$this->db_log .= "Created ".$users_home_obj->getName().".<br/>";
+			}
+			else
+			{
+				$this->db_log .= "Failed to create ".$users_home_obj->getName().".<br/>";
+				$this->db_log .= $users_home_obj->error;
+				$this->done = false;
+			}
+			
+			/*
+			=================
+			== Groups Home ==
+			=================
+			*/
+			$group_home_obj = new mObject();
+			$group_home_obj->setClassName("folder");
+			$group_home_obj->loadVars();
+			$group_home_obj->setLanguage("eng");
+			$group_home_obj->setName("groups");
+			$group_home_obj->setIcon("group2");
+			$group_home_obj->setGroupId($administrator_group->id);
+			$group_home_obj->setRights("rwcrwcr--");
+
+			$users_home_obj->setVarValue("description", "This folder contain group folders");
+			
+			if ($group_home_obj->save())
+			{
+				$group_home_obj->linkWithNode($home_obj->getNodeId());
+				$this->db_log .= "Created ".$group_home_obj->getName().".<br/>";
+			}
+			else
+			{
+				$this->db_log .= "Failed to create ".$group_home_obj->getName().".<br/>";
+				$this->db_log .= $group_home_obj->error;
 				$this->done = false;
 			}
 			
@@ -342,7 +397,7 @@ $list[] = array("class_name" => "contact",	"name" => "other",	"priority" => "130
 			
 			if ($adminhome_obj->save())
 			{
-				$adminhome_obj->linkWithNode($home_obj->getNodeId());
+				$adminhome_obj->linkWithNode($users_home_obj->getNodeId());
 				$this->db_log .= "Created ".$adminhome_obj->getName().".<br/>";
 				
 				$administrator->home_id = $adminhome_obj->getNodeId();
@@ -352,6 +407,36 @@ $list[] = array("class_name" => "contact",	"name" => "other",	"priority" => "130
 			{
 				$this->db_log .= "Failed to create ".$adminhome_obj->getName().".<br/>";
 				$this->db_log .= $adminhome_obj->error;
+				$this->done = false;
+			}
+			
+			/*
+			=================
+			== Admins Home ==
+			=================
+			*/
+			$adminshome_obj = new mObject();
+			$adminshome_obj->setClassName("folder");
+			$adminshome_obj->loadVars();
+			$adminshome_obj->setLanguage("eng");
+			$adminshome_obj->setName("admins");
+			$adminshome_obj->setGroupId($administrator_group->id);
+			$adminshome_obj->setRights("rwcrwc---");
+
+			$adminshome_obj->setVarValue("description", "This is the homefolder for admins");
+			
+			if ($adminshome_obj->save())
+			{
+				$adminshome_obj->linkWithNode($group_home_obj->getNodeId());
+				$this->db_log .= "Created ".$adminshome_obj->getName().".<br/>";
+				
+				$administrator_group->home_id = $adminshome_obj->getNodeId();
+				$administrator_group->save();
+			}
+			else
+			{
+				$this->db_log .= "Failed to create ".$adminshome_obj->getName().".<br/>";
+				$this->db_log .= $adminshome_obj->error;
 				$this->done = false;
 			}
 			

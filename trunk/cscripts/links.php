@@ -13,6 +13,7 @@ class csLinks extends CScript
 		{
 			$stdout .= "<table cellspacing=\"0\">";
 			$stdout .= "<tr class=\"table_title\">";
+			$stdout .= "<td>Id</td>";
 			$stdout .= "<td>Type</td>";
 			$stdout .= "<td>Remote node</td>";
 			$stdout .= "<td>Remote node is on...</td>";
@@ -28,6 +29,7 @@ class csLinks extends CScript
 				}
 
 				$stdout .= "<tr>";
+				$stdout .= "<td>".$link['id']."</td>";
 				$stdout .= "<td>".$link['type']."</td>";
 				$stdout .= "<td>".$remote."</td>";
 				$stdout .= "<td>".ucf(i18n($link['direction']))."</td>";

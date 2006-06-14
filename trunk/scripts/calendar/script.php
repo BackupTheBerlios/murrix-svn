@@ -4,6 +4,7 @@ class sCalendar extends Script
 {
 	function sCalendar()
 	{
+		$this->zone = "zone_main";
 	}
 	
 	function EventHandler(&$system, &$response, $event, $args = null)

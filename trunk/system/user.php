@@ -1,5 +1,17 @@
 <?
 
+function isAnonymous()
+{
+	global $anonymous_id;
+	return ($_SESSION['murrix']['user']->id == $anonymous_id);
+}
+
+function isAdmin()
+{
+	$user_groups = $_SESSION['murrix']['user']->getGroups();
+	return in_array("admins", $user_groups);
+}
+
 function login($username, $password)
 {
 	$user = new mUser();
@@ -67,7 +79,7 @@ function createUser($name, $username, $password, $groups, $create_home = true)
 	if ($group->id > 0)
 		$group_id = $group->id;
 	else
-		$group_id = createGroup($username, "This is the group of $name");
+		$group_id = createGroup($username, "This is the group of $name", false);
 		
 	$group = new mGroup($group_id);
 	$groups = $group->name." $groups";
@@ -79,7 +91,7 @@ function createUser($name, $username, $password, $groups, $create_home = true)
 	$user->groups = $groups;
 	$ret = $user->save();
 	
-	if ($create_home && getNode("/Root/Home/".$username) <= 0)
+	if ($create_home && getNode("/root/home/users/".$username) <= 0)
 	{
 		$home = new mObject();
 		$home->setClassName("folder");
@@ -94,7 +106,7 @@ function createUser($name, $username, $password, $groups, $create_home = true)
 	
 		if ($home->save())
 		{
-			$home_folder = new mObject(getNode("/Root/Home"));
+			$home_folder = new mObject(getNode("/root/home/users"));
 			$home->linkWithNode($home_folder->getNodeId());
 			$home->setMeta("initial_rights", "rwcrwc---");
 			$home->setMeta("initial_group", $username);
@@ -124,7 +136,7 @@ function delGroup($name)
 	return $group->remove();
 }
 
-function createGroup($name, $description)
+function createGroup($name, $description, $create_home = true)
 {
 	if (!isAdmin)
 		return ucf(i18n("not enough rights to create new group"));
@@ -140,7 +152,41 @@ function createGroup($name, $description)
 
 	$group->name = $name;
 	$group->description = $description;
-	return $group->save();
+	$ret = $group->save();
+	
+	if ($create_home && getNode("/root/home/groups/".$name) <= 0)
+	{
+		$home = new mObject();
+		$home->setClassName("folder");
+		$home->loadVars();
+	
+		$home->name = $name;
+		$home->language = $_SESSION['murrix']['language'];
+		$home->group_id = $group->id;
+		$home->rights = "rwcr-c---";
+	
+		$home->setVarValue("description", "This is the home of $name");
+	
+		if ($home->save())
+		{
+			$home_folder = new mObject(getNode("/root/home/groups"));
+			$home->linkWithNode($home_folder->getNodeId());
+			$home->setMeta("initial_rights", "rwcrwc---");
+			$home->setMeta("initial_group", $name);
+		}
+		else
+		{
+			$message = "Operation unsuccessfull.<br/>";
+			$message .= "Error output:<br/>";
+			$message .= $home->getLastError();
+			return $message;
+		}
+		
+		$group->home_id = $home->getNodeId();
+		$group->save();
+	}
+	
+	return $ret;
 }
 
 ?>

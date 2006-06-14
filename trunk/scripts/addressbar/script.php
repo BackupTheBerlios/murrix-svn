@@ -4,6 +4,7 @@ class sAddressbar extends Script
 {
 	function sAddressbar()
 	{
+		$this->zone = "zone_addressbar";
 	}
 
 	function EventHandler(&$system, &$response, $event, $args)

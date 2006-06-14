@@ -53,7 +53,52 @@ function setHash(cmd)
 	document.location.hash = "#"+cmd;
 }
 
+function parseCommand(cmd)
+{
+	var args = cmd.split("&");
+	
+	var script = "";
+	var hash_arg = "";
+	
+	for (var n = 0; n < args.length; n++)
+	{
+		var parts = args[n].split("=");
+		
+		if (parts[0] == "exec")
+			script = parts[1];
+		else
+		{
+			if (hash_arg.length != 0)
+				hash_arg += ",";
+				
+			hash_arg += "'"+parts[0]+"','"+parts[1]+"'";
+		}
+	}
+	
+	var cmd = "Exec('"+script+"',Hash("+hash_arg+"))";
+	
+	return cmd;
+}
+
 function Poll()
+{
+	command = getHash();
+	
+	if (typeof command == 'undefined')
+		command = "default";
+		
+	if (command != last_command)
+	{
+		if (command == "default")
+			eval(URLDecode(default_command));
+		else
+			eval(parseCommand(URLDecode(command)));
+			
+		last_command = command;
+	}
+}
+
+function Poll2()
 {
 	command = getHash();
 	if (typeof command == 'undefined')
@@ -127,17 +172,17 @@ function triggerEvent(event, args)
 	return false;
 }
 
-function Exec(scriptname, zone, args)
+function Exec(scriptname, args)
 {
-	startScript(zone);
-	xajax_ExecScript(scriptname, zone, args);
+	startScript(scriptname);
+	xajax_ExecScript(scriptname, args);
 	return false;
 }
 
-function Post(scriptname, zone, formname)
+function Post(scriptname, formname)
 {
 	delEditors(formname);
-	return Exec(scriptname, zone, xajax.getFormValues(formname));
+	return Exec(scriptname, xajax.getFormValues(formname));
 }
 
 var active_editors = new Object();

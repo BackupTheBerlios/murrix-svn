@@ -6,7 +6,8 @@ class sConsole extends Script
 
 	function sConsole()
 	{
-		$running = "";
+		$this->zone = "zone_main";
+		$this->running = "";
 	}
 	
 	function Exec(&$system, &$response, $args)

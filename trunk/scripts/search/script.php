@@ -4,6 +4,7 @@ class sSearch extends Script
 {
 	function sSearch()
 	{
+		$this->zone = "zone_main";
 	}
 	
 	function Exec(&$system, &$response, $args)

@@ -4,6 +4,7 @@ class sEdit extends Script
 {
 	function sEdit()
 	{
+		$this->zone = "zone_main";
 	}
 	
 	function EventHandler(&$system, &$response, $event, $args)

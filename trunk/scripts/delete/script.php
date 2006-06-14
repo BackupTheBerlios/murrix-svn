@@ -4,6 +4,7 @@ class sDelete extends Script
 {
 	function sDelete()
 	{
+		$this->zone = "zone_main";
 	}
 	
 	function EventHandler(&$system, &$response, $event, $args)

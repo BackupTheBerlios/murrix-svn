@@ -73,12 +73,9 @@ $root = new mObject($root_id);
 			function init()
 			{
 				<?
-					$_SESSION['murrix']['System']->SetZone("addressbar", "zone_addressbar");
-					$_SESSION['murrix']['System']->SetZone("login", "zone_login");
-					$_SESSION['murrix']['System']->SetZone("show", "zone_main");
-					$_SESSION['murrix']['path'] = $_SESSION['murrix']['default_path'];
+				//	$_SESSION['murrix']['path'] = $_SESSION['murrix']['default_path'];
 				?>
-				return "Exec('show','zone_main','<?=$_SESSION['murrix']['default_path']?>')";
+				return "exec=show&path=<?=urlencode($_SESSION['murrix']['default_path'])?>";
 			}
 		// -->
 		</script>

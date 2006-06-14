@@ -4,6 +4,7 @@ class sSettings extends Script
 {
 	function sSettings()
 	{
+		$this->zone = "zone_main";
 	}
 	
 	function EventHandler(&$system, &$response, $event, $args)

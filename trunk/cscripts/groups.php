@@ -14,6 +14,7 @@ class csGroups extends CScript
 			$stdout .= "<tr class=\"table_title\">";
 			$stdout .= "<td>Id</td>";
 			$stdout .= "<td>Name</td>";
+			$stdout .= "<td>Home</td>";
 			$stdout .= "<td>Description</td>";
 			$stdout .= "</tr>";
 			foreach ($groups as $group)
@@ -21,6 +22,16 @@ class csGroups extends CScript
 				$stdout .= "<tr>";
 				$stdout .= "<td>".$group->id."</td>";
 				$stdout .= "<td>".$group->name."</td>";
+				
+				if ($group->home_id > 0)
+				{
+					$home = new mObject($group->home_id);
+					$stdout .= "<td>".cmd($home->getPath(), "Exec('show','zone_main',Hash('node_id','".$home->getNodeId()."'))")."</td>";
+				}
+				else
+					$stdout .= "<td></td>";
+				
+				
 				$stdout .= "<td>".$group->description."</td>";
 				$stdout .= "</tr>";
 			}

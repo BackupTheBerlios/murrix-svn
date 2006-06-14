@@ -3,6 +3,7 @@
 class Script
 {
 	var $zone;
+	var $active;
 	
 	function Script()
 	{
