@@ -130,7 +130,13 @@ $root = new mObject($root_id);
 					<td>
 					<?
 						include(gettpl("menu"));
-					?>
+						?>
+						<div id="zone_poll">
+						<?
+							include(gettpl("scripts/poll/view"));
+							$_SESSION['murrix']['system']->makeActive("poll");
+						?>
+						</div>
 					</td>
 					<td style="width: 100%">
 						<div id="content">

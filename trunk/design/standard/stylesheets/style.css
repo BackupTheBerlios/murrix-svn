@@ -674,13 +674,14 @@ table.content_table td
 	font-weight: bold;
 }
 
-#content .submit
+.submit
 {
 	border-width: 0;
 	background-color: #B6BAFF;
+	border: 1px solid #DCD7FF;
 	margin: 0;
-	padding: 2px;
-	font-size: 14px;
+	padding: 0;
+	font-size: 12px;
 }
 
 #content .adminpanel

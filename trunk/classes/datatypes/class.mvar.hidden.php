@@ -4,12 +4,16 @@ class mVarHidden extends mVar
 {
 	function getEdit($formname, $var_prefix = "")
 	{
-		$parts = explode(":", $this->extra);
-
-		switch ($parts[0])
+		switch ($this->extra)
 		{
-		case "user":
-			$value = $_SESSION['murrix']['user']->{$parts[1]}; // ? IS THIS CORRECT??!?!?!
+		case "name":
+			$value = $_SESSION['murrix']['user']->name;
+			break;
+		case "userid":
+			$value = $_SESSION['murrix']['user']->id;
+			break;
+		case "username":
+			$value = $_SESSION['murrix']['user']->username;
 			break;
 		case "date":
 			$value = date("Y-m-d");
@@ -22,7 +26,7 @@ class mVarHidden extends mVar
 			break;
 		}
 		
-		return compiletpl("datatypes/standard/edit", $this->getStandardArgs($formname, $var_prefix));
+		return compiletpl("datatypes/hidden/edit", $this->getStandardArgs($formname, $var_prefix));
 	}
 }
 

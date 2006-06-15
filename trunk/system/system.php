@@ -104,6 +104,9 @@ class mSystem
 			$response->addAlert("Exec: Error: No such script; $name");
 		else
 		{
+			if (isset($arguments['zone']))
+				$this->scripts[$name]->zone = $arguments['zone'];
+		
 			$this->scripts[$name]->active = true;
 			$this->scripts[$name]->Exec($this, $response, $arguments);
 			

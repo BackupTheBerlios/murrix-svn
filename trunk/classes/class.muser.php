@@ -38,6 +38,60 @@ class mUser extends mTable
 		return $list;
 	}
 	
+	function sendMessage($subject, $text, $attachment)
+	{
+		if ($this->id <= 0)
+			return false;
+			
+		$user_id = $_SESSION['murrix']['user']->id;
+		$_SESSION['murrix']['user']->id = $this->id;
+		
+		$home = new mObject($this->home_id);
+		
+		$inbox_id = getNode($home->getPath()."/inbox");
+		
+		if ($inbox_id < 0)
+		{
+			$inbox = new mObject();
+			$inbox->setClassName("folder");
+			$inbox->loadVars();
+
+			$inbox->name = "inbox";
+			$inbox->language = $_SESSION['murrix']['language'];
+			$inbox->rights = $home->getMeta("initial_rights", "rwcrwc---");
+			$inbox->group_id = $home->getMeta("initial_group", $home->getGroupId());
+
+			$inbox_id = $inbox->save();
+			
+			clearNodeFileCache($home->getNodeId());
+			$inbox->linkWithNode($home->getNodeId());
+		}
+		else
+			$inbox = new mObject($inbox_id);
+		
+		$message = new mObject();
+		$message->setClassName("message");
+		$message->loadVars();
+		
+		$message->name = $subject;
+		$message->language = $_SESSION['murrix']['language'];
+		$message->rights = $inbox->getMeta("initial_rights", "rwcrwc---");
+		$message->group_id = $inbox->getMeta("initial_group", $inbox->getGroupId());
+		
+		$message->setVarValue("text", $text);
+		$message->setVarValue("attachment", $attachment);
+		$message->setVarValue("sender", $_SESSION['murrix']['user']->name);
+
+		$message->save();
+		
+		clearNodeFileCache($inbox->getNodeId());
+		$message->linkWithNode($inbox->getNodeId());
+		
+		$_SESSION['murrix']['user']->id = $user_id;
+		
+		return true;
+	}
+	
 	function setByUsername($username)
 	{
 		$users = $this->get("`username`='$username'");

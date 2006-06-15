@@ -52,7 +52,7 @@ class csCd extends CScript
 		}
 		
 		$object = new mObject(getNode($path));
-		if (!$object->hasRight("read"))
+		if (!$object->hasRight("read") && !isAdmin())
 		{
 			$stderr = ucf(i18n("permission denied, no rights"));
 			return true;

@@ -78,7 +78,7 @@ class sNew extends Script
 							$key = $language."_v".$var->id;
 							$value = (isset($args[$key]) ? $args[$key] : "");
 							
-							if (empty($value) && $var->getRequired())
+							if (empty($value) && $var->getRequired() && $var->getType() != "boolean")
 							{
 								$response->addAlert(utf8e(ucf(i18n($language))." ".i18n("version").": ".ucf(str_replace("_", " ", i18n($var->getName(true))))." ".i18n("is a required field")));
 								return;

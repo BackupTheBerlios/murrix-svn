@@ -90,6 +90,9 @@ function getEventDate($object, $now = "now")
 
 function getReadable($objects)
 {
+	if (isAdmin())
+		return $objects;
+
 	$objects_readable = array();
 	for ($n = 0; $n < count($objects); $n++)
 	{

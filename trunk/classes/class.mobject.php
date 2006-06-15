@@ -255,7 +255,7 @@ class mObject
 
 		$datetime = date("Y-m-d H:i:s");
 
-		$user_id = (isset($_SESSION['murrix']['user']) ? $_SESSION['murrix']['user']->id : 0);
+		$user_id = (isset($_SESSION['murrix']['user']) ? $_SESSION['murrix']['user']->id : $this->user_id);
 		
 		$query = "INSERT INTO `".$db_prefix."objects` (name, node_id, user_id, group_id, rights, created, class_name, version, language, icon) VALUES('$this->name', '$this->node_id', '$user_id', '$this->group_id', '$this->rights', '$datetime', '$this->class_name', '$this->version', '$this->language', '$this->icon')";
 

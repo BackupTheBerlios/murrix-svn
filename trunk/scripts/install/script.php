@@ -172,7 +172,9 @@ class sInstall extends Script
 				$list[] = array("name" => "event",		"default_icon" => "date");
 				$list[] = array("name" => "forum_topic",	"default_icon" => "comment");
 				$list[] = array("name" => "forum_thread",	"default_icon" => "comment");
-				
+				$list[] = array("name" => "message",		"default_icon" => "message");
+				$list[] = array("name" => "poll",		"default_icon" => "question");
+				$list[] = array("name" => "poll_answer",	"default_icon" => "apply");
 				$list[] = array("name" => "news",		"default_icon" => "news");
 				$list[] = array("name" => "contact",		"default_icon" => "user");
 				
@@ -216,8 +218,20 @@ $list[] = array("class_name" => "event", "name" => "reoccuring_monthly","priorit
 $list[] = array("class_name" => "event", "name" => "description",	"priority" => "40",	"type" => "xhtml");
 $list[] = array("class_name" => "event", "name" => "calendar_hide",	"priority" => "50",	"type" => "boolean",	"required" => true);
 
+$list[] = array("class_name" => "message",	"name" => "text",	"priority" => "10",	"type" => "text",	"required" => true);
+$list[] = array("class_name" => "message",	"name" => "attatchment","priority" => "20",	"type" => "node");
+$list[] = array("class_name" => "message",	"name" => "sender",	"priority" => "30",	"type" => "hidden",	"extra" => "name");
+
 $list[] = array("class_name" => "forum_topic",	"name" => "description","priority" => "10",	"type" => "text",	"required" => true);
 $list[] = array("class_name" => "forum_thread",	"name" => "description","priority" => "10",	"type" => "text",	"required" => true);
+
+$list[] = array("class_name" => "poll",		"name" => "question",	"priority" => "10",	"type" => "text",	"required" => true);
+$list[] = array("class_name" => "poll",		"name" => "opendate",	"priority" => "20",	"type" => "date",	"required" => true);
+$list[] = array("class_name" => "poll",		"name" => "closedate",	"priority" => "30",	"type" => "date",	"required" => true);
+$list[] = array("class_name" => "poll",		"name" => "hide_result","priority" => "40",	"type" => "boolean",	"required" => true);
+$list[] = array("class_name" => "poll",		"name" => "alternatives","priority" => "50",	"type" => "array",	"required" => true);
+
+$list[] = array("class_name" => "poll_answer",	"name" => "answer",	"priority" => "10",	"type" => "textline",	"required" => true);
 
 $list[] = array("class_name" => "news",		"name" => "expire",	"priority" => "10",	"type" => "date",	"required" => true);
 $list[] = array("class_name" => "news",		"name" => "text",	"priority" => "20",	"type" => "text",	"required" => true);

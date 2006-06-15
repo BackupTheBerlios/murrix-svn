@@ -128,7 +128,7 @@ function createUser($name, $username, $password, $groups, $create_home = true)
 			$home_folder = new mObject(getNode("/root/home/users"));
 			$home->linkWithNode($home_folder->getNodeId());
 			$home->setMeta("initial_rights", "rwcrwc---");
-			$home->setMeta("initial_group", $username);
+			$home->setMeta("initial_group", $group_id);
 		}
 		else
 		{
