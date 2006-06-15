@@ -326,7 +326,7 @@ function _gettemplateoverride($filename, $object, $site)
 	return $tpl;
 }
 
-function gettpl($template, $object = null)
+function gettpl_path($template, $object = null, $path = "")
 {
 	global $abspath;
 
@@ -342,11 +342,25 @@ function gettpl($template, $object = null)
 		{
 			$tpl = _gettemplateoverride($filename, $object, "standard");
 			if (empty($tpl))
-				$tpl = "$abspath/design/standard/templates/$filename";
+				$tpl = "$path/design/standard/templates/$filename";
 		}
 	}
 
 	return $tpl;
+}
+
+function gettpl($template, $object = null)
+{
+	global $abspath;
+
+	return gettpl_path($template, $object, $abspath);
+}
+
+function gettpl_www($template, $object = null)
+{
+	global $wwwpath;
+
+	return gettpl_path($template, $object, $wwwpath);
 }
 
 function compiletpl($template, $args)
