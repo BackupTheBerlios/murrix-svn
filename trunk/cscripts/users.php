@@ -29,7 +29,7 @@ class csUsers extends CScript
 				if ($user->home_id > 0)
 				{
 					$home = new mObject($user->home_id);
-					$stdout .= "<td>".cmd($home->getPath(), "Exec('show','zone_main',Hash('node_id','".$home->getNodeId()."'))")."</td>";
+					$stdout .= "<td>".cmd($home->getPath(), "exec=show&node_id=".$home->getNodeId())."</td>";
 				}
 				else
 					$stdout .= "<td></td>";

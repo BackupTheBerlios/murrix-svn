@@ -23,13 +23,13 @@ if ($type == "image")
 }
 
 if (!empty($data))
-	$img = cmd($data, "Exec('show','zone_main',Hash('node_id','".$child->getNodeId()."'))");
+	$img = cmd($data, "exec=show&node_id=".$child->getNodeId());
 else
-	$img = cmd(img(geticon(getfiletype($pathinfo['extension']), 128)), "Exec('show','zone_main',Hash('node_id','".$child->getNodeId()."'))");
+	$img = cmd(img(geticon(getfiletype($pathinfo['extension']), 128)), "exec=show&node_id=".$child->getNodeId());
 
 ?>
 <div class="show_item">
 	<?=$img?>
 	<br/>
-	<?=cmd($child->getName(), "Exec('show','zone_main',Hash('node_id','".$child->getNodeId()."'))")?>
+	<?=cmd($child->getName(), "exec=show&node_id=".$child->getNodeId())?>
 </div>

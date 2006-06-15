@@ -6,6 +6,10 @@ require_once("classes/class.mvar.php");
 require_once("classes/class.mobject.php");
 require_once("classes/class.mthumbnail.php");
 require_once("classes/class.script.php");
+require_once("classes/class.mtable.php");
+require_once("classes/class.mgroup.php");
+require_once("classes/class.muser.php");
+
 
 require_once("3dparty/exifer/exif.php");
 
@@ -22,9 +26,9 @@ require_once("session.php");
 if (($str = db_connect()) !== true)
 	echo "Failed to connect to database!";
 
-$parent = new mObject(resolvePath($_SESSION['murrix']['path']));
+$parent = new mObject(getNode($_SESSION['murrix']['path']));
 
-if (!$parent->hasRight("create_subnodes", array("file", "file_folder")))
+if (!$parent->hasRight("create"))
 {
 	echo "You do not have enough rights to upload files.";
 	exit;

@@ -24,6 +24,9 @@ class csWhoami extends CScript
 		if (!empty($user->username))
 			$stdout .= "Username: ".$user->username."\n";
 			
+		if (!empty($user->groups))
+			$stdout .= "Groups: ".$user->groups."\n";
+			
 		if ($user->last_login == "0000-00-00 00:00:00")
 			$stdout .= "Last login: Never";
 		else

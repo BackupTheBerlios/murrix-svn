@@ -30,7 +30,7 @@ $root = new mObject($root_id);
 		for ($i = 0; $i < count($js); $i++)
 			echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$js[$i]."\"/>\n";
 
-		$_SESSION['murrix']['System']->PrintHeader();
+		$_SESSION['murrix']['system']->PrintHeader();
 		?>
 		<script type="text/javascript" src="3dparty/tiny_mce/tiny_mce_src.js"></script>
 		
@@ -72,9 +72,6 @@ $root = new mObject($root_id);
 
 			function init()
 			{
-				<?
-				//	$_SESSION['murrix']['path'] = $_SESSION['murrix']['default_path'];
-				?>
 				return "exec=show&path=<?=urlencode($_SESSION['murrix']['default_path'])?>";
 			}
 		// -->
@@ -91,15 +88,18 @@ $root = new mObject($root_id);
 						include(gettpl("scripts/login/login"));
 					else
 						include(gettpl("scripts/login/logout"));
+						
+					$_SESSION['murrix']['system']->makeActive("login");
+					
 				?>
 				</div>
 	
 				<div id="header_logo">
-					<?=cmd(img(geticon($root->getIcon(), 64)), "Exec('show','zone_main',Hash('path','".$_SESSION['murrix']['default_path']."'))")?>
+					<?=cmd(img(geticon($root->getIcon(), 64)), "exec=show&path=".$_SESSION['murrix']['default_path'])?>
 				</div>
 				
 				<div id="header_name">
-					<?=cmd(getSetting("TITLE", "Welcome to MURRiX"), "Exec('show','zone_main',Hash('path','".$_SESSION['murrix']['default_path']."'))")?>
+					<?=cmd(getSetting("TITLE", "Welcome to MURRiX"), "exec=show&path=".$_SESSION['murrix']['default_path'])?>
 				</div>
 			</div>
 		</div>
@@ -109,10 +109,11 @@ $root = new mObject($root_id);
 			<?
 				$path = $_SESSION['murrix']['path'];
 				include(gettpl("scripts/addressbar"));
+				$_SESSION['murrix']['system']->makeActive("addressbar");
 			?>
 			</div>
 
-			<form id="smallSearch" action="javascript:void(null);" onsubmit="Post('search', 'zone_main', 'smallSearch')">
+			<form id="smallSearch" action="javascript:void(null);" onsubmit="Post('search','smallSearch')">
 				<div id="search">
 					<input id="query" name="query" class="input" type="text" onfocus="if(this.value=='<?=ucf(i18n("enter search here"))?>!')this.value=''" onblur="if(this.value=='')this.value='<?=ucf(i18n("enter search here"))?>!'" value="<?=ucf(i18n("enter search here"))?>!"/>
 					<input class="submit" type="submit" value="<?=ucf(i18n("search"))?>"/>
@@ -137,6 +138,7 @@ $root = new mObject($root_id);
 							<?
 								$object = new mObject(getNode($_SESSION['murrix']['path']));
 								include(gettpl("scripts/show", $object));
+								$_SESSION['murrix']['system']->makeActive("show");
 							?>
 							</div>
 						</div>

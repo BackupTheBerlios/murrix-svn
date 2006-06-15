@@ -14,7 +14,7 @@
 				<iframe src="<?="$wwwpath/docs/README.txt"?>"></iframe>
 			</div>
 			<div class="main_nav">
-				<?=cmd("Next -->", "Exec('install','zone_main',Hash('stage','2'))")?>
+				<?=cmd("Next -->", "exec=install&stage=2")?>
 			</div>
 		</td>
 	</tr>

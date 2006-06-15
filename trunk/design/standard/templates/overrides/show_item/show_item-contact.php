@@ -23,14 +23,14 @@ if (!empty($thumb_id))
 	
 	$_SESSION['murrix']['rightcache']['thumbnail'][] = $thumbnail->id;
 
-	$img = cmd($thumbnail->Show(true), "Exec('show','zone_main',Hash('node_id','".$child->getNodeId()."'))");
+	$img = cmd($thumbnail->Show(true), "exec=show&node_id=".$child->getNodeId());
 }
 else
-	$img = cmd(img(geticon($child->getIcon(), 128)), "Exec('show','zone_main',Hash('node_id','".$child->getNodeId()."'))");
+	$img = cmd(img(geticon($child->getIcon(), 128)), "exec=show&node_id=".$child->getNodeId());
 
 ?>
 <div class="show_item">
 	<?=$img?>
 	<br/>
-	<?=cmd($child->getName(), "Exec('show','zone_main',Hash('node_id','".$child->getNodeId()."'))")?>
+	<?=cmd($child->getName(), "exec=show&node_id=".$child->getNodeId())?>
 </div>

@@ -41,7 +41,6 @@ function URLDecode(indata)
 
 var last_command = "";
 var default_command = "";
-var run_cmd = false;
 
 function getHash()
 {
@@ -98,36 +97,9 @@ function Poll()
 	}
 }
 
-function Poll2()
+function setRun()
 {
-	command = getHash();
-	if (typeof command == 'undefined')
-		command = "default";
-	
-	if (last_command != command || run_cmd)
-	{
-		if (command == "default")
-		{
-			eval(URLDecode(default_command));
-		}
-		else
-		{
-			if (isNaN(command) != true)
-				Exec('show','zone_main',Hash('node_id',command));
-			else
-				eval(URLDecode(command));
-		}
-		
-		last_command = command;
-		run_cmd = false;
-	}
-}
-
-function OnClickCmd(cmd)
-{
-	setHash(cmd);
-	last_command = cmd;
-	eval(URLDecode(last_command));
+	setTimeout("last_command = '';", 600);
 }
 
 function OnLoadHandler()

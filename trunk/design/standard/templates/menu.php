@@ -3,8 +3,8 @@
 		<?=ucf(i18n("menu"))?>
 	</div>
 	<div class="menu_items">
-		<?=cmd(img(getIcon("console"))." Console", "Exec('console','zone_main','')")?>
-		<?=cmd(img(getIcon("date"))." Calendar", "Exec('calendar','zone_main','')")?>
+		<?=cmd(img(getIcon("console"))." Console", "exec=console")?>
+		<?=cmd(img(getIcon("date"))." Calendar", "exec=calendar")?>
 	</div>
 	<?
 	$menu_id = getNode("/root/public/menu");
@@ -48,7 +48,7 @@
 					{
 						?>
 						<div class="subheader">
-							<?=cmd(img(geticon($subfolder->getIcon()))." ".$subfolder->getName(), "Exec('show','zone_main',Hash('node_id','".$subfolder->getNodeId()."'))")?>
+							<?=cmd(img(geticon($subfolder->getIcon()))." ".$subfolder->getName(), "exec=show&node_id=".$subfolder->getNodeId())?>
 						</div>
 
 						<div class="menu_items">

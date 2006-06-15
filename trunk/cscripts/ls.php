@@ -36,7 +36,7 @@ class csLs extends CScript
 				$stdout .= "<td>".$user->username."</td>";
 				$stdout .= "<td>".$group->name."</td>";
 				$stdout .= "<td>".$child->getCreated()."</td>";
-				$stdout .= "<td>".cmd(img(geticon($child->getIcon(), 16))."&nbsp;".$child->getName(), "Exec('show','zone_main',Hash('node_id','".$child->getNodeId()."'))")."</td>";
+				$stdout .= "<td>".cmd(img(geticon($child->getIcon(), 16))."&nbsp;".$child->getName(), "exec=show&node_id=".$child->getNodeId())."</td>";
 				$stdout .= "</tr>";
 			}
 			$stdout .= "</table>";

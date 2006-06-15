@@ -15,7 +15,7 @@
 				<?=$this->db_log?>
 			</div>
 			<div class="main_nav">
-				<?=cmd("<-- Back", "Exec('install','zone_main', Hash('stage','6'))")?>
+				<?=cmd("<-- Back", "exec=install&stage=6")?>
 				|
 				<a href="./">To MURRiX --></a>
 			</div>

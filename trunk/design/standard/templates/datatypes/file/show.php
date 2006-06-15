@@ -8,7 +8,7 @@ $_SESSION['murrix']['rightcache']['file'][] = $args['value_id'];
 
 if ($type == "image")
 {
-	$maxsize = 150;
+	$maxsize = getSetting("THUMBSIZE", 150);
 	$thumbnail = getThumbnail($args['value_id'], $maxsize, $maxsize);
 	
 	if ($thumbnail !== false)

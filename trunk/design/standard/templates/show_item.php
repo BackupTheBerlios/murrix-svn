@@ -1,5 +1,5 @@
 <div class="show_item">
-	<?=cmd(img(geticon($child->getIcon(), 128)), "Exec('show','zone_main',Hash('node_id','".$child->getNodeId()."'))")?>
+	<?=cmd(img(geticon($child->getIcon(), 128)), "exec=show&node_id=".$child->getNodeId())?>
 	<br/>
-	<?=cmd($child->getName(), "Exec('show','zone_main',Hash('node_id','".$child->getNodeId()."'))")?>
+	<?=cmd($child->getName(), "exec=show&node_id=".$child->getNodeId())?>
 </div>

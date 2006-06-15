@@ -10,7 +10,7 @@ class csInfo extends CScript
 		$group = $object->getGroup();
 			
 		$stdout .= "<table cellspacing=\"0\">";
-		$stdout .= "<tr><td class=\"titlename\">Name</td><td>".cmd($object->getName(), "Exec('show','zone_main',Hash('node_id','".$object->getNodeId()."'))")."</td></tr>";
+		$stdout .= "<tr><td class=\"titlename\">Name</td><td>".cmd($object->getName(), "exec=show'&node_id=".$object->getNodeId())."</td></tr>";
 		$stdout .= "<tr><td class=\"titlename\">Icon</td><td>".img(geticon($object->getIcon(), 16))."</td></tr>";
 		$stdout .= "<tr><td class=\"titlename\">Id</td><td>".$object->getNodeId()."</td></tr>";
 		$stdout .= "<tr><td class=\"titlename\">Revision</td><td>".$object->getVersion()."</td></tr>";

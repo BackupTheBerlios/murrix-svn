@@ -76,7 +76,7 @@ class sEdit extends Script
 							
 						if ($ret)
 						{
-							$response->addScript("OnClickCmd('Exec(\'show\',\'$this->zone\',Hash(\'node_id\',\'$node_id\'))');");
+							$response->addScript("setHash('exec=show&node_id=$node_id');");
 							clearNodeFileCache($object->getNodeId());
 							
 							$links = $object->getLinks();

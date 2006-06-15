@@ -8,7 +8,7 @@ include(gettpl("big_title"));
 ?>
 <div class="main">
 	<center>
-		<form id="bigSearch" name="bigSearch" action="javascript:void(null);" onsubmit="Post('search', 'zone_main', 'bigSearch')">
+		<form id="bigSearch" name="bigSearch" action="javascript:void(null);" onsubmit="Post('search','bigSearch')">
 			<br/>
 			<?=ucf(i18n("querystring"))?>
 			<br/>

@@ -14,6 +14,17 @@ function isAdmin()
 
 function login($username, $password)
 {
+	if (function_exists("overrideLogin"))
+		return overrideLogin($username, $password);
+		
+	return realLogin($username, $password);
+}
+
+function realLogin($username, $password)
+{
+	if (empty($password))
+		return false;
+		
 	$user = new mUser();
 	$password = md5($password);
 	$users = $user->get("`username`='$username' AND `password`='$password'");
@@ -28,6 +39,14 @@ function login($username, $password)
 }
 
 function logout()
+{
+	if (function_exists("overrideLogout"))
+		return overrideLogout();
+		
+	return realLogout();
+}
+
+function realLogout()
 {
 	global $anonymous_id;
 	$_SESSION['murrix']['user'] = new mUser($anonymous_id);

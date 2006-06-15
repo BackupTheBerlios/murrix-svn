@@ -30,7 +30,7 @@ if (count($children) > 0)
 
 				$read_right = $child->hasRight("read");
 				if ($read_right)
-					$name = cmd(img(geticon($child->getIcon()))." ".$child->getName(), "Exec('show','zone_main',Hash('node_id','".$child->getNodeId()."'))");
+					$name = cmd(img(geticon($child->getIcon()))." ".$child->getName(), "exec=show&node_id=".$child->getNodeId());
 				else
 					$name = img(geticon($child->getIcon()))." ".$child->getName();
 
@@ -39,9 +39,9 @@ if (count($children) > 0)
 				$admin = "";
 				if ($child->hasRight("write"))
 				{
-					$admin .= cmd(img(geticon("edit")), "Exec('edit','zone_main',Hash('node_id','".$child->getNodeId()."'))");
+					$admin .= cmd(img(geticon("edit")), "exec=edit&node_id=".$child->getNodeId());
 					$admin .= "&nbsp;";
-					$admin .= cmd(img(geticon("delete")), "Exec('delete','zone_main',Hash('node_id','".$child->getNodeId()."'))");
+					$admin .= cmd(img(geticon("delete")), "exec=delete&node_id=".$child->getNodeId());
 				}
 				
 				$list[] = array($name, $description, $admin);

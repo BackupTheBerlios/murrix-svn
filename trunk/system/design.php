@@ -19,6 +19,11 @@ function ucf($text)
 	return $buffer;
 }
 
+function runjs($name, $js)
+{
+	return "<a href=\"javascript:void(null)\" onclick=\"$js\" onkeyup=\"$js\">$name</a>";
+}
+
 function cmd($name, $cmd, $args = "", $title_deprecated = "")
 {
 	$arg_string = "";
@@ -26,7 +31,8 @@ function cmd($name, $cmd, $args = "", $title_deprecated = "")
 	if (!empty($title_deprecated))
 		$arg_string .= "title=\"$title_deprecated\" ";
 
-	$onclick_string = "run_cmd=true;";
+	$onclick_string = "setRun();";
+	$onkeyup_string = "";//run_cmd=true;";
 	
 	if (!empty($args))
 	{
@@ -36,6 +42,8 @@ function cmd($name, $cmd, $args = "", $title_deprecated = "")
 			{
 				if ($key == "onclick")
 					$onclick_string .= "$value;";
+				else if ($key == "onkeyup")
+					$onkeyup_string .= "$value;";
 				else
 					$arg_string .= "$key=\"$value\" ";
 			}
@@ -46,7 +54,7 @@ function cmd($name, $cmd, $args = "", $title_deprecated = "")
 		}
 	}
 	
-	return "<a href=\"#$cmd\" onclick=\"$onclick_string\" $arg_string>$name</a>";
+	return "<a href=\"#$cmd\" onclick=\"$onclick_string\" onkeyup=\"$onkeyup_string\" $arg_string>$name</a>";
 }
 
 function imgpath($append = "")
@@ -361,7 +369,7 @@ function i18n($text, $language = "")
 	if (isset($_SESSION['murrix']['lang_debug']) && $_SESSION['murrix']['lang_debug'] === true)
 	{
 		global $abspath;
-		$translation_path = "$abspath/design/".$_SESSION['murrix']['site'];
+		$translation_path = "$abspath/design/".$_SESSION['murrix']['theme'];
 	
 		if (is_writable($translation_path))
 		{

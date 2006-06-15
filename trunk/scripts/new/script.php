@@ -69,10 +69,7 @@ class sNew extends Script
 						$object->icon = trim($args[$language.'_icon']);
 						$object->language = $language;
 						$object->rights = $parent->getMeta("initial_rights", "rwcrwc---");
-						$user_groups = $_SESSION['murrix']['user']->getGroups();
-						$group = new mGroup();
-						$group->setByName($user_groups[0]);
-						$object->group_id = $parent->getMeta("initial_group", $group->id);
+						$object->group_id = $parent->getMeta("initial_group", $parent->getGroupId());
 	
 						$vars = $object->getVars();
 	
@@ -106,7 +103,7 @@ class sNew extends Script
 					{
 						clearNodeFileCache($parent->getNodeId());
 						$object->linkWithNode($parent->getNodeId());
-						$response->addScript("OnClickCmd('Exec(\'show\',\'$this->zone\',Hash(\'node_id\',\'".$object->getNodeId()."\'))');");
+						$response->addScript("setHash('exec=show&node_id=".$object->getNodeId()."');");
 					}
 	
 					return;

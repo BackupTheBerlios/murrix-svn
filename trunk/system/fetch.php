@@ -323,10 +323,15 @@ function SortBy(&$list, $sortby, $invert)
 	case "property:created":
 		usort(&$list, "SortByCreated");
 		break;
-	case "property:creator":
-		usort(&$list, "SortByCreator");
+	case "property:user_id":
+		usort(&$list, "SortByUser");
 		break;
-
+	case "property:group_id":
+		usort(&$list, "SortByGroup");
+		break;
+	case "property:rights":
+		usort(&$list, "SortByRights");
+		break;
 	default:
 		mergesort(&$list, $sortby);
 		break;
@@ -342,7 +347,9 @@ function SortByLanguage($a, $b) { return strnatcasecmp($a->getLanguage(), $b->ge
 function SortByIcon($a, $b) { return strnatcasecmp($a->getIcon(), $b->getIcon()); }
 function SortByVersion($a, $b) { return strnatcasecmp($a->getVersion(), $b->getVersion()); }
 function SortByCreated($a, $b) { return strnatcasecmp($a->getCreated(), $b->getCreated()); }
-function SortByCreator($a, $b) { return strnatcasecmp($a->getCreator(), $b->getCreator()); }
+function SortByUser($a, $b) { return strnatcasecmp($a->getUserId(), $b->getUserId()); }
+function SortByGroup($a, $b) { return strnatcasecmp($a->getGroupId(), $b->getGroupId()); }
+function SortByRights($a, $b) { return strnatcasecmp($a->getRights(), $b->getRights()); }
 
 function mergesort(&$array, $sortby)
 {

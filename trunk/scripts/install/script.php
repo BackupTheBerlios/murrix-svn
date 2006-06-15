@@ -14,6 +14,7 @@ class sInstall extends Script
 		$this->site = "standard";
 		$this->db_exists = false;
 		$this->db_tables = false;
+		$this->zone = "zone_main";
 	}
 	
 	function Exec(&$system, &$response, $args)
@@ -27,6 +28,8 @@ class sInstall extends Script
 
 		if (isset($args['admin_username']))
 			$this->admin_username = $args['admin_username'];
+
+
 
 		if (isset($args['admin_password1']) || isset($args['admin_password2']))
 		{
@@ -167,6 +170,8 @@ class sInstall extends Script
 				$list[] = array("name" => "article",		"default_icon" => "article");
 				$list[] = array("name" => "link",		"default_icon" => "global");
 				$list[] = array("name" => "event",		"default_icon" => "date");
+				$list[] = array("name" => "forum_topic",	"default_icon" => "comment");
+				$list[] = array("name" => "forum_thread",	"default_icon" => "comment");
 				
 				$list[] = array("name" => "news",		"default_icon" => "news");
 				$list[] = array("name" => "contact",		"default_icon" => "user");
@@ -210,6 +215,9 @@ $list[] = array("class_name" => "event", "name" => "reoccuring_yearly",	"priorit
 $list[] = array("class_name" => "event", "name" => "reoccuring_monthly","priority" => "30",	"type" => "boolean",	"required" => true);
 $list[] = array("class_name" => "event", "name" => "description",	"priority" => "40",	"type" => "xhtml");
 $list[] = array("class_name" => "event", "name" => "calendar_hide",	"priority" => "50",	"type" => "boolean",	"required" => true);
+
+$list[] = array("class_name" => "forum_topic",	"name" => "description","priority" => "10",	"type" => "text",	"required" => true);
+$list[] = array("class_name" => "forum_thread",	"name" => "description","priority" => "10",	"type" => "text",	"required" => true);
 
 $list[] = array("class_name" => "news",		"name" => "expire",	"priority" => "10",	"type" => "date",	"required" => true);
 $list[] = array("class_name" => "news",		"name" => "text",	"priority" => "20",	"type" => "text",	"required" => true);
@@ -393,7 +401,7 @@ $list[] = array("class_name" => "contact",	"name" => "other",	"priority" => "130
 			$adminhome_obj->setGroupId($administrator_group->id);
 			$adminhome_obj->setRights("rwcrwc---");
 
-			$adminhome_obj->setVarValue("description", "This is the homefolder for ".$this->admin_username);
+			$adminhome_obj->setVarValue("description", "This is the home for ".$this->admin_username);
 			
 			if ($adminhome_obj->save())
 			{
@@ -423,7 +431,7 @@ $list[] = array("class_name" => "contact",	"name" => "other",	"priority" => "130
 			$adminshome_obj->setGroupId($administrator_group->id);
 			$adminshome_obj->setRights("rwcrwc---");
 
-			$adminshome_obj->setVarValue("description", "This is the homefolder for admins");
+			$adminshome_obj->setVarValue("description", "This is the home for admins");
 			
 			if ($adminshome_obj->save())
 			{
@@ -470,12 +478,17 @@ $list[] = array("class_name" => "contact",	"name" => "other",	"priority" => "130
 			
 			if ($this->done)
 			{
-				setSetting("ROOT_NODE_ID", $root_obj->getNodeId(), "any");
-				setSetting("ANONYMOUS_ID", $anonymous->id, "any");
-				setSetting("DEFAULT_THEME", $this->site, "any");
-				setSetting("DEFAULT_PATH", "/root/public", $this->site);
-				setSetting("DEFAULT_LANG", "eng", $this->site);
-				setSetting("TITLE", "Welcome to MURRiX", $this->site);
+				setSetting("ROOT_NODE_ID",	$root_obj->getNodeId(),	"any");
+				setSetting("ANONYMOUS_ID",	$anonymous->id,		"any");
+				setSetting("IMGSIZE",		640,			"any");
+				setSetting("THUMBSIZE",		150,			"any");
+				setSetting("INSTANTTHUMBS",	"true",			"any");
+				setSetting("DEFAULT_THEME",	$this->site,		"any");
+				setSetting("DEFAULT_PATH",	"/root/public",		$this->site);
+				setSetting("DEFAULT_LANG",	"eng",			$this->site);
+				setSetting("TITLE",		"Welcome to MURRiX",	$this->site);
+				
+				
 	
 				/* ======================================================================================= */
 	

@@ -4,6 +4,7 @@ class sLangswitch extends Script
 {
 	function sLangswitch()
 	{
+		$this->zone = "zone_language";
 	}
 
 	function EventHandler(&$system, &$response, $event, $args = null)

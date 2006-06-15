@@ -8,6 +8,7 @@ class sConsole extends Script
 	{
 		$this->zone = "zone_main";
 		$this->running = "";
+		$this->logg = "";
 	}
 	
 	function Exec(&$system, &$response, $args)
@@ -18,10 +19,23 @@ class sConsole extends Script
 		$this->Draw($system, $response, $args);
 	}
 	
+	function setLogText(&$response, $text)
+	{
+		$response->addAssign("console_log", "innerHTML", utf8e($text));
+		$this->logg = $text;
+	}
+	
+	function addLogText(&$response, $text)
+	{
+		$response->addAppend("console_log", "innerHTML", utf8e($text));
+		$this->logg .= $text;
+	}
+	
 	function Draw(&$system, &$response, $args)
 	{
 		if (!isset($args['cmdline']))
 		{
+			$logtext = $this->logg;
 			ob_start();
 			include(gettpl("scripts/console/console"));
 			$response->addAssign($this->zone, "innerHTML", utf8e(ob_get_end()));
@@ -42,29 +56,31 @@ class sConsole extends Script
 				if ($cmd == "clear")
 				{
 					$response->addAssign("cmdline", "value", "");
-					$response->addAssign("console_log", "innerHTML", "");
+					$this->setLogText($response, "");
 				}
 				else if ($cmd == "list")
 				{
 					$response->addAssign("cmdline", "value", "");
-					$response->addAppend("console_log", "innerHTML", utf8e("<div class=\"cmd\">] $cmd</div>"));
+					$this->addLogText($response, "<div class=\"cmd\">] $cmd</div>");
+					
 					$list = "";
 					foreach ($this->scripts as $key => $script)
 						$list .= "$key ";
 						
-					$response->addAppend("console_log", "innerHTML", utf8e("<div class=\"out\">".nl2br($list)."</div>"));
+					$this->addLogText($response, "<div class=\"out\">".nl2br($list)."</div>");
 				}
 				else if ($cmd == "zones")
 				{
 					$response->addAssign("cmdline", "value", "");
-					$response->addAppend("console_log", "innerHTML", utf8e("<div class=\"cmd\">] $cmd</div>"));
+					$this->addLogText($response, "<div class=\"cmd\">] $cmd</div>");
+					
 					$list = "";
-					for ($n = 0; $n < count($system->scripts); $n++)
+					foreach ($system->scripts as $name => $script)
 					{
-						$list .= "ZONE=".$system->scripts[$n]->zone." CLASS=".get_class($system->scripts[$n])."\n";
+						$list .= "ZONE=".$system->scripts[$name]->zone." CLASS=$name ACTIVE=".$system->scripts[$name]->active."\n";
 					}
 						
-					$response->addAppend("console_log", "innerHTML", utf8e("<div class=\"out\">".nl2br($list)."</div>"));
+					$this->addLogText($response, "<div class=\"out\">".nl2br($list)."</div>");
 				}
 				else
 				{
@@ -74,15 +90,15 @@ class sConsole extends Script
 					
 					
 					if (!empty($stderr))
-						$response->addAppend("console_log", "innerHTML", utf8e("<div class=\"err\">".nl2br($stderr)."</div>"));
+						$this->addLogText($response, "<div class=\"err\">".nl2br($stderr)."</div>");
 						
 					if (!empty($stdout))
-						$response->addAppend("console_log", "innerHTML", utf8e("<div class=\"out\">".nl2br($stdout)."</div>"));
+						$this->addLogText($response, "<div class=\"out\">".nl2br($stdout)."</div>");
 				}
-				
-				$response->addScript("var console_log = document.getElementById(\"console_log\");console_log.scrollTop = console_log.scrollHeight;");
 			}
 		}
+		
+		$response->addScript("var console_log = document.getElementById(\"console_log\");console_log.scrollTop = console_log.scrollHeight;");
 	}
 	
 	function execCommand($cmd, &$stdout, &$stderr, &$response, &$system)
@@ -105,7 +121,7 @@ class sConsole extends Script
 			
 		$cmds = explode("|", $cmd);
 		
-		$response->addAppend("console_log", "innerHTML", utf8e("<div class=\"cmd\">] $cmd</div>"));
+		$this->addLogText($response, "<div class=\"cmd\">] $cmd</div>");
 		
 		foreach ($cmds as $cmd)
 		{

@@ -1,6 +1,6 @@
 <?
 $class_form = "<form name=\"sClassSelect\" id=\"sClassSelect\" action=\"javascript:void(null);\" onsubmit=\"javascript:void(null)\">";
-$class_form .= "<select class=\"select\" onchange=\"Post('new','zone_main', 'sClassSelect');\" name=\"class_name\">";
+$class_form .= "<select class=\"select\" onchange=\"Post('new','sClassSelect');\" name=\"class_name\">";
 $classlist = getClassList();
 foreach ($classlist as $class_name)
 {
@@ -26,7 +26,7 @@ $center = "";
 include(gettpl("big_title"));
 
 ?>
-<form name="sEdit" id="sEdit" action="javascript:void(null);" onsubmit="Post('new', 'zone_main', 'sEdit');">
+<form name="sEdit" id="sEdit" action="javascript:void(null);" onsubmit="Post('new','sEdit');">
 	<input class="hidden" type="hidden" name="action" value="save"/>
 	<input class="hidden" type="hidden" name="node_id" value="<?=$object->getNodeId()?>"/>
 	<input class="hidden" type="hidden" name="class_name" value="<?=$newobject->getClassName()?>"/>
@@ -133,4 +133,3 @@ include(gettpl("big_title"));
 	}
 	?>
 </form>
-

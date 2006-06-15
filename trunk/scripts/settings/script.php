@@ -34,13 +34,13 @@ class sSettings extends Script
 				{
 					$object->setMeta("children_show_num_per_page", $args['children_show_num_per_page']);
 					
-					$object->setMeta("hide_comments", $args['hide_comments'] == "on" ? 1 : "");
+					$object->setMeta("show_comments", $args['show_comments'] == "on" ? 1 : "");
 					
 					$object->setMeta("comment_show_num_per_page", $args['comment_show_num_per_page']);
 					
-					$object->setMeta("hide_versionstab", $args['hide_versionstab'] == "on" ? 1 : "");
+					$object->setMeta("show_versionstab", $args['show_versionstab'] == "on" ? 1 : "");
 					
-					$object->setMeta("hide_linkstab", $args['hide_linkstab'] == "on" ? 1 : "");
+					$object->setMeta("show_linkstab", $args['show_linkstab'] == "on" ? 1 : "");
 					
 					$object->setMeta("view", $args['view']);
 					

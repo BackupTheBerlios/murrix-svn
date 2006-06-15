@@ -13,9 +13,9 @@
 				<iframe src="<?="$wwwpath/docs/LICENSE.txt"?>"></iframe>
 			</div>
 			<div class="main_nav">
-				<?=cmd("<-- Back", "Exec('install','zone_main',Hash('stage','1'))")?>
+				<?=cmd("<-- Back", "exec=install&stage=1")?>
 				|
-				<?=cmd("Next -->", "Exec('install','zone_main',Hash('stage','3'))")?>
+				<?=cmd("Next -->", "exec=install&stage=3")?>
 			</div>
 		</td>
 	</tr>

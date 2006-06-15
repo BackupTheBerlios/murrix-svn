@@ -18,7 +18,7 @@ $children = getReadable($children);
 
 include(gettpl("children_show", $object));
 
-if ($object->getMeta("hide_comments", 0) != 1)
+if ($object->getMeta("show_comments", 0) == 1)
 {
 	$pagername = "comments_show";
 	$children = fetch("FETCH node WHERE link:node_top='".$object->getNodeId()."' AND link:type='sub' AND property:class_name='comment' NODESORTBY property:version SORTBY property:created");

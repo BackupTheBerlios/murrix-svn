@@ -24,16 +24,16 @@
 				<strong>Logmessage:</strong><br/>
 				<?=$this->db_log?>
 				<br/>
-				<?=cmd("Run test again", "Exec('install', 'zone_main',Hash('stage','5'))")?>
+				<?=cmd("Run test again", "exec=install&stage=5")?>
 			</div>
 			<div class="main_nav">
-				<?=cmd("<-- Back", "Exec('install','zone_main',Hash('stage','4'))")?>
+				<?=cmd("<-- Back", "exec=install&stage=4")?>
 			
 				<?
 				if($this->db_login)
 				{
 					echo "| ";
-					echo cmd("Next -->", "Exec('install','zone_main',Hash('stage','6'))");
+					echo cmd("Next -->", "exec=install&stage=6");
 				}
 				?>
 			</div>

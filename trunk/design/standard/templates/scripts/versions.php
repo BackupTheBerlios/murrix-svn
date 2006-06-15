@@ -35,14 +35,14 @@ foreach ($_SESSION['murrix']['languages'] as $language)
 		$edit = "";
 		if ($object->hasRight("write"))
 		{
-			$edit = cmd(img(geticon("edit"))."&nbsp;".ucf(i18n("new version from here")), "Exec('edit','zone_main',Hash('action','editversion','object_id','".$version->getId()."'))");
+			$edit = cmd(img(geticon("edit"))."&nbsp;".ucf(i18n("new version from here")), "exec=edit&action=editversion&object_id=".$version->getId());
 
 			$edit .= " ";
 
 			if ($num_versions == 1)
-				$edit .= cmd(img(geticon("delete"))."&nbsp;".ucf(i18n("delete")), "Exec('delete','zone_main',Hash('node_id','".$version->getNodeId()."'))");
+				$edit .= cmd(img(geticon("delete"))."&nbsp;".ucf(i18n("delete")), "exec=delete&node_id=".$version->getNodeId());
 			else
-				$edit .= cmd(img(geticon("delete"))."&nbsp;".ucf(i18n("delete")), "Exec('versions','zone_main',Hash('action','deleteversion','object_id','".$version->getId()."'))");
+				$edit .= cmd(img(geticon("delete"))."&nbsp;".ucf(i18n("delete")), "exec=versions&action=deleteversion&object_id=".$version->getId());
 		}
 		else
 			$delete = "";

@@ -35,8 +35,8 @@ class mSystem
 		<script type="text/javascript">
 		<!--
 			<?
-			for ($n = 0; $n < count($this->scripts); $n++)
-				$this->scripts[$n]->PrintJavascript();
+			foreach ($this->scripts as $key => $value)
+				$this->scripts[$key]->PrintJavascript();
 			?>
 		// -->
 		</script>
@@ -51,29 +51,18 @@ class mSystem
 	function LoadScripts()
 	{
 		global $abspath;
+		
 		$folders = GetSubfolders("$abspath/scripts");
 		foreach ($folders as $folder)
 		{
+			if (isset($this->scripts[$folder]))
+				continue;
+				
 			$class_name = "s".ucfirst($folder);
-			$script = new $class_name();
-			$this->RegisterScript($folder, $script);
+			$this->scripts[$folder] = new $class_name();
 		}
 	}
 	
-	function RegisterScript($name, $script)
-	{
-		for ($n = 0; $n < count($this->scripts); $n++)
-		{
-			if ("s$name" == get_class($this->scripts[$n]))
-				return;
-		}
-	
-		if (is_array($this->scripts))
-			array_push($this->scripts, $script);
-		else
-			$this->scripts = array($script);
-	}
-
 	function TriggerEvent($event, $arguments = null)
 	{
 		$response = new xajaxResponse();
@@ -83,10 +72,10 @@ class mSystem
 	
 	function TriggerEventIntern(&$response, $event, $arguments = null)
 	{
-		for ($n = 0; $n < count($this->scripts); $n++)
+		foreach ($this->scripts as $key => $value)
 		{
-			if ($this->scripts[$n]->active)
-				$this->scripts[$n]->EventHandler($this, $response, $event, $arguments);
+			if ($this->scripts[$key]->active)
+				$this->scripts[$key]->EventHandler($this, $response, $event, $arguments);
 		}
 
 		$response->addScript("endScript('$event');");
@@ -111,41 +100,46 @@ class mSystem
 		if (empty($arguments) || $arguments == null)
                         $arguments = array();
 	
-		$found = false;
-
-		for ($n = 0; $n < count($this->scripts); $n++)
+		if (!isset($this->scripts[$name]))
+			$response->addAlert("Exec: Error: No such script; $name");
+		else
 		{
-			if ("s$name" == get_class($this->scripts[$n]))
+			$this->scripts[$name]->active = true;
+			$this->scripts[$name]->Exec($this, $response, $arguments);
+			
+			foreach ($this->scripts as $key => $value)
 			{
-				$this->scripts[$n]->active = true;
-				$this->scripts[$n]->Exec($this, $response, $arguments);
-				$found = true;
+				if ($key == $name)
+					continue;
+					
+				if ($this->scripts[$key]->zone == $this->scripts[$name]->zone)
+					$this->scripts[$key]->active = false;
 			}
 		}
-
-		if (!$found)
-			$response->addAlert("Exec: Error: No such script; $name");
 
 		$response->addScript("endScript('$name');");
 	}
 
 	function SetZone($name, $zone)
 	{
-		for ($n = 0; $n < count($this->scripts); $n++)
-		{
-			if ("s$name" == get_class($_SESSION['murrix']['System']->scripts[$n]))
-				$this->scripts[$n]->zone = $zone;
-		}
+		if (isset($this->scripts[$name]))
+			$this->scripts[$name]->zone = $zone;
+	}
+	
+	function makeActive($name)
+	{
+		if (isset($this->scripts[$name]))
+			$this->scripts[$name]->active = true;
 	}
 }
 
 function ExecScript($name, $arguments)
 {
-	return $_SESSION['murrix']['System']->Exec($name, $arguments);
+	return $_SESSION['murrix']['system']->Exec($name, $arguments);
 }
 
 function TriggerEvent($event, $arguments)
 {
-	return $_SESSION['murrix']['System']->TriggerEvent($event, $arguments);
+	return $_SESSION['murrix']['system']->TriggerEvent($event, $arguments);
 }
 ?>

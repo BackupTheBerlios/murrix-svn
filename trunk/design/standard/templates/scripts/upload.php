@@ -61,4 +61,3 @@ global $wwwpath;
 		</comment>
 	</object>
 </div>
-

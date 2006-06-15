@@ -35,12 +35,12 @@ global $db_prefix;
 $_SESSION['murrix']['site'] = "standard";
 $_SESSION['murrix']['language'] = "eng";
 
-if (!isset($_SESSION['murrix']['System']))
-	$_SESSION['murrix']['System'] = new mSystem($_SERVER['REQUEST_URI']);
+if (!isset($_SESSION['murrix']['system']))
+	$_SESSION['murrix']['system'] = new mSystem($_SERVER['REQUEST_URI']);
 
-$_SESSION['murrix']['System']->xajax->debugOff();
-$_SESSION['murrix']['System']->LoadScripts();
-$_SESSION['murrix']['System']->Process();
+$_SESSION['murrix']['system']->xajax->debugOff();
+$_SESSION['murrix']['system']->LoadScripts();
+$_SESSION['murrix']['system']->Process();
 
 include(gettpl("install/pagelayout"));
 ?>

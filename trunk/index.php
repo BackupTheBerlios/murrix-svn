@@ -136,7 +136,9 @@ $_SESSION['murrix']['languages'] = array();
 foreach ($files as $file)
 {
 	include_once("$abspath/design/$theme/translations/$file");
-	$_SESSION['murrix']['languages'][] = basename($file, ".php");
+	$name = basename($file, ".php");
+ 	$_SESSION['murrix']['translations'][$name] = $translation;
+	$_SESSION['murrix']['languages'][] = $name;
 }
 
 if (!isset($_SESSION['murrix']['language']))
@@ -159,8 +161,8 @@ $prof->startTimer( "system" );
 /* ========================= */
 // Init system
 /* ========================= */
-if (!isset($_SESSION['murrix']['System']))
-	$_SESSION['murrix']['System'] = new mSystem(isset($ajax_path) ? $ajax_path : "");
+if (!isset($_SESSION['murrix']['system']))
+	$_SESSION['murrix']['system'] = new mSystem(isset($ajax_path) ? $ajax_path : "");
 	
 //$_SESSION['murrix']['System']->LoadScripts();
 $prof->stopTimer( "system" );
@@ -230,11 +232,11 @@ $_SESSION['murrix']['rightcache']['thumbnail'] = array();
 /* ========================= */
 // Process ajax-calls
 if (isset($_GET['debug']))
-	$_SESSION['murrix']['System']->xajax->debugOn();
+	$_SESSION['murrix']['system']->xajax->debugOn();
 else
-	$_SESSION['murrix']['System']->xajax->debugOff();
+	$_SESSION['murrix']['system']->xajax->debugOff();
 
-$_SESSION['murrix']['System']->Process();
+$_SESSION['murrix']['system']->Process();
 
 include(gettpl("pagelayout"));
 

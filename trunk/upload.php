@@ -5,6 +5,9 @@ require_once("classes/class.mvar.php");
 require_once("classes/class.mobject.php");
 require_once("classes/class.mthumbnail.php");
 require_once("classes/class.script.php");
+require_once("classes/class.mtable.php");
+require_once("classes/class.muser.php");
+require_once("classes/class.mgroup.php");
 
 require_once("3dparty/exifer/exif.php");
 
@@ -31,26 +34,22 @@ if (($str = db_connect()) !== true)
 	<head>
 		<title>MURRiX File Upload</title>
 		<META NAME="ROBOTS" CONTENT="NOINDEX">
-		<?
-		$js = getcss();
-		for ($i = 0; $i < count($js); $i++)
-			echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$js[$i]."\"/>\n";
-		?>
 	</head>
+	<body>
 	<?
 		$parent = new mObject($_GET['node_id']);
 		
-		if ($parent->hasRight("create_subnodes", array("file", "file_folder")))
+		if ($parent->hasRight("create"))
 		{
 			clearNodeFileCache($parent->getNodeId());
-			echo "Staring processing of uploaded files...<br/>";flush();
+			echo "Staring processing of ".count($_FILES)." uploaded files...<br/>";flush();
 
-			$count = 1;
-
-			foreach($_FILES as $tagname => $object)
+			$count = 0;
+			$size = 0;
+			foreach($_FILES as $tagname => $file)
 			{
 				// get the temporary name (e.g. /tmp/php34634.tmp)
-				$tempName = $object['tmp_name'];
+				$tempName = $file['tmp_name'];
 				
 				// where to save the file?
 				$targetFile = $_POST[$tagname . '_relativePath'];
@@ -67,7 +66,7 @@ if (($str = db_connect()) !== true)
 				else
 					$parent_path = $parent->getPathInTree()."/$dir";
 	
-				if (resolvePath($parent_path) <= 0)
+				if (getNode($parent_path) <= 0)
 				{
 					preg_match_all("/([^\/]*)\/?/i", $dir, $atmp);
 					$base = $parent->getPathInTree();
@@ -101,10 +100,12 @@ if (($str = db_connect()) !== true)
 			
 						$object->name = $val;
 						$object->language = $_SESSION['murrix']['language'];
+						$object->rights = $parent->getMeta("initial_rights", "rwcrwc---");
+						$object->group_id = $parent->getMeta("initial_group", $parent->getGroupId());
 	
 						if ($object->save())
 						{
-							$parent = new mObject(resolvePath($base));
+							$parent = new mObject(getNode($base));
 							$object->linkWithNode($parent->getNodeId());
 							echo "Created file_folder ". $object->getPath()."<br/>";flush();
 							clearNodeFileCache($object->getNodeId());
@@ -118,6 +119,8 @@ if (($str = db_connect()) !== true)
 					}
 				}
 	
+				$parent = new mObject(getNode($parent_path));
+	
 				$object = new mObject();
 				$object->setClassName("file");
 				$object->loadVars();
@@ -130,16 +133,18 @@ if (($str = db_connect()) !== true)
 
 				$object->name = $name;
 				$object->language = $_SESSION['murrix']['language'];
+				$object->rights = $parent->getMeta("initial_rights", "rwcrwc---");
+				$object->group_id = $parent->getMeta("initial_group", $parent->getGroupId());
 	
 				$object->setVarValue("file", trim($paths['basename']).":".$tempName);
 	
 				if ($object->save())
 				{
-					$parent = new mObject(resolvePath($parent_path));
 					$object->linkWithNode($parent->getNodeId());
 					clearNodeFileCache($object->getNodeId());
 					echo "Created file". $object->getPath()."<br/>";flush();
 					$count++;
+					$size += $file['size'];
 				}
 				else
 				{
@@ -147,10 +152,13 @@ if (($str = db_connect()) !== true)
 				}
 			}
 			
-			echo "Done processing of uploaded files. ($count/".count($_FILES).")";flush();
+			echo "<br/>Successfully processed files<br/>";flush();
+			echo "$count of ".count($_FILES)." files<br/>";flush();
+			echo DownloadSize($size)." total<br/>";flush();
+			
 		}
 		else
-			echo "You do not have enough rights to upload files.";flush();
+			echo "<br/>You do not have enough rights to upload files.";flush();
 	?>
 	</body>
 </html>

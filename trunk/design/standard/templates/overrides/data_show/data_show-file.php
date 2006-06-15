@@ -76,10 +76,10 @@
 						<?=ucw(i18n("rotate"))?>
 					</div>
 					<div style="float: left; width: 50%;">
-						<?=cmd(img(imgpath("rotate_left.png")), "Exec('show','zone_main',Hash('node_id','".$object->getNodeId()."','meta','angle','value','$angle_left','rebuild_thumb','$value_id'))")?>
+						<?=cmd(img(imgpath("rotate_left.png")), "exec=show&node_id=".$object->getNodeId()."&meta=angle&value=$angle_left&rebuild_thumb=$value_id")?>
 					</div>
 					<div style="float: right; width: 50%;">
-						<?=cmd(img(imgpath("rotate_right.png")), "Exec('show','zone_main',Hash('node_id','".$object->getNodeId()."','meta','angle','value','$angle_right','rebuild_thumb', '$value_id'))")?>
+						<?=cmd(img(imgpath("rotate_right.png")), "exec=show&node_id=".$object->getNodeId()."&meta=angle&value=$angle_right&rebuild_thumb=$value_id")?>
 					</div>
 					<div class="clear"></div>
 					<?

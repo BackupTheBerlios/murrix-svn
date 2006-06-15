@@ -24,9 +24,9 @@
 				</form>
 			</div>
 			<div class="main_nav">
-				<?=cmd("<-- Back", "Exec('install','zone_main',Hash('stage','2'))")?>
+				<?=cmd("<-- Back", "exec=install&stage=2")?>
 				|
-				<?=cmd("Next -->", "Post('install','zone_main','sInstall')")?>
+				<?=runjs("Next -->", "Post('install','sInstall')")?>
 			</div>
 		</td>
 	</tr>

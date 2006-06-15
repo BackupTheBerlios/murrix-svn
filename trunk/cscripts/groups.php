@@ -26,7 +26,7 @@ class csGroups extends CScript
 				if ($group->home_id > 0)
 				{
 					$home = new mObject($group->home_id);
-					$stdout .= "<td>".cmd($home->getPath(), "Exec('show','zone_main',Hash('node_id','".$home->getNodeId()."'))")."</td>";
+					$stdout .= "<td>".cmd($home->getPath(), "exec=show&node_id=".$home->getNodeId())."</td>";
 				}
 				else
 					$stdout .= "<td></td>";

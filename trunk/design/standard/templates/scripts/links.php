@@ -10,7 +10,7 @@ if ($object->hasRight("write"))
 {
 ?>
 	<div class="main">
-		<form id="linkForm" name="linkForm" action="javascript:void(null);" onsubmit="Post('links', 'zone_main', 'linkForm')">
+		<form id="linkForm" name="linkForm" action="javascript:void(null);" onsubmit="Post('links','linkForm')">
 			<?=ucf(i18n("create new link to"))?> 
 			<input name="action" class="hidden" type="hidden" value="newlink"/>
 			<input name="node_id" class="hidden" type="hidden" value="<?=$object->getNodeId()?>"/>
@@ -44,11 +44,11 @@ foreach ($links as $link)
 	else
 	{
 		$remote_obj = new mObject($link['remote_id']);
-		$remote = cmd(img(geticon($remote_obj->getIcon()))."&nbsp;".$remote_obj->getName(), "Exec('show','zone_main',Hash('node_id','".$remote_obj->getNodeId()."'))");
+		$remote = cmd(img(geticon($remote_obj->getIcon()))."&nbsp;".$remote_obj->getName(), "exec=show&node_id=".$remote_obj->getNodeId());
 	}
 
 	if ($object->hasRight("write"))
-		$delete = cmd(img(geticon("delete"))."&nbsp;".ucf(i18n("delete")), "Exec('links','zone_main',Hash('action','deletelink','node_id', '".$object->getNodeId()."','remote_id','".$link['remote_id']."','type','".$link['type']."','direction','".($link['direction'] == "top" ? "bottom" : "top")."'))");
+		$delete = cmd(img(geticon("delete"))."&nbsp;".ucf(i18n("delete")), "exec=links&action=deletelink&node_id=".$object->getNodeId()."&remote_id=".$link['remote_id']."&type=".$link['type']."&direction=".($link['direction'] == "top" ? "bottom" : "top"));
 	else
 		$delete = "";
 

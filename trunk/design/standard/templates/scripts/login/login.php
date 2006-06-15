@@ -1,4 +1,4 @@
-<form id="sLoginForm" action="javascript:void(null);" onsubmit="Post('login', 'zone_login', 'sLoginForm');">
+<form id="sLoginForm" action="javascript:void(null);" onsubmit="Post('login','sLoginForm')">
 	<div>
 		<?=img(geticon("user"))?> <input class="input" name="username" type="text"/><br/>
 		<?=img(geticon("password"))?> <input class="input" name="password" type="password"/><br/>

@@ -36,7 +36,7 @@ class mThumbnail
 			$this->SetByArray(mysql_fetch_array($result, MYSQL_ASSOC));
 			return true;
 		}
-		else
+		else if (getSetting("INSTANTTHUMBS", "true") == "true")
 		{
 			$query = "SELECT `data` FROM `".$db_prefix."values` WHERE `id`='$value_id'";
 

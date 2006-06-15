@@ -13,17 +13,17 @@ include(gettpl("big_title"));
 		<?=ucf(i18n("calendar's date")).": $date"?>
 	</div>
 	<div class="right">
-		<?=cmd(img(imgpath("left.png")), "Exec('calendar','zone_main',Hash('date','".date("Y-m-d", strtotime("$date -1 week"))."'))")?>
+		<?=cmd(img(imgpath("left.png")), "exec=calendar&date=".date("Y-m-d", strtotime("$date -1 week")))?>
 		<?=ucf(i18n("week"))?>
-		<?=cmd(img(imgpath("right.png")), "Exec('calendar','zone_main',Hash('date','".date("Y-m-d", strtotime("$date +1 week"))."'))")?>
+		<?=cmd(img(imgpath("right.png")), "exec=calendar&date=".date("Y-m-d", strtotime("$date +1 week")))?>
 		·
-		<?=cmd(img(imgpath("left.png")), "Exec('calendar','zone_main',Hash('date','".date("Y-m-d", strtotime("$date -1 month"))."'))")?>
+		<?=cmd(img(imgpath("left.png")), "exec=calendar&date=".date("Y-m-d", strtotime("$date -1 month")))?>
 		<?=ucf(i18n("month"))?>
-		<?=cmd(img(imgpath("right.png")), "Exec('calendar','zone_main',Hash('date','".date("Y-m-d", strtotime("$date +1 month"))."'))")?>
+		<?=cmd(img(imgpath("right.png")), "exec=calendar&date=".date("Y-m-d", strtotime("$date +1 month")))?>
 		·
-		<?=cmd(img(imgpath("left.png")), "Exec('calendar','zone_main',Hash('date','".date("Y-m-d", strtotime("$date -1 year"))."'))")?>
+		<?=cmd(img(imgpath("left.png")), "exec=calendar&date=".date("Y-m-d", strtotime("$date -1 year")))?>
 		<?=ucf(i18n("year"))?>
-		<?=cmd(img(imgpath("right.png")), "Exec('calendar','zone_main',Hash('date','".date("Y-m-d", strtotime("$date +1 year"))."'))")?>
+		<?=cmd(img(imgpath("right.png")), "exec=calendar&date=".date("Y-m-d", strtotime("$date +1 year")))?>
 	</div>
 	<div class="clear"></div>
 </div>

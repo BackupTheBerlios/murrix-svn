@@ -25,7 +25,7 @@ class csLinks extends CScript
 				else
 				{
 					$remote_obj = new mObject($link['remote_id']);
-					$remote = cmd(img(geticon($remote_obj->getIcon()))."&nbsp;".$remote_obj->getName(), "Exec('show','zone_main',Hash('node_id','".$remote_obj->getNodeId()."'))");
+					$remote = cmd(img(geticon($remote_obj->getIcon()))."&nbsp;".$remote_obj->getName(), "exec=show&node_id=".$remote_obj->getNodeId());
 				}
 
 				$stdout .= "<tr>";

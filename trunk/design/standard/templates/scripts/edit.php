@@ -10,7 +10,7 @@ $center = "";
 include(gettpl("big_title"));
 
 ?>
-<form name="sEdit" id="sEdit" action="javascript:void(null);" onsubmit="Post('edit', 'zone_main', 'sEdit');">
+<form name="sEdit" id="sEdit" action="javascript:void(null);" onsubmit="Post('edit','sEdit');">
 	<input class="hidden" type="hidden" name="action" value="save"/>
 	<input class="hidden" type="hidden" name="node_id" value="<?=$object->getNodeId()?>"/>
 	<div class="main">

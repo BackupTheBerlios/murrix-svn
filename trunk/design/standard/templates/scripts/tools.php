@@ -20,7 +20,7 @@ foreach ($children as $child)
 }
 
 ?>
-<form id="toolsObjectList" name="toolsObjectList" action="javascript:void(null);" onsubmit="Post('tools', 'zone_main', 'toolsObjectList')">
+<form id="toolsObjectList" name="toolsObjectList" action="javascript:void(null);" onsubmit="Post('tools','toolsObjectList')">
 	<? table($list, "% ".i18n("rows")) ?>
 	
 	<div class="main">
@@ -35,4 +35,3 @@ foreach ($children as $child)
 	</div>
 
 </form>
-

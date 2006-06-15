@@ -16,7 +16,7 @@
 		for ($i = 0; $i < count($js); $i++)
 			echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$js[$i]."\">\n";
 
-		$_SESSION['murrix']['System']->PrintHeader();
+		$_SESSION['murrix']['system']->PrintHeader();
 		?>
 		<script type="text/javascript">
 		<!--
@@ -34,8 +34,7 @@
 			
 			function init()
 			{
-				<? $_SESSION['murrix']['System']->SetZone("install", "zone_main") ?>
-				return "Exec('install','zone_main', '')";
+				return "exec=install";
 			}
 		// -->
 		</script>
