@@ -15,7 +15,7 @@ $root = new mObject($root_id);
 		$feeds = $rss->getFeeds();
 		
 		foreach ($feeds as $feed)
-			echo "<link rel=\"alternate\" type=\"application/rss+xml\" href=\"rssbackend.php?id=".$feed['id']."\" title=\"".$feed['title']."\"/>";
+			echo "<link rel=\"alternate\" type=\"application/rss+xml\" href=\"$wwwpath/backends/rss.php?id=".$feed['id']."\" title=\"".$feed['title']."\"/>";
 		?>
 		
 		<link rel="shortcut icon" href="<?=geticon("murrix")?>" type="image/x-icon"/>

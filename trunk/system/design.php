@@ -281,7 +281,7 @@ function getcss()
 	return $files2;
 }
 
-function _gettemplateoverride($filename, $object, $site)
+function _gettemplateoverride($filename, $object, $site, $path)
 {
 	global $abspath;
 
@@ -317,7 +317,7 @@ function _gettemplateoverride($filename, $object, $site)
 				
 				if ($rank > $rank_m)// is this better ranked then the last
 				{
-					$tpl = "$abspath/design/$site/templates/overrides/".$template['filename'];
+					$tpl = "$path/design/$site/templates/overrides/".$template['filename'];
 				}
 			}
 		}
@@ -332,15 +332,15 @@ function gettpl_path($template, $object = null, $path = "")
 
 	$filename = "$template.php";
 
-	$tpl = _gettemplateoverride($filename, $object, $_SESSION['murrix']['site']);
+	$tpl = _gettemplateoverride($filename, $object, $_SESSION['murrix']['site'], $path);
 
 	if (empty($tpl)) // No override template found, check for default
 	{
 		if (file_exists("$abspath/design/".$_SESSION['murrix']['site']."/templates/$filename")) // Found default template
-			$tpl = "$abspath/design/".$_SESSION['murrix']['site']."/templates/$filename";
+			$tpl = "$path/design/".$_SESSION['murrix']['site']."/templates/$filename";
 		else // Did not find default template using standard instead
 		{
-			$tpl = _gettemplateoverride($filename, $object, "standard");
+			$tpl = _gettemplateoverride($filename, $object, "standard", $path);
 			if (empty($tpl))
 				$tpl = "$path/design/standard/templates/$filename";
 		}

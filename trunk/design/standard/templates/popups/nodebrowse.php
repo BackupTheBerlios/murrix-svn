@@ -1,23 +1,21 @@
 <?
 
-require_once("config.inc.php");
+list($abspath) = explode("/design/", getcwd());
 
-require_once("classes/class.mvar.php");
-require_once("classes/class.mobject.php");
-require_once("classes/class.mthumbnail.php");
-require_once("classes/class.script.php");
+require_once("$abspath/config.inc.php");
 
-require_once("3dparty/exifer/exif.php");
+require_once("$abspath/classes/class.mvar.php");
+require_once("$abspath/classes/class.mobject.php");
+require_once("$abspath/classes/class.mthumbnail.php");
+require_once("$abspath/classes/class.script.php");
 
-require_once("system/functions.php");
-require_once("system/design.php");
-require_once("system/system.php");
-require_once("system/fetch.php");
-require_once("system/paths.php");
-require_once("system/objectcache.php");
+require_once("$abspath/system/functions.php");
+require_once("$abspath/system/design.php");
+require_once("$abspath/system/fetch.php");
+require_once("$abspath/system/paths.php");
+require_once("$abspath/system/objectcache.php");
 
-require_once("vars.php");
-require_once("session.php");
+require_once("$abspath/session.php");
 
 if (($str = db_connect()) !== true)
 	echo "Failed to connect to database!";
@@ -27,7 +25,7 @@ if (!isset($_GET['path']))
 else
 	$path = urldecode($_GET['path']);
 
-$object = new mObject(resolvePath($path));
+$object = new mObject(getNode($path));
 
 if (!$object->hasRight("read"))
 {
@@ -48,7 +46,6 @@ if (!$object->hasRight("read"))
 		$js = getcss();
 		for ($i = 0; $i < count($js); $i++)
 			echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$js[$i]."\"/>\n";
-
 		?>
 	</head>
 	

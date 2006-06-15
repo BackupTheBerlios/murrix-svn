@@ -34,7 +34,7 @@ $root = new mObject($root_id);
 					</div>
 					
 					<div id="header_name">
-						<?=$root->getVarValue("description")?>
+						RSS Feeds
 					</div>
 				</div>
 			</div>

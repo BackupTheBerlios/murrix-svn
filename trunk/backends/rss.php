@@ -1,41 +1,42 @@
 <?
-require_once("vars.php");
+$abspath = "../";
+$wwwpath = "";
+
+/* ========================= */
+// Load System classes
+/* ========================= */
+require_once("$abspath/classes/class.mvar.php");
+require_once("$abspath/classes/class.mobject.php");
+require_once("$abspath/classes/class.mthumbnail.php");
+require_once("$abspath/classes/class.script.php");
+require_once("$abspath/classes/class.calendar.php");
+require_once("$abspath/classes/class.mrss.php");
+require_once("$abspath/classes/class.mtable.php");
+require_once("$abspath/classes/class.mgroup.php");
+require_once("$abspath/classes/class.muser.php");
 
 
 /* ========================= */
 // Load basic functions
 /* ========================= */
-require_once("system/functions.php");
-require_once("system/design.php");
-require_once("system/system.php");
-require_once("system/fetch.php");
-require_once("system/paths.php");
-require_once("system/filecache.php");
-require_once("system/objectcache.php");
+require_once("$abspath/system/functions.php");
+require_once("$abspath/system/design.php");
+require_once("$abspath/system/fetch.php");
+require_once("$abspath/system/paths.php");
+require_once("$abspath/system/filecache.php");
+require_once("$abspath/system/objectcache.php");
+require_once("$abspath/system/settings.php");
 
 
-/* ========================= */
-// Load System classes
-/* ========================= */
-require_once("classes/class.mvar.php");
-require_once("classes/class.mobject.php");
-require_once("classes/class.mthumbnail.php");
-require_once("classes/class.script.php");
-require_once("classes/class.calendar.php");
-require_once("classes/class.mrss.php");
 
-require_once("config.inc.php");
 
-/* ========================= */
-// Load 3d-party files
-/* ========================= */
-require_once("3dparty/exifer/exif.php");
+require_once("$abspath/config.inc.php");
 
 
 /* ========================= */
 // Start session
 /* ========================= */
-require_once("session.php");
+require_once("$abspath/session.php");
 
 
 /* ========================= */
@@ -57,6 +58,8 @@ if (!isset($_SESSION['murrix']['user']))
 	$_SESSION['murrix']['user'] = new mObject($anonymous_id);
 
 
+$root_id = getSetting("ROOT_NODE_ID", 1, "any");
+$anonymous_id = getSetting("ANONYMOUS_ID", 1, "any");
 $_SESSION['murrix']['site'] = "standard";
 
 // Include XML_Serializer
@@ -87,8 +90,4 @@ else
 $_SESSION['murrix']['callcache'] = array();
 $_SESSION['murrix']['querycache'] = array();
 
-
-
 ?>
-
-
