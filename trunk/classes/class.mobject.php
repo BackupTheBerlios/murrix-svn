@@ -917,6 +917,16 @@ class mObject
 		$this->error = "mObject::getVarEdit: No variable by the name \"$varname\" found.";
 		return false;
 	}
+	
+	function getVarShow($varname)
+	{
+		// Get var editcode
+		if (isset($this->vars[$varname]))
+			return $this->vars[$varname]->getShow($formname);
+
+		$this->error = "mObject::getVarEdit: No variable by the name \"$varname\" found.";
+		return false;
+	}
 
 	function setVarValue($varname, $value)
 	{

@@ -15,6 +15,7 @@ class csGroups extends CScript
 			$stdout .= "<td>Id</td>";
 			$stdout .= "<td>Name</td>";
 			$stdout .= "<td>Home</td>";
+			$stdout .= "<td>Created</td>";
 			$stdout .= "<td>Description</td>";
 			$stdout .= "</tr>";
 			foreach ($groups as $group)
@@ -31,7 +32,7 @@ class csGroups extends CScript
 				else
 					$stdout .= "<td></td>";
 				
-				
+				$stdout .= "<td>".$group->created."</td>";
 				$stdout .= "<td>".$group->description."</td>";
 				$stdout .= "</tr>";
 			}

@@ -317,7 +317,7 @@ function _gettemplateoverride($filename, $object, $site, $path)
 				
 				if ($rank > $rank_m)// is this better ranked then the last
 				{
-					$tpl = "$path/design/$site/templates/overrides/".$template['filename'];
+					$tpl = "$path/design/$site/templates/".$template['filename'];
 				}
 			}
 		}

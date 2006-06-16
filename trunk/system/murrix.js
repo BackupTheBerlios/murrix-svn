@@ -173,24 +173,24 @@ function addEditor(formname, varid)
 function delEditors(formname)
 {
 	if (typeof active_editors[formname] == 'undefined')
-		active_editors[formname] = new Object();
+		active_editors[formname] = 0;
 		
 	for (var n = 0; n < active_editors[formname]; n++)
 	{
 		var inst = tinyMCE.getInstanceById('MCEControlID_'+n);
 		if (inst)
 			inst.triggerSave(false, false);
-		tinyMCE.removeMCEControl('MCEControlID_'+n);
+		//tinyMCE.removeMCEControl('MCEControlID_'+n);
 	}
-		
-	active_editors[formname] = new Object();
+
+	active_editors[formname] = 0;
 }
 
 var active_zones = new Array();
 
 function startScript(zone)
 {
-	scroll(0,0);
+	
 	if (in_array(zone, active_zones))
 		return;
 
@@ -202,6 +202,9 @@ function startScript(zone)
 
 function endScript(zone)
 {
+	//if (zone == "zone_main")
+	//	scroll(0,0);
+		
 	var list = new Array();
 	var count = 0;
 	for (var i = 0; i < active_zones.length; i++)

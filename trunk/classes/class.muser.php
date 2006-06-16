@@ -112,6 +112,7 @@ class mUser extends mTable
 		$this->home_id = $array['home_id'];
 		$this->groups = $array['groups'];
 		$this->last_login = $array['last_login'];
+		$this->created = $array['created'];
 	}
 	
 	function getGroups()
@@ -128,11 +129,16 @@ class mUser extends mTable
 		$array['home_id'] = $this->home_id;
 		$array['groups'] = $this->groups;
 		$array['last_login'] = $this->last_login;
+		$array['created'] = $this->created;
 	
 		if ($this->id > 0)
 			return $this->update($this->id, $array);
 		else
+		{
+			$this->created = date("Y-m-d H:i:s");
+			$array['created'] = $this->created;
 			$this->id = $this->insert($array);
+		}
 			
 		return $this->id;
 	}

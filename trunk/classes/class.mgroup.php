@@ -51,6 +51,7 @@ class mGroup extends mTable
 		$this->name = $array['name'];
 		$this->description = $array['description'];
 		$this->home_id = $array['home_id'];
+		$this->created = $array['created'];
 	}
 	
 	function save()
@@ -59,11 +60,16 @@ class mGroup extends mTable
 		$array['name'] = $this->name;
 		$array['description'] = $this->description;
 		$array['home_id'] = $this->home_id;
+		$array['created'] = $this->created;
 	
 		if ($this->id > 0)
 			return $this->update($this->id, $array);
 		else
+		{
+			$this->created = date("Y-m-d H:i:s");
+			$array['created'] = $this->created;
 			$this->id = $this->insert($array);
+		}
 			
 		return $this->id;
 	}
