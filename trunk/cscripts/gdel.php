@@ -1,8 +1,8 @@
 <?
 
-class csDelgroup extends CScript
+class csGdel extends CScript
 {
-	function csDelgroup()
+	function csGdel()
 	{
 		$this->stage = 0;
 	}
@@ -38,7 +38,8 @@ class csDelgroup extends CScript
 		
 		if (empty($args))
 		{
-			$stdout = ucf(i18n("you must specifiy a name"));
+			$stdout = "Usage: gdel [username]\n";
+			$stdout .= "Example: gdel admin";
 			return true;
 		}
 		else

@@ -1,14 +1,10 @@
 <?
 
-class csGetsetting extends CScript
+class csCdelvar extends CScript
 {
 	function exec($args, $stdin, &$stdout, &$stderr, &$response, &$system)
 	{
-		if (!empty($args))
-		{
-			$stdout = getSetting($args);
-		}
-			
+		$stdout = "Not yet implemented";
 		return true;
 	}
 }

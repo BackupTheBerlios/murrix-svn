@@ -1,6 +1,6 @@
 <?
 
-class csLn extends CScript
+class csLadd extends CScript
 {
 	function exec($args, $stdin, &$stdout, &$stderr, &$response, &$system)
 	{
@@ -59,7 +59,12 @@ class csLn extends CScript
 				$stdout = ucf(i18n("linked nodes successfully"));
 			}
 		}
-			
+		else
+		{
+			$stdout = "Usage: ladd [sourcepath] [targetpath]\n";
+			$stdout .= "Example: ladd \"/root/home\" \"/root/public\"";
+		}
+		
 		return true;
 	}
 }

@@ -59,7 +59,12 @@ class csChown extends CScript
 			else
 				$stderr = ucf(i18n("failed to change ownership"));
 		}
-			
+		else
+		{
+			$stdout = "Usage: chown [username].[groupname] [path]\n";
+			$stdout .= "Example: chown admin.admins /root";
+		}
+		
 		return true;
 	}
 }

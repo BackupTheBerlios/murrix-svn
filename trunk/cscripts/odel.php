@@ -1,6 +1,6 @@
 <?
 
-class csRm extends CScript
+class csOdel extends CScript
 {
 	function exec($args, $stdin, &$stdout, &$stderr, &$response, &$system)
 	{
@@ -31,7 +31,12 @@ class csRm extends CScript
 			$object->deleteNode();
 			$stdout = ucf(i18n("deleted node successfully"));
 		}
-			
+		else
+		{
+			$stdout = "Usage: odel [name]\n";
+			$stdout .= "Example: odel oldfolder";
+		}
+		
 		return true;
 	}
 }

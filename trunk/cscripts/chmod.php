@@ -60,7 +60,12 @@ class csChmod extends CScript
 			else
 				$stderr = ucf(i18n("failed to change rights"));
 		}
-			
+		else
+		{
+			$stdout = "Usage: chmod [rightstring] [path]\n";
+			$stdout .= "Example: chmod rwcrwcrwc /root";
+		}
+		
 		return true;
 	}
 }

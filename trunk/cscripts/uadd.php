@@ -1,8 +1,8 @@
 <?
 
-class csAddgroup extends CScript
+class csUadd extends CScript
 {
-	function csAddgroup()
+	function csUadd()
 	{
 		$this->stage = 0;
 	}
@@ -11,43 +11,50 @@ class csAddgroup extends CScript
 	{
 		if (!isAdmin())
 		{
-			$stderr = ucf(i18n("not enough rights to create group"));
+			$stderr = ucf(i18n("not enough rights to create user"));
 			return true;
 		}
-		
+	
 		switch ($this->stage)
 		{
 			case 1:
-				$this->name = $args;
+				$this->username = $args;
 				$stdout = "$args\n";
-				$stdout .= ucf(i18n("enter description:"));
+				$stdout .= ucf(i18n("enter name:"));
 				$this->stage = 2;
 				return false;
 				
 			case 2:
-				$this->description = $args;
-				$stdout = "$args\n".ucf(i18n("create home"))." (Y/n)?";
+				$this->name = $args;
+				$stdout = "$args\n".ucf(i18n("enter groups:"));
 				$this->stage = 3;
 				return false;
 				
 			case 3:
+				$this->groups = $args;
+				$stdout = "$args\n".ucf(i18n("create home"))." (Y/n)?";
+				$this->stage = 4;
+				return false;
+				
+			case 4:
 				$this->create_home = (empty($args) || strtolower($args) == "y" || strtolower($args) == "yes");
 				if ($this->create_home)
 					$stdout = "yes\n";
 				else
 					$stdout = "no\n";
-				$stdout .= ucf(i18n("are you sure you want to create this group"))." (Y/n)?";
-				$this->stage = 4;
+					
+				$stdout .= ucf(i18n("are you sure you want to create this user"))." (Y/n)?";
+				$this->stage = 5;
 				return false;
 				
-			case 4:
+			case 5:
 				if (empty($args) || strtolower($args) == "y" || strtolower($args) == "yes")
 				{
-					$result = createGroup($this->name, $this->description, $this->create_home);
+					$result = createUser($this->name, $this->username, "", $this->groups, $this->create_home);
 					
 					if (is_numeric($result))
 					{
-						$stdout = ucf(i18n("created new group successfully"));
+						$stdout = ucf(i18n("created new user successfully"));
 						$this->stage = 0;
 						return true;
 					}
@@ -64,13 +71,13 @@ class csAddgroup extends CScript
 		
 		if (empty($args))
 		{
-			$stdout = ucf(i18n("enter name:"));
+			$stdout = ucf(i18n("enter username:"));
 			$this->stage = 1;
 		}
 		else
 		{
-			$this->name = $args;
-			$stdout .= ucf(i18n("enter description:"));
+			$this->username = $args;
+			$stdout .= ucf(i18n("enter name:"));
 			$this->stage = 2;
 		}
 		

@@ -1,8 +1,8 @@
 <?
 
-class csDeluser extends CScript
+class csUdel extends CScript
 {
-	function csDeluser()
+	function csUdel()
 	{
 		$this->stage = 0;
 	}
@@ -38,7 +38,8 @@ class csDeluser extends CScript
 		
 		if (empty($args))
 		{
-			$stdout = ucf(i18n("you must specifiy a username"));
+			$stdout = "Usage: udel [username]\n";
+			$stdout .= "Example: udel admin";
 			return true;
 		}
 		else
@@ -47,7 +48,6 @@ class csDeluser extends CScript
 			$stdout = ucf(i18n("are you sure you want to delete this user"))." (Y/n)?";
 			$this->stage = 1;
 		}
-		
 		
 		return false;
 	}

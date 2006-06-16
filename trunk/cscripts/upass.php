@@ -1,8 +1,8 @@
 <?
 
-class csPasswd extends CScript
+class csUpass extends CScript
 {
-	function csPasswd()
+	function csUpass()
 	{
 		$this->stage = 0;
 	}

@@ -9,5 +9,5 @@
 </form>
 <?
 if (!empty($_SESSION['murrix']['user']->password))
-	echo cmd(img(geticon("password"))." ".ucf(i18n("change password")), "exec=console&initcmd=passwd");
+	echo cmd(img(geticon("password"))." ".ucf(i18n("change password")), "exec=console&initcmd=upass");
 ?>

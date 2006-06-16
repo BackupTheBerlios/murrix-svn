@@ -1,6 +1,6 @@
 <?
 
-class csInfo extends CScript
+class csOinfo extends CScript
 {
 	function exec($args, $stdin, &$stdout, &$stderr, &$response, &$system)
 	{
@@ -21,6 +21,7 @@ class csInfo extends CScript
  		$stdout .= "<tr><td class=\"titlename\">Group</td><td>".$group->name."</td></tr>";
 		$stdout .= "<tr><td class=\"titlename\">Time</td><td>".$object->getCreated()."</td></tr>";
 		$stdout .= "</table>";
+		
 		return true;
 	}
 }

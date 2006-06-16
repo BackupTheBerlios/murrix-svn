@@ -1,6 +1,6 @@
 <?
 
-class csWhoami extends CScript
+class csUinfo extends CScript
 {
 	function exec($args, $stdin, &$stdout, &$stderr, &$response, &$system)
 	{
@@ -26,6 +26,9 @@ class csWhoami extends CScript
 			
 		if (!empty($user->groups))
 			$stdout .= "Groups: ".$user->groups."\n";
+			
+		if (!empty($user->created))
+			$stdout .= "Created: ".$user->created."\n";
 			
 		if ($user->last_login == "0000-00-00 00:00:00")
 			$stdout .= "Last login: Never";

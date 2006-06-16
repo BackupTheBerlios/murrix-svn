@@ -1,6 +1,6 @@
 <?
 
-class csMv extends CScript
+class csOmove extends CScript
 {
 	function exec($args, $stdin, &$stdout, &$stderr, &$response, &$system)
 	{
@@ -62,7 +62,12 @@ class csMv extends CScript
 				$stdout = ucf(i18n("moved node successfully"));
 			}
 		}
-			
+		else
+		{
+			$stdout = "Usage: omove [sourcepath] [targetpath]\n";
+			$stdout .= "Example: omove \"/root/home\" \"/root/public\"";
+		}
+		
 		return true;
 	}
 }

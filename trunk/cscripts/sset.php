@@ -1,6 +1,6 @@
 <?
 
-class csSetsetting extends CScript
+class csSset extends CScript
 {
 	function exec($args, $stdin, &$stdout, &$stderr, &$response, &$system)
 	{
@@ -30,7 +30,12 @@ class csSetsetting extends CScript
 					$stdout = $result;
 			}
 		}
-			
+		else
+		{
+			$stdout = "Usage: sset [settingname] [value]\n";
+			$stdout .= "Example: sset TITLE \"Murrix title\"";
+		}
+		
 		return true;
 	}
 }

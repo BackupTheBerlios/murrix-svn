@@ -1,6 +1,6 @@
 <?
 
-class csMkdir extends CScript
+class csOadd extends CScript
 {
 	function exec($args, $stdin, &$stdout, &$stderr, &$response, &$system)
 	{
@@ -47,6 +47,11 @@ class csMkdir extends CScript
 			clearNodeFileCache($parent->getNodeId());
 			$object->linkWithNode($parent->getNodeId());
 			$stdout = ucf(i18n("created folder successfully"));
+		}
+		else
+		{
+			$stdout = "Usage: oadd [name]\n";
+			$stdout .= "Example: oadd newfolder";
 		}
 			
 		return true;

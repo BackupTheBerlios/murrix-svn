@@ -1,6 +1,6 @@
 <?
 
-class csRevisions extends CScript
+class csRlist extends CScript
 {
 	function exec($args, $stdin, &$stdout, &$stderr, &$response, &$system)
 	{

@@ -1,6 +1,6 @@
 <?
 
-class csUnlink extends CScript
+class csLdel extends CScript
 {
 	function exec($args, $stdin, &$stdout, &$stderr, &$response, &$system)
 	{
@@ -39,7 +39,12 @@ class csUnlink extends CScript
 			$system->TriggerEventIntern($response, "newlocation", array());
 			$stdout = ucf(i18n("removed link successfully"));
 		}
-			
+		else
+		{
+			$stdout = "Usage: ldel [linkid]\n";
+			$stdout .= "Example: ldel 1";
+		}
+		
 		return true;
 	}
 }
