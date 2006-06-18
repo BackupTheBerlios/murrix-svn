@@ -29,8 +29,6 @@ class sInstall extends Script
 		if (isset($args['admin_username']))
 			$this->admin_username = $args['admin_username'];
 
-
-
 		if (isset($args['admin_password1']) || isset($args['admin_password2']))
 		{
 			if ($args['admin_password1'] != $args['admin_password2'])
@@ -201,11 +199,11 @@ class sInstall extends Script
 				$list = array();
 $list[] = array("class_name" => "folder",	"name" => "description","priority" => "10",	"type" => "text");
 
-$list[] = array("class_name" => "article",	"name" => "text",	"priority" => "10",	"type" => "xhtml",	"required" => true);
+$list[] = array("class_name" => "article",	"name" => "text",	"priority" => "10",	"type" => "xhtml",	"required" => true,	"extra" => "Default");
 
 $list[] = array("class_name" => "link",		"name" => "address",	"priority" => "10",	"type" => "url",	"required" => true);
 
-$list[] = array("class_name" => "comment",	"name" => "message",	"priority" => "10",	"type" => "text",	"required" => true);
+$list[] = array("class_name" => "comment",	"name" => "message",	"priority" => "10",	"type" => "xhtml",	"required" => true,	"extra" => "Simple");
 
 $list[] = array("class_name" => "file_folder",	"name" => "description","priority" => "10",	"type" => "text");
 
@@ -215,10 +213,10 @@ $list[] = array("class_name" => "file",		"name" => "description","priority" => "
 $list[] = array("class_name" => "event", "name" => "date",		"priority" => "10",	"type" => "date",	"required" => true);
 $list[] = array("class_name" => "event", "name" => "reoccuring_yearly",	"priority" => "20",	"type" => "boolean",	"required" => true);
 $list[] = array("class_name" => "event", "name" => "reoccuring_monthly","priority" => "30",	"type" => "boolean",	"required" => true);
-$list[] = array("class_name" => "event", "name" => "description",	"priority" => "40",	"type" => "xhtml");
+$list[] = array("class_name" => "event", "name" => "description",	"priority" => "40",	"type" => "xhtml",	"extra" => "Default");
 $list[] = array("class_name" => "event", "name" => "calendar_hide",	"priority" => "50",	"type" => "boolean",	"required" => true);
 
-$list[] = array("class_name" => "message",	"name" => "text",	"priority" => "10",	"type" => "text",	"required" => true);
+$list[] = array("class_name" => "message",	"name" => "text",	"priority" => "10",	"type" => "xhtml",	"required" => true,	"extra" => "Simple");
 $list[] = array("class_name" => "message",	"name" => "attatchment","priority" => "20",	"type" => "node");
 $list[] = array("class_name" => "message",	"name" => "sender",	"priority" => "30",	"type" => "hidden",	"extra" => "name");
 
@@ -234,7 +232,7 @@ $list[] = array("class_name" => "poll",		"name" => "alternatives","priority" => 
 $list[] = array("class_name" => "poll_answer",	"name" => "answer",	"priority" => "10",	"type" => "textline",	"required" => true);
 
 $list[] = array("class_name" => "news",		"name" => "expire",	"priority" => "10",	"type" => "date",	"required" => true);
-$list[] = array("class_name" => "news",		"name" => "text",	"priority" => "20",	"type" => "text",	"required" => true);
+$list[] = array("class_name" => "news",		"name" => "text",	"priority" => "20",	"type" => "xhtml",	"required" => true,	"extra" => "Default");
 
 $list[] = array("class_name" => "contact",	"name" => "thumbnail",	"priority" => "10",	"type" => "thumbnail");
 $list[] = array("class_name" => "contact",	"name" => "fullname",	"priority" => "20",	"type" => "textline");

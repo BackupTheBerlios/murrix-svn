@@ -14,7 +14,7 @@ class mVarXhtml extends mVar
 	
 	function getJavaScript($formname, $var_prefix = "")
 	{
-		return "addEditor('$formname', '{$var_prefix}v".$this->id."');";
+		return "__FCKeditorNS = null;FCKeditorAPI = null;";
 	}
 }
 

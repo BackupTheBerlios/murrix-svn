@@ -32,32 +32,8 @@ $root = new mObject($root_id);
 
 		$_SESSION['murrix']['system']->PrintHeader();
 		?>
-		<script type="text/javascript" src="3dparty/tiny_mce/tiny_mce_src.js"></script>
-		
 		<script type="text/javascript">
 		<!--
-			tinyMCE.init({	theme	: "advanced",
-					mode	: "none",
-					language : "<?=($_SESSION['murrix']['language'] == "swe" ? "sv" : "en")?>",
-					plugins : "iespell,table,insertdatetime,preview,searchreplace,print,contextmenu,paste,directionality",
-					theme_advanced_buttons1_add_before : "newdocument,separator",
-					theme_advanced_buttons1_add : "fontselect,fontsizeselect",
-					theme_advanced_buttons2_add : "separator,insertdate,inserttime,preview,separator,forecolor,backcolor,iespell",
-					theme_advanced_buttons2_add_before: "cut,copy,paste,pastetext,pasteword,separator,search,replace,separator",
-					theme_advanced_buttons3_add_before : "tablecontrols,separator",
-					theme_advanced_buttons3_add : "print,separator,ltr,rtl,separator",
-					theme_advanced_toolbar_location : "top",
-					theme_advanced_toolbar_align : "left",
-					content_css : "/example_data/example_full.css",
-					plugin_insertdate_dateFormat : "%Y-%m-%d",
-					plugin_insertdate_timeFormat : "%H:%M:%S",
-					extended_valid_elements : "hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]",
-					theme_advanced_resize_horizontal : false,
-					theme_advanced_resizing : true,
-					apply_source_formatting : true,
-					spellchecker_languages : "+English=en,Swedish=sv,Danish=da,Dutch=nl,Finnish=fi,French=fr,German=de,Italian=it,Polish=pl,Portuguese=pt,Spanish=es"
-					});
-					
 			function loading(state, zone)
 			{
 				if (state)

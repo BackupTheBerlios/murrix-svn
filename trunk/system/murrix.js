@@ -153,44 +153,34 @@ function Exec(scriptname, args)
 
 function Post(scriptname, formname)
 {
-	delEditors(formname);
-	return Exec(scriptname, xajax.getFormValues(formname));
-}
-
-var active_editors = new Object();
-
-function addEditor(formname, varid)
-{
-	if (typeof active_editors[formname] == 'undefined')
-		active_editors[formname] = 0;
-
-	tinyMCE.addMCEControl(xajax.$(varid),'MCEControlID_'+active_editors[formname]);
-	tinyMCE.updateContent('MCEControlID_'+active_editors[formname]);
+	if (typeof(formname) == "string")
+		objForm = xajax.$(formname);
+	else
+		objForm = formname;
 		
-	active_editors[formname]++;
-}
-
-function delEditors(formname)
-{
-	if (typeof active_editors[formname] == 'undefined')
-		active_editors[formname] = 0;
-		
-	for (var n = 0; n < active_editors[formname]; n++)
+	for (var i = 0; i < objForm.elements.length; i++)
 	{
-		var inst = tinyMCE.getInstanceById('MCEControlID_'+n);
-		if (inst)
-			inst.triggerSave(false, false);
-		//tinyMCE.removeMCEControl('MCEControlID_'+n);
+    		if (document.getElementById(objForm.elements[i].name+'___Frame'))
+    		{
+    			var oEditor = FCKeditorAPI.GetInstance(objForm.elements[i].name);
+    			objForm.elements[i].value = oEditor.EditorDocument.body.innerHTML;
+    		}
 	}
+	
+	return Exec(scriptname, xajax.getFormValues(objForm));
+}
 
-	active_editors[formname] = 0;
+function openCalendar(varid, buttonid)
+{
+	var calendar = new CalendarPopup('popupCalendarDiv');
+	calendar.setWeekStartDay(1);
+	calendar.select(document.getElementById(varid), buttonid, 'yyyy-MM-dd');
 }
 
 var active_zones = new Array();
 
 function startScript(zone)
 {
-	
 	if (in_array(zone, active_zones))
 		return;
 

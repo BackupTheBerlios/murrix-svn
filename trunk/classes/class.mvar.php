@@ -102,7 +102,7 @@ class mVar
 	
 	function getStandardArgs($formname, $var_prefix)
 	{
-		return array("formname"=>$formname, "varname"=>"{$var_prefix}v".$this->id, "prefix"=>$var_prefix, "id"=>$this->id, "value_id"=>$this->value_id, "value"=>$this->value, "fvalue"=>$this->getValue());
+		return array("formname"=>$formname, "varname"=>"{$var_prefix}v".$this->id, "prefix"=>$var_prefix, "id"=>$this->id, "value_id"=>$this->value_id, "value"=>$this->value, "fvalue"=>$this->getValue(), "extra"=>$this->extra);
 	}
 	
 	function Save()

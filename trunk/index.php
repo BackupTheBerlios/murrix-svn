@@ -58,6 +58,7 @@ require_once("classes/class.mgroup.php");
 // Load 3d-party files
 /* ========================= */
 require_once("3dparty/exifer/exif.php");
+require_once("3dparty/FCKeditor/fckeditor.php");
 
 
 /* ========================= */
