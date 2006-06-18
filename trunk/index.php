@@ -64,10 +64,7 @@ require_once("3dparty/FCKeditor/fckeditor.php");
 /* ========================= */
 // Set available linktyes
 /* ========================= */
-if (!isset($link_types))
-	$link_types = array("sub" => "child");
-else if (!isset($link_types['sub']))
-	$link_types = array_merge($link_types, array("sub" => "child"));
+$link_types = array("sub" => "child", "data" => "related data", "parent" => "parent");
 
 
 /* ========================= */

@@ -211,10 +211,11 @@ $list[] = array("class_name" => "file",		"name" => "file",	"priority" => "10",	"
 $list[] = array("class_name" => "file",		"name" => "description","priority" => "20",	"type" => "text");
 
 $list[] = array("class_name" => "event", "name" => "date",		"priority" => "10",	"type" => "date",	"required" => true);
-$list[] = array("class_name" => "event", "name" => "reoccuring_yearly",	"priority" => "20",	"type" => "boolean",	"required" => true);
-$list[] = array("class_name" => "event", "name" => "reoccuring_monthly","priority" => "30",	"type" => "boolean",	"required" => true);
-$list[] = array("class_name" => "event", "name" => "description",	"priority" => "40",	"type" => "xhtml",	"extra" => "Default");
-$list[] = array("class_name" => "event", "name" => "calendar_hide",	"priority" => "50",	"type" => "boolean",	"required" => true);
+$list[] = array("class_name" => "event", "name" => "time",		"priority" => "20",	"type" => "time");
+$list[] = array("class_name" => "event", "name" => "reoccuring_yearly",	"priority" => "30",	"type" => "boolean",	"required" => true);
+$list[] = array("class_name" => "event", "name" => "reoccuring_monthly","priority" => "40",	"type" => "boolean",	"required" => true);
+$list[] = array("class_name" => "event", "name" => "description",	"priority" => "50",	"type" => "xhtml",	"extra" => "Default");
+$list[] = array("class_name" => "event", "name" => "calendar_hide",	"priority" => "60",	"type" => "boolean",	"required" => true);
 
 $list[] = array("class_name" => "message",	"name" => "text",	"priority" => "10",	"type" => "xhtml",	"required" => true,	"extra" => "Simple");
 $list[] = array("class_name" => "message",	"name" => "attatchment","priority" => "20",	"type" => "node");
@@ -237,16 +238,17 @@ $list[] = array("class_name" => "news",		"name" => "text",	"priority" => "20",	"
 $list[] = array("class_name" => "contact",	"name" => "thumbnail",	"priority" => "10",	"type" => "thumbnail");
 $list[] = array("class_name" => "contact",	"name" => "fullname",	"priority" => "20",	"type" => "textline");
 $list[] = array("class_name" => "contact",	"name" => "nicknames",	"priority" => "30",	"type" => "array");
-$list[] = array("class_name" => "contact",	"name" => "array",	"priority" => "40",	"type" => "array");
-$list[] = array("class_name" => "contact",	"name" => "mobilephones","priority" => "50",	"type" => "array");
-$list[] = array("class_name" => "contact",	"name" => "homephones",	"priority" => "60",	"type" => "array");
-$list[] = array("class_name" => "contact",	"name" => "workphones",	"priority" => "70",	"type" => "array");
-$list[] = array("class_name" => "contact",	"name" => "address",	"priority" => "80",	"type" => "text");
-$list[] = array("class_name" => "contact",	"name" => "icq",	"priority" => "90",	"type" => "textline");
-$list[] = array("class_name" => "contact",	"name" => "msn",	"priority" => "100",	"type" => "textline");
-$list[] = array("class_name" => "contact",	"name" => "skype",	"priority" => "110",	"type" => "textline");
-$list[] = array("class_name" => "contact",	"name" => "allergies",	"priority" => "120",	"type" => "array");
-$list[] = array("class_name" => "contact",	"name" => "other",	"priority" => "130",	"type" => "text");
+$list[] = array("class_name" => "contact",	"name" => "gender",	"priority" => "40",	"type" => "selection",	"extra" => "male=male,female=female",	"required" => true);
+$list[] = array("class_name" => "contact",	"name" => "emails",	"priority" => "50",	"type" => "array");
+$list[] = array("class_name" => "contact",	"name" => "mobilephones","priority" => "60",	"type" => "array");
+$list[] = array("class_name" => "contact",	"name" => "homephones",	"priority" => "70",	"type" => "array");
+$list[] = array("class_name" => "contact",	"name" => "workphones",	"priority" => "80",	"type" => "array");
+$list[] = array("class_name" => "contact",	"name" => "address",	"priority" => "90",	"type" => "text");
+$list[] = array("class_name" => "contact",	"name" => "icq",	"priority" => "100",	"type" => "textline");
+$list[] = array("class_name" => "contact",	"name" => "msn",	"priority" => "110",	"type" => "textline");
+$list[] = array("class_name" => "contact",	"name" => "skype",	"priority" => "120",	"type" => "textline");
+$list[] = array("class_name" => "contact",	"name" => "allergies",	"priority" => "130",	"type" => "array");
+$list[] = array("class_name" => "contact",	"name" => "other",	"priority" => "140",	"type" => "text");
 
 				$failed = false;
 				foreach ($list as $item)
