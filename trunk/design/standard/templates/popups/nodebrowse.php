@@ -8,20 +8,27 @@ require_once("$abspath/classes/class.mvar.php");
 require_once("$abspath/classes/class.mobject.php");
 require_once("$abspath/classes/class.mthumbnail.php");
 require_once("$abspath/classes/class.script.php");
+require_once("$abspath/classes/class.mtable.php");
+require_once("$abspath/classes/class.mgroup.php");
+require_once("$abspath/classes/class.muser.php");
 
 require_once("$abspath/system/functions.php");
 require_once("$abspath/system/design.php");
 require_once("$abspath/system/fetch.php");
 require_once("$abspath/system/paths.php");
 require_once("$abspath/system/objectcache.php");
+require_once("$abspath/system/settings.php");
 
 require_once("$abspath/session.php");
 
 if (($str = db_connect()) !== true)
 	echo "Failed to connect to database!";
 
+$root_id = getSetting("ROOT_NODE_ID", 1, "any");
+$anonymous_id = getSetting("ANONYMOUS_ID", 1, "any");
+
 if (!isset($_GET['path']))
-	$path = "/Root";
+	$path = "/root";
 else
 	$path = urldecode($_GET['path']);
 
@@ -114,10 +121,10 @@ if (!$object->hasRight("read"))
 				<?
 					$js = "";
 					if (isset($_GET['input_id']))
-						$js .= "opener.document.getElementById('".$_GET['form_id']."').".$_GET['input_id'].".value='".$object->getNodeId()."';";
+						$js .= "opener.document.getElementById('".$_GET['input_id']."').value='".$object->getNodeId()."';";
 
 					if (isset($_GET['input_path_id']))
-						$js .= "opener.document.getElementById('".$_GET['form_id']."').".$_GET['input_path_id'].".value='$path';";
+						$js .= "opener.document.getElementById('".$_GET['input_path_id']."').value='$path';";
 					?>
 					<input type="button" class="submit" onclick="<?=$js?>;parent.window.close();" value="<?=ucf(i18n("select"))?>"/>
 				</center>

@@ -5,8 +5,12 @@ if (isset($_SESSION['murrix']['languages']) && is_array($_SESSION['murrix']['lan
 	{
 		if ($language == $_SESSION['murrix']['language'])
 			continue;
-			
-		echo cmd(img(imgpath("$language.jpg")), "exec=langswitch&language=$language");
+		?>
+		<form name="sLangswitch" id="sLangswitch" action="javascript:void(null);" onsubmit="Post('langswitch','sLangswitch');">
+			<input class="hidden" type="hidden" name="language" value="<?=$language?>"/>
+			<input type="image" src="<?=imgpath("$language.jpg")?>" alt="<?=ucf(i18n($language))?>"/>
+		</form>
+		<?
 	}
 }
 ?>

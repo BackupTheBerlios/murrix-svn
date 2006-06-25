@@ -21,7 +21,7 @@ $vars = $newobject->GetVars();
 $newobject->loadClassIcon();
 
 $left = img(geticon($newobject->getIcon()))."&nbsp;".ucf(i18n("new"));
-$right = ucf(i18n("class")).": $class_form";
+$right = $class_form;
 $center = "";
 include(gettpl("big_title"));
 
@@ -66,17 +66,14 @@ include(gettpl("big_title"));
 			<div class="main">
 				<table class="top_edit_table">
 					<tr>
-						<td>
-							<?=ucf(i18n("name"))?>: <input class="form" type="text" name="<?=$language?>_name"/>
+						<td class="left">
+							<?=ucf(i18n("name"))?>: <input class="input" type="text" name="<?=$language?>_name"/>
 						</td>
-						<td>
+						<td class="right">
 							<?=ucf(i18n("icon"))?>:
 							<img id="<?=$language?>_icon_img" src="<?=geticon($newobject->getIcon())?>"/>
 							<input class="hidden" type="hidden" name="<?=$language?>_icon" id="icon"/>
 							<a href="javascript:void(null);" onclick="popWin=open('<?=gettpl_www("popups/iconbrowse")?>?input_id=<?=$language?>_icon&form_id=sEdit','PopUpWindow','width=500,height=400,scrollbars=1,status=0'); popWin.opener = self; popWin.focus(); popWin.moveTo(150,50); return false"><?=ucf(i18n("browse"))?></a>
-						</td>
-						<td>
-							<?=ucf(i18n("language")).": ".img(imgpath("$language.jpg"))?>
 						</td>
 					</tr>
 				</table>

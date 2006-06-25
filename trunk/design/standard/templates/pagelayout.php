@@ -1,8 +1,3 @@
-<?
-global $root_id;
-$root = new mObject($root_id);
-?>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 
@@ -34,117 +29,148 @@ $root = new mObject($root_id);
 		?>
 		<script type="text/javascript">
 		<!--
-			function loading(state, zone)
-			{
-				if (state)
-				{
-				//	document.getElementById('loadbox').style.display = "block";
-				}
-				else
-				{
-				//	document.getElementById('loadbox').style.display = "none";
-				}
-			}
-
 			function init()
 			{
 				return "exec=show&path=<?=urlencode($_SESSION['murrix']['default_path'])?>";
+			}
+			
+			function toggleSidebarContainer(itemName)
+			{
+				var containerObj = document.getElementById(itemName+'_container');
+				var rightObj = document.getElementById(itemName+'_right');
+				var leftObj = document.getElementById(itemName+'_left');
+				
+				if (containerObj.style.display == 'none') // Show container
+				{
+					containerObj.style.display = 'block';
+					leftObj.innerHTML = '&uarr;&uarr;';
+					rightObj.innerHTML = '&uarr;&uarr;';
+				}
+				else // Hide container
+				{
+					containerObj.style.display = 'none';
+					leftObj.innerHTML = '&darr;&darr;';
+					rightObj.innerHTML = '&darr;&darr;';
+				}
 			}
 		// -->
 		</script>
 	</head>
 
-	<body onload="OnLoadHandler();">
-		
-		<div id="header">
-			<div id="header_wrapper">
-				<div id="zone_login">
-				<?
-					if (IsAnonymous())
-						include(gettpl("scripts/login/login"));
-					else
-						include(gettpl("scripts/login/logout"));
-						
-					$_SESSION['murrix']['system']->makeActive("login");
-					
-				?>
-				</div>
-	
-				<div id="header_logo">
-					<?=cmd(img(geticon($root->getIcon(), 64)), "exec=show&path=".$_SESSION['murrix']['default_path'])?>
-				</div>
-				
-				<div id="header_name">
-					<?=cmd(getSetting("TITLE", "Welcome to MURRiX"), "exec=show&path=".$_SESSION['murrix']['default_path'])?>
-				</div>
-			</div>
+	<body class="body" onload="OnLoadHandler();">
+		<div style="float: right; padding: 7px;" id="zone_language">
+		<?
+			include(gettpl("scripts/langswitch"));
+			$_SESSION['murrix']['system']->makeActive("langswitch");
+		?>
 		</div>
-
-		<div id="bar">
-			<div id="zone_addressbar">
+		
+		<div class="header">
+			<?=getSetting("TITLE", "Welcome to MURRiX")?>
+		</div>
+		
+		<div class="bar">
+			<div class="search">
+				<form id="smallSearch" action="javascript:void(null);" onsubmit="Post('search','smallSearch')">
+					<div>
+						<input class="input" id="query" name="query" type="text" onfocus="if(this.value=='<?=ucf(i18n("enter search here"))?>!')this.value=''" onblur="if(this.value=='')this.value='<?=ucf(i18n("enter search here"))?>!'" value="<?=ucf(i18n("enter search here"))?>!"/>
+						<input class="search" type="image" name="submit" src="<?=geticon("search")?>" alt="<?=ucf(i18n("search"))?>"/>
+					</div>
+				</form>
+			</div>
+			
+			<div class="address" id="zone_addressbar">
 			<?
 				$path = $_SESSION['murrix']['path'];
 				include(gettpl("scripts/addressbar"));
 				$_SESSION['murrix']['system']->makeActive("addressbar");
 			?>
 			</div>
-
-			<form id="smallSearch" action="javascript:void(null);" onsubmit="Post('search','smallSearch')">
-				<div id="search">
-					<input id="query" name="query" class="input" type="text" onfocus="if(this.value=='<?=ucf(i18n("enter search here"))?>!')this.value=''" onblur="if(this.value=='')this.value='<?=ucf(i18n("enter search here"))?>!'" value="<?=ucf(i18n("enter search here"))?>!"/>
-					<input class="submit" type="submit" value="<?=ucf(i18n("search"))?>"/>
-				</div>
-			</form>
+			
+			<div class="clear"></div>
 		</div>
-
-		<div class="clear"></div>
 		
-		<div id="main">
-
-			<table class="content_table" cellspacing="0">
-				<tr>
-					<td>
+		<table class="maintable" cellspacing="0">
+			<tr class="row">
+				<td class="sidebar">
+					<div id="zone_menu">
 					<?
 						include(gettpl("menu"));
+					?>
+					</div>
+				</td>
+				<td class="middle">
+					<div id="zone_main">
+					<?
+						$object = new mObject(getNode($_SESSION['murrix']['path']));
+						if ($object->HasRight("read"))
+						{
+							include(gettpl("scripts/show", $object));
+						}
+						else
+						{
+							$titel = ucf(i18n("error"));
+							$text = ucf(i18n("not enough rights"));
+							include(gettpl("message"));
+						}
+						$_SESSION['murrix']['system']->makeActive("show");
+					?>
+					</div>
+				</td>
+				<td class="sidebar">
+					<div class="title">
+						<a class="right" id="login_right" href="javascript:void(null)" onclick="toggleSidebarContainer('login')">&uarr;&uarr;</a>
+						<a class="left" id="login_left" href="javascript:void(null)" onclick="toggleSidebarContainer('login')">&uarr;&uarr;</a>
+						<?=ucf(i18n("login"))?>
+					</div>
+					<div id="login_container" class="container">
+						<div id="zone_login">
+						<?
+							if (IsAnonymous())
+								include(gettpl("scripts/login/login"));
+							else
+								include(gettpl("scripts/login/logout"));
+								
+							$_SESSION['murrix']['system']->makeActive("login");
+							?>
+						</div>
+					</div>
+					
+					<div class="title">
+						<a class="right" id="calendar_right" href="javascript:void(null)" onclick="toggleSidebarContainer('calendar')">&uarr;&uarr;</a>
+						<a class="left" id="calendar_left" href="javascript:void(null)" onclick="toggleSidebarContainer('calendar')">&uarr;&uarr;</a>
+						<?=cmd(ucf(i18n("calendar")), "exec=calendar", "sidebar")?>
+					</div>
+					<div id="calendar_container" class="container">
+						<div class="container">
+						<?
+							$firstday = strtotime(date("Y-m")."-01");
+							include(gettpl("scripts/calendar/small_month"));
 						?>
+						</div>
+					</div>
+					
+					<div class="title">
+						<a class="right" id="polls_right" href="javascript:void(null)" onclick="toggleSidebarContainer('polls')">&uarr;&uarr;</a>
+						<a class="left" id="polls_left" href="javascript:void(null)" onclick="toggleSidebarContainer('polls')">&uarr;&uarr;</a>
+						<?=ucf(i18n("polls"))?>
+					</div>
+					<div id="polls_container" class="container">
 						<div id="zone_poll">
 						<?
 							include(gettpl("scripts/poll/view"));
 							$_SESSION['murrix']['system']->makeActive("poll");
 						?>
 						</div>
-					</td>
-					<td style="width: 100%">
-						<div id="content">
-							<div id="zone_main">
-							<?
-								$object = new mObject(getNode($_SESSION['murrix']['path']));
-								include(gettpl("scripts/show", $object));
-								$_SESSION['murrix']['system']->makeActive("show");
-							?>
-							</div>
-						</div>
-					</td>
-				</tr>
-			</table>
+					</div>
+				</td>
+			</tr>
+		</table>
+		
+		<div class="footer">
+			<? include(gettpl("footer")) ?>
+		</div>
 
-			<div id="footer">
-				<? include(gettpl("footer")) ?>
-			</div>
-		</div>
-		
-		<div id="loadbox">
-			<div class="background"></div>
-			<div class="main">
-				<div class="header">
-					<?=ucf(i18n("loading"))."..."?>
-				</div>
-				<div>
-					<?=img(imgpath("loading.gif"))?>
-				</div>
-			</div>
-		</div>
-		
 		<div id="popupCalendarDiv" style="visibility:hidden; position:absolute; z-index:11;"></div>
 	</body>
 </html>

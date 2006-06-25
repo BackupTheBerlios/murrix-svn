@@ -1,0 +1,94 @@
+#popupCalendarDiv
+{
+	background-color: #f5f5f7;
+	border: 1px solid #e1e4e8;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+}
+
+#popupCalendarDiv
+.cpYearNavigation,
+.cpMonthNavigation
+{
+	background-color: #ebedee;
+	text-align: center;
+	font-weight: bold;
+}
+
+#popupCalendarDiv
+TD.cpDayColumnHeader
+{
+	text-align: right;
+	border: thin solid #ebedee;
+	border-width: 0 0 1px 0;
+}
+
+#popupCalendarDiv
+.cpCurrentMonthDate,
+.cpOtherMonthDate,
+.cpCurrentDate
+{
+	text-align: right;
+}
+
+#popupCalendarDiv
+.cpCurrentMonthDateDisabled,
+.cpOtherMonthDateDisabled,
+.cpCurrentDateDisabled
+{
+	color: #D0D0D0;
+	text-decoration: line-through;
+}
+
+#popupCalendarDiv
+.cpCurrentMonthDate,
+.cpCurrentDate
+{
+	font-weight: bold;
+}
+
+#popupCalendarDiv
+.cpOtherMonthDate
+{
+	color: #808080;
+}
+
+#popupCalendarDiv
+TD.cpCurrentDate
+{
+	background-color: #FFFFFF;
+	border: 2px solid #B6BAFF;
+}
+
+#popupCalendarDiv
+TD.cpCurrentDateDisabled
+{
+	border: 1px solid #000000;
+}
+
+#popupCalendarDiv
+TD.cpTodayText,
+TD.cpTodayTextDisabled
+{
+	border: thin solid #B6BAFF;
+	border-width: 1px 0 0 0;
+}
+
+#popupCalendarDiv
+A.cpTodayText,
+SPAN.cpTodayTextDisabled
+{
+	height: 20px;
+}
+
+#popupCalendarDiv
+A.cpTodayText
+{
+	font-weight: bold;
+}
+
+#popupCalendarDiv
+SPAN.cpTodayTextDisabled
+{
+	color: #D0D0D0;
+}

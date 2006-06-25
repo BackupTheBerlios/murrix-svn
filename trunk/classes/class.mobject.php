@@ -232,32 +232,35 @@ class mObject
 		return mysql_insert_id();
 	}
 
-	function save()
+	function save($asis = false)
 	{
 		// Save a new version of this object
 		global $db_prefix;
 
-		if ($this->node_id == 0)
+		if (!$asis)
 		{
-			$this->node_id = $this->getNewNodeId();
-			$this->version = 1;
-		}
-		else
-		{
-			$versionlist = $this->getVersionNumbers($this->getLanguage());
-			if ($versionlist === false || empty($versionlist))
+			if ($this->node_id == 0)
 			{
+				$this->node_id = $this->getNewNodeId();
 				$this->version = 1;
 			}
 			else
-				$this->version = $versionlist[0]+1;
-		}
-
-		$datetime = date("Y-m-d H:i:s");
-
-		$user_id = (isset($_SESSION['murrix']['user']) ? $_SESSION['murrix']['user']->id : $this->user_id);
+			{
+				$versionlist = $this->getVersionNumbers($this->getLanguage());
+				if ($versionlist === false || empty($versionlist))
+				{
+					$this->version = 1;
+				}
+				else
+					$this->version = $versionlist[0]+1;
+			}
 		
-		$query = "INSERT INTO `".$db_prefix."objects` (name, node_id, user_id, group_id, rights, created, class_name, version, language, icon) VALUES('$this->name', '$this->node_id', '$user_id', '$this->group_id', '$this->rights', '$datetime', '$this->class_name', '$this->version', '$this->language', '$this->icon')";
+			$this->created = date("Y-m-d H:i:s");
+
+			$this->user_id = (isset($_SESSION['murrix']['user']) ? $_SESSION['murrix']['user']->id : $this->user_id);
+		}
+		
+		$query = "INSERT INTO `".$db_prefix."objects` (name, node_id, user_id, group_id, rights, created, class_name, version, language, icon) VALUES('$this->name', '$this->node_id', '$this->user_id', '$this->group_id', '$this->rights', '$this->created', '$this->class_name', '$this->version', '$this->language', '$this->icon')";
 
 		if (!($result = mysql_query($query)))
 		{
@@ -603,24 +606,38 @@ class mObject
 
 	function setMeta($name, $value)
 	{
-		$this->deleteMeta($name);
-
 		if (empty($value))
-			return true;
-
+			return $this->deleteMeta($name);
+		
 		global $db_prefix;
-			
-		$query = "INSERT INTO `".$db_prefix."meta` (node_id, name, value) VALUES('$this->node_id', '$name', '$value')";
-
+		
+		$query = "UPDATE `".$db_prefix."meta` SET `value`='$value' WHERE `node_id` = '$this->node_id' AND `name`='$name'";
+		
 		if (!($result = mysql_query($query)))
 		{
-			$message = "<b>An error occured while inserting</b><br/>";
-			$message .= "<b>Table:</b> ".$db_prefix."meta`<br/>";
+			$message = "<b>An error occured while updating</b><br/>";
+			$message .= "<b>Table:</b> `".$db_prefix."meta`<br/>";
 			$message .= "<b>Query:</b> $query<br/>";
 			$message .= "<b>Error Num:</b> " . mysql_errno() . "<br/>";
 			$message .= "<b>Error:</b> " . mysql_error() . "<br/>";
 			$this->error = $message;
 			return false;
+		}
+		
+		if (mysql_affected_rows() == 0)
+		{
+			$query = "INSERT INTO `".$db_prefix."meta` (`node_id`, `name`, `value`) VALUES('$this->node_id', '$name', '$value')";
+	
+			if (!($result = mysql_query($query)))
+			{
+				$message = "<b>An error occured while inserting</b><br/>";
+				$message .= "<b>Table:</b> ".$db_prefix."meta`<br/>";
+				$message .= "<b>Query:</b> $query<br/>";
+				$message .= "<b>Error Num:</b> " . mysql_errno() . "<br/>";
+				$message .= "<b>Error:</b> " . mysql_error() . "<br/>";
+				$this->error = $message;
+				return false;
+			}
 		}
 
 		return true;
@@ -922,7 +939,7 @@ class mObject
 	{
 		// Get var editcode
 		if (isset($this->vars[$varname]))
-			return $this->vars[$varname]->getShow($formname);
+			return $this->vars[$varname]->getShow();
 
 		$this->error = "mObject::getVarEdit: No variable by the name \"$varname\" found.";
 		return false;
@@ -960,6 +977,11 @@ class mObject
 			return $this->vars[$varname]->value_id;
 			
 		return 0;
+	}
+	
+	function checkVarExistance($varname)
+	{
+		return isset($this->vars[$varname]);
 	}
 
 	function resolveVarId($varid)
@@ -999,11 +1021,7 @@ class mObject
 	function getIcon($class = true)
 	{
 		if (empty($this->icon) && $this->class_name == "file")
-		{
-			$filename = $this->getVarValue("file");
-			$pathinfo = pathinfo($filename);
-			return getfiletype($pathinfo['extension']);
-		}
+			return getfiletype(pathinfo($this->getVarValue("file"), PATHINFO_EXTENSION));
 	
 		if (empty($this->icon) && $class)
 			return $this->class_icon;

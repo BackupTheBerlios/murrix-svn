@@ -6,6 +6,64 @@ $left = img(geticon("date"))."&nbsp;".ucf(i18n("calendar"));
 include(gettpl("big_title"));
 
 ?>
+
+<table class="calendar_table" cellspacing="0">
+	<tr>
+		<td class="left">
+			<?
+			$firstday = strtotime(date("Y-m")."-01");
+			for ($i = 1; $i <= 3; $i++)
+			{
+			?>
+				<div class="container">
+					<?include(gettpl("scripts/calendar/small_month"))?>
+				</div>
+				<?
+				$firstday = strtotime("+$i months", $firstday);
+			}
+			$right = $center = "";
+			$left = ucf(i18n("calendars"));
+			include(gettpl("medium_title"));
+			?>
+			<div class="main">
+			
+			</div>
+		</td>
+		<td class="right">
+			<div class="main">
+				<?=ucf(i18n("view"))?>
+				[ <?=($view == "day" ? ucf(i18n("day")) : cmd(ucf(i18n("day")), "exec=calendar&view=day&date=$date"))?> ]
+				[ <?=($view == "week" ? ucf(i18n("week")) : cmd(ucf(i18n("week")), "exec=calendar&view=week&date=$date"))?> ]
+				[ <?=($view == "month" ? ucf(i18n("month")) : cmd(ucf(i18n("month")), "exec=calendar&view=month&date=$date"))?> ]
+				|
+				[ <?=cmd(ucf(i18n("goto today")), "exec=calendar&view=$view&date=".date("Ymd"))?> ]
+			</div>
+			
+			<div class="container">
+			<?
+				switch ($view)
+				{
+					case "month":
+					$firstday = strtotime(date("Y-m", strtotime($date))."-01");
+					include(gettpl("scripts/calendar/month_view"));
+					break;
+					
+					case "week":
+					$firstday = strtotime($date);
+					include(gettpl("scripts/calendar/week_view"));
+					break;
+					
+					case "day":
+					$firstday = strtotime($date);
+					include(gettpl("scripts/calendar/day_view"));
+					break;
+				}
+			?>
+			</div>
+		</td>
+	</tr>
+</table><?/*
+
 <div class="calendar_head">
 	<div class="left">
 		<?=ucf(i18n("today's date")).": ".date("Y-m-d")?>
@@ -66,3 +124,4 @@ include(gettpl("big_title"));
 	?>
 </table>
 
+*/?>

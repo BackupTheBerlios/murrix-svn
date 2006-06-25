@@ -1,23 +1,27 @@
 
 <div class="big_title">
-	<div class="big_title_inner">
-		<div class="big_title_left">
-			<? if (!empty($left)) { ?>
+	<? if (!empty($left)) { ?>
+		<div class="left">
+			<div class="inner">
 				<?=$left?>
-			<? } ?>
+			</div>
 		</div>
-	
-		<div class="big_title_center">
-			<? if (!empty($center)) { ?>
+	<? } ?>
+
+	<? if (!empty($center)) { ?>
+		<div class="center">
+			<div class="inner">
 				<?=$center?>
-			<? } ?>
+			</div>
 		</div>
-	
-		<div class="big_title_right">
-			<? if (!empty($right)) { ?>
+	<? } ?>
+
+	<? if (!empty($right)) { ?>
+		<div class="right">
+			<div class="inner">
 				<?=$right?>
-			<? } ?>
+			</div>
 		</div>
-		<div class="clear"></div>
-	</div>
+	<? } ?>
+	<div class="clear"></div>
 </div>

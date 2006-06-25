@@ -14,7 +14,6 @@ $datatypes = array(	"array",
 			"text",
 			"textline",
 			"thumbnail",
-			"thumbnailid",
 			"xhtml",
 			"url");
 

@@ -18,7 +18,7 @@ class mVarThumbnail extends mVar
 		{
 			$names = explode(":", $data);
 	
-			$parts = SplitFilepath($names[0]);
+			$extension = pathinfo($names[0], PATHINFO_EXTENSION);
 	
 			$thumbnail = new mThumbnail();
 			
@@ -28,7 +28,7 @@ class mVarThumbnail extends mVar
 			
 			$maxsizex = (empty($this->extra) ? 150 : $this->extra);
 			
-			$thumbnail->CreateFromFile($filename, $parts['ext'], $maxsizex, $maxsizex, $angle);
+			$thumbnail->CreateFromFile($filename, $extension, $maxsizex, $maxsizex, $angle);
 		}
 		
 		if (!$thumbnail->Save())

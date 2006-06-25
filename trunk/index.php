@@ -8,6 +8,8 @@ $prof->startTimer( "include" );
 /* ========================= */
 require_once("vars.php");
 
+require_once("XML/Serializer.php");
+require_once("XML/Unserializer.php");
 
 /* ========================= */
 // Load basic functions
@@ -52,6 +54,7 @@ require_once("classes/class.calendar.php");
 require_once("classes/class.mtable.php");
 require_once("classes/class.muser.php");
 require_once("classes/class.mgroup.php");
+require_once("classes/class.mxml.php");
 
 
 /* ========================= */
@@ -171,13 +174,13 @@ $prof->stopTimer( "system" );
 /* ========================= */
 if (isset($_GET['thumbnail']))
 {
-	if (in_array($_GET['thumbnail'], $_SESSION['murrix']['rightcache']['thumbnail']))
+	//if (in_array($_GET['thumbnail'], $_SESSION['murrix']['rightcache']['thumbnail']))
 	{
 		$thumbnail = new mThumbnail($_GET['thumbnail']);
 		$thumbnail->Output();
 	}
-	else
-		echo "No rights";
+	//else
+	//	echo "No rights";
 		
 	return;
 }
@@ -192,7 +195,7 @@ else if (isset($_GET['file']))
 	
 	$extension = pathinfo($filename, PATHINFO_EXTENSION);
 
-	if (in_array($_GET['file'], $_SESSION['murrix']['rightcache']['file']))
+	//if (in_array($_GET['file'], $_SESSION['murrix']['rightcache']['file']))
 	{
 		if (isset($_GET['download']))
 		{
@@ -218,8 +221,22 @@ else if (isset($_GET['file']))
 		
 		@readfile("$abspath/files/".$_GET['file'].".$extension");
 	}
+	//else
+	//{
+	//	echo "No rights";
+	//}
+	
+	return;
+}
+else if (isset($_GET['xml']) || isset($_POST['xml']))
+{
+	if (!isAdmin())
+		echo "Only the administrator are allowed to export";
 	else
-		echo "No rights";
+	{
+		$xml = new mXml();
+		$xml->outputBackupXML(isset($_GET['xml']) ? $_GET : $_POST);
+	}
 	
 	return;
 }

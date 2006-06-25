@@ -42,6 +42,8 @@ class sShow extends Script
 					// Special case for files
 					if (isset($args['rebuild_thumb']))
 						delThumbnails($args['rebuild_thumb']);
+						
+					clearNodeFileCache($object->getNodeId());
 				}
 			}
 		}

@@ -23,14 +23,12 @@ if (!empty($thumb_id))
 	
 	$_SESSION['murrix']['rightcache']['thumbnail'][] = $thumbnail->id;
 
-	$img = cmd($thumbnail->Show(true), "exec=show&node_id=".$child->getNodeId());
+	$img = "<div style=\"height: ".ceil((168-$h)/2)."px;\"></div>".$thumbnail->Show(true);
 }
 else
-	$img = cmd(img(geticon($child->getIcon(), 128)), "exec=show&node_id=".$child->getNodeId());
+	$img = "<div style=\"height: 20px;\"></div>".img(geticon($child->getIcon(), 128));
 
 ?>
 <div class="show_item">
-	<?=$img?>
-	<br/>
-	<?=cmd($child->getName(), "exec=show&node_id=".$child->getNodeId())?>
+	<?=cmd("$img<br/>".$child->getName(), "exec=show&node_id=".$child->getNodeId())?>
 </div>

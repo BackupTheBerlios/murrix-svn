@@ -65,7 +65,7 @@ if (!isset($com_count))
 		</div>
 
 		<div class="show_line_main_bottom">
-			<? if ($read_right) { echo $child->getVarValue("message"); } ?>
+			<? if ($read_right) { echo $child->getVarShow("message"); } ?>
 		</div>
 	</div>
 

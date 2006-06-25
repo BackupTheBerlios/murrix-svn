@@ -2,8 +2,8 @@
 
 function getObjectFromCache($object_id)
 {
-	if (isset($_SESSION['murrix']['objectcache'][$object_id]))
-		return $_SESSION['murrix']['objectcache'][$object_id];
+	//if (isset($_SESSION['murrix']['objectcache'][$object_id]))
+	//	return $_SESSION['murrix']['objectcache'][$object_id];
 
 	global $abspath;
 
@@ -16,8 +16,10 @@ function getObjectFromCache($object_id)
 			$contents = fread($handle, filesize($filename));
 			fclose($handle);
 
-			$_SESSION['murrix']['objectcache'][$object_id] = unserialize($contents);
-			return $_SESSION['murrix']['objectcache'][$object_id];
+			$object = unserialize($contents);
+
+			//$_SESSION['murrix']['objectcache'][$object_id] = $object;
+			return $object;
 		}
 	}
 	
@@ -26,7 +28,7 @@ function getObjectFromCache($object_id)
 
 function addObjectToCache($object)
 {
-	$_SESSION['murrix']['objectcache'][$object->getId()] = $object;
+	//$_SESSION['murrix']['objectcache'][$object->getId()] = $object;
 
 	global $abspath;
 
@@ -48,7 +50,7 @@ function addObjectToCache($object)
 
 function delObjectFromCache($object_id)
 {
-	unset($_SESSION['murrix']['objectcache'][$object_id]);
+	//unset($_SESSION['murrix']['objectcache'][$object_id]);
 
 	global $abspath;
 

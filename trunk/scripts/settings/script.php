@@ -56,6 +56,9 @@ class sSettings extends Script
 					$object->setMeta("initial_rights", $args['initial_rights']);
 					
 					$object->setMeta("initial_group", $args['initial_group']);
+					
+					clearNodeFileCache($object->getNodeId());
+					delObjectFromCache($object->getId());
 				}
 			}
 		}

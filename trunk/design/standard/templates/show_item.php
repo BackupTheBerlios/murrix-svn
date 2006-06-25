@@ -1,5 +1,4 @@
 <div class="show_item">
-	<?=cmd(img(geticon($child->getIcon(), 128)), "exec=show&node_id=".$child->getNodeId())?>
-	<br/>
-	<?=cmd($child->getName(), "exec=show&node_id=".$child->getNodeId())?>
+	
+	<?=cmd("<div style=\"height: 20px;\"></div>".img(geticon($child->getIcon(), 128))."<br/>".$child->getName(), "exec=show&node_id=".$child->getNodeId())?>
 </div>

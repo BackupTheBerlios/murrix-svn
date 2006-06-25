@@ -1,6 +1,6 @@
 <?
 
-class mVarDatetime extends mVar
+class mVarTime extends mVar
 {
 	function getEdit($formname, $var_prefix = "")
 	{

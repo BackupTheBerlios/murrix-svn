@@ -1,12 +1,12 @@
-<table class="invisible" style="width: 100%; margin-bottom: 5px;" cellspacing="0">
-	<tr>
+<div class="main">
 	<?
 		$value_id = $object->resolveVarName("file");
-		$type = getfiletype(pathinfo($object->getVarValue("file"), PATHINFO_EXTENSION));
+		$filename = $object->getVarValue("file");
+		$type = getfiletype(pathinfo($filename, PATHINFO_EXTENSION));
 		
-		$data = "";
 		if ($type == "image")
 		{
+			$result = read_exif_data_raw($filename, 0);
 			$maxsize = getSetting("IMGSIZE", 640);
 			$angle = $object->getMeta("angle");
 			
@@ -18,73 +18,61 @@
 			if ($thumbnail !== false)
 			{
 				$_SESSION['murrix']['rightcache']['thumbnail'][] = $thumbnail->id;
-				$data .= $thumbnail->Show(true);
+				$data = $thumbnail->Show(true);
 			}
 			else
-				$data .= ucf(i18n("file format not supported for inline view"));
+				$data = img(geticon($type, 128));
 		}
-		//else
-		//	$data .= ucf(i18n("file format not supported for inline view"));
-
-		$text = $object->getVarValue("description");
-		if (!empty($text))
-		{
-			$data .= "<br/><br/>";
-			$data .= $object->getVarValue("description");
-			$data .= "<br/><br/>";
-		}
-
-		if (!empty($data))
-		{
+		else
+			$data = img(geticon($type, 128));
+			
+		$_SESSION['murrix']['rightcache']['file'][] = $value_id;
 		?>
-			<td style="margin-right: 5px;">
-				<div class="file">
-					<?=$data?>
+	
+		<a target="top" href="?file=<?=$value_id?>"><?=$data?></a><br/>
+		
+		<?
+		if ($type == "image" && $object->hasRight("write"))
+		{
+			$angle_left = ($angle+90);
+			if ($angle_left < 0) $angle_left = 360+$angle_left;
+			else if ($angle_left > 360) $angle_left = 360-$angle_left;
+
+			$angle_right = ($angle-90);
+			if ($angle_right < 0) $angle_right = 360+$angle_right;
+			else if ($angle_right > 360) $angle_right = 360-$angle_right;
+
+			if ($angle_left == 0)
+				$angle_left = 360;
+
+			if ($angle_right == 0)
+				$angle_right = 360;
+				
+			echo cmd(img(imgpath("rotate_left.png")), "exec=show&node_id=".$object->getNodeId()."&meta=angle&value=$angle_left&rebuild_thumb=$value_id");
+			?> <a href="?file=<?=$value_id?>&download=1"><?=img(geticon("download"))?></a> <?
+			echo cmd(img(imgpath("rotate_right.png")), "exec=show&node_id=".$object->getNodeId()."&meta=angle&value=$angle_right&rebuild_thumb=$value_id");
+			
+		}
+		?>
+</div>
+<div class="file_panel">
+	<table class="invisible" width="100%" cellspacing="0">
+		<tr>
+			<td style="padding-right: 5px;">
+				<div class="header">
+					<?=ucf(i18n("description"))?>
+				</div>
+				<div style="padding-top: 5px;">
+					<?=$object->getVarValue("description")?>
 				</div>
 			</td>
-		<?
-		}
-		?>
-		
-		<td style="width: 100%">
-			<div class="file_panel">
-				<div class="title">
-					<?=ucw(i18n("links"))?>
+			
+			<td style="width: 200px;">
+				<div class="header">
+					<?=ucf(i18n("information"))?>
 				</div>
-				<a href="?file=<?=$object->getNodeId()?>&download=1"><?=img(geticon("download"))." ".ucf(i18n("download"))?></a>
-				<a target="top" href="?file=<?=$object->getNodeId()?>"><?=img(geticon(getfiletype($pathinfo['extension'])))." ".ucf(i18n("open orginal"))?></a>
 				
 				<?
-				if ($type == "image" && $object->hasRight("write"))
-				{
-					$angle_left = ($angle+90);
-					if ($angle_left < 0) $angle_left = 360+$angle_left;
-					else if ($angle_left > 360) $angle_left = 360-$angle_left;
-		
-					$angle_right = ($angle-90);
-					if ($angle_right < 0) $angle_right = 360+$angle_right;
-					else if ($angle_right > 360) $angle_right = 360-$angle_right;
-
-					if ($angle_left == 0)
-						$angle_left = 360;
-
-					if ($angle_right == 0)
-						$angle_right = 360;
-						
-					?>
-					<div class="title">
-						<?=ucw(i18n("rotate"))?>
-					</div>
-					<div style="float: left; width: 50%;">
-						<?=cmd(img(imgpath("rotate_left.png")), "exec=show&node_id=".$object->getNodeId()."&meta=angle&value=$angle_left&rebuild_thumb=$value_id")?>
-					</div>
-					<div style="float: right; width: 50%;">
-						<?=cmd(img(imgpath("rotate_right.png")), "exec=show&node_id=".$object->getNodeId()."&meta=angle&value=$angle_right&rebuild_thumb=$value_id")?>
-					</div>
-					<div class="clear"></div>
-					<?
-				}
-				
 				if ($type == "image" && isset($result['IFD0']['DateTime']))
 				{?>
 					<div class="title">
@@ -164,9 +152,8 @@
 						<?=trim($result['SubIFD']['FileSource'])?>
 					<?}
 				}
-				?>
-			</div>
-
-		</td>
-	</tr>
-</table>
+			?>
+			</td>
+		</tr>
+	</table>
+</div>

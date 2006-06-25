@@ -1,0 +1,17 @@
+.xml_wrapper
+{
+
+
+}
+
+.xml_wrapper fieldset
+{
+	background-color: #F9F9F9;
+	border: 1px solid #DCD7FF;
+	margin-bottom: 5px;
+}
+
+.xml_wrapper legend
+{
+	font-weight: bold;
+}

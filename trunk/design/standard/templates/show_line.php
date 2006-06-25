@@ -1,7 +1,7 @@
 <div class="show_line">
 	<div class="show_line_logo">
 	<?
-		$read_right = $child->hasRight("read");
+		$read_right = true;//$child->hasRight("read");
 		if ($read_right)
 			echo cmd(img(geticon($child->getIcon(), 64)), "exec=show&node_id=".$child->getNodeId());
 		else
@@ -11,7 +11,7 @@
 	<div class="show_line_logo_hidden"></div>
 	<div class="show_line_main_right">
 	<?
-		$admin = "";
+		/*$admin = "";
 
 		if ($child->hasRight("write"))
 		{
@@ -24,7 +24,7 @@
 			$admin .= cmd(img(geticon("delete")), "exec=delete&node_id=".$child->getNodeId());
 		}
 
-		echo $admin;
+		echo $admin;*/
 	?>
 	</div>
 	<div class="show_line_main">

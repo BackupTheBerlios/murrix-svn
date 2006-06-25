@@ -1,23 +1,21 @@
 
 <div class="medium_title">
-	<div class="medium_title_inner">
-		<div class="medium_title_left">
-			<? if (!empty($left)) { ?>
-				<?=$left?>
-			<? } ?>
-		</div>
-	
-		<div class="medium_title_center">
-			<? if (!empty($center)) { ?>
-				<?=$center?>
-			<? } ?>
-		</div>
-	
-		<div class="medium_title_right">
-			<? if (!empty($right)) { ?>
-				<?=$right?>
-			<? } ?>
-		</div>
-		<div class="clear"></div>
+	<div class="left">
+		<? if (!empty($left)) { ?>
+			<?=$left?>
+		<? } ?>
 	</div>
+
+	<div class="center">
+		<? if (!empty($center)) { ?>
+			<?=$center?>
+		<? } ?>
+	</div>
+
+	<div class="right">
+		<? if (!empty($right)) { ?>
+			<?=$right?>
+		<? } ?>
+	</div>
+	<div class="clear"></div>
 </div>

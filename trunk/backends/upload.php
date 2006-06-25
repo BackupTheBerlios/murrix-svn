@@ -19,7 +19,7 @@ require_once("$abspath/system/fetch.php");
 require_once("$abspath/system/paths.php");
 require_once("$abspath/system/filecache.php");
 require_once("$abspath/system/objectcache.php");
-
+require_once("$abspath/system/settings.php");
 
 session_id($_GET['PHPSESSID']);
 
@@ -27,6 +27,9 @@ require_once("$abspath/session.php");
 
 if (($str = db_connect()) !== true)
 	echo "Failed to connect to database!";
+
+$root_id = getSetting("ROOT_NODE_ID", 1, "any");
+$anonymous_id = getSetting("ANONYMOUS_ID", 1, "any");
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -65,7 +68,7 @@ if (($str = db_connect()) !== true)
 					$parent_path = $parent->getPathInTree();
 				else
 					$parent_path = $parent->getPathInTree()."/$dir";
-	
+					
 				if (getNode($parent_path) <= 0)
 				{
 					preg_match_all("/([^\/]*)\/?/i", $dir, $atmp);
@@ -108,7 +111,7 @@ if (($str = db_connect()) !== true)
 							$parent = new mObject(getNode($base));
 							$object->linkWithNode($parent->getNodeId());
 							echo "Created file_folder ". $object->getPath()."<br/>";flush();
-							clearNodeFileCache($object->getNodeId());
+							clearNodeFileCache($parent->getNodeId());
 						}
 						else
 						{
@@ -141,7 +144,7 @@ if (($str = db_connect()) !== true)
 				if ($object->save())
 				{
 					$object->linkWithNode($parent->getNodeId());
-					clearNodeFileCache($object->getNodeId());
+					clearNodeFileCache($parent->getNodeId());
 					echo "Created file". $object->getPath()."<br/>";flush();
 					$count++;
 					$size += $file['size'];

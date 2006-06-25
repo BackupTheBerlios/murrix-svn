@@ -23,7 +23,7 @@ if (count($children) > 0)
 
 		case "table":
 			$list = array();
-			$list[] = array(ucf(i18n("name")), ucf(i18n("description")), "&nbsp;");
+			$list[] = array(ucf(i18n("name")), ucf(i18n("description")));
 			for ($i = $start; $i < $end; $i++)
 			{
 				$child = $children[$i];
@@ -36,15 +36,15 @@ if (count($children) > 0)
 
 				$description = $read_right ? $child->getVarValue("description") : "";
 
-				$admin = "";
+				/*$admin = "";
 				if ($child->hasRight("write"))
 				{
 					$admin .= cmd(img(geticon("edit")), "exec=edit&node_id=".$child->getNodeId());
 					$admin .= "&nbsp;";
 					$admin .= cmd(img(geticon("delete")), "exec=delete&node_id=".$child->getNodeId());
 				}
-				
-				$list[] = array($name, $description, $admin);
+				*/
+				$list[] = array($name, $description);
 			}
 
 			table($list, "% ".i18n("rows"));

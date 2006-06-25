@@ -1,179 +1,21 @@
 
-
-#popupCalendarDiv
+body.body
 {
-	background-color: #EEEEEE;
-	border: 1px solid #B6BAFF;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 10px;
-}
-
-#popupCalendarDiv
-.cpYearNavigation,
-.cpMonthNavigation
-{
-	background-color: #B6BAFF;
-	text-align: center;
-	font-weight: bold;
-}
-
-#popupCalendarDiv
-TD.cpDayColumnHeader
-{
-	text-align: right;
-	border: thin solid #B6BAFF;
-	border-width: 0 0 1px 0;
-}
-
-#popupCalendarDiv
-.cpCurrentMonthDate,
-.cpOtherMonthDate,
-.cpCurrentDate
-{
-	text-align: right;
-}
-
-#popupCalendarDiv
-.cpCurrentMonthDateDisabled,
-.cpOtherMonthDateDisabled,
-.cpCurrentDateDisabled
-{
-	color: #D0D0D0;
-	text-decoration: line-through;
-}
-
-#popupCalendarDiv
-.cpCurrentMonthDate,
-.cpCurrentDate
-{
-	font-weight: bold;
-}
-
-#popupCalendarDiv
-.cpOtherMonthDate
-{
-	color: #808080;
-}
-
-#popupCalendarDiv
-TD.cpCurrentDate
-{
-	background-color: #FFFFFF;
-	border: 2px solid #B6BAFF;
-}
-
-#popupCalendarDiv
-TD.cpCurrentDateDisabled
-{
-	border: 1px solid #000000;
-}
-
-#popupCalendarDiv
-TD.cpTodayText,
-TD.cpTodayTextDisabled
-{
-	border: thin solid #B6BAFF;
-	border-width: 1px 0 0 0;
-}
-
-#popupCalendarDiv
-A.cpTodayText,
-SPAN.cpTodayTextDisabled
-{
-	height: 20px;
-}
-
-#popupCalendarDiv
-A.cpTodayText
-{
-	font-weight: bold;
-}
-
-#popupCalendarDiv
-SPAN.cpTodayTextDisabled
-{
-	color: #D0D0D0;
-}
-
-/* ================ */
-
-#loadbox
-{
-	float: left;
-	display: none;
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	background-color: white;
 	margin: 0;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	position: fixed;
 	padding: 0;
-	z-index: 10;
 }
 
-#loadbox .background
+a
 {
-	opacity: .5;
-	filter: alpha(opacity=50);
-	z-index: 12;
-	margin: 0;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	position: fixed;
-	padding: 0;
-	background-color: #CCCCCC;
+	color: #1a1a92;
+	text-decoration: none;
 }
 
-#loadbox .main
+a:hover, a:active
 {
-	z-index: 15;
-	margin-left: 50%;
-	top: 40%;
-	left: -237px;
-	width: 474px;
-	position: fixed;
-	padding: 0;
-	border: 1px solid #B6BAFF;
-	background-color: #FFFFFF;
-}
-
-#loadbox .main .header
-{
-	margin: 5px;
-	padding: 2px;
-	background-color: #DCD7FF;
-	font-size: 18px;
-	text-align: center;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-}
-
-#loadbox .main div
-{
-	margin: 5px;
-	padding: 0;
-	text-align: center;
-}
-
-img
-{
-	border-width: 0;
-	vertical-align: middle;
-
-	/* This is IE-specific! Should not be included in other browsers then IE, makes CSS invalid */
-	behavior: url("design/standard/stylesheets/pngbehavior.htc");
-}
-
-img.image-border
-{
-	border: 1px solid #000000;
-	vertical-align: middle;
-}
-
-form
-{
-	display: inline;
+	color: blue;
 }
 
 .hidden
@@ -183,391 +25,337 @@ form
 	padding: 0;
 }
 
-#clear
+img
+{
+	border: none;
+	vertical-align: text-bottom;
+}
+
+div.clear
 {
 	clear: both;
-	margin: 0;
-	padding: 0;
 }
 
-.clear
+div.header
 {
-	clear: both;
-	margin: 0;
-	padding: 0;
+	font-weight: bold;
+	color: black;
+	background-color: #ebedee;
+	font-size: 25px;
+	text-align: center;
+	height: 30px;
+	background-image: url('/design/standard/images/grayback.jpg');
+	background-repeat: repeat;
 }
 
-a:link
+div.bar
 {
-  	text-decoration:none;
-	color: #0B0044;
+	padding: 3px 5px 3px 5px;
+	height: 20px;
+	background-image: url('/design/standard/images/bar.png');
+	background-repeat: repeat-x;
 }
 
-a:visited
-{
-	text-decoration:none;
-	color: #0B0044;
-}
-
-a:active
-{
-	text-decoration:none;
-	color: #0011AA;
-}
-
-a:hover
-{
-	color: #0016DA;
-}
-
-table.invisible
-{
-	padding: 0;
-	margin: 0;
-}
-
-table.invisible tr
-{
-	padding: 0;
-	margin: 0;
-}
-
-table.invisible td
-{
-	padding: 0;
-	margin: 0;
-	vertical-align: top;
-}
-
-table.content_table
-{
-	background-color: #EEEEEE;
-	padding: 0;
-	margin: 0;
-	width: 100%
-}
-
-table.content_table tr
-{
-	padding: 0;
-	margin: 0;
-}
-
-table.content_table td
-{
-	padding: 0;
-	margin: 0;
-	vertical-align: top;
-}
-
-/*
-=========================
-== Content definitions ==
-=========================
-*/
-
-#content
-{
-	margin: 0;
-	padding: 0;
-	background-color: #EEEEEE;
-}
-
-#content a.externlink
+div.bar div.search
 {
 	float: right;
+}
+
+div.bar input.search
+{
+	width: 16px;
+	height: 16px;
+	border: none;
+	padding: 1px;
+	vertical-align: top;
+}
+
+div.bar input.input
+{
+	border: 1px solid #ebedee;
+	height: 16px;
+	width: 15em;
+	padding: 1px;
+	vertical-align: top;
+}
+
+div.bar div.address
+{
+	font-size: 10px;
+	padding: 3px 0 3px 0;
+}
+
+div.bar div.address a
+{
+	color: black;
+}
+
+div.bar div.address a:hover, div.bar div.address a:active
+{
+	color: blue;
+}
+
+table.maintable
+{
+	width: 100%;
+}
+
+table.maintable td.sidebar
+{
+	vertical-align: top;
+	width: 155px;
+	background-color: #f5f5f7;
 	padding: 5px;
-	border: 1px solid #B6BAFF;
+	text-align: center;
+	padding-bottom: 0;
+}
+
+table.maintable td.sidebar a.sidebar
+{
+	color: black;
+}
+
+table.maintable div.container
+{
+	margin-bottom: 5px;
+}
+
+table.maintable td.sidebar div.title
+{
+	border: 1px solid #e1e4e8;
+	border-width: 1px 0 1px 0;
+	background-color: #ebedee;
+	margin-bottom: 5px;
+}
+
+table.maintable td.sidebar div.title a.left
+{
+	margin-right: 2px;
+	float: left;
+}
+
+table.maintable td.sidebar div.title a.right
+{
+	margin-right: 2px;
+	float: right;
+}
+
+table.maintable td.sidebar div.container a.sidebar
+{
+	text-align: left;
+	display: block;
+	padding: 3px;
+}
+
+table.maintable td.sidebar div.container a.sidebar:hover, table.maintable td.sidebar div.container a.sidebar:active
+{
+	border: 1px solid #e1e4e8;
+	border-width: 1px 0 1px 0;
+	background-color: #ebedee;
+	padding: 2px 3px 2px 3px;
+}
+
+table.maintable td.sidebar input.input
+{
+	border: 1px solid #ebedee;
+	height: 16px;
+	width: 136px;
+	margin-bottom: 5px;
+	padding: 1px;
+}
+
+table.maintable td.sidebar input.submit
+{
+	border: 1px solid #e1e4e8;
+	background-color: #ebedee;
+}
+
+table.maintable td.middle
+{
+	vertical-align: top;
+	padding: 5px;
+	padding-bottom: 0;
+}
+
+table.maintable td.middle img
+{
+	vertical-align: middle;
+}
+
+table.maintable td.middle .adminpanel
+{
+	margin: 0;
+}
+
+table.maintable td.middle div.adminpanel a.tab
+{
+	float: left;
+	padding: 5px;
+	border: 1px solid #e1e4e8;
 	border-bottom-width: 0;
 	margin-right: 5px;
 	display: block;
-	background-color: #FFFFFF;
+	background-color: #f7f7f9;
 }
 
-#content a.externlink:hover
+table.maintable td.middle div.adminpanel a.tab:hover, table.maintable td.middle div.adminpanel a.tab:active
 {
-	background-color: #E1E3FF;
+	background-color: #ebedee;
 }
 
-#content .calendar_head
-{
-	background-color: #FFFFFF;
-	border: 1px solid #B6BAFF;
-	color: #000000;
-	margin: 0;
-	margin-bottom: 5px;
-	padding: 5px;
-}
-
-#content .calendar_head .left
+table.maintable td.middle div.adminpanel a.tab_selected
 {
 	float: left;
+	padding: 5px;
+	border: 1px solid #e1e4e8;
+	border-bottom-width: 0;
+	margin-right: 5px;
+	display: block;
+	background-color: #e1e4e8;
 }
 
-#content .calendar_head .right
+table.maintable td.middle div.big_title
 {
-	text-align: right;
-	float: right;
-}
-
-#content table.calendar
-{
-	width: 100%;
-	margin: 0;
-	padding: 0;	
-}
-
-#content table.calendar td
-{
-	margin: 5px;
-}
-
-#content table.calendar td.head
-{
+	border: 1px solid #e1e4e8;
+	border-width: 1px 0 1px 0;
+	background-color: #ebedee;
+	margin-bottom: 5px;
 	text-align: center;
-	margin-top: 5px;
-	border: 1px solid #B6BAFF;
-	background-color: #FFFFFF;
+	padding: 2px 5px 2px 5px;
+	height: 24px;
 }
 
-#content table.calendar td.week
+table.maintable td.middle div.big_title div.left
 {
-	text-align: center;
-	padding-right: 5px;
-	height: 100px;
-	font-size: 25px;
-	font-weight: bold;
-	vertical-align: middle;
-	width: 0%;
-}
-
-#content table.calendar td.week div.week_text
-{
-	font-size: 11px;
-}
-
-#content table.calendar hr
-{
-	border-width: 0;
-	color: #B6BAFF;
-	background-color: #B6BAFF;
-	height: 1px;
-	margin: 0;
-}
-
-#content table.calendar div.day
-{
-	font-weight: normal;
-	font-size: 9px;
 	text-align: left;
-	overflow: auto;
-	border-width: 0;
-}
-
-#content table.calendar td.day
-{
-	text-align: right;
-	height: 100px;
-	padding: 5px;
-	margin: 5px;
-	border: 1px solid #B6BAFF;
-	background-color: #FFFFFF;
-}
-
-#content table.calendar td.day_red
-{
-	border: 1px solid #B6BAFF;
-	text-align: right;
-	height: 100px;
-	color: red;
-	padding: 5px;
-	margin: 5px;
-	background-color: #FFFFFF;
-}
-
-#content table.calendar td.today
-{
-	text-align: right;
-	height: 100px;
-	border: 2px solid red;
-	font-weight: bold;
-	padding: 5px;
-	margin: 5px;
-	background-color: #FFFFFF;
-}
-
-#content table.calendar td.today_red
-{
-	text-align: right;
-	height: 100px;
-	border: 2px solid red;
-	color: red;
-	padding: 5px;
-	margin: 5px;
-}
-
-.big_title
-{
-	border: 1px solid #B6BAFF;
-	color: #000000;
-	margin: 0;
-	margin-bottom: 5px;
-	padding: 5px;
-	background-color: #FFFFFF;
-}
-
-.big_title .big_title_left
-{
-	font-size: 18px;
+	font-size: 20px;
 	float: left;
 }
 
-.big_title .big_title_right
+table.maintable td.middle div.big_title div.right
 {
+	text-align: right;
 	float: right;
+	margin: 6px 0 6px 0;
 }
 
-.big_title .big_title_inner
+table.maintable td.middle div.big_title select.select
 {
-	margin: 0;
-	padding: 5px;
-	background-color: #B6BAFF;
+	border: 1px solid #ebedee;
+	height: 18px;
+	padding: 1px;
+	vertical-align: top;
+	margin-top: -4px;
 }
 
-.medium_title
+table.maintable td.middle div.medium_title
 {
-	border: 1px solid #B6BAFF;
-	color: #000000;
-	margin: 0;
+	border: 1px solid #e1e4e8;
+	border-width: 1px 0 1px 0;
+	background-color: #ebedee;
 	margin-bottom: 5px;
-	padding: 5px;
-	background-color: #FFFFFF;
+	text-align: center;
+	padding: 2px 6px 2px 6px;
+	height: 20px;
 }
 
-.medium_title .medium_title_left
+table.maintable td.middle div.medium_title div.left
 {
-	font-size: 14px;
+	text-align: right;
 	float: left;
+	margin: 1px 0 1px 0;
 }
 
-.medium_title .medium_title_right
+table.maintable td.middle div.medium_title div.right
 {
+	text-align: right;
 	float: right;
+	margin: 1px 0 1px 0;
 }
 
-.medium_title .medium_title_inner
+table.maintable td.middle div.medium_title img
 {
-	margin: 0;
-	padding: 5px;
-	background-color: #B6BAFF;
+	vertical-align: text-bottom;
 }
 
-#content .listwrapper
-{
-	border: 1px solid #B6BAFF;
-	margin: 0;
-	padding: 5px;
-	margin-bottom: 5px;
-	background-color: #FFFFFF;
-}
-
-#content .listwrapper table
+table.maintable td.middle .top_edit_table
 {
 	margin: 0;
 	padding: 0;
-	border-width: 0;
-	width: 100%;
+	width: 100%
 }
 
-#content .listwrapper table thead
+table.maintable td.middle .top_edit_table .right
 {
-	margin: 0;
-	padding: 5px;
-	background-color: #B6BAFF;
+	text-align: right;
 }
 
-#content .listwrapper table thead td
+table.maintable td.middle .top_edit_table .left
 {
-	padding: 5px;
+	text-align: left;
 }
 
-#content .listwrapper table tfoot td
+table.maintable td.middle .top_edit_table input.input
 {
-	padding: 5px;
+	border: 1px solid #ebedee;
+	height: 16px;
+	width: 20em;
+	padding: 1px;
 }
 
-#content .listwrapper table tbody td
+table.maintable div.main, table.maintable .poll
 {
-	padding: 5px;
-}
-
-#content .listwrapper table tbody .row
-{
-}
-
-#content .listwrapper table tbody .row_selected
-{
-	background-color: #E1E3FF;
-}
-
-#content .listwrapper table tfoot
-{
-	margin: 0;
-	padding: 5px;
-	background-color: #B6BAFF;
-}
-
-#content .listwrapper table tbody
-{
-	margin: 0;
-	padding: 5px;
-}
-
-#content .listwrapper table .empty
-{
-	height: 10px;
-}
-
-#content .show_item_wrapper
-{
-	border: 1px solid #B6BAFF;
-	margin: 0;
-	padding: 5px;
+	background-color: #F9F9F9;
+	border: 1px solid #DCD7FF;
 	margin-bottom: 5px;
-	background-color: #FFFFFF;
-}
-
-#content .show_item_wrapper .show_item
-{
-	width: 160px;
-	height: 160px;
-	text-align: center;
-	float: left;
-	margin: 5px;
-}
-
-#content .show_line
-{
-	border: 1px solid #B6BAFF;
-	margin: 0;
 	padding: 5px;
+}
+
+table.maintable div.main input.submit
+{
+	border: 1px solid #e1e4e8;
+	background-color: #ebedee;
+}
+
+table.maintable fieldset
+{
+	background-color: #F9F9F9;
+	border: 1px solid #DCD7FF;
+	font-weight: bold;
+	margin: 0;
+}
+
+table.maintable .form, table.maintable .input
+{
+	border: 1px solid #ebedee;
+	padding: 2px;
+}
+
+table.maintable .input_big
+{
+	border: 1px solid #ebedee;
+	padding: 2px;
+	width: 25em;
+}
+
+table.maintable td.middle .show_line
+{
 	margin-bottom: 5px;
-	background-color: #FFFFFF;
 	min-height: 70px;
 }
 
-#content .show_line hr
+table.maintable td.middle .show_line hr
 {
 	border: 0 none;
 	margin: 0;
 	margin-top: 5px;
 	margin-bottom: 5px;
-	color: #B6BAFF;
-	background-color: #B6BAFF;
+	color: #e1e4e8;
+	background-color: #e1e4e8;
 	height: 1px;
 }
 
-#content .show_line .show_line_logo
+table.maintable td.middle .show_line .show_line_logo
 {
 	float: left;
 	margin: 5px;
@@ -575,464 +363,138 @@ table.content_table td
 	z-index: 2;
 }
 
-#content .show_line .show_line_logo_hidden
-{
-	float: left;
-	height: 70px;
-}
-
-#content .show_line .show_line_main
+table.maintable td.middle .show_line .show_line_main
 {
 	display: block;
 	vertical-align: top;
 }
 
-#content .show_line .show_line_main_top
+table.maintable td.middle .show_line .show_line_main_top
 {
-	background-color: #B6BAFF;
+	border: 1px solid #e1e4e8;
+	border-width: 1px 0 1px 0;
+	background-color: #ebedee;
 	padding: 5px;
 }
 
-#content .show_line .show_line_main_top_inner
+table.maintable td.middle .show_line .show_line_main_top_inner
 {
 	margin-left: 70px;
-	font-weight: bold;
 }
 
-#content .show_line .show_line_main_top_inner_title
+table.maintable td.middle .show_line .show_line_main_top_inner_title
 {
+	font-weight: bold;
 	font-size: 14px;
 }
 
-#content .show_line .show_line_main_bottom
+table.maintable td.middle .show_line .show_line_main_bottom
 {
 	margin-left: 70px;
 	padding: 5px;
 }
 
-#content .show_line .show_line_main_right
+table.maintable td.middle .show_line .show_line_main_right
 {
 	float: right;
 	margin: 5px;
 }
 
-#content .select
+table.maintable td.middle .show_item_wrapper
 {
-	border: 1px solid #DCD7FF;
-	margin: 0;
-	padding: 0;
-	font-size: 12px;
-	background-color: #FFFFFF;
+	margin-right: -5px;
 }
 
-
-.input
+table.maintable td.middle .show_item_wrapper .show_item
 {
-	border: 1px solid #DCD7FF;
-	margin: 0;
-	padding: 2px;
-	font-size: 12px;
-	background-color: #FFFFFF;
-}
-
-#content .input_big
-{
-	border: 1px solid #DCD7FF;
-	margin: 0;
-	padding: 2px;
-	font-size: 12px;
-	width: 300pt;
-	background-color: #FFFFFF;
-}
-
-#content .form
-{
-	border: 1px solid #DCD7FF;
-	margin: 0;
-	padding: 2px;
-	font-size: 12px;
-	background-color: #FFFFFF;
-}
-
-#content .container
-{
-	width: 99%;
-}
-
-#content fieldset
-{
-	background-color: #F9F9F9;
-	border: 1px solid #DCD7FF;
-	font-weight: bold;
-}
-
-.submit
-{
-	border-width: 0;
-	background-color: #B6BAFF;
-	border: 1px solid #DCD7FF;
-	margin: 0;
-	padding: 0;
-	font-size: 12px;
-}
-
-#content .adminpanel
-{
-	margin: 0;
-}
-
-#content .adminpanel a.tab
-{
+	border: 1px solid #e1e4e8;
+	background-color: #f5f5f7;
+	width: 160px;
+	height: 170px;
+	text-align: center;
 	float: left;
-	padding: 5px;
-	border: 1px solid #B6BAFF;
-	border-bottom-width: 0;
-	margin-left: 5px;
-	display: block;
-	background-color: #FFFFFF;
+	margin: 0 5px 5px 0;
 }
 
-#content .adminpanel a.tab:hover
+table.maintable td.middle .show_item_wrapper .show_item:hover, table.maintable td.middle .show_item_wrapper .show_item:active
 {
-	background-color: #E1E3FF;
+	border: 1px solid #e1e4e8;
+	background-color: #ebedee;
 }
 
-#content .adminpanel a.tab_selected
+table.maintable td.middle .listwrapper
 {
-	float: left;
-	background-color: #B6BAFF;
-	padding: 5px;
-	border: 1px solid #B6BAFF;
-	border-bottom-width: 0;
-	margin-left: 5px;
-	display: block;
-}
-
-#content .main
-{
-	border: 1px solid #B6BAFF;
-	color: #000000;
-	margin: 0;
 	margin-bottom: 5px;
-	padding: 5px;
-	background-color: #FFFFFF;
 }
 
-.rsslist
+table.maintable td.middle .listwrapper table
 {
-	border: 1px solid #B6BAFF;
-	color: #000000;
-	margin: 5px;
-	padding: 5px;
-	background-color: #FFFFFF;
-	font-size: 20px;
-	font-weight: bold;
-}
-
-#content .file
-{
-	min-width: 400px;
-	text-align: center;
-	border: 1px solid #B6BAFF;
-	background-color: #FFFFFF;
-}
-
-#content .file_panel
-{
-	text-align: center;
-	border: 1px solid #B6BAFF;
-	color: #000000;
-	margin-left: 5px;
-	padding: 5px;
-	background-color: #FFFFFF;
-}
-#content .file_panel .header
-{
-	padding: 5px;
-	background-color: #B6BAFF;
-	font-weight: bold;
-	font-size: 12px;
-	text-align: center;
-}
-
-#content .file_panel .title
-{
-	margin-top: 5px;
-	padding: 1px;
-	background-color: #E1E3FF;
-	font-size: 11px;
-	text-align: center;
-}
-
-#content  .file_panel a
-{
-	margin-top: 5px;
-	padding: 5px;
-	display: block;
-}
-
-#content .file_panel a:hover
-{
-	background-color: #E1E3FF;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#content .top_edit_table
-{
-	margin: 0;
 	padding: 0;
-	width: 100%
-}
-
-/*
-=========================
-== Main definitions ==
-=========================
-*/
-
-#main
-{
-	margin: 5px;
-	padding: 0;
-	background-color: #FFFFFF;
-}
-
-/*
-=========================
-== Menu definitions ==
-=========================
-*/
-
-#menu
-{
-	margin: 0;
-	margin-right: 5px;
-	margin-bottom: 5px;
-	padding: 0;
-	width: 200px;
-	border: 1px solid #B6BAFF;
-	background-color: #FFFFFF;
-}
-
-#menu .header
-{
-	margin: 5px;
-	padding: 5px;
-	background-color: #B6BAFF;
-	font-weight: bold;
-	font-size: 14px;
-	text-align: center;
-}
-
-#menu .menu_items
-{
-
-	color: #000000;
-	margin: 0;
-	margin-bottom: 5px;
-	padding: 0;
-}
-
-#menu .subheader
-{
-	margin: 5px;
-	padding: 1px;
-	background-color: #E1E3FF;
-	font-size: 11px;
-	text-align: center;
-}
-
-#menu .menu_items a
-{
-	margin: 5px;
-	padding: 5px;
-	display: block;
-}
-
-#menu .menu_items a:hover
-{
-	background-color: #E1E3FF;
-}
-
-/*
-========================
-== Header definitions ==
-========================
-*/
-
-#header
-{
-	background-color: #000000;
-	border-width: 0;
+	border: none;
 	width: 100%;
-	color: #FFFFFF;
-	margin: 0;
-	padding: 0;
-	height: 80px;
 }
 
-#header #header_wrapper
+table.maintable td.middle .listwrapper table thead
+{
+	border: 1px solid #e1e4e8;
+	border-width: 1px 0 1px 0;
+	background-color: #ebedee;
+	padding: 5px;
+}
+
+table.maintable td.middle .listwrapper table thead td
 {
 	padding: 5px;
 }
 
-#header #header_name
+table.maintable td.middle .listwrapper table tfoot td
 {
-	font-size: 40px;
-	font-family: "Trebuchet MS",Trebuchet,Arial,Verdana,Sans-serif;
+	padding: 5px;
 }
 
-#header #header_name #status
+table.maintable td.middle .listwrapper table tbody td
 {
-	vertical-align: top;
+	padding: 5px;
 }
 
-#header #header_logo
+table.maintable td.middle .listwrapper table tbody .row
 {
-	float: left;
-	margin-left: 0;
-	padding-left: 0;
 }
 
-#header #zone_login
+table.maintable td.middle .listwrapper table tbody .row_selected
 {
-	text-align: center;
-	float: right;
-	padding: 0;
-	margin: 0;
-	margin-right: 10px;
+	background-color: #f5f5f7;
 }
 
-#header a:link
+table.maintable td.middle .listwrapper table tfoot
 {
-  	text-decoration:none;
-  	color: #FFFFFF;
+	padding: 5px;
+	background-color: #ebedee;
 }
 
-#header a:visited
+table.maintable td.middle .listwrapper table tbody
 {
-	text-decoration:none;
-	color: #FFFFFF;
-}
-
-#header a:active
-{
-	text-decoration:none;
-	color: #DDDCFF;
-}
-
-#header a:hover
-{
-	color: #DCD7FF;
-}
-
-#header .input
-{
-	border: 1px solid #DCD7FF;
-	margin: 2px;
-	padding: 2px;
-	padding-top: 0px;
-	padding-bottom: 0px;
-	font-size: 10px;
-	width: 100px;
-}
-
-#header .submit
-{
-	border: 1px solid #DCD7FF;
-	background-color: #B6BAFF;
-	margin: 2px;
-	padding: 0px;
-	font-size: 10px;
-	width: 126px;
-}
-
-/*
-=====================
-== Bar definitions ==
-=====================
-*/
-
-#bar
-{
-	border-width: 0;
-	background-color: #B6BAFF;
-	width: 100%;
-	color: #000000;
-	margin: 0;
-	padding: 0;
-	height: 17px;
-	vertical-align: middle;
-}
-
-#bar #zone_addressbar
-{
-	padding: 2px;
-	float: left;
-}
-
-#bar #search
-{
-	float: right;
-	margin: 1px;
-	margin-right: 2px;
-}
-
-#bar .input
-{
-	border: 1px solid #DCD7FF;
-	margin: 0;
-	padding: 2px;
-	padding-top: 0;
-	padding-bottom: 0;
-	font-size: 10px;
-	width: 120px;
-}
-
-#bar .submit
-{
-	border-width: 0;
-	background-color: #B6BAFF;
-	margin: 0;
-	padding: 0;
-	font-size: 10px;
-}
-
-/*
-========================
-== Footer definitions ==
-========================
-*/
-
-#footer
-{
-	border: 1px solid #B6BAFF;
-	color: #000000;
 	margin: 0;
 	padding: 5px;
 }
 
-#footer #footer_left
+table.maintable td.middle .listwrapper table .empty
+{
+	height: 10px;
+}
+
+div.footer
+{
+	padding: 5px;
+	background-color: #e1e4e8;
+}
+
+div.footer div.left
 {
 	float: left;
 }
 
-#footer #footer_right
+div.footer div.right
 {
 	float: right;
 }
-

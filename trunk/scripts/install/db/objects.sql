@@ -1,6 +1,6 @@
 CREATE TABLE `%PREFIX%objects` (
   `id` int(11) unsigned NOT NULL auto_increment,
-  `name` varchar(50) NOT NULL default '',
+  `name` varchar(100) NOT NULL default '',
   `node_id` int(11) unsigned NOT NULL default '0',
   `user_id` int(11) unsigned NOT NULL default '0',
   `group_id` int(11) unsigned NOT NULL default '0',

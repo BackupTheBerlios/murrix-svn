@@ -36,6 +36,9 @@ class sCalendar extends Script
 	
 		$events = getReadable($children);
 
+		$view = empty($args['view']) ? "month" : $args['view'];
+		$date = empty($args['date']) ? date("Ymd") : $args['date'];
+
 		ob_start();
 		
 		include(gettpl("scripts/calendar"));

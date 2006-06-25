@@ -128,7 +128,7 @@ class Calendar
 						if ($show)
 						{
 							echo "<nobr>";
-							echo cmd($child->getName(), "Exec('show','zone_main',Hash('node_id','".$child->getNodeId()."'))", "", 	$child->getName());
+							echo cmd($child->getName(), "exec=show&node_id=".$child->getNodeId(), "", 	$child->getName());
 							echo "</nobr><br/>";
 						}
 					}

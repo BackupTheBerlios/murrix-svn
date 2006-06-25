@@ -1,25 +1,15 @@
 .polls_wrapper
 {
-	margin: 0;
-	margin-bottom: 5px;
-	padding: 0;
-	width: 200px;
-	border: 1px solid #B6BAFF;
-	background-color: #FFFFFF;
 }
 
 .polls_wrapper_margin
 {
-	padding: 5px;
-	padding-bottom: 0;
 }
 
 .polls_wrapper .title
 {
-	margin: 0;
 	margin-bottom: 5px;
 	padding: 5px;
-	background-color: #B6BAFF;
 	font-weight: bold;
 	font-size: 14px;
 	text-align: center;
@@ -27,22 +17,12 @@
 
 .polls_wrapper .poll
 {
+	background-color: #F9F9F9;
 	border: 1px solid #DCD7FF;
 	padding: 5px;
 	margin: 0;
 	margin-bottom: 5px;
 	padding-bottom: 0;
-	background-color: #F9F9F9;
-}
-
-#content .poll
-{
-	border: 1px solid #B6BAFF;
-	padding: 5px;
-	margin: 0;
-	margin-bottom: 5px;
-	padding-bottom: 0;
-	background-color: #FFFFFF;
 }
 
 .poll .question
@@ -64,7 +44,7 @@
 
 .poll .staple_wrapper
 {
-	border: 1px solid #B6BAFF;
+	border: 1px solid #DCD7FF;
 	background-color: #FFFFFF;
 	padding: 0;
 }

@@ -4,8 +4,8 @@ $templates_override['show_line.php'][$count]['filename'] = "overrides/show_line/
 $templates_override['show_line.php'][$count]['match']['class'] = "comment";
 
 $count++;
-$templates_override['show_line.php'][$count]['filename'] = "overrides/show_line/show_line-file.php";
-$templates_override['show_line.php'][$count]['match']['class'] = "file";
+$templates_override['show_line.php'][$count]['filename'] = "overrides/show_line/show_line-contact.php";
+$templates_override['show_line.php'][$count]['match']['class'] = "contact";
 
 
 

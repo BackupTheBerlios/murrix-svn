@@ -1,0 +1,273 @@
+
+table.calendar_table
+{
+	width: 100%;
+}
+
+table.calendar_table hr
+{
+	border: 0 none;
+	color: #e1e4e8;
+	margin: 0;
+	background-color: #e1e4e8;
+	height: 1px;
+}
+
+table.small_calendar_table a.link
+{
+	color: black;
+}
+
+table.small_calendar_table a.link:hover, table.calendar_table a.link:active
+{
+	color: blue;
+}
+
+table.calendar_table td.left
+{
+	width: 155px;
+	padding-right: 5px;
+	vertical-align: top;
+	text-align: center;
+}
+
+table.calendar_table td.right
+{
+	vertical-align: top;
+}
+
+table.small_calendar_table
+{
+	width: 100%;
+}
+
+table.small_calendar_table .red, table.small_calendar_table a.red
+{
+	color: red;
+}
+
+table.small_calendar_table .gray, table.small_calendar_table a.gray
+{
+	color: gray;
+}
+
+table.small_calendar_table tr.title_row
+{
+	font-weight: bold;
+}
+
+table.small_calendar_table tr.week_row td.week
+{
+	font-style: italic;
+}
+
+table.small_calendar_table tr.week_row td.day
+{
+	border: 1px solid #e1e4e8;
+	background-color: white;
+	font-weight: normal;
+}
+
+table.small_calendar_table tr.week_row td.today
+{
+	border: 1px solid red;
+}
+
+table.small_calendar_table tr.week_row td.day:hover, table.small_calendar_table tr.week_row td.day:active
+{
+	background-color: #ebedee;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+table.big_month_table a.link
+{
+	color: black;
+}
+
+table.big_month_table a.link:hover, table.big_month_table a.link:active
+{
+	color: blue;
+}
+
+table.big_month_table
+{
+	width: 100%;
+}
+
+table.big_month_table .red, table.big_month_table a.red
+{
+	color: red;
+}
+
+table.big_month_table .gray, table.big_month_table a.gray
+{
+	color: gray;
+}
+
+table.big_month_table tr.title_row
+{
+	font-weight: bold;
+}
+
+table.big_month_table tr.week_row td.week
+{
+	font-style: italic;
+	width: 50px;
+}
+
+table.big_month_table tr.week_row td.day
+{
+	border: 1px solid #e1e4e8;
+	background-color: white;
+	font-weight: normal;
+	width: 14%;
+	height: 100px;
+	vertical-align: top;
+	padding: 5px;
+	overflow: hidden;
+}
+
+table.big_month_table tr.week_row td.today
+{
+	border: 1px solid red;
+}
+
+table.big_month_table tr.week_row td.day:hover, table.big_month_table tr.week_row td.day:active
+{
+	background-color: #ebedee;
+}
+
+
+
+
+
+table.big_week_table tr.row td.time_top
+{
+	font-size: 14px;
+	font-weight: bold;
+	text-align: right;
+	vertical-align: top;
+}
+
+table.big_week_table tr.row td.time_bottom
+{
+	font-size: 14px;
+	font-weight: bold;
+	text-align: right;
+	vertical-align: top;
+}
+
+table.big_week_table a.link
+{
+	color: black;
+}
+
+table.big_week_table a.link:hover, table.big_week_table a.link:active
+{
+	color: blue;
+}
+
+table.big_week_table
+{
+	width: 100%;
+}
+
+table.big_week_table .red, table.big_week_table a.red
+{
+	color: red;
+}
+
+table.big_week_table .gray, table.big_week_table a.gray
+{
+	color: gray;
+}
+
+table.big_week_table tr.title_row
+{
+	font-weight: bold;
+}
+
+table.big_week_table tr.row td.week
+{
+	font-style: italic;
+	width: 50px;
+}
+
+table.big_week_table tr.row td.day
+{
+	border: 1px solid #e1e4e8;
+	background-color: white;
+	font-weight: normal;
+	width: 14%;
+	vertical-align: top;
+	padding: 5px;
+	overflow: hidden;
+}
+
+table.big_week_table tr.row td.today
+{
+	border: 1px solid red;
+}
+
+table.big_week_table tr.row td.day:hover, table.big_week_table tr.row td.day:active
+{
+	background-color: #ebedee;
+}
+
+
+
+
+table.big_day_table
+{
+	width: 100%;
+	font-weight: normal;
+}
+
+table.big_day_table tr.row td.time_top
+{
+	font-size: 14px;
+	font-weight: bold;
+	text-align: right;
+	vertical-align: top;
+}
+
+table.big_day_table tr.row td.time_bottom
+{
+	font-size: 14px;
+	font-weight: bold;
+	text-align: right;
+	vertical-align: top;
+}
+
+table.big_day_table tr.row td.day_piece
+{
+	border: 1px solid #e1e4e8;
+	background-color: white;
+	font-weight: normal;
+	width: 14%;
+	vertical-align: top;
+	padding: 5px;
+	overflow: hidden;
+	width: 100%;
+}
+
+table.big_day_table tr.row td.now
+{
+	border: 1px solid red;
+}
+
+table.big_day_table tr.row td.day_piece:hover, table.big_day_table tr.row td.day_piece:active
+{
+	background-color: #ebedee;
+}

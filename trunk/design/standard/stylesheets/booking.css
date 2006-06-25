@@ -1,0 +1,107 @@
+
+
+.booking_wrapper .sub
+{
+	border: 1px solid #DCD7FF;
+	padding: 5px;
+	margin: 0;
+	margin-bottom: 5px;
+	padding-bottom: 0;
+	background-color: #F9F9F9;
+}
+
+.booking_wrapper .item
+{
+	border: 1px solid #DCD7FF;
+	padding: 5px;
+	margin: 0;
+	margin-bottom: 5px;
+	background-color: #FFFFFF;
+	font-weight: normal;
+}
+
+.booking_wrapper a.tab
+{
+	font-weight: normal;
+	padding: 2px;
+	border: 1px solid #B6BAFF;
+	margin-bottom: 5px;
+	display: block;
+	background-color: #FFFFFF;
+}
+
+.booking_wrapper a.tab:hover
+{
+	background-color: #E1E3FF;
+}
+
+.booking_wrapper a.tab_selected
+{
+	font-weight: normal;
+	padding: 2px;
+	border: 1px solid #B6BAFF;
+	margin-bottom: 5px;
+	display: block;
+	background-color: #B6BAFF;
+}
+
+.booking_wrapper fieldset
+{
+	background-color: #F9F9F9;
+	border: 1px solid #DCD7FF;
+	font-weight: bold;
+	margin-bottom: 5px;
+}
+
+.booking_wrapper .calendar_date_name
+{
+	font-weight: normal;
+	font-family: monospace;
+}
+
+.booking_wrapper .calendar_day
+{
+	margin: 0;
+	margin-left: 5px;
+	padding-bottom: -1px;
+	border-bottom: 1px solid #DCD7FF;
+	clear: both;
+	height: 14px;
+}
+
+.booking_wrapper .calendar_day .cell
+{
+	float: left;
+	display: inline;
+	padding: 0;
+	padding-bottom: 15px;
+	padding-right: 40px;
+}
+
+.booking_wrapper .calendar_dates_show
+{
+	font-weight: bold;
+	border-bottom: 1px solid #DCD7FF;
+	margin-bottom: 5px;
+	padding-bottom: 5px;
+	width: 260px;
+}
+
+.booking_wrapper .input_date
+{
+	border: 1px solid #DCD7FF;
+	margin: 0;
+	padding: 2px;
+	font-size: 12px;
+	width: 75px;
+	background-color: #FFFFFF;
+}
+
+.booking_wrapper .textbox
+{
+	border: 1px solid #DCD7FF;
+	margin: 0;
+	padding: 2px;
+	font-size: 12px;
+	background-color: #FFFFFF;
+}

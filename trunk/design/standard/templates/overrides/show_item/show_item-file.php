@@ -1,8 +1,8 @@
 <?
 $filename = $child->getVarValue("file");
 $value_id = $child->resolveVarName("file");
-$pathinfo = pathinfo($filename);
-$type = getfiletype($pathinfo['extension']);
+
+$type = getfiletype(pathinfo($filename, PATHINFO_EXTENSION));
 
 $data = "";
 
@@ -19,17 +19,15 @@ if ($type == "image")
 	$_SESSION['murrix']['rightcache']['thumbnail'][] = $thumbnail->id;
 	
 	if ($thumbnail !== false)
-		$data = $thumbnail->Show(true);
+		$data = "<div style=\"height: ".ceil((168-$thumbnail->height)/2)."px;\"></div>".$thumbnail->Show(true);
 }
 
 if (!empty($data))
-	$img = cmd($data, "exec=show&node_id=".$child->getNodeId());
+	$img = $data;
 else
-	$img = cmd(img(geticon(getfiletype($pathinfo['extension']), 128)), "exec=show&node_id=".$child->getNodeId());
+	$img = "<div style=\"height: 20px;\"></div>".img(geticon($type, 128));
 
 ?>
 <div class="show_item">
-	<?=$img?>
-	<br/>
-	<?=cmd($child->getName(), "exec=show&node_id=".$child->getNodeId())?>
+	<?=cmd("$img<br/>".$child->getName(), "exec=show&node_id=".$child->getNodeId())?>
 </div>

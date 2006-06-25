@@ -1,10 +1,5 @@
 <div class="polls_wrapper">
 	<div class="polls_wrapper_margin">
-	
-		<div class="title">
-			<?=ucf(i18n("polls"))?>
-		</div>
-		
 		<?
 		$polldir_id = getNode("/root/polls");
 		
@@ -12,7 +7,9 @@
 		{
 			?>
 			<div class="poll">
-				<?=ucf(i18n("no active polls found"))?>
+				<div class="alternatives">
+					<?=ucf(i18n("no active polls found"))?>
+				</div>
 			</div>
 			<?
 		}

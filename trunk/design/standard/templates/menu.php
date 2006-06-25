@@ -1,86 +1,67 @@
-<div id="menu">
-	<div class="header">
-		<?=ucf(i18n("menu"))?>
-	</div>
-	<div class="menu_items">
-		<?=cmd(img(getIcon("console"))." Console", "exec=console")?>
-		<?=cmd(img(getIcon("date"))." Calendar", "exec=calendar")?>
-	</div>
-	<?
-	$menu_id = getNode("/root/public/menu");
-	$custom_menu_id = getNode("/root/home/users/".$_SESSION['murrix']['user']->username."/menu");
-
-	if ($menu_id > 0 || $custom_menu_id > 0)
-	{
-
-		if ($menu_id > 0 && $custom_menu_id > 0)
-			$link_top = "(link:node_top='$menu_id' OR link:node_top='$custom_menu_id')";
-		else if ($menu_id > 0)
-			$link_top = "link:node_top='$menu_id'";
-		else if ($custom_menu_id > 0)
-			$link_top = "link:node_top='$custom_menu_id'";
-
-		$children = fetch("FETCH node WHERE $link_top AND link:type='sub' AND !property:class_name='comment' AND !property:class_name='folder' NODESORTBY property:version SORTBY !property:name");
-
-		$subfolders = fetch("FETCH node WHERE $link_top AND link:type='sub' AND !property:class_name='comment' AND property:class_name='folder' NODESORTBY property:version SORTBY !property:name");
-
-		if (count($children) > 0 || count($subfolders))
-		{
-			if (count($children) > 0)
-			{
-				?>
-				<div class="menu_items">
-				<?
-					foreach ($children as $child)
-						include(gettpl("small_line", $child));
-				?>
-				</div>
-				<?
-			}
-
-			if (count($subfolders) > 0)
-			{
-				foreach ($subfolders as $subfolder)
-				{
-					$children = fetch("FETCH node WHERE link:node_top='".$subfolder->getNodeId()."' AND link:type='sub' AND !property:class_name='comment' NODESORTBY property:version SORTBY !property:name");
-
-					if (count($children) > 0)
-					{
-						?>
-						<div class="subheader">
-							<?=cmd(img(geticon($subfolder->getIcon()))." ".$subfolder->getName(), "exec=show&node_id=".$subfolder->getNodeId())?>
-						</div>
-
-						<div class="menu_items">
-						<?
-							foreach ($children as $child)
-								include(gettpl("small_line", $child));
-						?>
-						</div>
-						<?
-					}
-				}
-			}
-		}
-	}
-
-	$homes = fetch("FETCH node WHERE (link:node_top='".getNode("/root/home/users")."' OR link:node_top='".getNode("/root/home/groups")."') AND link:type='sub' AND !property:class_name='comment' NODESORTBY property:version SORTBY property:name");
-	$homes = getReadable($homes);
-
-	if (count($homes) > 0)
-	{
-	?>
-		<div class="subheader">
-			<?=img(geticon("home"))." ".ucf(i18n("home folders"))?>
-		</div>
-	
-		<div class="menu_items">
-		<?
-			foreach ($homes as $child)
-				include(gettpl("small_line", $child));
-		?>
-		</div>
-	<?
-	}
+<?
+$class = "sidebar";
+?>
+<div class="title">
+	<a class="right" id="menu_right" href="javascript:void(null)" onclick="toggleSidebarContainer('menu')">&uarr;&uarr;</a>
+	<a class="left" id="menu_left" href="javascript:void(null)" onclick="toggleSidebarContainer('menu')">&uarr;&uarr;</a>
+	<?=ucf(i18n("menu"))?>
+</div>
+<div id="menu_container" class="container">
+<?
+	echo cmd(img(getIcon("console"))." Console", "exec=console", $class);
+	echo cmd(img(getIcon("date"))." Calendar", "exec=calendar", $class);
+	echo cmd(img(getIcon("search"))." Search", "exec=search", $class);
+	if (!empty($_SESSION['murrix']['user']->password))
+		echo cmd(img(geticon("password"))." ".ucf(i18n("change password")), "exec=console&initcmd=upass", $class);
 ?>
 </div>
+<?
+$home_id = $_SESSION['murrix']['user']->home_id;
+	
+if ($home_id > 0)
+{
+	$home = new mObject($home_id);
+	?>
+	<div class="title">
+		<a class="right" id="<?=$home_id?>_right" href="javascript:void(null)" onclick="toggleSidebarContainer('<?=$home_id?>')">&uarr;&uarr;</a>
+		<a class="left" id="<?=$home_id?>_left" href="javascript:void(null)" onclick="toggleSidebarContainer('<?=$home_id?>')">&uarr;&uarr;</a>
+		<?=cmd(ucf($home->getName()), "exec=show&node_id=$home_id", $class)?>
+	</div>
+	<div id="<?=$home_id?>_container" class="container">
+	<?
+	$children = fetch("FETCH node WHERE link:node_top='$home_id' AND link:type='sub' AND !property:class_name='comment' NODESORTBY property:version SORTBY property:name");
+	
+	foreach ($children as $child)
+		include(gettpl("small_line", $child));
+		
+	?></div><?
+}
+
+$groups = $_SESSION['murrix']['user']->getGroups();
+
+foreach ($groups as $group_name)
+{
+	$group = new mGroup();
+	$group->setByName($group_name);
+	$home_id = $group->home_id;
+	
+	if ($home_id > 0)
+	{
+		$home = new mObject($home_id);
+		?>
+		<div class="title">
+			<a class="right" id="<?=$home_id?>_right" href="javascript:void(null)" onclick="toggleSidebarContainer('<?=$home_id?>')">&uarr;&uarr;</a>
+			<a class="left" id="<?=$home_id?>_left" href="javascript:void(null)" onclick="toggleSidebarContainer('<?=$home_id?>')">&uarr;&uarr;</a>
+			<?=cmd(ucf($home->getName()), "exec=show&node_id=$home_id", $class)?>
+		</div>
+		<div id="<?=$home_id?>_container" class="container">
+		<?
+		$children = fetch("FETCH node WHERE link:node_top='$home_id' AND link:type='sub' AND !property:class_name='comment' NODESORTBY property:version SORTBY property:name");
+		
+		foreach ($children as $child)
+			include(gettpl("small_line", $child));
+			
+		?></div><?
+	}
+}
+?>

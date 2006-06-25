@@ -73,8 +73,8 @@ function getNode($path, $language = "")
 {
 	path_db_load();
 
-	if (isset($_SESSION['murrix']['pathcache_node'][$path]))
-		return $_SESSION['murrix']['pathcache_node'][$path];
+	//if (isset($_SESSION['murrix']['pathcache_node'][$path]))
+	//	return $_SESSION['murrix']['pathcache_node'][$path];
 
 	// We have a cachemiss, resolve manually
 	global $db_prefix, $root_id;
