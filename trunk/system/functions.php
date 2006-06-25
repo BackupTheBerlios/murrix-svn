@@ -32,6 +32,36 @@ function splitArgs($args)
 	return $matches;
 }
 
+function colour($tint)
+{
+	$frag = range(0,255);
+	
+	$red = "";
+	$green = "";
+	$blue = "";
+	
+	for (;;)
+	{
+		$red = $frag[mt_rand(0, count($frag)-1)];
+		$green = $frag[mt_rand(0, count($frag)-1)];
+		$blue = $frag[mt_rand(0, count($frag)-1)];
+		
+		switch ($tint)
+		{
+		case 'light':
+		if ((($red + $green + $blue) / 3) >= 200) break 2;
+		break;
+		
+		case 'dark' :
+		default:
+		if ((($red + $green + $blue) / 3) <= 50) break 2;
+		break;
+		}
+	}
+	
+	return sprintf("#%02s%02s%02s", dechex($red), dechex($green), dechex($blue));
+}
+
 function getClassList($fullinfo = false)
 {
 	global $db_prefix;

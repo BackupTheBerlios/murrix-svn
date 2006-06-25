@@ -309,6 +309,7 @@ table.maintable div.main, table.maintable .poll
 	border: 1px solid #DCD7FF;
 	margin-bottom: 5px;
 	padding: 5px;
+	padding-bottom: 0;
 }
 
 table.maintable div.main input.submit

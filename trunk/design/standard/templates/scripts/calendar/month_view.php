@@ -9,6 +9,10 @@ $last_week_day = date("w", strtotime("+".($days_of_month-1)." days", $firstday))
 if ($last_week_day == 0) // Sunday
 	$last_week_day = 7;
 
+$first_stamp = strtotime("-$first_week_day days", $firstday);
+$last_stamp = strtotime("+1 month", $first_stamp);
+$month_events = $calendar->getEvents($events, $first_stamp, $last_stamp-$first_stamp);
+
 ?>
 
 <fieldset>
@@ -66,6 +70,13 @@ if ($last_week_day == 0) // Sunday
 					echo cmd($day_str, "exec=calendar&view=day&date=".date("Ymd", $time_now), $link_class);
 					?>
 					<hr/>
+					<?
+						$day_events = $calendar->getEvents($month_events, $time_now, 60*60*24);
+						foreach ($day_events as $de)
+						{
+							echo "<div class=\"event\" style=\"background-color: ".$de->rand_color.";\">".cmd($de->getName(), "exec=show&node_id=".$de->getNodeId())."</div>";
+						}
+					?>
 				</td>
 			<?
 			}

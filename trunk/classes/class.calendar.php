@@ -11,8 +11,120 @@ class Calendar
 		else
 			$this->events = $events;
 	}
+	
+	function getAllEvents()
+	{
+		$events = fetch("FETCH node WHERE property:class_name='event' NODESORTBY property:version SORTBY var:date,var:time");
+		$events = getReadable($events);
+		
+		for ($n = 0; $n < count($events); $n++)
+		{
+			if (!isset($events[$n]->rand_color))
+				$events[$n]->rand_color = colour('light');
+		}
+			
+		return $events;
+	}
+	
+	function getEvents($events, $start_stamp, $duration)
+	{
+		$ref_year = array();
+		$ref_month = array();
+		$ref_day = array();
+		$ref_week = array();
+	
+		$start = $start_stamp;
+		while ($start < $start_stamp+$duration)
+		{
+			$start = strtotime("+1 day", $start);
+			
+			$year = date("Y", $start);
+			if (!in_array($year, $ref_year))
+				$ref_year[] = $year;
+				
+			$month = date("m", $start);
+			if (!in_array($month, $ref_month))
+				$ref_month[] = $month;
+				
+			$day = date("d", $start);
+			if (!in_array($day, $ref_day))
+				$ref_day[] = $day;
+			
+			$week = date("W", $start);
+			if (!in_array($week, $ref_week))
+				$ref_week[] = $week;
+		}
+		
+		$list = array();
+		foreach ($events as $event)
+		{
+			$yearly = ($event->getVarValue("reoccuring_yearly", true) == 1);
+			$monthly = ($event->getVarValue("reoccuring_monthly", true) == 1);
+			$weekly = ($event->getVarValue("reoccuring_weekly", true) == 1);
+		
+			$str_duration = $event->getVarValue("duration");
+				
+			$startdate = $event->getVarValue("date");
+			
+			list($year, $month, $day) = explode("-", $startdate);
+			
+			$dates = array();
+			
+			if ($yearly)
+			{
+				foreach ($ref_year as $ryear)
+				{
+					if ($monthly)
+					{
+						foreach ($ref_month as $rmonth)
+						{
+							$dates[] = "$ryear-$rmonth-$day";
+						}
+					}
+					else
+						$dates[] = "$ryear-$month-$day";
+				}
+			}
+			else if ($monthly)
+			{
+				foreach ($ref_month as $rmonth)
+				{
+					$dates[] = "$year-$rmonth-$day";
+				}
+			}
+			else
+				$dates[] = $startdate;
+			
+			foreach ($dates as $date)
+			{
+				$eStart_stamp = strtotime($date);
+				
+				if (empty($str_duration))
+					$eduration = $eStart_stamp;
+				else
+					$eduration = strtotime($str_duration, $eStart_stamp)-1;
+					
+				$matched = false;
+				while ($eStart_stamp <= $eduration)
+				{
+					if ($start_stamp <= $eStart_stamp && $eStart_stamp < $start_stamp+$duration)
+					{
+						$list[] = $event;
+						$matched = true;
+						break;
+					}
+					$eStart_stamp = strtotime("+1 day", $eStart_stamp);
+				}
+				
+				if ($matched)
+					break;
+			}
+		}
+		
+		return $list;
+	}
 
-	function getEvents($startdate, $enddate, $classes = null)
+	function getEvents2($startdate, $enddate, $classes = null)
 	{
 		$class_str = "";
 		if ($classes != null)
