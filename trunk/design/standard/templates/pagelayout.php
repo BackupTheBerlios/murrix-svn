@@ -96,6 +96,7 @@
 					<div id="zone_menu">
 					<?
 						include(gettpl("menu"));
+						$_SESSION['murrix']['system']->makeActive("zone", array("zone_menu" => "menu"));
 					?>
 					</div>
 				</td>

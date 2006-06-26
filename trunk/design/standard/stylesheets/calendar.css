@@ -9,6 +9,7 @@ table.calendar_table hr
 	border: 0 none;
 	color: #e1e4e8;
 	margin: 0;
+	padding: 0;
 	background-color: #e1e4e8;
 	height: 1px;
 }
@@ -265,9 +266,8 @@ table.big_day_table tr.row td.day_piece
 	border: 1px solid #e1e4e8;
 	background-color: white;
 	font-weight: normal;
-	width: 14%;
 	vertical-align: top;
-	padding: 5px;
+	padding: 0;
 	overflow: hidden;
 	width: 100%;
 }

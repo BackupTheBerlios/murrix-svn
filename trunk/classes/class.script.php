@@ -9,6 +9,10 @@ class Script
 	{
 	}
 
+	function onActive($arguments)
+	{
+	}
+
 	function EventHandler(&$system, &$response, $event, $args)
 	{
 	}

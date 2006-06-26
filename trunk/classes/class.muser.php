@@ -113,6 +113,7 @@ class mUser extends mTable
 		$this->groups = $array['groups'];
 		$this->last_login = $array['last_login'];
 		$this->created = $array['created'];
+		$this->email = $array['email'];
 	}
 	
 	function getGroups()
@@ -130,6 +131,7 @@ class mUser extends mTable
 		$array['groups'] = $this->groups;
 		$array['last_login'] = $this->last_login;
 		$array['created'] = $this->created;
+		$array['email'] = $this->email;
 	
 		if ($this->id > 0)
 			return $this->update($this->id, $array);

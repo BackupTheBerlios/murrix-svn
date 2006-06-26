@@ -64,10 +64,7 @@ require_once("3dparty/exifer/exif.php");
 require_once("3dparty/FCKeditor/fckeditor.php");
 
 
-/* ========================= */
-// Set available linktyes
-/* ========================= */
-$link_types = array("sub" => "child", "data" => "related data", "parent" => "parent");
+
 
 
 /* ========================= */
@@ -90,8 +87,6 @@ foreach ($files as $file)
 /* ========================= */
 require_once("session.php");
 
-
-
 $prof->stopTimer( "include" );
 $prof->startTimer( "database" );
 /* ========================= */
@@ -105,51 +100,14 @@ $prof->stopTimer( "database" );
 /* ========================= */
 // Set initial data
 /* ========================= */
-$root_id = getSetting("ROOT_NODE_ID", 1, "any");
-$anonymous_id = getSetting("ANONYMOUS_ID", 1, "any");
 
-$theme = GetInput("theme", getSetting("DEFAULT_THEME", "standard", "any"));
+if (!isset($_SESSION['murrix']['root_id']))
+	$_SESSION['murrix']['root_id'] = getSetting("ROOT_NODE_ID", 1, "any");
+$root_id = $_SESSION['murrix']['root_id'];
 
-$_SESSION['murrix']['theme'] = $theme;
-$_SESSION['murrix']['site'] = $theme;
-$_SESSION['murrix']['default_path'] = getSetting("DEFAULT_PATH", "/root/public");
-
-if (empty($_SESSION['murrix']['path']) || $_SESSION['murrix']['path'] == "/")
-	$_SESSION['murrix']['path'] = $_SESSION['murrix']['default_path'];
-
-
-/* ========================= */
-// Load theme includes
-/* ========================= */
-$files = GetSubfiles("$abspath/design/$theme/include");
-foreach ($files as $file)
-{
-	$parts = SplitFilepath($file);
-	include_once("$abspath/design/$theme/include/$file");
-}
-
-
-/* ========================= */
-// Load translations
-/* ========================= */
-$files = GetSubfiles("$abspath/design/$theme/translations");
-$_SESSION['murrix']['languages'] = array();
-foreach ($files as $file)
-{
-	include_once("$abspath/design/$theme/translations/$file");
-	$name = basename($file, ".php");
- 	$_SESSION['murrix']['translations'][$name] = $translation;
-	$_SESSION['murrix']['languages'][] = $name;
-}
-
-if (!isset($_SESSION['murrix']['language']))
-	$_SESSION['murrix']['language'] = getSetting("DEFAULT_LANG", "eng");
-
-
-/* ========================= */
-// Clear cache
-/* ========================= */
-$_SESSION['murrix']['callcache'] = array();
+if (!isset($_SESSION['murrix']['aanonymous_id']))
+	$_SESSION['murrix']['aanonymous_id'] = getSetting("ANONYMOUS_ID", 1, "any");
+$anonymous_id = $_SESSION['murrix']['aanonymous_id'];
 
 
 /* ========================= */
@@ -157,16 +115,6 @@ $_SESSION['murrix']['callcache'] = array();
 /* ========================= */
 if (!isset($_SESSION['murrix']['user']))
 	$_SESSION['murrix']['user'] = new mUser($anonymous_id);
-
-$prof->startTimer( "system" );
-/* ========================= */
-// Init system
-/* ========================= */
-if (!isset($_SESSION['murrix']['system']))
-	$_SESSION['murrix']['system'] = new mSystem(isset($ajax_path) ? $ajax_path : "");
-	
-//$_SESSION['murrix']['System']->LoadScripts();
-$prof->stopTimer( "system" );
 
 
 /* ========================= */
@@ -241,6 +189,68 @@ else if (isset($_GET['xml']) || isset($_POST['xml']))
 	return;
 }
 
+/* ========================= */
+// Set available linktyes
+/* ========================= */
+$link_types = array("sub" => "child", "data" => "related data", "parent" => "parent");
+
+if (!isset($_SESSION['murrix']['default_theme']))
+	$_SESSION['murrix']['default_theme'] = getSetting("DEFAULT_THEME", "standard", "any");
+	
+$theme = GetInput("theme", $_SESSION['murrix']['default_theme']);
+
+$_SESSION['murrix']['theme'] = $theme;
+$_SESSION['murrix']['site'] = $theme;
+
+if (!isset($_SESSION['murrix']['default_path']))
+	$_SESSION['murrix']['default_path'] = getSetting("DEFAULT_PATH", "/root/public");
+
+if (empty($_SESSION['murrix']['path']) || $_SESSION['murrix']['path'] == "/")
+	$_SESSION['murrix']['path'] = $_SESSION['murrix']['default_path'];
+
+/* ========================= */
+// Load theme includes
+/* ========================= */
+$files = GetSubfiles("$abspath/design/$theme/include");
+foreach ($files as $file)
+{
+	$parts = SplitFilepath($file);
+	include_once("$abspath/design/$theme/include/$file");
+}
+
+/* ========================= */
+// Clear cache
+/* ========================= */
+$_SESSION['murrix']['callcache'] = array();
+
+
+
+/* ========================= */
+// Load translations
+/* ========================= */
+$files = GetSubfiles("$abspath/design/$theme/translations");
+$_SESSION['murrix']['languages'] = array();
+foreach ($files as $file)
+{
+	include_once("$abspath/design/$theme/translations/$file");
+	$name = basename($file, ".php");
+ 	$_SESSION['murrix']['translations'][$name] = $translation;
+	$_SESSION['murrix']['languages'][] = $name;
+}
+
+if (!isset($_SESSION['murrix']['language']))
+	$_SESSION['murrix']['language'] = getSetting("DEFAULT_LANG", "eng");
+
+$prof->startTimer( "system" );
+/* ========================= */
+// Init system
+/* ========================= */
+if (!isset($_SESSION['murrix']['system']))
+	$_SESSION['murrix']['system'] = new mSystem(isset($ajax_path) ? $ajax_path : "");
+	
+//$_SESSION['murrix']['System']->LoadScripts();
+$prof->stopTimer( "system" );
+
 $_SESSION['murrix']['rightcache']['file'] = array();
 $_SESSION['murrix']['rightcache']['thumbnail'] = array();
 
@@ -253,9 +263,11 @@ else
 
 $_SESSION['murrix']['system']->Process();
 
+$prof->startTimer( "pagelayout" );
+
 include(gettpl("pagelayout"));
 
-//$prof->stopTimer( "pagelayout" );
+$prof->stopTimer( "pagelayout" );
 
 $_SESSION['murrix']['callcache'] = array();
 $_SESSION['murrix']['querycache'] = array();

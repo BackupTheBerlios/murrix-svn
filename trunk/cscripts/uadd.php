@@ -23,20 +23,26 @@ class csUadd extends CScript
 				$stdout .= ucf(i18n("enter name:"));
 				$this->stage = 2;
 				return false;
-				
+			
 			case 2:
 				$this->name = $args;
-				$stdout = "$args\n".ucf(i18n("enter groups:"));
+				$stdout = "$args\n".ucf(i18n("enter email:"));
 				$this->stage = 3;
 				return false;
 				
 			case 3:
-				$this->groups = $args;
-				$stdout = "$args\n".ucf(i18n("create home"))." (Y/n)?";
+				$this->group = $args;
+				$stdout = "$args\n".ucf(i18n("enter groups:"));
 				$this->stage = 4;
 				return false;
 				
 			case 4:
+				$this->groups = $args;
+				$stdout = "$args\n".ucf(i18n("create home"))." (Y/n)?";
+				$this->stage = 5;
+				return false;
+				
+			case 5:
 				$this->create_home = (empty($args) || strtolower($args) == "y" || strtolower($args) == "yes");
 				if ($this->create_home)
 					$stdout = "yes\n";
@@ -44,13 +50,13 @@ class csUadd extends CScript
 					$stdout = "no\n";
 					
 				$stdout .= ucf(i18n("are you sure you want to create this user"))." (Y/n)?";
-				$this->stage = 5;
+				$this->stage = 6;
 				return false;
 				
-			case 5:
+			case 6:
 				if (empty($args) || strtolower($args) == "y" || strtolower($args) == "yes")
 				{
-					$result = createUser($this->name, $this->username, "", $this->groups, $this->create_home);
+					$result = createUser($this->name, $this->username, "", $this->email, $this->groups, $this->create_home);
 					
 					if (is_numeric($result))
 					{

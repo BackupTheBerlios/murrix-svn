@@ -1,6 +1,7 @@
 <?
 
-
+$last_stamp = strtotime("+1 day", $firstday);
+$day_events = $calendar->getEvents($events, $firstday, $last_stamp-$firstday);
 ?>
 
 <fieldset>
@@ -18,16 +19,20 @@
 				<td class="time_top">
 					<?=$hour?>:00
 				</td>
-				<td class="day_piece">
-				
+				<? if ($n == 0) { ?>
+				<td class="day_piece" rowspan="48">
+				<?
+					foreach ($day_events as $de)
+					{
+						echo "<div class=\"event\" style=\"background-color: ".$de->rand_color.";\">".cmd($de->getName(), "exec=show&node_id=".$de->getNodeId())."</div>";
+					}
+				?>
 				</td>
+				<? } ?>
 			</tr>
 			<tr class="row">
 				<td class="time_bottom">
 					&nbsp;
-				</td>
-				<td class="day_piece">
-				
 				</td>
 			</tr>
 		<?

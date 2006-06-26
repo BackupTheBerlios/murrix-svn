@@ -41,7 +41,7 @@ class sCalendar extends Script
 
 		ob_start();
 		
-		include(gettpl("scripts/calendar"));
+		include(gettpl("scripts/calendar/view"));
 
 		$response->addAssign($this->zone, "innerHTML", utf8e(ob_get_end()));
 	}

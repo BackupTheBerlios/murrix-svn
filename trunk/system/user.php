@@ -76,7 +76,7 @@ function delUser($username)
 	return $user->remove();
 }
 
-function createUser($name, $username, $password, $groups, $create_home = true)
+function createUser($name, $username, $password, $email, $groups, $create_home = true)
 {
 	if (!isAdmin)
 		return ucf(i18n("not enough rights to create new user"));
@@ -108,6 +108,7 @@ function createUser($name, $username, $password, $groups, $create_home = true)
 	$user->username = $username;
 	$user->password = md5($password);
 	$user->groups = $groups;
+	$user->email = $email;
 	$ret = $user->save();
 	
 	if ($create_home && getNode("/root/home/users/".$username) <= 0)

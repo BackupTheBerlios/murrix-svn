@@ -261,8 +261,16 @@ table.maintable td.middle div.medium_title
 
 table.maintable td.middle div.medium_title div.left
 {
+	font-size: 14px;
 	text-align: right;
 	float: left;
+	margin: 1px 0 1px 0;
+}
+
+table.maintable td.middle div.medium_title div.center
+{
+	font-size: 12px;
+	text-align: center;
 	margin: 1px 0 1px 0;
 }
 
@@ -345,7 +353,7 @@ table.maintable td.middle .show_line
 	min-height: 70px;
 }
 
-table.maintable td.middle .show_line hr
+table.maintable td.middle hr
 {
 	border: 0 none;
 	margin: 0;
@@ -403,7 +411,6 @@ table.maintable td.middle .show_line .show_line_main_right
 
 table.maintable td.middle .show_item_wrapper
 {
-	margin-right: -5px;
 }
 
 table.maintable td.middle .show_item_wrapper .show_item
@@ -483,6 +490,55 @@ table.maintable td.middle .listwrapper table .empty
 {
 	height: 10px;
 }
+
+
+table.maintable td.middle table.contact_table
+{
+	width: 100%;
+}
+
+table.maintable td.middle table.contact_table td.left
+{
+	padding: 0;
+	padding-right: 5px;
+	vertical-align: top;
+}
+
+table.maintable td.middle table.contact_table td.right
+{
+	padding: 0;
+	width: 300px;
+	vertical-align: top;
+}
+
+table.maintable td.middle table.contact_table_inner td
+{
+	vertical-align: top;
+}
+
+table.maintable td.middle table.contact_table_inner td.left
+{
+	vertical-align: top;
+	font-weight: bold;
+	text-align: right;
+}
+
+table.maintable td.middle table.contact_table_inner td.right
+{
+	vertical-align: top;
+}
+
+table.maintable td.middle table.contact_table .family_tree_person
+{
+	margin: 0;
+	margin-top: 5px;
+	text-align: center;
+	border: 1px solid #e1e4e8;
+	padding: 5px;
+}
+
+
+
 
 div.footer
 {

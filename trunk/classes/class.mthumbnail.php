@@ -82,7 +82,6 @@ class mThumbnail
 	
 	function Show($return = false, $title = "", $style = "")
 	{
-		global $wwwpath;
 		$str = "<img style=\"$style\" title=\"$title\" alt=\"$title\" src=\"?thumbnail=$this->id\" class=\"image-border\" width=\"$this->width\" height=\"$this->height\"/>";
 
 		if ($return)

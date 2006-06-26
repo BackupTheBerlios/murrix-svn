@@ -30,5 +30,10 @@ else
 
 ?>
 <div class="show_item">
-	<?=cmd("$img<br/>".$child->getName(), "exec=show&node_id=".$child->getNodeId())?>
+<?
+	if ($disabled === true)
+		echo "$img<br/>".$child->getName();
+	else
+		echo cmd("$img<br/>".$child->getName(), "exec=show&node_id=".$child->getNodeId());
+?>
 </div>

@@ -129,10 +129,16 @@ class mSystem
 			$this->scripts[$name]->zone = $zone;
 	}
 	
-	function makeActive($name)
+	function makeActive($name, $arguments = null)
 	{
+		if (empty($arguments) || $arguments == null)
+                        $arguments = array();
+
 		if (isset($this->scripts[$name]))
+		{
 			$this->scripts[$name]->active = true;
+			$this->scripts[$name]->onActive($arguments);
+		}
 	}
 }
 

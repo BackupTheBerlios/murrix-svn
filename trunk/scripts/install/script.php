@@ -235,7 +235,7 @@ $list[] = array("class_name" => "poll_answer",	"name" => "answer",	"priority" =>
 $list[] = array("class_name" => "news",		"name" => "expire",	"priority" => "10",	"type" => "date",	"required" => true);
 $list[] = array("class_name" => "news",		"name" => "text",	"priority" => "20",	"type" => "xhtml",	"required" => true,	"extra" => "Default");
 
-$list[] = array("class_name" => "contact",	"name" => "thumbnail",	"priority" => "10",	"type" => "thumbnail");
+$list[] = array("class_name" => "contact",	"name" => "thumbnail",	"priority" => "10",	"type" => "thumbnail",	"extra" => 200);
 $list[] = array("class_name" => "contact",	"name" => "fullname",	"priority" => "20",	"type" => "textline");
 $list[] = array("class_name" => "contact",	"name" => "nicknames",	"priority" => "30",	"type" => "array");
 $list[] = array("class_name" => "contact",	"name" => "gender",	"priority" => "40",	"type" => "selection",	"extra" => "male=male,female=female",	"required" => true);

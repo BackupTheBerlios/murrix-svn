@@ -37,6 +37,10 @@ $templates_override['data_show.php'][$count]['filename'] = "overrides/data_show/
 $templates_override['data_show.php'][$count]['match']['class'] = "article";
 
 $count++;
+$templates_override['data_show.php'][$count]['filename'] = "overrides/data_show/data_show-contact.php";
+$templates_override['data_show.php'][$count]['match']['class'] = "contact";
+
+$count++;
 $templates_override['data_show.php'][$count]['filename'] = "scripts/poll/poll_view.php";
 $templates_override['data_show.php'][$count]['match']['class'] = "poll";
 
