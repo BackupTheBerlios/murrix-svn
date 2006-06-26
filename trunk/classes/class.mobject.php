@@ -319,7 +319,7 @@ class mObject
 		}
 
 		delObjectFromCache($this->id);
-		$_SESSION['murrix']['querycache'] = array();
+		unset($_SESSION['murrix']['querycache']);
 		$this->loadByObjectId($this->id);
 		updatePaths($this->getNodeId());
 

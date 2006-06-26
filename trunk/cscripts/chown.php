@@ -6,7 +6,8 @@ class csChown extends CScript
 	{
 		if (!empty($args))
 		{
-			list($ug, $path) = explode(" ", $args, 2);
+			$args_split = splitArgs($args);
+			list($ug, $path, $recursive) = $args_split;
 			
 			list($username, $groupname) = explode(".", $ug);
 			
@@ -17,17 +18,11 @@ class csChown extends CScript
 			
 			if ($node_id <= 0)
 			{
-				$stderr = ucf(i18n("no such path"));
+				$stderr = ucf(i18n("no such path"))." $path";
 				return true;
 			}
 			else
 				$object = new mObject($node_id);
-			
-			if (!(isAdmin() || $object->hasRight("write")))
-			{
-				$stderr = ucf(i18n("not enough rights to change ownership"));
-				return true;
-			}
 			
 			$user = new mUser();
 			$user->setByUsername($username);
@@ -38,8 +33,7 @@ class csChown extends CScript
 				return true;
 			}
 			
-			$object->setUserId($user->id);
-			
+			$group_id = 0;
 			if (!empty($groupname))
 			{
 				$group = new mGroup();
@@ -50,22 +44,63 @@ class csChown extends CScript
 					$stderr = ucf(i18n("no such group"));
 					return true;
 				}
-				
-				$object->setGroupId($group->id);
+				$group_id = $group->id;
 			}
 			
-			if ($object->saveCurrent())
-				$stdout = ucf(i18n("changed ownership successfully"));
+			if (!(isAdmin() || $object->hasRight("write")))
+			{
+				$stderr .= ucf(i18n("not enough rights to change ownership on"))." ".$object->getPathInTree();
+			}
 			else
-				$stderr = ucf(i18n("failed to change ownership"));
+			{
+				if ($recursive == "-r" || $recursive == "-R")
+				{
+					$stderr = $this->setOwnerOnObjectsRecursive($object, $stdout, $stderr, $user->id, $group_id);
+				}
+				else
+				{
+					$object->setUserId($user->id);
+				
+					if ($group_id > 0)
+						$object->setGroupId($group_id);
+					
+					if ($object->saveCurrent())
+						$stdout = ucf(i18n("changed ownership successfully on"))." ".$object->getPathInTree();
+					else
+						$stderr = ucf(i18n("failed to change ownership on"))." ".$object->getPathInTree();
+				}
+				
+				$_SESSION['murrix']['querycache'] = array();
+			}
 		}
 		else
 		{
-			$stdout = "Usage: chown [username].[groupname] [path]\n";
+			$stdout = "Usage: chown [username].[groupname] [path] [-R]\n";
 			$stdout .= "Example: chown admin.admins /root";
 		}
 		
 		return true;
+	}
+	
+	function setOwnerOnObjectsRecursive(&$object, &$stdout, &$stderr, $user_id, $group_id = 0)
+	{
+		if (!(isAdmin() || $object->hasRight("write")))
+			$stderr .=  ucf(i18n("not enough rights to change ownership on"))." ".$object->getPathInTree()."\n";
+	
+		$object->setUserId($user_id);
+				
+		if ($group_id > 0)
+			$object->setGroupId($group_id);
+			
+		if ($object->saveCurrent())
+			$stdout .= ucf(i18n("changed ownership successfully on"))." ".$object->getPathInTree()."\n";
+		else
+			$stderr .= ucf(i18n("failed to change ownership on"))." ".$object->getPathInTree()."\n";
+			
+		$children = fetch("FETCH node WHERE link:node_top='".$object->getNodeId()."' AND link:type='sub' NODESORTBY property:version SORTBY property:name");
+	
+		for ($n = 0; $n < count($children); $n++)
+			$this->setOwnerOnObjectsRecursive($children[$n], $stdout, $stderr, $user_id, $group_id);
 	}
 }
 
