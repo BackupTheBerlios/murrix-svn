@@ -17,8 +17,12 @@
 		{
 			$polls = fetch("FETCH node WHERE link:node_top='$polldir_id' AND link:type='sub' AND property:class_name='poll' NODESORTBY property:version SORTBY property:created");
 			
+			$now = time();
 			foreach ($polls as $object)
 			{
+				if (strtotime($object->getVarValue("closedate")) < $now || strtotime($object->getVarValue("opendate")) > $now)
+					continue;
+
 				include(gettpl("scripts/poll/poll_view", $object));
 			}
 		}

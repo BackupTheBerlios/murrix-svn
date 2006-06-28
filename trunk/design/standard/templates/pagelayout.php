@@ -43,14 +43,14 @@
 				if (containerObj.style.display == 'none') // Show container
 				{
 					containerObj.style.display = 'block';
-					leftObj.innerHTML = '&uarr;&uarr;';
-					rightObj.innerHTML = '&uarr;&uarr;';
+					leftObj.src = '<?=imgpath("1downarrow.png")?>';
+					rightObj.src = '<?=imgpath("1downarrow.png")?>';
 				}
 				else // Hide container
 				{
 					containerObj.style.display = 'none';
-					leftObj.innerHTML = '&darr;&darr;';
-					rightObj.innerHTML = '&darr;&darr;';
+					leftObj.src = '<?=imgpath("1uparrow.png")?>';
+					rightObj.src = '<?=imgpath("1uparrow.png")?>';
 				}
 			}
 		// -->
@@ -120,8 +120,8 @@
 				</td>
 				<td class="sidebar">
 					<div class="title">
-						<a class="right" id="login_right" href="javascript:void(null)" onclick="toggleSidebarContainer('login')">&uarr;&uarr;</a>
-						<a class="left" id="login_left" href="javascript:void(null)" onclick="toggleSidebarContainer('login')">&uarr;&uarr;</a>
+						<a class="right" href="javascript:void(null)" onclick="toggleSidebarContainer('login')"><?=img(imgpath("1downarrow.png"), "", "", "login_right")?></a>
+						<a class="left" href="javascript:void(null)" onclick="toggleSidebarContainer('login')"><?=img(imgpath("1downarrow.png"), "", "", "login_left")?></a>
 						<?=ucf(i18n("login"))?>
 					</div>
 					<div id="login_container" class="container">
@@ -138,8 +138,8 @@
 					</div>
 					
 					<div class="title">
-						<a class="right" id="calendar_right" href="javascript:void(null)" onclick="toggleSidebarContainer('calendar')">&uarr;&uarr;</a>
-						<a class="left" id="calendar_left" href="javascript:void(null)" onclick="toggleSidebarContainer('calendar')">&uarr;&uarr;</a>
+						<a class="right" href="javascript:void(null)" onclick="toggleSidebarContainer('calendar')"><?=img(imgpath("1downarrow.png"), "", "", "calendar_right")?></a>
+						<a class="left" href="javascript:void(null)" onclick="toggleSidebarContainer('calendar')"><?=img(imgpath("1downarrow.png"), "", "", "calendar_left")?></a>
 						<?=cmd(ucf(i18n("calendar")), "exec=calendar", "sidebar")?>
 					</div>
 					<div id="calendar_container" class="container">
@@ -152,8 +152,8 @@
 					</div>
 					
 					<div class="title">
-						<a class="right" id="polls_right" href="javascript:void(null)" onclick="toggleSidebarContainer('polls')">&uarr;&uarr;</a>
-						<a class="left" id="polls_left" href="javascript:void(null)" onclick="toggleSidebarContainer('polls')">&uarr;&uarr;</a>
+						<a class="right" href="javascript:void(null)" onclick="toggleSidebarContainer('polls')"><?=img(imgpath("1downarrow.png"), "", "", "polls_right")?></a>
+						<a class="left" href="javascript:void(null)" onclick="toggleSidebarContainer('polls')"><?=img(imgpath("1downarrow.png"), "", "", "polls_left")?></a>
 						<?=ucf(i18n("polls"))?>
 					</div>
 					<div id="polls_container" class="container">
@@ -171,7 +171,7 @@
 		<div class="footer">
 			<? include(gettpl("footer")) ?>
 		</div>
-
+		
 		<div id="popupCalendarDiv" style="visibility:hidden; position:absolute; z-index:11;"></div>
 	</body>
 </html>

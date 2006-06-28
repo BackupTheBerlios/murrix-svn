@@ -31,7 +31,7 @@ function cmd($name, $cmd, $args = "", $title_deprecated = "")
 	if (!empty($title_deprecated))
 		$arg_string .= "title=\"$title_deprecated\" ";
 
-	$onclick_string = "setRun();";
+	$onclick_string = "setRun('$cmd');";
 	$onkeyup_string = "";//run_cmd=true;";
 	
 	if (!empty($args))
@@ -63,14 +63,17 @@ function imgpath($append = "")
 	return "$wwwpath/design/".$_SESSION['murrix']['site']."/images/$append";
 }
 
-function img($img, $title = "", $style = "")
+function img($img, $title = "", $style = "", $id = "")
 {
 	global $abspath, $wwwpath;
 
 	$parent_path = substr($abspath, 0, strlen($abspath)-strlen($wwwpath));
 	list($width, $height, $type, $attr) = getimagesize("$parent_path/$img");
+	
+	if (!empty($id))
+		$id = " id='$id'";
 
-	return "<img src=\"$img\" title=\"$title\" alt=\"$title\" style=\"width: ".$width."px; height: ".$height."px;$style\"/>";
+	return "<img$id src=\"$img\" title=\"$title\" alt=\"$title\" style=\"width: ".$width."px; height: ".$height."px;$style\"/>";
 }
 
 function table($list, $endstring = "% rows")

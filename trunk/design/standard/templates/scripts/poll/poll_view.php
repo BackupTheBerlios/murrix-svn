@@ -1,11 +1,7 @@
 <?
 
-$now = time();
-if (strtotime($object->getVarValue("closedate")) < $now || strtotime($object->getVarValue("opendate")) > $now)
-	continue;
-	
 $answers = fetch("FETCH node WHERE link:node_top='".$object->getNodeId()."' AND link:type='sub' AND property:class_name='poll_answer' AND property:name='".$_SESSION['murrix']['user']->id."' NODESORTBY property:version");
-		
+
 if (count($answers) > 0)
 {
 	if ($object->getVarValue("hide_result") == "false")

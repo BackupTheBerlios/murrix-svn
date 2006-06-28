@@ -48,7 +48,7 @@ class mUser extends mTable
 		
 		$home = new mObject($this->home_id);
 		
-		$inbox_id = getNode($home->getPath()."/inbox");
+		$inbox_id = getNode($home->getPath()."/inbox", "eng");
 		
 		if ($inbox_id < 0)
 		{

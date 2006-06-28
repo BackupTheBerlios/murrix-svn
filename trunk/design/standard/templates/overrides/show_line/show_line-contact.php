@@ -32,7 +32,7 @@
 				
 			$read_right = true; //$child->hasRight("read");
 			if ($read_right)
-				echo cmd($img, "Exec('show','zone_main',Hash('node_id','".$child->getNodeId()."'))");
+				echo cmd($img, "exec=show&node_id=".$child->getNodeId());
 			else
 				echo $img;
 		?>
@@ -63,7 +63,7 @@
 				<span class="show_line_main_top_inner_title">
 				<?
 					if ($read_right)
-						echo cmd($child->getName(), "Exec('show','zone_main',Hash('node_id','".$child->getNodeId()."'))");
+						echo cmd($child->getName(), "exec=show&node_id=".$child->getNodeId());
 					else
 						echo $child->getName();
 				?>

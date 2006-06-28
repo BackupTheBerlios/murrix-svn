@@ -9,10 +9,11 @@ $last_week_day = date("w", strtotime("+".($days_of_month-1)." days", $firstday))
 if ($last_week_day == 0) // Sunday
 	$last_week_day = 7;
 
-$first_stamp = strtotime("-$first_week_day days", $firstday);
-$last_stamp = strtotime("+1 month", $first_stamp);
-$month_events = $calendar->getEvents($events, $first_stamp, $last_stamp-$first_stamp);
+$days_to_show = $days_of_month+(7-$last_week_day)+$first_week_day;
 
+$first_stamp = strtotime("-$first_week_day days", $firstday);
+$last_stamp = strtotime("+$days_to_show days", $first_stamp);
+$month_events = $calendar->getEvents($events, $first_stamp, $last_stamp-$first_stamp);
 ?>
 
 <fieldset>
@@ -33,7 +34,7 @@ $month_events = $calendar->getEvents($events, $first_stamp, $last_stamp-$first_s
 		</tr>
 		<tr class="week_row">
 			<?
-			for ($n = 0; $n < $days_of_month+(7-$last_week_day)+$first_week_day; $n++)
+			for ($n = 0; $n < $days_to_show; $n++)
 			{
 				$days = $n-$first_week_day;
 				if ($days > 0)

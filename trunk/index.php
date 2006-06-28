@@ -105,9 +105,9 @@ if (!isset($_SESSION['murrix']['root_id']))
 	$_SESSION['murrix']['root_id'] = getSetting("ROOT_NODE_ID", 1, "any");
 $root_id = $_SESSION['murrix']['root_id'];
 
-if (!isset($_SESSION['murrix']['aanonymous_id']))
-	$_SESSION['murrix']['aanonymous_id'] = getSetting("ANONYMOUS_ID", 1, "any");
-$anonymous_id = $_SESSION['murrix']['aanonymous_id'];
+if (!isset($_SESSION['murrix']['anonymous_id']))
+	$_SESSION['murrix']['anonymous_id'] = getSetting("ANONYMOUS_ID", 1, "any");
+$anonymous_id = $_SESSION['murrix']['anonymous_id'];
 
 
 /* ========================= */

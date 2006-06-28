@@ -70,7 +70,7 @@ class csChown extends CScript
 						$stderr = ucf(i18n("failed to change ownership on"))." ".$object->getPathInTree();
 				}
 				
-				$_SESSION['murrix']['querycache'] = array();
+				
 			}
 		}
 		else

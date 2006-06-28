@@ -57,8 +57,8 @@ if (!$object->hasRight("read"))
 	</head>
 	
 	<body>
-		<div id="main">
-			<div id="content">
+		<div class="main">
+			<div class="container">
 			<?
 				$left = img(geticon($object->getIcon()))." ".$object->getName();
 				$right = $object->getNodeId();

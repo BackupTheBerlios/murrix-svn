@@ -75,9 +75,10 @@ function parseCommand(cmd)
 	}
 	
 	var cmd = "Exec('"+script+"',Hash("+hash_arg+"))";
-	
 	return cmd;
 }
+
+var poll_intervall;
 
 function Poll()
 {
@@ -97,16 +98,27 @@ function Poll()
 	}
 }
 
-function setRun()
+function setRun(cmd)
 {
-	setTimeout("last_command = '';", 600);
+	clearInterval(poll_intervall);
+	
+	setHash(cmd);
+	eval(parseCommand(URLDecode(cmd)));
+	last_command = cmd;
+	
+	setTimeout("runTimeout()", 600);
+}
+
+function runTimeout()
+{
+	poll_intervall = setInterval("Poll()", 600);
 }
 
 function OnLoadHandler()
 {
 	default_command = init();
 	last_command = "";
-	setInterval("Poll()", 600);
+	poll_intervall = setInterval("Poll()", 600);
 }
 
 function Hash()

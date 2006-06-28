@@ -60,7 +60,7 @@ class sEdit extends Script
 							
 							$value = (isset($args[$key]) ? $args[$key] : (isset($args[$var->id]) ? $args[$var->id] : ""));
 							
-							if (empty($value) && $var->getRequired())
+							if (empty($value) && $var->getRequired() && $var->getType() != "boolean")
 							{
 								$response->addAlert(utf8e(ucf(str_replace("_", " ", i18n($var->getName(true))))." ".i18n("is a required field")));
 								return;

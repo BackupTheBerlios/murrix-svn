@@ -24,14 +24,16 @@ foreach ($children as $child)
 	<? table($list, "% ".i18n("rows")) ?>
 	
 	<div class="main">
-		<?=ucf(i18n("move selected objects to"))?>
-		<input name="action" class="hidden" type="hidden" value="move"/>
-		<input name="parent_id" class="hidden" type="hidden" value="<?=$object->getNodeId()?>"/>
-		<input name="path" class="input_big" type="text" value="/Root"/>
-		<a class="submit" href="javascript:void(null);" onclick="popWin=open('browse.php?input_path_id=path&form_id=toolsObjectList','PopUpWindow','width=300,height=300,scrollbars=1,status=0');popWin.opener=self; popWin.focus();popWin.moveTo(150,50);return false;"><?=ucf(i18n("browse"))?></a>
-
-		<input class="submit" type="submit" value="<?=ucf(i18n("move"))?>"/>
-		<input class="submit" type="submit" value="<?=ucf(i18n("link"))?>" onclick="document.getElementById('toolsObjectList').action.value='link';"/>
+		<div class="container">
+			<?=ucf(i18n("move selected objects to"))?>
+			<input name="action" class="hidden" type="hidden" value="move"/>
+			<input name="parent_id" class="hidden" type="hidden" value="<?=$object->getNodeId()?>"/>
+			<input name="remote_node_id" id="remote_node_id" class="input" type="text" value=""/>
+			<a href="javascript:void(null);" onclick="popWin=open('<?=gettpl_www("popups/nodebrowse")?>?input_id=remote_node_id&form_id=linkForm','PopUpWindow','width=300,height=300,scrollbars=1,status=0'); popWin.opener = self; popWin.focus(); popWin.moveTo(150,50); return false"><?=ucf(i18n("browse"))?></a>
+	
+			<input class="submit" type="submit" value="<?=ucf(i18n("move"))?>"/>
+			<input class="submit" type="submit" value="<?=ucf(i18n("link"))?>" onclick="document.getElementById('toolsObjectList').action.value='link';"/>
+		</div>
 	</div>
 
 </form>
