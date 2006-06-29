@@ -65,7 +65,7 @@ class csChown extends CScript
 						$object->setGroupId($group_id);
 					
 					if ($object->saveCurrent())
-						$stdout = ucf(i18n("changed ownership successfully on"))." ".$object->getPathInTree();
+						$stdout = "";//ucf(i18n("changed ownership successfully on"))." ".$object->getPathInTree();
 					else
 						$stderr = ucf(i18n("failed to change ownership on"))." ".$object->getPathInTree();
 				}
@@ -93,7 +93,7 @@ class csChown extends CScript
 			$object->setGroupId($group_id);
 			
 		if ($object->saveCurrent())
-			$stdout .= ucf(i18n("changed ownership successfully on"))." ".$object->getPathInTree()."\n";
+			$stdout .= "";//ucf(i18n("changed ownership successfully on"))." ".$object->getPathInTree()."\n";
 		else
 			$stderr .= ucf(i18n("failed to change ownership on"))." ".$object->getPathInTree()."\n";
 			
