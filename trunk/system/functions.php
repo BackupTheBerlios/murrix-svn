@@ -40,7 +40,7 @@ function colour($tint)
 	$green = "";
 	$blue = "";
 	
-	for (;;)
+	while (true)
 	{
 		$red = $frag[mt_rand(0, count($frag)-1)];
 		$green = $frag[mt_rand(0, count($frag)-1)];

@@ -8,9 +8,9 @@ $class = "sidebar";
 </div>
 <div id="menu_container" class="container">
 <?
-	echo cmd(img(getIcon("console"))." Console", "exec=console", $class);
-	echo cmd(img(getIcon("date"))." Calendar", "exec=calendar", $class);
-	echo cmd(img(getIcon("search"))." Search", "exec=search", $class);
+	echo cmd(img(getIcon("console"))." ".ucf(i18n("console")), "exec=console", $class);
+	echo cmd(img(getIcon("date"))." ".ucf(i18n("calendar")), "exec=calendar", $class);
+	echo cmd(img(getIcon("search"))." ".ucf(i18n("search")), "exec=search", $class);
 	if (!empty($_SESSION['murrix']['user']->password))
 		echo cmd(img(geticon("password"))." ".ucf(i18n("change password")), "exec=console&initcmd=upass", $class);
 ?>

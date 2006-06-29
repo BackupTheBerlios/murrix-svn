@@ -24,13 +24,13 @@ $month_events = $calendar->getEvents($events, $first_stamp, $last_stamp-$first_s
 	<table class="big_month_table" cellspacing="1">
 		<tr class="title_row">
 			<td class="week">&nbsp;</td>
-			<td class="monday">Monday</td>
-			<td class="tuesday">Tuesday</td>
-			<td class="wednesday">Wednesday</td>
-			<td class="thursday">Thursday</td>
-			<td class="friday">Friday</td>
-			<td class="saturday red">Saturday</td>
-			<td class="sunday red">Sunday</td>
+			<td class="monday"><?=ucf(i18n("monday"))?></td>
+			<td class="tuesday"><?=ucf(i18n("tuesday"))?></td>
+			<td class="wednesday"><?=ucf(i18n("wednesday"))?></td>
+			<td class="thursday"><?=ucf(i18n("thursday"))?></td>
+			<td class="friday"><?=ucf(i18n("friday"))?></td>
+			<td class="saturday red"><?=ucf(i18n("saturday"))?></td>
+			<td class="sunday red"><?=ucf(i18n("sunday"))?></td>
 		</tr>
 		<tr class="week_row">
 			<?
@@ -68,9 +68,13 @@ $month_events = $calendar->getEvents($events, $first_stamp, $last_stamp-$first_s
 					if ($day_str == 1)
 						$day_str .= " ".ucf(i18n(strtolower(date("F", $time_now))));
 					
-					echo cmd($day_str, "exec=calendar&view=day&date=".date("Ymd", $time_now), $link_class);
 					?>
-					<hr/>
+					<div style="border-bottom: 1px solid #e1e4e8;">
+						<div style="float: right; font-size: 7px;">
+							<?=(date("z", $time_now)+1)?>
+						</div>
+						<?=cmd($day_str, "exec=calendar&view=day&date=".date("Ymd", $time_now), $link_class)?>
+					</div>
 					<?
 						$day_events = $calendar->getEvents($month_events, $time_now, 60*60*24);
 						foreach ($day_events as $de)

@@ -78,7 +78,7 @@
 			else
 				$data = img(geticon($type, 128));
 				
-			list($width, $height, $type2, $attr) = getimagesize($filename);
+			list($width, $height, $type2, $attr) = @getimagesize($filename);
 			
 			$datetime = "";
 			if (isset($result['IFD0']['DateTime']))
@@ -138,7 +138,7 @@
 				?>
 				<td style="width: 20%;">
 					<div style="font-weight: bold; text-align: center;"><?=ucw(i18n("filesize"))?></div>
-					<?=DownloadSize(filesize($filename))?>
+					<?=DownloadSize(@filesize($filename))?>
 				</td>
 				<td style="width: 20%;">
 					<div style="font-weight: bold; text-align: center;"><?=ucw(i18n("filename"))?></div>

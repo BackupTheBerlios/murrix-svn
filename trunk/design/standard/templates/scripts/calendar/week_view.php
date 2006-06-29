@@ -12,13 +12,13 @@ $week_events = $calendar->getEvents($events, $firstday, $last_stamp-$firstday);
 	<table class="big_week_table" cellspacing="1">
 		<tr class="title_row">
 			<td class="time">&nbsp;</td>
-			<td class="monday">Monday<br/><?=date("Y-m-d", $firstday)?></td>
-			<td class="tuesday">Tuesday<br/><?=date("Y-m-d", strtotime("+1 days", $firstday))?></td>
-			<td class="wednesday">Wednesday<br/><?=date("Y-m-d", strtotime("+2 days", $firstday))?></td>
-			<td class="thursday">Thursday<br/><?=date("Y-m-d", strtotime("+3 days", $firstday))?></td>
-			<td class="friday">Friday<br/><?=date("Y-m-d", strtotime("+4 days", $firstday))?></td>
-			<td class="saturday red">Saturday<br/><?=date("Y-m-d", strtotime("+5 days", $firstday))?></td>
-			<td class="sunday red">Sunday<br/><?=date("Y-m-d", strtotime("+6 days", $firstday))?></td>
+			<td class="monday"><?=ucf(i18n("monday"))?><br/><?=date("Y-m-d", $firstday)?></td>
+			<td class="tuesday"><?=ucf(i18n("tuesday"))?><br/><?=date("Y-m-d", strtotime("+1 days", $firstday))?></td>
+			<td class="wednesday"><?=ucf(i18n("wednesday"))?><br/><?=date("Y-m-d", strtotime("+2 days", $firstday))?></td>
+			<td class="thursday"><?=ucf(i18n("thursday"))?><br/><?=date("Y-m-d", strtotime("+3 days", $firstday))?></td>
+			<td class="friday"><?=ucf(i18n("friday"))?><br/><?=date("Y-m-d", strtotime("+4 days", $firstday))?></td>
+			<td class="saturday red"><?=ucf(i18n("saturday"))?><br/><?=date("Y-m-d", strtotime("+5 days", $firstday))?></td>
+			<td class="sunday red"><?=ucf(i18n("sunday"))?><br/><?=date("Y-m-d", strtotime("+6 days", $firstday))?></td>
 		</tr>
 	<?
 		for ($n = 0; $n < 24; $n++)

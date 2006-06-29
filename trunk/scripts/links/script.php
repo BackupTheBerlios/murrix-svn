@@ -82,13 +82,14 @@ class sLinks extends Script
 					$response->addAlert(ucf(i18n("you don't have enough rights to create a link")));
 					return;
 				}
-			
-				$this->Draw($system, $response, $args);
+				
+				$_SESSION['murrix']['path'] = $object->getPathInTree();
+				$system->TriggerEventIntern($response, "newlocation", $args);
 				return;
 			}
 		}
 		
-		$system->TriggerEventIntern($response, "newlocation", $args);
+		$this->Draw($system, $response, $args);
 	}
 	
 	function Draw(&$system, &$response, $args)

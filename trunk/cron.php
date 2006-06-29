@@ -75,6 +75,18 @@ foreach ($files as $file)
 }
 echo "\n";flush();
 
+$files = fetch("FETCH node WHERE property:class_name='file' NODESORTBY property:version");
+echo "Setting default metadata for file\n";flush();
+echo count($files)." files found\n";flush();
+
+foreach ($files as $file)
+{
+	$file->setMeta("comment_show_num_per_page", "all");
+	$file->setMeta("show_comments", 1);
+	
+}
+echo "\n";flush();
+
 
 $files = fetch("FETCH node WHERE property:class_name='file' NODESORTBY property:version");
 echo "Creating thumbnail for default sizes\n";flush();
