@@ -9,7 +9,7 @@
 		
 		$family = fetch("FETCH node WHERE link:node_top='".$parent->getNodeId()."' AND link:type='sub' AND !property:class_name='comment'  AND !property:class_name='poll_answer' NODESORTBY property:version SORTBY $invert".$parent->getMeta("sort_by", "property:name"));
 		
-		$parent = getReadable($parent);
+		$family = getReadable($family);
 		
 		$prev = false;
 		$next = false;

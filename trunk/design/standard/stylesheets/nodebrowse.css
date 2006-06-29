@@ -30,6 +30,11 @@ body.nodebrowse img
 	vertical-align: text-bottom;
 }
 
+body.nodebrowse .container
+{
+	margin-bottom: 5px;
+}
+
 body.nodebrowse div.clear
 {
 	clear: both;

@@ -28,14 +28,14 @@ if (($str = db_connect()) !== true)
 $root_id = getSetting("ROOT_NODE_ID", 1, "any");
 $anonymous_id = getSetting("ANONYMOUS_ID", 1, "any");
 
-if (!isset($_GET['path']))
-	$path = empty($_SESSION['murrix']['node_browse_last']) ? "/root" : $_SESSION['murrix']['node_browse_last'];
+if (!isset($_GET['node_id']))
+	$node_id = empty($_SESSION['murrix']['node_browse_last']) ? getNode("/root") : $_SESSION['murrix']['node_browse_last'];
 else
-	$path = urldecode($_GET['path']);
+	$node_id = $_GET['node_id'];
 	
-$_SESSION['murrix']['node_browse_last'] = $path;
+$_SESSION['murrix']['node_browse_last'] = $node_id;
 
-$object = new mObject(getNode($path));
+$object = new mObject($node_id);
 
 if (!$object->hasRight("read"))
 {
@@ -57,74 +57,51 @@ if (!$object->hasRight("read"))
 	</head>
 	
 	<body class="nodebrowse">
+	<?
+		$left = img(geticon($object->getIcon()))." ".$object->getName();
+		$right = $object->getNodeId();
+		$center = "";
+		include(gettpl("big_title"));
+		?>
+		<div class="container">
+			<center>
+				<input type="button" class="submit" onclick="<?="opener.document.getElementById('".$_GET['input_id']."').value='".$object->getNodeId()."';"?>;parent.window.close();" value="<?=ucf(i18n("select"))?>"/>
+			</center>
+		</div>
 		<?
-			$left = img(geticon($object->getIcon()))." ".$object->getName();
-			$right = $object->getNodeId();
-			$center = "";
-			include(gettpl("big_title"));
+		$parent_path = GetParentPath($object->getPath());
+		$parent_id = getNode($parent_path);
+
+		if ($parent_id > 0 && $parent_id != $node_id)
+		{
+			$parent = new mObject($parent_id);
 			?>
 			<div class="main">
-				<form action="<?=$_SERVER["SCRIPT_NAME"]?>" method="get" name="resolveForm">
-					<?
-					if (isset($_GET['input_id']))
-					{
-						?><input class="hidden" type="hidden" name="input_id" value="<?=$_GET['input_id']?>"/><?
-					}
-
-					if (isset($_GET['input_path_id']))
-					{
-						?><input class="hidden" type="hidden" name="input_path_id" value="<?=$_GET['input_path_id']?>"/><?
-					}
-					?>
-					<input class="hidden" type="hidden" name="form_id" value="<?=$_GET['form_id']?>"/>
-					<input class="input" name="path" type="text" value="<?=urldecode($path)?>"/>
-					<input class="submit" name="submit" type="submit" value="<?=ucf(i18n("resolve"))?>"/>
-				</form>
-			</div>
 			<?
-			$node_id = $object->getNodeId();
+				echo "<a href=\"".$_SERVER["REQUEST_URI"]."&node_id=$parent_id\">".img(geticon($parent->getIcon()))." <strong>".ucf(i18n("up one level"))."</strong></a>";
+			?>
+			</div>
+		<?
+		}
 
-			$parent_path = GetParentPath($object->getPath());
-			$parent_id = getNode($parent_path);
+		$children = fetch("FETCH node WHERE link:node_top='$node_id' AND link:type='sub' NODESORTBY property:version SORTBY property:name");
 
-			if ($parent_id > 0 && $parent_id != $node_id)
+		if (count($children) > 0)
+		{
+			foreach ($children as $child)
 			{
-				$parent = new mObject($parent_id);
-				?>
+			?>
 				<div class="main">
-				<?
-					echo "<a href=\"".$_SERVER["REQUEST_URI"]."&path=".urlencode($parent_path)."\">".img(geticon($parent->getIcon()))." <strong>".ucf(i18n("up one level"))."</strong></a>";
+					<div style="float: right">
+						<input type="button" class="submit" onclick="<?="opener.document.getElementById('".$_GET['input_id']."').value='".$child->getNodeId()."';"?>;parent.window.close();" value="<?=ucf(i18n("select"))?>"/>
+					</div>
+					<?
+					echo "<a href=\"".$_SERVER["REQUEST_URI"]."&node_id=".$child->getNodeId()."\">".img(geticon($child->getIcon()))." ".$child->getName()."</a>";
 				?>
 				</div>
 			<?
 			}
-
-			$children = fetch("FETCH node WHERE link:node_top='$node_id' AND link:type='sub' NODESORTBY property:version SORTBY property:name");
-
-			if (count($children) > 0)
-			{
-				foreach ($children as $child)
-				{
-				?>
-					<div class="main">
-					<?
-						echo "<a href=\"".$_SERVER["REQUEST_URI"]."&path=".urlencode($child->getPath())."\">".img(geticon($child->getIcon()))." ".$child->getName()."</a>";
-					?>
-					</div>
-				<?
-				}
-			}
-			?>
-			<center>
-			<?
-				$js = "";
-				if (isset($_GET['input_id']))
-					$js .= "opener.document.getElementById('".$_GET['input_id']."').value='".$object->getNodeId()."';";
-
-				if (isset($_GET['input_path_id']))
-					$js .= "opener.document.getElementById('".$_GET['input_path_id']."').value='$path';";
-				?>
-				<input type="button" class="submit" onclick="<?=$js?>;parent.window.close();" value="<?=ucf(i18n("select"))?>"/>
-			</center>
+		}
+	?>
 	</body>
 </html>

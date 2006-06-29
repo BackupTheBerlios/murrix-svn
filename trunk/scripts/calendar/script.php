@@ -102,6 +102,7 @@ class sCalendar extends Script
 	function getEvents()
 	{
 		$events = array();
+		$node_ids = array();
 		foreach ($this->calendars as $name => $list)
 		{
 			for ($i = 0; $i < count($this->calendars[$name]); $i++)
@@ -111,10 +112,19 @@ class sCalendar extends Script
 					
 				$children = fetch("FETCH node WHERE link:node_top='".$this->calendars[$name][$i]->getNodeId()."' AND link:type='sub' AND property:class_name='event' NODESORTBY property:version SORTBY var:date");
 				
-				for ($n = 0; $n < count($children); $n++)
-					$children[$n]->rand_color = $this->calendars[$name][$i]->color;
+				$children_unique = array();
 				
-				$events = array_merge($events, $children);
+				for ($n = 0; $n < count($children); $n++)
+				{
+					if (!in_array($children[$n]->getNodeId(), $node_ids))
+					{
+						$children[$n]->rand_color = $this->calendars[$name][$i]->color;
+						$children_unique[] = $children[$n];
+						$node_ids[] = $children[$n]->getNodeId();
+					}
+				}
+				
+				$events = array_merge($events, $children_unique);
 			}
 		}
 		
