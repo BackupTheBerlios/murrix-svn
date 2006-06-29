@@ -64,6 +64,9 @@ if (!$object->hasRight("read"))
 		include(gettpl("big_title"));
 		?>
 		<div class="container">
+			<?=$object->getPathInTree()?>
+		</div>
+		<div class="container">
 			<center>
 				<input type="button" class="submit" onclick="<?="opener.document.getElementById('".$_GET['input_id']."').value='".$object->getNodeId()."';"?>;parent.window.close();" value="<?=ucf(i18n("select"))?>"/>
 			</center>

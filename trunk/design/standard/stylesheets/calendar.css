@@ -38,7 +38,7 @@ table.calendar_table td.left
 	width: 155px;
 	padding-right: 5px;
 	vertical-align: top;
-	text-align: center;
+	text-align: left;
 }
 
 table.calendar_table td.right

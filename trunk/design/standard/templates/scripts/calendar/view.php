@@ -21,38 +21,31 @@ include(gettpl("big_title"));
 			$right = $center = "";
 			$left = ucf(i18n("calendars"));
 			include(gettpl("medium_title"));
-			?>
 			
-			<div class="main" style="text-align: left">
-				<div class="container">
-				<?
-					foreach ($calendars as $name => $list)
+			foreach ($calendars as $name => $list)
+			{
+			?>
+				<fieldset>
+					<legend>
+						<?=ucf($name)?>
+					</legend>
+					<?
+					foreach ($list as $item)
 					{
 					?>
-						<div style="font-weight: bold;">
-							<?=ucf($name)?>
-							<div style="font-weight: normal;">
-							<?
-							foreach ($list as $item)
-							{
-							?>
-								<div onclick="document.getElementById('calendar<?=$item->getNodeId()?>').checked=!document.getElementById('calendar<?=$item->getNodeId()?>').checked;Exec('calendar',Hash('toggle','<?=$item->getNodeId()?>'))" style="cursor: pointer; border: 1px solid <?=$item->color?>; margin-bottom: 2px;">
-									<div style="float: right; background-color: <?=$item->color?>; width: 22px; height: 22px;"></div>
-								
-								
-									<input onclick="document.getElementById('calendar<?=$item->getNodeId()?>').checked=!document.getElementById('calendar<?=$item->getNodeId()?>').checked;Exec('calendar',Hash('toggle','<?=$item->getNodeId()?>'))" id="calendar<?=$item->getNodeId()?>" class="input" type="checkbox" <?=($item->active ? "checked" : "")?>/><?=img(geticon($item->getIcon()))?> <?=ucf($item->getName())?>
-								</div>
-							<?
-							}
-							?>
-							</div>
+						<div onclick="document.getElementById('calendar<?=$item->getNodeId()?>').checked=!document.getElementById('calendar<?=$item->getNodeId()?>').checked;Exec('calendar',Hash('toggle','<?=$item->getNodeId()?>'))" style="cursor: pointer; margin-bottom: 2px;">
+							<div style="float: right; background-color: <?=$item->color?>; width: 22px; height: 22px;"></div>
+						
+						
+							<input onclick="document.getElementById('calendar<?=$item->getNodeId()?>').checked=!document.getElementById('calendar<?=$item->getNodeId()?>').checked;Exec('calendar',Hash('toggle','<?=$item->getNodeId()?>'))" id="calendar<?=$item->getNodeId()?>" class="input" type="checkbox" <?=($item->active ? "checked" : "")?>/><?=img(geticon($item->getIcon()))?> <?=ucf($item->getName())?>
 						</div>
-						<hr/>
 					<?
 					}
 				?>
-				</div>
-			</div>
+				</fieldset>
+			<?
+			}
+		?>
 		</td>
 		<td class="right">
 			<div class="main">
