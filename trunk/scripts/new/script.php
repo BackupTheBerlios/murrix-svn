@@ -69,8 +69,7 @@ class sNew extends Script
 						$object->name = trim($args[$language.'_name']);
 						$object->icon = trim($args[$language.'_icon']);
 						$object->language = $language;
-						$object->rights = $parent->getMeta("initial_rights", "rwcrwc---");
-						$object->group_id = $parent->getMeta("initial_group", $parent->getGroupId());
+						$object->rights = $parent->getMeta("initial_rights", $parent->getRights());
 	
 						$vars = $object->getVars();
 	

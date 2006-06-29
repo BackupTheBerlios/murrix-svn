@@ -7,7 +7,6 @@ class csOinfo extends CScript
 		$object = new mObject(getNode($_SESSION['murrix']['path']));
 
 		$user = $object->getUser();
-		$group = $object->getGroup();
 			
 		$stdout .= "<table cellspacing=\"0\">";
 		$stdout .= "<tr><td class=\"titlename\">Name</td><td>".cmd($object->getName(), "exec=show'&node_id=".$object->getNodeId())."</td></tr>";
@@ -18,7 +17,6 @@ class csOinfo extends CScript
 		$stdout .= "<tr><td class=\"titlename\">Class</td><td>".$object->getClassName()."</td></tr>";
 		$stdout .= "<tr><td class=\"titlename\">Rights</td><td>".$object->getRights()."</td></tr>";
 		$stdout .= "<tr><td class=\"titlename\">User</td><td>".$user->username."</td></tr>";
- 		$stdout .= "<tr><td class=\"titlename\">Group</td><td>".$group->name."</td></tr>";
 		$stdout .= "<tr><td class=\"titlename\">Time</td><td>".$object->getCreated()."</td></tr>";
 		$stdout .= "</table>";
 		

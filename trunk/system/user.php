@@ -119,17 +119,15 @@ function createUser($name, $username, $password, $email, $groups, $create_home =
 	
 		$home->name = $username;
 		$home->language = $_SESSION['murrix']['language'];
-		$home->group_id = $group_id;
-		$home->rights = "rwcr-c---";
+		$home->rights = "$username=r";
 	
 		$home->setVarValue("description", "This is the home of $name");
 	
 		if ($home->save())
 		{
+			$home->setMeta("initial_rights", "$username=rwc");
 			$home_folder = new mObject(getNode("/root/home/users"));
 			$home->linkWithNode($home_folder->getNodeId());
-			$home->setMeta("initial_rights", "rwcrwc---");
-			$home->setMeta("initial_group", $group_id);
 		}
 		else
 		{
@@ -182,17 +180,15 @@ function createGroup($name, $description, $create_home = true)
 	
 		$home->name = $name;
 		$home->language = $_SESSION['murrix']['language'];
-		$home->group_id = $group->id;
-		$home->rights = "rwcr-c---";
+		$home->rights = "$name=r";
 	
 		$home->setVarValue("description", "This is the home of $name");
 	
 		if ($home->save())
 		{
+			$home->setMeta("initial_rights", "$name=rwc");
 			$home_folder = new mObject(getNode("/root/home/groups"));
 			$home->linkWithNode($home_folder->getNodeId());
-			$home->setMeta("initial_rights", "rwcrwc---");
-			$home->setMeta("initial_group", $name);
 		}
 		else
 		{

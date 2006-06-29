@@ -74,7 +74,6 @@ class mObject
 		$this->name 		= $data['name'];
 		$this->node_id 		= $data['node_id'];
 		$this->user_id 		= $data['user_id'];
-		$this->group_id 	= $data['group_id'];
 		$this->rights 		= $data['rights'];
 		$this->created 		= $data['created'];
 		$this->class_name 	= $data['class_name'];
@@ -260,7 +259,7 @@ class mObject
 			$this->user_id = (isset($_SESSION['murrix']['user']) ? $_SESSION['murrix']['user']->id : $this->user_id);
 		}
 		
-		$query = "INSERT INTO `".$db_prefix."objects` (name, node_id, user_id, group_id, rights, created, class_name, version, language, icon) VALUES('$this->name', '$this->node_id', '$this->user_id', '$this->group_id', '$this->rights', '$this->created', '$this->class_name', '$this->version', '$this->language', '$this->icon')";
+		$query = "INSERT INTO `".$db_prefix."objects` (name, node_id, user_id, rights, created, class_name, version, language, icon) VALUES('$this->name', '$this->node_id', '$this->user_id', '$this->rights', '$this->created', '$this->class_name', '$this->version', '$this->language', '$this->icon')";
 
 		if (!($result = mysql_query($query)))
 		{
@@ -297,7 +296,7 @@ class mObject
 		// Save a new version of this object
 		global $db_prefix;
 
-		$query = "UPDATE `".$db_prefix."objects` SET `name`='$this->name', `icon`='$this->icon', `user_id`='$this->user_id', `group_id`='$this->group_id', `rights`='$this->rights' WHERE id = '$this->id'";
+		$query = "UPDATE `".$db_prefix."objects` SET `name`='$this->name', `icon`='$this->icon', `user_id`='$this->user_id',  `rights`='$this->rights' WHERE id = '$this->id'";
 		
 		if (!($result = mysql_query($query)))
 		{
@@ -371,7 +370,7 @@ class mObject
 				$root_path = $_SESSION['murrix']['path'];
 		}
 	
-		$paths = $this->getValidPaths("read");
+		$paths = $this->getPath(true);
 
 		if (count($paths) > 0)
 		{
@@ -670,262 +669,43 @@ class mObject
 		return true;
 	}
 
-	function getValidPaths($type, $classes = null)
-	{
-		return $this->getPath(true);
-	
-		if ($type == "read_subnodes")
-			$type = "list_sub";
-		else if ($type == "create_subnodes")
-			$type = "create_sub";
-	
-		if (isset($_SESSION['murrix']['querycache']['rights'][$type][$this->getNodeId()]) && $classes == null)
-			return $_SESSION['murrix']['querycache']['rights'][$type][$this->getNodeId()];
-
-		if (!isset($_SESSION['murrix']['querycache']['rights_list']))
-		{
-			$rights_unindexed = GetRightsRecursive($_SESSION['murrix']['user']);
-			
-			$rights = array();
-			foreach ($rights_unindexed as $right)
-				$rights[$right->getVarValue("type", true)][$right->getVarValue("node")] = $right;
-
-			$_SESSION['murrix']['querycache']['rights_list'] = $rights;
-		}
-
-		$rights = $_SESSION['murrix']['querycache']['rights_list'];
-		
-		$path_list = $this->getPath(true);
-		$valid_paths = array();
-
-		foreach ($path_list as $path)
-		{
-			$hasright = false;
-			$path_parts = explode("/", $path);
-			array_shift($path_parts);
-		
-			$newpath = "";
-			
-			for ($n = 0; $n < count($path_parts); $n++)
-			{
-				$newpath .= "/".$path_parts[$n];
-				$path_node = resolvePath($newpath);
-
-				$types = array("all", $type);
-				foreach ($types as $type)
-				{
-					if (isset($rights[$type][$path_node]))
-					{
-						$right = $rights[$type][$path_node];
-						
-						// This right is not inheritable, therefor it does not apply to any other node
-						if ($this->getNodeId() != $path_node && $right->getVarValue("inheritable") == "false")
-							continue;
-	
-						$class_hasright = true;
-						if ($type == "list_sub" || $type == "create_sub")
-						{
-							$classes_allowed = $right->getVarValue("classes");
-	
-							if (count($classes_allowed) > 0)
-							{
-								if ($classes == null)
-									$class_hasright = false;
-								else
-								{
-									foreach ($classes as $class)
-									{
-										if (!in_array($class, $classes_allowed))
-										{
-											$class_hasright = false;
-											break;
-										}
-									}
-								}
-							}
-						}
-	
-						$setting = $right->getVarValue("setting");
-						if ($setting == "allow" && $class_hasright)
-							$hasright = true;
-						else if ($setting == "deny")
-							$hasright = false;
-						else if ($setting == "allowown" && $class_hasright)
-							$hasright = ($this->getCreator() == $_SESSION['murrix']['user']->getNodeId());
-						else
-							$hasright = false;
-					}
-				}
-			}
-
-			if ($hasright)
-				$valid_paths[] = $path;
-		}
-
-		if ($classes == null)
-			$_SESSION['murrix']['querycache']['rights'][$type][$this->getNodeId()] = $valid_paths;
-
-		return $valid_paths;
-	}
-/*
-	function getValidPaths2($action, $classes = null)
-	{
-		if (isset($_SESSION['murrix']['querycache']['rights'][$action][$this->getNodeId()]))
-			return $_SESSION['murrix']['querycache']['rights'][$action][$this->getNodeId()];
-	
-		// Check if the right is set for the current user
-		$path_list = $this->getPath(true);
-
-		$valid_paths = array();
-
-		CompileRights();
-	
-		foreach ($path_list as $path)
-		{
-			$hasright = false;
-			$path_parts = explode("/", $path);
-			array_shift($path_parts);
-		
-			$newpath = "";
-			
-			for ($n = 0; $n < count($path_parts); $n++)
-			{
-				$newpath .= "/".$path_parts[$n];
-				$path_node = resolvePath($newpath);
-				
-				if (@is_array($_SESSION['murrix']['querycache']['rights']['allow'][$action]))
-				{
-					for ($i = 0; $i < count($_SESSION['murrix']['querycache']['rights']['allow'][$action]); $i++)
-					{
-						$node_id = $_SESSION['murrix']['querycache']['rights']['allow'][$action][$i];
-	
-						if ($path_node == $node_id)
-						{
-							if ($action != "create_subnodes")
-								$hasright = true;
-							else
-							{
-								$create_classes = $_SESSION['murrix']['querycache']['rights']['allow']['create_subnodes_classes'][$i];
-								if (empty($create_classes))
-									$hasright = true;
-								else
-								{
-									if (empty($classes))
-									{
-										$hasright = true;
-									}
-									else
-									{
-										foreach ($classes as $class)
-										{
-											if (in_array($class, $create_classes))
-											{
-												$hasright = true;
-												break;
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-				
-				if (@is_array($_SESSION['murrix']['querycache']['rights']['allowown'][$action]) && $object->getCreator() == $_SESSION['murrix']['user']->id)
-				{
-					if (in_array($path_node, $_SESSION['murrix']['querycache']['rights']['allowown'][$action]))
-						$hasright = true;
-				}
-				
-				if (@is_array($_SESSION['murrix']['querycache']['rights']['deny'][$action]))
-				{
-					if (in_array($path_node, $_SESSION['murrix']['querycache']['rights']['deny'][$action]))
-						$hasright = false;
-				}
-			}
-
-			if ($hasright)
-				$valid_paths[] = $path;
-		}
-
-		if ($classes != null)
-			$_SESSION['murrix']['querycache']['rights'][$action][$this->getNodeId()] = $valid_paths;
-
-		return $valid_paths;
-	}
-*/
 	function hasRight($action)
 	{
-		$rights = $this->getRights();
-		$group = $this->getGroup();
-		$user_id = $this->getUserId();
-		
-		switch ($action)
-		{
-			case "read":
-				if ($rights{6} == "r") // All
-					return true;
-					
-				if ($rights{3} == "r") // Group
-				{
-					$user_groups = $_SESSION['murrix']['user']->getGroups();
-					foreach ($user_groups as $ug)
-					{
-						if ($ug == $group->name)
-							return true;
-					}
-				}
-				
-				if ($rights{0} == "r" && $_SESSION['murrix']['user']->id == $user_id) // User
-					return true;
-					
-				break;
+		if (isAdmin())
+			return true;
 			
-			case "delete":
-			case "edit":
-			case "write":
-				if ($rights{7} == "w") // All
-					return true;
-					
-				if ($rights{4} == "w") // Group
-				{
-					$user_groups = $_SESSION['murrix']['user']->getGroups();
-					foreach ($user_groups as $ug)
-					{
-						if ($ug == $group->name)
-							return true;
-					}
-				}
-				
-				if ($rights{1} == "w" && $_SESSION['murrix']['user']->id == $user_id) // User
-					return true;
-					
+		$rights = $this->getRights();
+		$rights_parts = explode(",", $rights);
+		$user_groups = $_SESSION['murrix']['user']->getGroups();
+		$user_groups[] = "all";
+		
+		foreach ($rights_parts as $right)
+		{
+			list($groupname, $grouprights) = explode("=", $right);
+			
+			$letter = "u";
+			switch ($action)
+			{
+				case "read":
+				$letter = "r";
 				break;
-					
-			case "create":
-				if ($rights{8} == "c") // All
-					return true;
-					
-				if ($rights{5} == "c") // Group
-				{
-					$user_groups = $_SESSION['murrix']['user']->getGroups();
-					foreach ($user_groups as $ug)
-					{
-						if ($ug == $group->name)
-							return true;
-					}
-				}
 				
-				if ($rights{2} == "c" && $_SESSION['murrix']['user']->id == $user_id) // User
-					return true;
-					
+				case "delete":
+				case "edit":
+				case "write":
+				$letter = "w";
 				break;
+				
+				case "create":
+				$letter = "c";
+				break;
+			}
+			
+			if (strpos($grouprights, $letter) !== false && in_array($groupname, $user_groups))
+				return true;
 		}
 		
 		return false;
-	
-		//$valid_paths = $this->getValidPaths($action, $classes);
-		//return (count($valid_paths) > 0);
 	}
 	
 	var $vars;
@@ -1038,11 +818,6 @@ class mObject
 	function getUserId() { return $this->user_id; }
 	function getUser() { return new mUser($this->user_id); }
 	
-	var $group_id;
-	function setGroupId($group_id) { $this->group_id = $group_id; }
-	function getGroupId() { return $this->group_id; }
-	function getGroup() { return new mGroup($this->group_id); }
-	
 	var $rights;
 	function setRights($rights) { $this->rights = $rights; }
 	function getRights() { return $this->rights; }
@@ -1065,7 +840,6 @@ class mObject
 		$array['class_icon'] = $this->class_icon;
 		$array['real_icon'] = $this->getIcon();
 		$array['user_id'] = $this->user_id;
-		$array['group_id'] = $this->group_id;
 		$array['rights'] = $this->rights;
 		$array['language'] = $this->language;
 		

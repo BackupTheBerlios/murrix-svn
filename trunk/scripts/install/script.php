@@ -304,13 +304,15 @@ $list[] = array("class_name" => "contact",	"name" => "other",	"priority" => "140
 			$root_obj->setLanguage("eng");
 			$root_obj->setName("root");
 			$root_obj->setIcon("murrix");
-			$root_obj->setGroupId($administrator_group->id);
-			$root_obj->setRights("rwcrwcr--");
+			$root_obj->setRights("all=r");
 			
 			$root_obj->setVarValue("description", "This is the root node");
 
 			if ($root_obj->save())
+			{
+				$home->setMeta("initial_rights", "admins=rwc");
 				$this->db_log .= "Created ".$root_obj->getName().".<br/>";
+			}
 			else
 			{
 				$this->db_log .= "Failed to create ".$root_obj->getName().".<br/>";
@@ -329,8 +331,7 @@ $list[] = array("class_name" => "contact",	"name" => "other",	"priority" => "140
 			$home_obj->setLanguage("eng");
 			$home_obj->setName("home");
 			$home_obj->setIcon("home");
-			$home_obj->setGroupId($administrator_group->id);
-			$home_obj->setRights("rwcrwcr--");
+			$home_obj->setRights("all=r");
 
 			$home_obj->setVarValue("description", "This folder contain home folders");
 			
@@ -357,8 +358,7 @@ $list[] = array("class_name" => "contact",	"name" => "other",	"priority" => "140
 			$users_home_obj->setLanguage("eng");
 			$users_home_obj->setName("users");
 			$users_home_obj->setIcon("user");
-			$users_home_obj->setGroupId($administrator_group->id);
-			$users_home_obj->setRights("rwcrwcr--");
+			$users_home_obj->setRights("all=r");
 
 			$users_home_obj->setVarValue("description", "This folder contain home folders");
 			
@@ -385,8 +385,7 @@ $list[] = array("class_name" => "contact",	"name" => "other",	"priority" => "140
 			$group_home_obj->setLanguage("eng");
 			$group_home_obj->setName("groups");
 			$group_home_obj->setIcon("group2");
-			$group_home_obj->setGroupId($administrator_group->id);
-			$group_home_obj->setRights("rwcrwcr--");
+			$group_home_obj->setRights("all=r");
 
 			$users_home_obj->setVarValue("description", "This folder contain group folders");
 			
@@ -412,8 +411,7 @@ $list[] = array("class_name" => "contact",	"name" => "other",	"priority" => "140
 			$adminhome_obj->loadVars();
 			$adminhome_obj->setLanguage("eng");
 			$adminhome_obj->setName($this->admin_username);
-			$adminhome_obj->setGroupId($administrator_group->id);
-			$adminhome_obj->setRights("rwcrwc---");
+			$adminhome_obj->setRights("admins=rwc");
 
 			$adminhome_obj->setVarValue("description", "This is the home for ".$this->admin_username);
 			
@@ -442,8 +440,7 @@ $list[] = array("class_name" => "contact",	"name" => "other",	"priority" => "140
 			$adminshome_obj->loadVars();
 			$adminshome_obj->setLanguage("eng");
 			$adminshome_obj->setName("admins");
-			$adminshome_obj->setGroupId($administrator_group->id);
-			$adminshome_obj->setRights("rwcrwc---");
+			$adminshome_obj->setRights("admins=rwc");
 
 			$adminshome_obj->setVarValue("description", "This is the home for admins");
 			
@@ -472,8 +469,7 @@ $list[] = array("class_name" => "contact",	"name" => "other",	"priority" => "140
 			$public_obj->loadVars();
 			$public_obj->setLanguage("eng");
 			$public_obj->setName("public");
-			$public_obj->setGroupId($administrator_group->id);
-			$public_obj->setRights("rwcrwcr--");
+			$public_obj->setRights("all=r");
 
 			$public_obj->setVarValue("description", "This folder is readable by anyone");
 			

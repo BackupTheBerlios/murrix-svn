@@ -58,10 +58,10 @@ class mUser extends mTable
 
 			$inbox->name = "inbox";
 			$inbox->language = $_SESSION['murrix']['language'];
-			$inbox->rights = $home->getMeta("initial_rights", "rwcrwc---");
-			$inbox->group_id = $home->getMeta("initial_group", $home->getGroupId());
 
 			$inbox_id = $inbox->save();
+			
+			$inbox->rights = $home->getMeta("initial_rights", $home->getRights());
 			
 			clearNodeFileCache($home->getNodeId());
 			$inbox->linkWithNode($home->getNodeId());
@@ -75,14 +75,14 @@ class mUser extends mTable
 		
 		$message->name = $subject;
 		$message->language = $_SESSION['murrix']['language'];
-		$message->rights = $inbox->getMeta("initial_rights", "rwcrwc---");
-		$message->group_id = $inbox->getMeta("initial_group", $inbox->getGroupId());
 		
 		$message->setVarValue("text", $text);
 		$message->setVarValue("attachment", $attachment);
 		$message->setVarValue("sender", $_SESSION['murrix']['user']->name);
 
 		$message->save();
+		
+		$message->rights = $inbox->getMeta("initial_rights", $inbox->getRights());
 		
 		clearNodeFileCache($inbox->getNodeId());
 		$message->linkWithNode($inbox->getNodeId());

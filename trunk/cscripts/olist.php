@@ -20,14 +20,12 @@ class csOlist extends CScript
 				$stdout .= "<td>Class</td>";
 				$stdout .= "<td>Rights</td>";
 				$stdout .= "<td>User</td>";
-				$stdout .= "<td>Group</td>";
 				$stdout .= "<td>Time</td>";
 				$stdout .= "<td>Name</td>";
 				$stdout .= "</tr>";
 				foreach ($children as $child)
 				{
 					$user = $child->getUser();
-					$group = $child->getGroup();
 					
 					$stdout .= "<tr>";
 					$stdout .= "<td>".$child->getNodeId()."</td>";
@@ -36,7 +34,6 @@ class csOlist extends CScript
 					$stdout .= "<td>".$child->getClassName()."</td>";
 					$stdout .= "<td>".$child->getRights()."</td>";
 					$stdout .= "<td>".$user->username."</td>";
-					$stdout .= "<td>".$group->name."</td>";
 					$stdout .= "<td>".$child->getCreated()."</td>";
 					$stdout .= "<td>".cmd(img(geticon($child->getIcon(), 16))."&nbsp;".$child->getName(), "exec=show&node_id=".$child->getNodeId())."</td>";
 					$stdout .= "</tr>";
