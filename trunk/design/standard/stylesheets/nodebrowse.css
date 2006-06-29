@@ -1,4 +1,4 @@
-body
+body.nodebrowse
 {
 	font-family: Arial, Verdana, Helvetica, sans-serif;
 	background-color: white;
@@ -6,36 +6,36 @@ body
 	padding: 0;
 }
 
-a
+body.nodebrowse a
 {
 	color: #1a1a92;
 	text-decoration: none;
 }
 
-a:hover, a:active
+body.nodebrowse a:hover, body.nodebrowse a:active
 {
 	color: blue;
 }
 
-.hidden
+body.nodebrowse .hidden
 {
 	display: none;
 	margin: 0;
 	padding: 0;
 }
 
-img
+body.nodebrowse img
 {
 	border: none;
 	vertical-align: text-bottom;
 }
 
-div.clear
+body.nodebrowse div.clear
 {
 	clear: both;
 }
 
-div.main
+body.nodebrowse div.main
 {
 	background-color: #F9F9F9;
 	border: 1px solid #DCD7FF;
@@ -44,20 +44,20 @@ div.main
 	font-size: 11px;
 }
 
-input.input
+body.nodebrowse input.input
 {
 	border: 1px solid #ebedee;
-	width: 210px;
+	width: 200px;
 	padding: 1px;
 }
 
-input.submit
+body.nodebrowse input.submit
 {
 	border: 1px solid #e1e4e8;
 	background-color: #ebedee;
 }
 
-div.big_title
+body.nodebrowse div.big_title
 {
 	border: 1px solid #e1e4e8;
 	border-width: 1px 0 1px 0;
@@ -68,14 +68,14 @@ div.big_title
 	height: 24px;
 }
 
-div.big_title div.left
+body.nodebrowse div.big_title div.left
 {
 	text-align: left;
 	font-size: 20px;
 	float: left;
 }
 
-div.big_title div.right
+body.nodebrowse div.big_title div.right
 {
 	text-align: right;
 	float: right;

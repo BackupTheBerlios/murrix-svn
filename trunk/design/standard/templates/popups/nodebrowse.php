@@ -56,7 +56,7 @@ if (!$object->hasRight("read"))
 		<link rel="stylesheet" type="text/css" href="<?="$wwwpath/design/".$_SESSION['murrix']['theme']."/stylesheets/nodebrowse.css"?>"/>
 	</head>
 	
-	<body>
+	<body class="nodebrowse">
 		<?
 			$left = img(geticon($object->getIcon()))." ".$object->getName();
 			$right = $object->getNodeId();
