@@ -13,7 +13,8 @@ class sAddressbar extends Script
 		{
 			case "newlang":
 			case "newlocation":
-			$this->Draw($system, $response, $args);
+			if ($this->active)
+				$this->Draw($system, $response, $args);
 			break;
 		}
 	}

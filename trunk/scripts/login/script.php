@@ -14,7 +14,8 @@ class sLogin extends Script
 			case "login":
 			case "logout":
 			case "newlang":
-			$this->Draw($system, $response, array());
+			if ($this->active)
+				$this->Draw($system, $response, array());
 			break;
 		}
 	}

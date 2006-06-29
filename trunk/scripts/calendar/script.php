@@ -20,13 +20,15 @@ class sCalendar extends Script
 		{
 			case "newlang":
 			case "newlocation":
-			$this->Draw($system, $response, array());
+			if ($this->active)
+				$this->Draw($system, $response, array());
 			break;
 			
 			case "login":
 			case "logout":
 			$this->fillCalendars();
-			$this->Draw($system, $response, array());
+			if ($this->active)
+				$this->Draw($system, $response, array());
 			break;
 		}
 	}

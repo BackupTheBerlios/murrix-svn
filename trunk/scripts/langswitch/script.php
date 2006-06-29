@@ -12,7 +12,8 @@ class sLangswitch extends Script
 		switch ($event)
 		{
 			case "newlang":
-			$this->Draw($system, $response, $args);
+			if ($this->active)
+				$this->Draw($system, $response, $args);
 			break;
 		}
 	}

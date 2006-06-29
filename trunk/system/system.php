@@ -74,8 +74,8 @@ class mSystem
 	{
 		foreach ($this->scripts as $key => $value)
 		{
-			if ($this->scripts[$key]->active)
-				$this->scripts[$key]->EventHandler($this, $response, $event, $arguments);
+			//if ($this->scripts[$key]->active)
+			$this->scripts[$key]->EventHandler($this, $response, $event, $arguments);
 		}
 
 		$response->addScript("endScript('$event');");

@@ -15,7 +15,8 @@ class sLinks extends Script
 			case "newlocation":
 			case "login":
 			case "logout":
-			$this->Draw($system, $response, $args);
+			if ($this->active)
+				$this->Draw($system, $response, $args);
 			break;
 		}
 	}

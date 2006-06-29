@@ -72,9 +72,8 @@ include(gettpl("big_title"));
 							</td>
 							<td class="right">
 								<?=ucf(i18n("icon"))?>:
-								<img id="<?=$language?>_icon_img" src="<?=geticon($newobject->getIcon())?>"/>
 								<input class="hidden" type="hidden" name="<?=$language?>_icon" id="icon"/>
-								<a href="javascript:void(null);" onclick="popWin=open('<?=gettpl_www("popups/iconbrowse")?>?input_id=<?=$language?>_icon&form_id=sEdit','PopUpWindow','width=500,height=400,scrollbars=1,status=0'); popWin.opener = self; popWin.focus(); popWin.moveTo(150,50); return false"><?=ucf(i18n("browse"))?></a>
+								<a href="javascript:void(null);" onclick="popWin=open('<?=gettpl_www("popups/iconbrowse")?>?input_id=<?=$language?>_icon&form_id=sEdit','PopUpWindow','width=500,height=400,scrollbars=1,status=0'); popWin.opener = self; popWin.focus(); popWin.moveTo(150,50); return false"><img id="<?=$language?>_icon_img" src="<?=geticon($newobject->getIcon())?>"/></a>
 							</td>
 						</tr>
 					</table>
