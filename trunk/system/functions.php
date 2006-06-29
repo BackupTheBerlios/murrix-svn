@@ -1,5 +1,26 @@
 <?
 
+function getAge($birthdate)
+{
+	list($byear, $bmonth, $bday) = explode("-", $birthdate);
+	$year = date("Y");
+	$month = date("m");
+	$day = date("d");
+	
+	if ($year > $byear)
+	{
+		if ($month >= $bmonth)
+		{
+			if ($day >= $bday)
+				return $year-$byear;
+		}
+		
+		return $year-$byear-1;
+	}
+	
+	return 0;
+}
+
 function splitArgs($args)
 {
 	$parts = explode(" ", $args);

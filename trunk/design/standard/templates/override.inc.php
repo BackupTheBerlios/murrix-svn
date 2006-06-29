@@ -7,6 +7,9 @@ $count++;
 $templates_override['show_line.php'][$count]['filename'] = "overrides/show_line/show_line-contact.php";
 $templates_override['show_line.php'][$count]['match']['class'] = "contact";
 
+$count++;
+$templates_override['show_line.php'][$count]['filename'] = "overrides/show_line/show_line-event.php";
+$templates_override['show_line.php'][$count]['match']['class'] = "event";
 
 
 

@@ -463,6 +463,7 @@ table.maintable td.middle .listwrapper table tfoot td
 table.maintable td.middle .listwrapper table tbody td
 {
 	padding: 5px;
+	vertical-align: top;
 }
 
 table.maintable td.middle .listwrapper table tbody .row

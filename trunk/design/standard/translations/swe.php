@@ -1,4 +1,19 @@
 <?
+$translation['emails'] = "emailadresser";
+$translation['birthday'] = "födelsedag";
+$translation['years old'] = "år gammal";
+$translation['camera type'] = "kameratyp";
+$translation['camera model'] = "kameramodell";
+$translation['camera brand'] = "kameramärke";
+$translation['image number'] = "bildnummer";
+$translation['filename'] = "filnamn";
+$translation['angle'] = "vinkel";
+$translation['geometry'] = "geometri";
+$translation['picture taken'] = "bilden tagen";
+$translation['this'] = "denna";
+$translation['next'] = "nästa";
+$translation['previous'] = "föregående";
+$translation['of'] = "av";
 $translation['reoccuring_weekly'] = "återkommande varje vecka";
 $translation['reoccuring_monthly'] = "återkommande varje månad";
 $translation['reoccuring_yearly'] = "återkommande varje år";

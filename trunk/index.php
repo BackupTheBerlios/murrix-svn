@@ -192,7 +192,7 @@ else if (isset($_GET['xml']) || isset($_POST['xml']))
 /* ========================= */
 // Set available linktyes
 /* ========================= */
-$link_types = array("sub" => "child", "data" => "related data", "parent" => "parent");
+$link_types = array("sub" => "sub", "data" => "data", "parent" => "parent", "birth" => "birth", "death" => "death");
 
 if (!isset($_SESSION['murrix']['default_theme']))
 	$_SESSION['murrix']['default_theme'] = getSetting("DEFAULT_THEME", "standard", "any");

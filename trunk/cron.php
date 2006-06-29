@@ -76,7 +76,7 @@ foreach ($files as $file)
 echo "\n";flush();
 
 $files = fetch("FETCH node WHERE property:class_name='file' NODESORTBY property:version");
-echo "Setting default metadata for file\n";flush();
+echo "Setting default metadata for files\n";flush();
 echo count($files)." files found\n";flush();
 
 foreach ($files as $file)
@@ -88,9 +88,7 @@ foreach ($files as $file)
 echo "\n";flush();
 
 
-$files = fetch("FETCH node WHERE property:class_name='file' NODESORTBY property:version");
-echo "Creating thumbnail for default sizes\n";flush();
-echo count($files)." files found\n";flush();
+echo "Creating thumbnail for default sizes for files of the type: image\n";flush();
 
 $count_small = 0;
 $count_big = 0;

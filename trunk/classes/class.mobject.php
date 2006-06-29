@@ -539,7 +539,7 @@ class mObject
 	{
 		global $db_prefix;
 
-		$query = "SELECT * FROM `".$db_prefix."links` WHERE (node_top = '$remote_id' AND node_bottom = '".$this->getNodeId()."') OR (node_bottom = '$remote_id' AND node_top = '".$this->getNodeId()."')";
+		$query = "SELECT * FROM `".$db_prefix."links` WHERE ((node_top = '$remote_id' AND node_bottom = '".$this->getNodeId()."') OR (node_bottom = '$remote_id' AND node_top = '".$this->getNodeId()."')) AND type = '$type'";
 		
 		if (!($result = mysql_query($query)))
 		{
@@ -550,14 +550,18 @@ class mObject
 		return (mysql_num_rows($result) > 0);
 	}
 
-	function getLinks($node_id = 0)
+	function getLinks($node_id = 0, $type = "")
 	{
 		global $db_prefix;
 
 		if ($node_id == 0)
 			$node_id = $this->node_id;
 		
-		$query = "SELECT id, type, IF(node_top = '$node_id', node_bottom, node_top) AS remote_id, IF(node_top = '$node_id', 'bottom', 'top') AS direction FROM `".$db_prefix."links` WHERE (node_top = '$node_id') OR (node_bottom = '$node_id') ORDER BY type";
+		if (!empty($type))
+			$type = "AND (type = '$type')";
+			
+		
+		$query = "SELECT id, type, IF(node_top = '$node_id', node_bottom, node_top) AS remote_id, IF(node_top = '$node_id', 'bottom', 'top') AS direction FROM `".$db_prefix."links` WHERE ((node_top = '$node_id') OR (node_bottom = '$node_id')) $type ORDER BY type";
 		
 		if (!($result = mysql_query($query)))
 		{

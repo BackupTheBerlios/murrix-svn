@@ -3,219 +3,228 @@
 		<td class="left">
 			<div class="main">
 				<div class="container">
-					<div style="float: right;">
-						<?=$object->getVarShow("thumbnail")?><br/>
-					</div>
-					<div style="float: left;">
-						<table class="contact_table_inner">
-							<?
-							$data = $object->getVarValue("fullname");
-							if (!empty($data)) {
-							?>
-							<tr>
-								<td class="left">
-									<?=ucf(i18n("fullname"))?>
-								</td>
-								<td>
-								</td>
-								<td class="right">
-									<?=$object->getVarShow("fullname")?>
-								</td>
-							</tr>
-							<?
-							}
-							$data = $object->getVarValue("gender");
-							if (!empty($data)) {
-							?>
-							<tr>
-								<td class="left">
-									<?=ucf(i18n("gender"))?>
-								</td>
-								<td>
-								</td>
-								<td class="right">
-									<?=ucf(i18n($object->getVarShow("gender")))?>
-								</td>
-							</tr>
-							<?
-							}
-							// Check event etc!!
-							$data = $object->getVarValue("birthday");
-							if (!empty($data)) {
-							?>
-							<tr>
-								<td class="left">
-									<?=ucf(i18n("age"))?>
-								</td>
-								<td>
-									<?=img(geticon("birthday"))?>
-								</td>
-								<td class="right">
-									AGE
-								</td>
-							</tr>
-							<?
-							}
-							$data = $object->getVarValue("mobilephones");
-							if (!empty($data)) {
-							?>
-							<tr>
-								<td class="left">
-									<?=ucf(i18n("mobilephones"))?>
-								</td>
-								<td>
-									<?=img(geticon("phone"))?>
-								</td>
-								<td class="right">
-									<?=$object->getVarShow("mobilephones")?>
-								</td>
-							</tr>
-							<?
-							}
-							$data = $object->getVarValue("homephones");
-							if (!empty($data)) {
-							?>
-							<tr>
-								<td class="left">
-									<?=ucf(i18n("homephones"))?>
-								</td>
-								<td>
-									<?=img(geticon("phone"))?>
-								</td>
-								<td class="right">
-									<?=$object->getVarShow("homephones")?>
-								</td>
-							</tr>
-							<?
-							}
-							$data = $object->getVarValue("workphones");
-							if (!empty($data)) {
-							?>
-							<tr>
-								<td class="left">
-									<?=ucf(i18n("workphones"))?>
-								</td>
-								<td>
-									<?=img(geticon("phone"))?>
-								</td>
-								<td class="right">
-									<?=$object->getVarShow("workphones")?>
-								</td>
-							</tr>
-							<?
-							}
-							$data = $object->getVarValue("emails");
-							if (!empty($data)) {
-							?>
-							<tr>
-								<td class="left">
-									<?=ucf(i18n("emails"))?>
-								</td>
-								<td>
-									<?=img(geticon("mail"))?>
-								</td>
-								<td class="right">
-									<?=$object->getVarShow("emails")?>
-								</td>
-							</tr>
-							<?
-							}
-							$data = $object->getVarValue("address");
-							if (!empty($data)) {
-							?>
-							<tr>
-								<td class="left">
-									<?=ucf(i18n("address"))?>
-								</td>
-								<td>
-									<?=img(geticon("mailaccount"))?>
-								</td>
-								<td class="right">
-									<?=$object->getVarShow("address")?>
-								</td>
-							</tr>
-							<?
-							}
-							$data = $object->getVarValue("icq");
-							if (!empty($data)) {
-							?>
-							<tr>
-								<td class="left">
-									<?=ucf(i18n("icq"))?>
-								</td>
-								<td>
-									<?=img(geticon("icq"))?>
-								</td>
-								<td class="right">
-									<?=$object->getVarShow("icq")?>
-								</td>
-							</tr>
-							<?
-							}
-							$data = $object->getVarValue("msn");
-							if (!empty($data)) {
-							?>
-							<tr>
-								<td class="left">
-									<?=ucf(i18n("msn"))?>
-								</td>
-								<td>
-									<?=img(geticon("msn"))?>
-								</td>
-								<td class="right">
-									<?=$object->getVarShow("msn")?>
-								</td>
-							</tr>
-							<?
-							}
-							$data = $object->getVarValue("skype");
-							if (!empty($data)) {
-							?>
-							<tr>
-								<td class="left">
-									<?=ucf(i18n("skype"))?>
-								</td>
-								<td>
-									<?=img(geticon("skype"))?>
-								</td>
-								<td class="right">
-									<?=$object->getVarShow("skype")?>
-								</td>
-							</tr>
-							<?
-							}
-							$data = $object->getVarValue("allergies");
-							if (!empty($data)) {
-							?>
-							<tr>
-								<td class="left">
-									<?=ucf(i18n("allergies"))?>
-								</td>
-								<td>
-								</td>
-								<td class="right">
-									<?=$object->getVarShow("allergies")?>
-								</td>
-							</tr>
-							<?
-							}
-							$data = $object->getVarValue("other");
-							if (!empty($data)) {
-							?>
-							<tr>
-								<td class="left">
-									<?=ucf(i18n("other"))?>
-								</td>
-								<td>
-								</td>
-								<td class="right">
-									<?=$object->getVarShow("other")?>
-								</td>
-							</tr>
-							<? } ?>
-						</table>
-					</div>
-					<div class="clear"></div>
+					<table width="100%" cellspacing="0">
+						<tr>
+							<td style="vertical-align: top;">
+								<table class="contact_table_inner">
+									<?
+									$data = $object->getVarValue("fullname");
+									if (!empty($data)) {
+									?>
+									<tr>
+										<td class="left">
+											<?=ucf(i18n("fullname"))?>
+										</td>
+										<td>
+										</td>
+										<td class="right">
+											<?=$object->getVarShow("fullname")?>
+										</td>
+									</tr>
+									<?
+									}
+									$data = $object->getVarValue("gender");
+									if (!empty($data)) {
+									?>
+									<tr>
+										<td class="left">
+											<?=ucf(i18n("gender"))?>
+										</td>
+										<td>
+										</td>
+										<td class="right">
+											<?=ucf(i18n($object->getVarShow("gender")))?>
+										</td>
+									</tr>
+									<?
+									}
+									// Check event etc!!
+									
+									$links = $object->getLinks(0, "birth");
+									
+									if (count($links) > 0)
+									{
+										$birth_event = new mObject($links[0]['remote_id']);
+										$date = $birth_event->getVarValue("date");
+									?>
+									<tr>
+										<td class="left">
+											<?=ucf(i18n("birthday"))?>
+										</td>
+										<td>
+											<?=img(geticon("birthday"))?>
+										</td>
+										<td class="right">
+											<?=$date?><br/>
+											<?=getAge($date)?> <?=i18n("years old")?>
+										</td>
+									</tr>
+									<?
+									}
+									$data = $object->getVarValue("mobilephones");
+									if (!empty($data)) {
+									?>
+									<tr>
+										<td class="left">
+											<?=ucf(i18n("mobilephones"))?>
+										</td>
+										<td>
+											<?=img(geticon("phone"))?>
+										</td>
+										<td class="right">
+											<?=$object->getVarShow("mobilephones")?>
+										</td>
+									</tr>
+									<?
+									}
+									$data = $object->getVarValue("homephones");
+									if (!empty($data)) {
+									?>
+									<tr>
+										<td class="left">
+											<?=ucf(i18n("homephones"))?>
+										</td>
+										<td>
+											<?=img(geticon("phone"))?>
+										</td>
+										<td class="right">
+											<?=$object->getVarShow("homephones")?>
+										</td>
+									</tr>
+									<?
+									}
+									$data = $object->getVarValue("workphones");
+									if (!empty($data)) {
+									?>
+									<tr>
+										<td class="left">
+											<?=ucf(i18n("workphones"))?>
+										</td>
+										<td>
+											<?=img(geticon("phone"))?>
+										</td>
+										<td class="right">
+											<?=$object->getVarShow("workphones")?>
+										</td>
+									</tr>
+									<?
+									}
+									$data = $object->getVarValue("emails");
+									if (!empty($data)) {
+									?>
+									<tr>
+										<td class="left">
+											<?=ucf(i18n("emails"))?>
+										</td>
+										<td>
+											<?=img(geticon("mail"))?>
+										</td>
+										<td class="right">
+											<?=$object->getVarShow("emails")?>
+										</td>
+									</tr>
+									<?
+									}
+									$data = $object->getVarValue("address");
+									if (!empty($data)) {
+									?>
+									<tr>
+										<td class="left">
+											<?=ucf(i18n("address"))?>
+										</td>
+										<td>
+											<?=img(geticon("mailaccount"))?>
+										</td>
+										<td class="right">
+											<?=$object->getVarShow("address")?>
+										</td>
+									</tr>
+									<?
+									}
+									$data = $object->getVarValue("icq");
+									if (!empty($data)) {
+									?>
+									<tr>
+										<td class="left">
+											<?=ucf(i18n("icq"))?>
+										</td>
+										<td>
+											<?=img(geticon("icq"))?>
+										</td>
+										<td class="right">
+											<?=$object->getVarShow("icq")?>
+										</td>
+									</tr>
+									<?
+									}
+									$data = $object->getVarValue("msn");
+									if (!empty($data)) {
+									?>
+									<tr>
+										<td class="left">
+											<?=ucf(i18n("msn"))?>
+										</td>
+										<td>
+											<?=img(geticon("msn"))?>
+										</td>
+										<td class="right">
+											<?=$object->getVarShow("msn")?>
+										</td>
+									</tr>
+									<?
+									}
+									$data = $object->getVarValue("skype");
+									if (!empty($data)) {
+									?>
+									<tr>
+										<td class="left">
+											<?=ucf(i18n("skype"))?>
+										</td>
+										<td>
+											<?=img(geticon("skype"))?>
+										</td>
+										<td class="right">
+											<?=$object->getVarShow("skype")?>
+										</td>
+									</tr>
+									<?
+									}
+									$data = $object->getVarValue("allergies");
+									if (!empty($data)) {
+									?>
+									<tr>
+										<td class="left">
+											<?=ucf(i18n("allergies"))?>
+										</td>
+										<td>
+										</td>
+										<td class="right">
+											<?=$object->getVarShow("allergies")?>
+										</td>
+									</tr>
+									<?
+									}
+									$data = $object->getVarValue("other");
+									if (!empty($data)) {
+									?>
+									<tr>
+										<td class="left">
+											<?=ucf(i18n("other"))?>
+										</td>
+										<td>
+										</td>
+										<td class="right">
+											<?=$object->getVarShow("other")?>
+										</td>
+									</tr>
+									<? } ?>
+								</table>
+							</td>
+							<td style="text-align: right; vertical-align: top;">
+								<?=$object->getVarShow("thumbnail")?>
+							</td>
+						</tr>
+					</table>
 				</div>
 			</div>
 		</td>
@@ -252,7 +261,12 @@
 								if ($mother === false)
 									echo ucf(i18n("unknown"));
 								else
-									echo cmd($mother->getName(), "exec=show&node_id=".$mother->getNodeId());
+								{
+									if ($mother->hasRight("read"))
+										echo cmd($mother->getName(), "exec=show&node_id=".$mother->getNodeId());
+									else
+										echo $mother->getName();
+								}
 								?>
 							</fieldset>
 						</td>
@@ -265,7 +279,12 @@
 								if ($father === false)
 									echo ucf(i18n("unknown"));
 								else
-									echo cmd($father->getName(), "exec=show&node_id=".$father->getNodeId());
+								{
+									if ($father->hasRight("read"))
+										echo cmd($father->getName(), "exec=show&node_id=".$father->getNodeId());
+									else
+										echo $father->getName();
+								}
 								?>
 							</fieldset>
 						</td>
@@ -289,7 +308,12 @@
 								else
 								{
 									foreach ($children as $child)
-										echo cmd($child->getName(), "exec=show&node_id=".$child->getNodeId())."<br/>";
+									{
+										if ($child->hasRight("read"))
+											echo cmd($child->getName(), "exec=show&node_id=".$child->getNodeId())."<br/>";
+										else
+											echo $child->getName();
+									}
 								}
 								?>
 							</fieldset>

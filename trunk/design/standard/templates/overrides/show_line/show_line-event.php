@@ -42,7 +42,14 @@
 		</div>
 
 		<div class="show_line_main_bottom">
-			<? if ($read_right) { echo $child->getVarShow("description"); } ?>
+		<?
+			if ($read_right)
+			{
+				echo $child->getVarShow("date")." ".$child->getVarShow("time");
+				echo "<br/>";
+				echo $child->getVarShow("description");
+			}
+		?>
 		</div>
 	</div>
 

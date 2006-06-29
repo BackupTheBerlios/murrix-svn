@@ -25,24 +25,26 @@ include(gettpl("big_title"));
 			foreach ($calendars as $name => $list)
 			{
 			?>
-				<fieldset>
-					<legend>
-						<?=ucf($name)?>
-					</legend>
-					<?
-					foreach ($list as $item)
-					{
+				<div class="container">
+					<fieldset>
+						<legend>
+							<?=ucf($name)?>
+						</legend>
+						<?
+						foreach ($list as $item)
+						{
+						?>
+							<div onclick="document.getElementById('calendar<?=$item->getNodeId()?>').checked=!document.getElementById('calendar<?=$item->getNodeId()?>').checked;Exec('calendar',Hash('toggle','<?=$item->getNodeId()?>'))" style="cursor: pointer; margin-bottom: 2px;">
+								<div style="float: right; background-color: <?=$item->color?>; width: 22px; height: 22px;"></div>
+							
+							
+								<input onclick="document.getElementById('calendar<?=$item->getNodeId()?>').checked=!document.getElementById('calendar<?=$item->getNodeId()?>').checked;Exec('calendar',Hash('toggle','<?=$item->getNodeId()?>'))" id="calendar<?=$item->getNodeId()?>" class="input" type="checkbox" <?=($item->active ? "checked" : "")?>/><?=img(geticon($item->getIcon()))?> <?=ucf($item->getName())?>
+							</div>
+						<?
+						}
 					?>
-						<div onclick="document.getElementById('calendar<?=$item->getNodeId()?>').checked=!document.getElementById('calendar<?=$item->getNodeId()?>').checked;Exec('calendar',Hash('toggle','<?=$item->getNodeId()?>'))" style="cursor: pointer; margin-bottom: 2px;">
-							<div style="float: right; background-color: <?=$item->color?>; width: 22px; height: 22px;"></div>
-						
-						
-							<input onclick="document.getElementById('calendar<?=$item->getNodeId()?>').checked=!document.getElementById('calendar<?=$item->getNodeId()?>').checked;Exec('calendar',Hash('toggle','<?=$item->getNodeId()?>'))" id="calendar<?=$item->getNodeId()?>" class="input" type="checkbox" <?=($item->active ? "checked" : "")?>/><?=img(geticon($item->getIcon()))?> <?=ucf($item->getName())?>
-						</div>
-					<?
-					}
-				?>
-				</fieldset>
+					</fieldset>
+				</div>
 			<?
 			}
 		?>
