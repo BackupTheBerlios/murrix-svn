@@ -1,6 +1,7 @@
 <?
 
 list($abspath) = explode("/design/", getcwd());
+$wwwpath = "";
 
 require_once("$abspath/config.inc.php");
 
@@ -28,9 +29,11 @@ $root_id = getSetting("ROOT_NODE_ID", 1, "any");
 $anonymous_id = getSetting("ANONYMOUS_ID", 1, "any");
 
 if (!isset($_GET['path']))
-	$path = "/root";
+	$path = empty($_SESSION['murrix']['node_browse_last']) ? "/root" : $_SESSION['murrix']['node_browse_last'];
 else
 	$path = urldecode($_GET['path']);
+	
+$_SESSION['murrix']['node_browse_last'] = $path;
 
 $object = new mObject(getNode($path));
 
@@ -49,86 +52,79 @@ if (!$object->hasRight("read"))
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
 		
 		<link rel="shortcut icon" href="<?=geticon("murrix")?>" type="image/x-icon"/>
-		<?
-		$js = getcss();
-		for ($i = 0; $i < count($js); $i++)
-			echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$js[$i]."\"/>\n";
-		?>
+			
+		<link rel="stylesheet" type="text/css" href="<?="$wwwpath/design/".$_SESSION['murrix']['theme']."/stylesheets/nodebrowse.css"?>"/>
 	</head>
 	
 	<body>
-		<div class="main">
-			<div class="container">
+		<?
+			$left = img(geticon($object->getIcon()))." ".$object->getName();
+			$right = $object->getNodeId();
+			$center = "";
+			include(gettpl("big_title"));
+			?>
+			<div class="main">
+				<form action="<?=$_SERVER["SCRIPT_NAME"]?>" method="get" name="resolveForm">
+					<?
+					if (isset($_GET['input_id']))
+					{
+						?><input class="hidden" type="hidden" name="input_id" value="<?=$_GET['input_id']?>"/><?
+					}
+
+					if (isset($_GET['input_path_id']))
+					{
+						?><input class="hidden" type="hidden" name="input_path_id" value="<?=$_GET['input_path_id']?>"/><?
+					}
+					?>
+					<input class="hidden" type="hidden" name="form_id" value="<?=$_GET['form_id']?>"/>
+					<input class="input" name="path" type="text" value="<?=urldecode($path)?>"/>
+					<input class="submit" name="submit" type="submit" value="<?=ucf(i18n("resolve"))?>"/>
+				</form>
+			</div>
 			<?
-				$left = img(geticon($object->getIcon()))." ".$object->getName();
-				$right = $object->getNodeId();
-				$center = "";
-				include(gettpl("big_title"));
+			$node_id = $object->getNodeId();
+
+			$parent_path = GetParentPath($object->getPath());
+			$parent_id = getNode($parent_path);
+
+			if ($parent_id > 0 && $parent_id != $node_id)
+			{
+				$parent = new mObject($parent_id);
 				?>
 				<div class="main">
-					<form action="<?=$_SERVER["SCRIPT_NAME"]?>" method="get" name="resolveForm">
-						<?
-						if (isset($_GET['input_id']))
-						{
-							?><input class="hidden" type="hidden" name="input_id" value="<?=$_GET['input_id']?>"/><?
-						}
-
-						if (isset($_GET['input_path_id']))
-						{
-							?><input class="hidden" type="hidden" name="input_path_id" value="<?=$_GET['input_path_id']?>"/><?
-						}
-						?>
-						<input class="hidden" type="hidden" name="form_id" value="<?=$_GET['form_id']?>"/>
-						<input class="form" name="path" type="text" value="<?=urldecode($path)?>"/>
-						<input class="submit" name="submit" type="submit" value="<?=ucf(i18n("resolve"))?>"/>
-					</form>
-				</div>
 				<?
-				$node_id = $object->getNodeId();
+					echo "<a href=\"".$_SERVER["REQUEST_URI"]."&path=".urlencode($parent_path)."\">".img(geticon($parent->getIcon()))." <strong>".ucf(i18n("up one level"))."</strong></a>";
+				?>
+				</div>
+			<?
+			}
 
-				$parent_path = GetParentPath($object->getPath());
-				$parent_id = resolvePath($parent_path);
+			$children = fetch("FETCH node WHERE link:node_top='$node_id' AND link:type='sub' NODESORTBY property:version SORTBY property:name");
 
-				if ($parent_id > 0 && $parent_id != $node_id)
+			if (count($children) > 0)
+			{
+				foreach ($children as $child)
 				{
-					$parent = new mObject($parent_id);
-					?>
+				?>
 					<div class="main">
 					<?
-						echo "<a href=\"".$_SERVER["REQUEST_URI"]."&path=".urlencode($parent_path)."\">".img(geticon($parent->getIcon()))." <strong>".ucf(i18n("up one level"))."</strong></a>";
+						echo "<a href=\"".$_SERVER["REQUEST_URI"]."&path=".urlencode($child->getPath())."\">".img(geticon($child->getIcon()))." ".$child->getName()."</a>";
 					?>
 					</div>
 				<?
 				}
+			}
+			?>
+			<center>
+			<?
+				$js = "";
+				if (isset($_GET['input_id']))
+					$js .= "opener.document.getElementById('".$_GET['input_id']."').value='".$object->getNodeId()."';";
 
-				$children = fetch("FETCH node WHERE link:node_top='$node_id' AND link:type='sub' NODESORTBY property:version SORTBY property:name");
-
-				if (count($children) > 0)
-				{
-					foreach ($children as $child)
-					{
-					?>
-						<div class="main">
-						<?
-							echo "<a href=\"".$_SERVER["REQUEST_URI"]."&path=".urlencode($child->getPath())."\">".img(geticon($child->getIcon()))." ".$child->getName()."</a>";
-						?>
-						</div>
-					<?
-					}
-				}
+				if (isset($_GET['input_path_id']))
+					$js .= "opener.document.getElementById('".$_GET['input_path_id']."').value='$path';";
 				?>
-				<center>
-				<?
-					$js = "";
-					if (isset($_GET['input_id']))
-						$js .= "opener.document.getElementById('".$_GET['input_id']."').value='".$object->getNodeId()."';";
-
-					if (isset($_GET['input_path_id']))
-						$js .= "opener.document.getElementById('".$_GET['input_path_id']."').value='$path';";
-					?>
-					<input type="button" class="submit" onclick="<?=$js?>;parent.window.close();" value="<?=ucf(i18n("select"))?>"/>
-				</center>
-			</div>
-		</div>
+				<input type="button" class="submit" onclick="<?=$js?>;parent.window.close();" value="<?=ucf(i18n("select"))?>"/>
+			</center>
 	</body>
 </html>
