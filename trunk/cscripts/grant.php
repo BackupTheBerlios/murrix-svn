@@ -37,7 +37,7 @@ class csGrant extends CScript
 				else
 				{
 					$r = trim($object->getRights());
-					$org_rights_parts = explode(",", );
+					$org_rights_parts = explode(",", $r);
 					list($name, $right) = explode("=", $rights);
 					$new_rights = array();
 					foreach ($org_rights_parts as $orp)
@@ -76,7 +76,7 @@ class csGrant extends CScript
 			$stderr .=  ucf(i18n("not enough rights to change ownership on"))." ".$object->getPathInTree()."\n";
 	
 		$r = trim($object->getRights());
-		$org_rights_parts = explode(",", );
+		$org_rights_parts = explode(",", $r);
 		list($name, $right) = explode("=", $rights);
 		$new_rights = array();
 		foreach ($org_rights_parts as $orp)
