@@ -84,7 +84,7 @@ $anonymous_id = getSetting("ANONYMOUS_ID", 1, "any");
 					
 						$base_new = "$base/$val";
 	
-						$node_id = resolvePath($base_new);
+						$node_id = getNode($base_new);
 						if ($node_id > 0)
 						{
 							$base = $base_new;
@@ -108,10 +108,10 @@ $anonymous_id = getSetting("ANONYMOUS_ID", 1, "any");
 	
 						if ($object->save())
 						{
-							$parent = new mObject(getNode($base));
-							$object->linkWithNode($parent->getNodeId());
+							$parent_new = new mObject(getNode($base));
+							$object->linkWithNode($parent_new->getNodeId());
 							echo "Created file_folder ". $object->getPath()."<br/>";flush();
-							clearNodeFileCache($parent->getNodeId());
+							clearNodeFileCache($parent_new->getNodeId());
 						}
 						else
 						{
@@ -122,7 +122,7 @@ $anonymous_id = getSetting("ANONYMOUS_ID", 1, "any");
 					}
 				}
 	
-				$parent = new mObject(getNode($parent_path));
+				$parent_new = new mObject(getNode($parent_path));
 	
 				$object = new mObject();
 				$object->setClassName("file");
@@ -136,14 +136,14 @@ $anonymous_id = getSetting("ANONYMOUS_ID", 1, "any");
 
 				$object->name = $name;
 				$object->language = $_SESSION['murrix']['language'];
-				$object->rights = $parent->getMeta("initial_rights", $parent->getRights());
+				$object->rights = $parent_new->getMeta("initial_rights", $parent_new->getRights());
 	
 				$object->setVarValue("file", trim($paths['basename']).":".$tempName);
 	
 				if ($object->save())
 				{
-					$object->linkWithNode($parent->getNodeId());
-					clearNodeFileCache($parent->getNodeId());
+					$object->linkWithNode($parent_new->getNodeId());
+					clearNodeFileCache($parent_new->getNodeId());
 					echo "Created file". $object->getPath()."<br/>";flush();
 					$count++;
 					$size += $file['size'];

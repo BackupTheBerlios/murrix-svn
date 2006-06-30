@@ -19,6 +19,7 @@ require_once("$abspath/system/fetch.php");
 require_once("$abspath/system/paths.php");
 require_once("$abspath/system/objectcache.php");
 require_once("$abspath/system/settings.php");
+require_once("$abspath/system/user.php");
 
 require_once("$abspath/session.php");
 
@@ -63,8 +64,10 @@ if (!$object->hasRight("read"))
 		$center = "";
 		include(gettpl("big_title"));
 		?>
-		<div class="container">
-			<?=$object->getPathInTree()?>
+		<div class="main">
+			<div class="container">
+				<?=$object->getPathInTree()?>
+			</div>
 		</div>
 		<div class="container">
 			<center>
