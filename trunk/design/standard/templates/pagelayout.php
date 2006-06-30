@@ -93,7 +93,13 @@
 					<div id="zone_menu">
 					<?
 						include(gettpl("menu"));
-						$_SESSION['murrix']['system']->makeActive("zone", array("zone_menu" => "menu"));
+						$_SESSION['murrix']['system']->makeActive(	"zone", 
+												array("zone_menu" => array(	
+															"template" => "menu",
+															"events" => array(
+																	"login",
+																	"logout",
+																	"newlang"))));
 					?>
 					</div>
 				</td>
@@ -150,6 +156,16 @@
 					<?
 						include(gettpl("scripts/poll/view"));
 						$_SESSION['murrix']['system']->makeActive("poll");
+					?>
+					</div>
+					
+					<div id="zone_info">
+					<?
+						include(gettpl("info"));
+						$_SESSION['murrix']['system']->makeActive(	"zone", 
+												array("zone_info" => array(	
+															"template" => "info",
+															"events" => "poll")));
 					?>
 					</div>
 				</td>

@@ -119,6 +119,8 @@ function OnLoadHandler()
 	default_command = init();
 	last_command = "";
 	poll_intervall = setInterval("Poll()", 600);
+	
+	setInterval("xajax_TriggerEvent('poll','')", 5000);
 }
 
 function Hash()

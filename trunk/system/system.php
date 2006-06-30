@@ -65,6 +65,9 @@ class mSystem
 	
 	function TriggerEvent($event, $arguments = null)
 	{
+		if (empty($arguments) || $arguments == null || !isset($arguments))
+                        $arguments = array();
+	
 		$response = new xajaxResponse();
 		$this->TriggerEventIntern($response, $event, utf8d($arguments));
 		return $response->getXML();

@@ -7,6 +7,7 @@ CREATE TABLE `%PREFIX%users` (
   `home_id` int(11) unsigned NOT NULL default '0',
   `groups` varchar(100) NOT NULL default '',
   `last_login` datetime NOT NULL default '0000-00-00 00:00:00',
+  `last_active` datetime NOT NULL default '0000-00-00 00:00:00',
   `created` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`id`),
   KEY `username` (`username`)

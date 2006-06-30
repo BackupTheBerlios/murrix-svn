@@ -53,6 +53,31 @@ function realLogout()
 	return true;
 }
 
+function getActiveUsers()
+{
+	global $anonymous_id;
+	$user = new mUser();
+	$users = $user->getList();
+	
+	$active_users = array();
+	foreach ($users as $user)
+	{
+		if ($user->id == $anonymous_id)
+			continue;
+			
+		if (strtotime($user->last_active) + 10 > time())
+			$active_users[] = $user;
+	}
+	
+	return $active_users;
+}
+
+function updateActive()
+{
+	$_SESSION['murrix']['user']->last_active = date("Y-m-d H:i:s");
+	$_SESSION['murrix']['user']->save();
+}
+
 function changePassword($user_node_id, $password)
 {
 	$user = new mUser($user_node_id);

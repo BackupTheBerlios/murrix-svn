@@ -3,6 +3,7 @@
 class sZone extends Script
 {
 	var $zones;
+	var $events;
 	
 	function sZone()
 	{
@@ -11,21 +12,40 @@ class sZone extends Script
 	
 	function EventHandler(&$system, &$response, $event, $args)
 	{
-		switch ($event)
+		if (is_array($this->events[$event]))
 		{
-			case "newlang":
-			case "login":
-			case "logout":
-			if ($this->active)
-				$this->Draw($system, $response, $args);
-			break;
+			foreach ($this->events[$event] as $key)
+				$response->addAssign($key, "innerHTML", utf8e(compiletpl($this->zones[$key], array())));
 		}
 	}
 
 	function onActive($arguments)
 	{
 		foreach ($arguments as $key => $value)
-			$this->zones[$key] = $value;
+		{
+			
+			$this->zones[$key] = $value['template'];
+			
+			if (is_array($value['events']))
+			{
+				foreach ($value['events'] as $event)
+				{
+					if (!is_array($this->events[$event]))
+						$this->events[$event] = array($key);
+					else
+						$this->events[$event][] = $key;
+				}
+			}
+			else
+			{
+				if (!is_array($this->events[$value['events']]))
+					$this->events[$value['events']] = array($key);
+				else
+					$this->events[$value['events']][] = $key;
+			}
+		}
+			
+		parent::onActive($arguments);
 	}
 	
 	function Draw(&$system, &$response, $args)

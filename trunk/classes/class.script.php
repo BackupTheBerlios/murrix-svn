@@ -11,6 +11,7 @@ class Script
 
 	function onActive($arguments)
 	{
+		$this->active = true;
 	}
 
 	function EventHandler(&$system, &$response, $event, $args)

@@ -116,7 +116,7 @@ $anonymous_id = $_SESSION['murrix']['anonymous_id'];
 if (!isset($_SESSION['murrix']['user']))
 	$_SESSION['murrix']['user'] = new mUser($anonymous_id);
 
-
+updateActive();
 /* ========================= */
 // Handle files and thumbnails
 /* ========================= */
