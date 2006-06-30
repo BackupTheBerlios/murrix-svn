@@ -79,10 +79,6 @@ class mXML
 				$object->user = $user->username;
 				unset($object->user_id);
 				
-				$group = $object->getGroup();
-				$object->group = $group->name;
-				unset($object->group_id);
-				
 				foreach ($object->vars as $key => $var)
 				{
 					unset($object->vars[$key]->object_id);

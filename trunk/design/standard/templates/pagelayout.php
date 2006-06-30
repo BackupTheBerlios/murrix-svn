@@ -37,20 +37,17 @@
 			function toggleSidebarContainer(itemName)
 			{
 				var containerObj = document.getElementById(itemName+'_container');
-				var rightObj = document.getElementById(itemName+'_right');
-				var leftObj = document.getElementById(itemName+'_left');
+				var arrowObj = document.getElementById(itemName+'_arrow');
 				
 				if (containerObj.style.display == 'none') // Show container
 				{
 					containerObj.style.display = 'block';
-					leftObj.src = '<?=imgpath("1downarrow.png")?>';
-					rightObj.src = '<?=imgpath("1downarrow.png")?>';
+					arrowObj.src = '<?=imgpath("1downarrow.png")?>';
 				}
 				else // Hide container
 				{
 					containerObj.style.display = 'none';
-					leftObj.src = '<?=imgpath("1uparrow.png")?>';
-					rightObj.src = '<?=imgpath("1uparrow.png")?>';
+					arrowObj.src = '<?=imgpath("1uparrow.png")?>';
 				}
 			}
 		// -->
@@ -120,8 +117,7 @@
 				</td>
 				<td class="sidebar">
 					<div class="title">
-						<a class="right" href="javascript:void(null)" onclick="toggleSidebarContainer('login')"><?=img(imgpath("1downarrow.png"), "", "", "login_right")?></a>
-						<a class="left" href="javascript:void(null)" onclick="toggleSidebarContainer('login')"><?=img(imgpath("1downarrow.png"), "", "", "login_left")?></a>
+						<a class="right" href="javascript:void(null)" onclick="toggleSidebarContainer('login')"><?=img(imgpath("1downarrow.png"), "", "", "login_arrow")?></a>
 						<?=ucf(i18n("login"))?>
 					</div>
 					<div id="login_container" class="container">
@@ -138,8 +134,7 @@
 					</div>
 					
 					<div class="title">
-						<a class="right" href="javascript:void(null)" onclick="toggleSidebarContainer('calendar')"><?=img(imgpath("1downarrow.png"), "", "", "calendar_right")?></a>
-						<a class="left" href="javascript:void(null)" onclick="toggleSidebarContainer('calendar')"><?=img(imgpath("1downarrow.png"), "", "", "calendar_left")?></a>
+						<a class="right" href="javascript:void(null)" onclick="toggleSidebarContainer('calendar')"><?=img(imgpath("1downarrow.png"), "", "", "calendar_arrow")?></a>
 						<?=cmd(ucf(i18n("calendar")), "exec=calendar", "sidebar")?>
 					</div>
 					<div id="calendar_container" class="container">

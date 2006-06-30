@@ -103,8 +103,7 @@ $anonymous_id = getSetting("ANONYMOUS_ID", 1, "any");
 			
 						$object->name = $val;
 						$object->language = $_SESSION['murrix']['language'];
-						$object->rights = $parent->getMeta("initial_rights", "rwcrwc---");
-						$object->group_id = $parent->getMeta("initial_group", $parent->getGroupId());
+						$object->rights = $parent->getMeta("initial_rights", $parent->getRights());
 	
 						if ($object->save())
 						{
@@ -136,8 +135,7 @@ $anonymous_id = getSetting("ANONYMOUS_ID", 1, "any");
 
 				$object->name = $name;
 				$object->language = $_SESSION['murrix']['language'];
-				$object->rights = $parent->getMeta("initial_rights", "rwcrwc---");
-				$object->group_id = $parent->getMeta("initial_group", $parent->getGroupId());
+				$object->rights = $parent->getMeta("initial_rights", $parent->getRights());
 	
 				$object->setVarValue("file", trim($paths['basename']).":".$tempName);
 	

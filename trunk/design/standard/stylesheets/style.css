@@ -131,12 +131,14 @@ table.maintable td.sidebar div.title
 table.maintable td.sidebar div.title a.left
 {
 	margin-right: 2px;
+	margin-top: -2px;
 	float: left;
 }
 
 table.maintable td.sidebar div.title a.right
 {
 	margin-right: 2px;
+	margin-top: -2px;
 	float: right;
 }
 

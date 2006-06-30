@@ -19,8 +19,7 @@ if ($polldir_id > 0)
 	{
 	?>
 		<div class="title">
-			<a class="right" href="javascript:void(null)" onclick="toggleSidebarContainer('polls')"><?=img(imgpath("1downarrow.png"), "", "", "polls_right")?></a>
-			<a class="left" href="javascript:void(null)" onclick="toggleSidebarContainer('polls')"><?=img(imgpath("1downarrow.png"), "", "", "polls_left")?></a>
+			<a class="right" href="javascript:void(null)" onclick="toggleSidebarContainer('polls')"><?=img(imgpath("1downarrow.png"), "", "", "polls_arrow")?></a>
 			<?=ucf(i18n("polls"))?>
 		</div>
 		<div id="polls_container" class="container">

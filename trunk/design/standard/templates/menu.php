@@ -2,8 +2,7 @@
 $class = "sidebar";
 ?>
 <div class="title">
-	<a class="right" href="javascript:void(null)" onclick="toggleSidebarContainer('menu')"><?=img(imgpath("1downarrow.png"), "", "", "menu_right")?></a>
-	<a class="left" href="javascript:void(null)" onclick="toggleSidebarContainer('menu')"><?=img(imgpath("1downarrow.png"), "", "", "menu_left")?></a>
+	<a class="right" href="javascript:void(null)" onclick="toggleSidebarContainer('menu')"><?=img(imgpath("1downarrow.png"), "", "", "menu_arrow")?></a>
 	<?=ucf(i18n("menu"))?>
 </div>
 <div id="menu_container" class="container">
@@ -21,11 +20,20 @@ $home_id = $_SESSION['murrix']['user']->home_id;
 if ($home_id > 0)
 {
 	$home = new mObject($home_id);
+	
+	$children = fetch("FETCH node WHERE link:node_top='$home_id' AND link:type='sub' AND !property:class_name='comment' NODESORTBY property:version SORTBY property:name");
+	
 	?>
 	<div class="title">
-		<a class="right" href="javascript:void(null)" onclick="toggleSidebarContainer('<?=$home_id?>')"><?=img(imgpath("1downarrow.png"), "", "", $home_id."_right")?></a>
-		<a class="left" href="javascript:void(null)" onclick="toggleSidebarContainer('<?=$home_id?>')"><?=img(imgpath("1downarrow.png"), "", "", $home_id."_left")?></a>
-		<?=cmd(ucf($home->getName()), "exec=show&node_id=$home_id", $class)?>
+	<?
+		if (count($children) > 0)
+		{
+		?>
+			<a class="right" href="javascript:void(null)" onclick="toggleSidebarContainer('<?=$home_id?>')"><?=img(imgpath("1downarrow.png"), "", "", $home_id."_arrow")?></a>
+		<?
+		}
+		echo cmd(ucf($home->getName()), "exec=show&node_id=$home_id", $class);
+	?>
 	</div>
 	<div id="<?=$home_id?>_container" class="container">
 	<?
@@ -56,8 +64,7 @@ foreach ($groups as $group_name)
 			if (count($children) > 0)
 			{
 			?>
-				<a class="right" href="javascript:void(null)" onclick="toggleSidebarContainer('<?=$home_id?>')"><?=img(imgpath("1downarrow.png"), "", "", $home_id."_right")?></a>
-				<a class="left" href="javascript:void(null)" onclick="toggleSidebarContainer('<?=$home_id?>')"><?=img(imgpath("1downarrow.png"), "", "", $home_id."_left")?></a>
+				<a class="right" href="javascript:void(null)" onclick="toggleSidebarContainer('<?=$home_id?>')"><?=img(imgpath("1downarrow.png"), "", "", $home_id."_arrow")?></a>
 			<?
 			}
 			echo cmd(ucf($home->getName()), "exec=show&node_id=$home_id", $class);

@@ -212,7 +212,7 @@ class sXML extends Script
 						if (isset($object_array['right']))
 							$object->rights = $object_array['rights'];
 						else
-							$object->rights = "rwcrwc---";
+							$object->rights = "";
 						
 						if (isset($object_array['user']))
 						{
@@ -222,19 +222,6 @@ class sXML extends Script
 						}
 						else
 							$object->user_id = $_SESSION['murrix']['user']->id;
-						
-						if (isset($object_array['group']))
-						{
-							$group = new mGroup();
-							$group->setByName($object_array['group']);
-							$object->group_id = $group->id;
-						}
-						else
-						{
-							$group = new mGroup();
-							$group->setByName("admins");
-							$object->group_id = $group->id;
-						}
 						
 						foreach ($object_array['vars'] as $key => $value)
 						{
