@@ -2,6 +2,8 @@
 
 function getObjectFromCache($object_id)
 {
+	if ($_SESSION['murrix']['objectcache']['disabled'] == true)
+		return false;
 	//if (isset($_SESSION['murrix']['objectcache'][$object_id]))
 	//	return $_SESSION['murrix']['objectcache'][$object_id];
 
@@ -28,6 +30,9 @@ function getObjectFromCache($object_id)
 
 function addObjectToCache($object)
 {
+	if ($_SESSION['murrix']['objectcache']['disabled'] == true)
+		return;
+
 	//$_SESSION['murrix']['objectcache'][$object->getId()] = $object;
 
 	global $abspath;

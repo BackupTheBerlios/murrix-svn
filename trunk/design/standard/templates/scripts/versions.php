@@ -17,7 +17,7 @@ foreach ($_SESSION['murrix']['languages'] as $language)
 	include(gettpl("medium_title"));
 
 	$versionlist = array();
-	$versionlist[] = array(ucf(i18n("version")), ucf(i18n("created")), ucf(i18n("class")), ucf(i18n("name")), ucf(i18n("user")), ucf(i18n("group")), ucf(i18n("rights")), "&nbsp;");
+	$versionlist[] = array(ucf(i18n("version")), ucf(i18n("created")), ucf(i18n("class")), ucf(i18n("name")), ucf(i18n("user")), ucf(i18n("rights")), "&nbsp;");
 	foreach ($versions as $version)
 	{
 		$user = $version->getUser();
@@ -26,12 +26,6 @@ foreach ($_SESSION['murrix']['languages'] as $language)
 		else
 			$user = $user->name;
 			
-		$group = $version->getGroup();
-		if ($group->id == 0)
-			$group = ucf(i18n("unknown"));
-		else
-			$group = $group->name;
-
 		$edit = "";
 		if ($object->hasRight("write"))
 		{
@@ -47,7 +41,7 @@ foreach ($_SESSION['murrix']['languages'] as $language)
 		else
 			$delete = "";
 		
-		$versionlist[] = array($version->getVersion(), $version->getCreated(),  $version->getClassName(), $version->getName(), $user, $group, $version->getRights(), $edit);
+		$versionlist[] = array($version->getVersion(), $version->getCreated(),  $version->getClassName(), $version->getName(), $user, $version->getRights(), $edit);
 	}
 	
 	table($versionlist, "% ".i18n("rows"));
