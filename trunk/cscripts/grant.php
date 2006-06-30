@@ -36,14 +36,15 @@ class csGrant extends CScript
 				}
 				else
 				{
-					$org_rights_parts = explode(",", $object->getRights());
+					$r = trim($object->getRights());
+					$org_rights_parts = explode(",", );
 					list($name, $right) = explode("=", $rights);
 					$new_rights = array();
 					foreach ($org_rights_parts as $orp)
 					{
 						list($groupname, $grouprights) = explode("=", $orp);
 						
-						if ($name != $groupname)
+						if ($name != $groupname && !empty($groupname))
 							$new_rights[] = "$groupname=$grouprights";
 					}
 					if (!empty($right))
@@ -74,14 +75,15 @@ class csGrant extends CScript
 		if (!(isAdmin() || $object->hasRight("write")))
 			$stderr .=  ucf(i18n("not enough rights to change ownership on"))." ".$object->getPathInTree()."\n";
 	
-		$org_rights_parts = explode(",", $object->getRights());
+		$r = trim($object->getRights());
+		$org_rights_parts = explode(",", );
 		list($name, $right) = explode("=", $rights);
 		$new_rights = array();
 		foreach ($org_rights_parts as $orp)
 		{
 			list($groupname, $grouprights) = explode("=", $orp);
 			
-			if ($name != $groupname)
+			if ($name != $groupname && !empty($groupname))
 				$new_rights[] = "$groupname=$grouprights";
 		}
 		if (!empty($right))
