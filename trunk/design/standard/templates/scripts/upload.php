@@ -8,7 +8,7 @@ $left = img(geticon("attach"))."&nbsp;".ucf(i18n("upload"));
 $right = $center = "";
 include(gettpl("big_title"));
 
-global $wwwpath;
+global $wwwpath, $abspath;
 
 ?>
 <div class="main">
@@ -61,3 +61,40 @@ global $wwwpath;
 		</comment>
 	</object>
 </div>
+<?
+$left = ucf(i18n("upload folder"));
+$right = $center = "";
+include(gettpl("medium_title", $object));
+
+$subitems = GetSubfilesAndSubfolders("$abspath/upload");
+
+if (count($subitems) > 0)
+{
+	$itemlist = array();
+	$itemlist[] = array(ucf(i18n("name")));
+	
+	foreach ($subitems as $subitem)
+		$itemlist[] = array($subitem);
+		
+	table($itemlist, "% ".i18n("rows"));
+	
+	?>
+	<div class="main">
+		<div class="container">
+			<?=cmd(ucf(i18n("upload all")), "exec=upload&action=upload&node_id=".$object->getNodeId())?>
+			<div id="zone_upload_logg"></div>
+		</div>
+	</div>
+<?
+}
+else
+{
+?>
+	<div class="main">
+		<div class="container">
+			<?=ucf(i18n("upload folder is empty"))?>
+		</div>
+	</div>
+<?
+}
+?>

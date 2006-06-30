@@ -1,4 +1,8 @@
 <?
+$translation['upload folder'] = "uploadkatalog";
+$translation['upload folder is empty'] = "uploadkatalogen är tom";
+$translation['upload all'] = "ladda upp alla";
+$translation['logged in user(s)'] = "användare inloggad(e)";
 $translation['emails'] = "emailadresser";
 $translation['birthday'] = "födelsedag";
 $translation['years old'] = "år gammal";

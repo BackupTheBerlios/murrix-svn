@@ -1,5 +1,31 @@
 <?
 
+function createObject($parent, $name, $class = "folder", $values = null)
+{
+	$object = new mObject();
+	$object->setClassName($class);
+	$object->loadVars();
+
+	$object->name = $name;
+	$object->language = $_SESSION['murrix']['language'];
+	$object->rights = $parent->getMeta("initial_rights", $parent->getRights());
+	
+	if (is_array($values))
+	{
+		foreach ($values as $key => $value)
+			$object->setVarValue($key, $value);
+	}
+
+	if ($object->save())
+	{
+		$object->linkWithNode($parent->getNodeId());
+		clearNodeFileCache($parent->getNodeId());
+		return $object->getNodeId();
+	}
+	
+	return false;
+}
+
 function getAge($birthdate)
 {
 	list($byear, $bmonth, $bday) = explode("-", $birthdate);
@@ -284,6 +310,30 @@ function GetSubfiles($dir)
 	while (false !== ($filename = readdir($dh)))
 	{
 		if (!is_dir("$dir/$filename") && $filename[0] != ".")
+			$files[] = $filename;
+	}
+
+	closedir($dh);
+	
+	if (count($files) > 0)
+	{
+		natcasesort($files);
+		$files = array_values($files);
+	}
+
+	return $files;
+}
+
+function GetSubfilesAndSubfolders($dir)
+{
+	$files = array();
+	if (!file_exists($dir))
+		return $files;
+
+	$dh = opendir($dir);
+	while (false !== ($filename = readdir($dh)))
+	{
+		if ($filename[0] != ".")
 			$files[] = $filename;
 	}
 

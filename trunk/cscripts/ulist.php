@@ -21,6 +21,7 @@ class csUlist extends CScript
 				$stdout .= "<td>Groups</td>";
 				$stdout .= "<td>Created</td>";
 				$stdout .= "<td>Last login</td>";
+				$stdout .= "<td>Last activity</td>";
 				$stdout .= "</tr>";
 				foreach ($users as $user)
 				{
@@ -39,10 +40,17 @@ class csUlist extends CScript
 						
 					$stdout .= "<td>".$user->groups."</td>";
 					$stdout .= "<td>".$user->created."</td>";
+					
 					if ($user->last_login == "0000-00-00 00:00:00")
 						$stdout .= "<td>Never</td>";
 					else
 						$stdout .= "<td>".$user->last_login."</td>";
+						
+					if ($user->last_active == "0000-00-00 00:00:00")
+						$stdout .= "<td>Never</td>";
+					else
+						$stdout .= "<td>".$user->last_active."</td>";
+						
 					$stdout .= "</tr>";
 				}
 				$stdout .= "</table>";

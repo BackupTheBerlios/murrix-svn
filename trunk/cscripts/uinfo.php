@@ -34,6 +34,11 @@ class csUinfo extends CScript
 			$stdout .= "Last login: Never";
 		else
 			$stdout .= "Last login: ".$user->last_login;
+			
+		if ($user->last_active == "0000-00-00 00:00:00")
+			$stdout .= "Last activity: Never";
+		else
+			$stdout .= "Last activity: ".$user->last_login;
 		
 		return true;
 	}
