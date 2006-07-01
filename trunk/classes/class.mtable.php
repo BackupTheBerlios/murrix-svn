@@ -89,6 +89,22 @@ class mTable
 		return true;
 	}
 	
+	function updateSingle($id, $key, $value)
+	{
+		global $db_prefix;
+		
+		$query = "UPDATE `".$db_prefix.$this->table."` SET `$key`='$value' WHERE `id` = '$id'";
+
+		$result = mysql_query($query);
+		if (!$result)
+		{
+			$this->error = "mTable::update: " . mysql_errno() . " " . mysql_error();
+			return false;
+		}
+		
+		return true;
+	}
+	
 	function remove($id)
 	{
 		global $db_prefix;

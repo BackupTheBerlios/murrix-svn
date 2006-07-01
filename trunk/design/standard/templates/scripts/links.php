@@ -16,9 +16,9 @@ if ($object->hasRight("write"))
 				<input name="action" class="hidden" type="hidden" value="newlink"/>
 				<input name="node_id" class="hidden" type="hidden" value="<?=$object->getNodeId()?>"/>
 				<input name="remote_node_id" id="remote_node_id" class="input" type="text" value=""/>
-				<a href="javascript:void(null);" onclick="popWin=open('<?=gettpl_www("popups/nodebrowse")?>?input_id=remote_node_id&form_id=linkForm','PopUpWindow','width=300,height=300,scrollbars=1,status=0'); popWin.opener = self; popWin.focus(); popWin.moveTo(150,50); return false"><?=ucf(i18n("browse"))?></a>
+				<a href="javascript:void(null);" onclick="popWin=open('<?=gettpl_www("popups/nodebrowse")?>?input_id=remote_node_id&form_id=linkForm','PopUpWindow','width=300,height=300,scrollbars=1,status=0'); popWin.opener = self; popWin.focus(); popWin.moveTo(150,50); return false">[<?=ucf(i18n("browse"))?>]</a>
 				
-				<?=i18n("as")?>
+				<?=i18n("type")?>
 				<select class="form" name="type">
 				<?
 					global $link_types;
@@ -28,7 +28,7 @@ if ($object->hasRight("write"))
 					}
 				?>
 				</select>
-				<input class="submit" type="submit" value="<?=ucf(i18n("link"))?>"/>
+				<input class="submit" type="submit" value="<?=ucf(i18n("create link"))?>"/>
 			</form>
 		</div>
 	</div>

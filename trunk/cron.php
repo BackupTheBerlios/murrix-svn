@@ -88,7 +88,7 @@ foreach ($files as $file)
 echo "\n";flush();
 
 
-echo "Creating thumbnail for default sizes for files of the type: image\n";flush();
+echo "Creating thumbnail for default sizes for all image files\n";flush();
 
 $count_small = 0;
 $count_big = 0;
@@ -110,28 +110,22 @@ foreach ($files as $file)
 		if (empty($angle))
 			$angle = GetFileAngle($filename);
 		
-		$start_time = time();
-		if (getThumbnail($value_id, $maxsize_big, 0, $angle) === false)
+		if (!checkThumbnailExists($value_id, $maxsize_big, 0))
 		{
-			echo "Failed to create thumbnail for $filename (Size $maxsize_big)\n";flush();
-		}
-		else
-		{
-			$count_big++;
-			$time = time()-$start_time;
-			echo "Successfully created thumbnail for $filename (Size $maxsize_big) Time: $time seconds\n";flush();
-			
 			$start_time = time();
-			if (getThumbnail($value_id, $maxsize_small, $maxsize_small, $angle) === false)
-			{
-				echo "Failed to create thumbnail for $filename (Size $maxsize_small)\n";flush();
-			}
-			else
-			{
-				$count_small++;
-				$time = time()-$start_time;
-				echo "Successfully created thumbnail for $filename (Size $maxsize_small) Time: $time seconds\n";flush();
-			}
+			getThumbnail($value_id, $maxsize_big, 0, $angle);
+			$time = time()-$start_time;
+			$count_big++;
+			echo "Successfully created thumbnail for $filename (Size $maxsize_big) Time: $time second(s)\n";flush();
+		}
+			
+		if (!checkThumbnailExists($value_id, $maxsize_small, $maxsize_small))
+		{
+			$start_time = time();
+			getThumbnail($value_id, $maxsize_small, $maxsize_small, $angle);
+			$time = time()-$start_time;
+			$count_small++;
+			echo "Successfully created thumbnail for $filename (NodeID ".$file->getNodeId().") (Size $maxsize_small) Time: $time second(s)\n";flush();
 		}
 	}
 }

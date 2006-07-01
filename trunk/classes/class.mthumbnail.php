@@ -297,6 +297,17 @@ class mThumbnail
 	}
 }
 
+function checkThumbnailExists($value_id, $maxwidth, $maxheight)
+{
+	global $db_prefix, $abspath;
+
+	$query = "SELECT * FROM `".$db_prefix."thumbnails` WHERE `value_id`='$value_id' AND (`width`='$maxwidth' OR `height`='$maxheight') LIMIT 1";
+
+	$result = mysql_query($query) or die("setBySize: " . mysql_errno() . " " . mysql_error());
+	
+	return (mysql_num_rows($result) > 0);
+}
+
 function getThumbnail($value_id, $maxwidth, $maxheight, $angle = 1000)
 {
 	$thumbnail = new mThumbnail();

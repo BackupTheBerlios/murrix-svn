@@ -1,3 +1,16 @@
+function checkUncheckAll(theElement)
+{
+	var theForm = theElement.form;
+	
+	for (var z = 0; z < theForm.length; z++)
+	{
+		if(theForm[z].type == 'checkbox')
+		{
+			theForm[z].checked = !theForm[z].checked;
+		}
+	}
+}
+
 function URLDecode(indata)
 {
 	// Replace + with ' '

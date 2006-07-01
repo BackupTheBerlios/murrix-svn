@@ -75,7 +75,7 @@ function getActiveUsers()
 function updateActive()
 {
 	$_SESSION['murrix']['user']->last_active = date("Y-m-d H:i:s");
-	$_SESSION['murrix']['user']->save();
+	$_SESSION['murrix']['user']->updateSingle($_SESSION['murrix']['user']->id, "last_active", $_SESSION['murrix']['user']->last_active);
 }
 
 function changePassword($user_node_id, $password)

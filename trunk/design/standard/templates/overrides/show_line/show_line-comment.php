@@ -30,7 +30,7 @@ if (!isset($com_count))
 		if ($child->hasRight("create"))
 		{
 			$admin .= "&nbsp;";
-			$admin .= cmd(img(geticon("comment"))."&nbsp;".ucf(i18n("answer")), "exec=new&node_id=".$child->getNodeId()."','class_name','comment'))");
+			$admin .= cmd(img(geticon("comment"))."&nbsp;".ucf(i18n("post answer")), "exec=new&node_id=".$child->getNodeId()."','class_name','comment'))");
 		}
 
 		echo $admin;
