@@ -106,7 +106,9 @@
 					$data .= "<img id=\"id{$thumbnail->id}\" class=\"image-border\" style=\"width: {$thumbnail->width}px; height: {$thumbnail->height}px;\" src=\"?thumbnail={$thumbnail->id}\"/>";
 					
 				$data .= "</div>";
-				$data .= "<a href=\"javascript:void(null);\" onclick=\"popWin=open('".gettpl_www("popups/regionmaker")."?node_id=".$object->getNodeId()."','PopUpWindow','width=".($thumbnail->width+50).",height=".($thumbnail->height+150).",scrollbars=0,status=0'); popWin.opener = self; popWin.focus(); popWin.moveTo(150,50); return false\">[".ucf(i18n("create region"))."]</a>";
+				
+				if ($object->hasRight("write"))
+					$data .= "<a href=\"javascript:void(null);\" onclick=\"popWin=open('".gettpl_www("popups/regionmaker")."?node_id=".$object->getNodeId()."','PopUpWindow','width=".($thumbnail->width+50).",height=".($thumbnail->height+150).",scrollbars=1,status=0'); popWin.opener = self; popWin.focus(); popWin.moveTo(150,50); return false\">[".ucf(i18n("create region"))."]</a>";
 			}
 			else
 				$data = img(geticon($type, 128));
