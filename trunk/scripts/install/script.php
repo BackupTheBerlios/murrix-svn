@@ -175,6 +175,7 @@ class sInstall extends Script
 				$list[] = array("name" => "poll_answer",	"default_icon" => "apply");
 				$list[] = array("name" => "news",		"default_icon" => "news");
 				$list[] = array("name" => "contact",		"default_icon" => "user");
+				$list[] = array("name" => "image_region",	"default_icon" => "murrix");
 				
 				$failed = false;
 				foreach ($list as $item)
@@ -249,6 +250,11 @@ $list[] = array("class_name" => "contact",	"name" => "msn",	"priority" => "110",
 $list[] = array("class_name" => "contact",	"name" => "skype",	"priority" => "120",	"type" => "textline");
 $list[] = array("class_name" => "contact",	"name" => "allergies",	"priority" => "130",	"type" => "array");
 $list[] = array("class_name" => "contact",	"name" => "other",	"priority" => "140",	"type" => "text");
+
+$list[] = array("class_name" => "image_region",	"name" => "params",	"priority" => "10",	"type" => "textline",	"required" => true,	"extra" => "X,Y,Width,Height");
+$list[] = array("class_name" => "image_region",	"name" => "text",	"priority" => "20",	"type" => "text");
+$list[] = array("class_name" => "image_region",	"name" => "image_width","priority" => "30",	"type" => "textline",	"required" => true);
+$list[] = array("class_name" => "image_region",	"name" => "image_height","priority" => "40",	"type" => "textline",	"required" => true);
 
 				$failed = false;
 				foreach ($list as $item)

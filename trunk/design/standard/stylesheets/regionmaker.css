@@ -1,0 +1,118 @@
+body.regionmaker
+{
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	background-color: #F9F9F9;
+	margin: 0;
+	padding: 0;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+body.regionmaker a
+{
+	color: #1a1a92;
+	text-decoration: none;
+}
+
+body.regionmaker a:hover, body.regionmaker a:active
+{
+	color: blue;
+}
+
+body.regionmaker .hidden
+{
+	display: none;
+	margin: 0;
+	padding: 0;
+}
+
+body.regionmaker img
+{
+	border: none;
+	vertical-align: text-bottom;
+}
+
+body.regionmaker .container
+{
+	margin-bottom: 5px;
+}
+
+body.regionmaker div.clear
+{
+	clear: both;
+}
+
+body.regionmaker textarea
+{
+	height: 48px;
+	border: 1px solid #DCD7FF;
+	padding: 1px;
+}
+
+body.regionmaker input.small_input
+{
+	margin: 0;
+	width: 30px;
+	border: 1px solid #DCD7FF;
+	padding: 1px;
+}
+
+body.regionmaker input.input
+{
+	border: 1px solid #DCD7FF;
+	padding: 1px;
+}
+
+body.regionmaker input.submit
+{
+	border: 1px solid #e1e4e8;
+	background-color: #ebedee;
+}
+
+body.regionmaker div.big_title
+{
+	border: 1px solid #e1e4e8;
+	border-width: 1px 0 1px 0;
+	background-color: #ebedee;
+	margin-bottom: 5px;
+	text-align: center;
+	padding: 2px 5px 2px 5px;
+	height: 24px;
+}
+
+body.regionmaker div.big_title div.left
+{
+	text-align: left;
+	font-size: 20px;
+	float: left;
+}
+
+body.regionmaker div.big_title div.right
+{
+	text-align: right;
+	float: right;
+	margin: 6px 0 6px 0;
+}
+
+body.regionmaker div.image_region
+{
+	background-image: url('/design/standard/images/50trans.png');
+	background-repeat: repeat;
+	font-weight: bold;
+	color: white;
+	font-size: 12px;
+	margin: 0;
+	padding: 0;
+}
+
+body.regionmaker div.image_region div.border
+{
+	overflow: auto;
+	border: 1px solid yellow;
+	height: 100%;
+}
+
+body.regionmaker div.image_region div.text
+{
+	padding: 2px;
+}

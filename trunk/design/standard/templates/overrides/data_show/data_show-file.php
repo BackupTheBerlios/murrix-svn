@@ -21,7 +21,7 @@
 				if ($n > 0)
 					$prev = $family[$n-1];
 					
-				if ($n < count($family)-2)
+				if ($n < count($family)-1)
 					$next = $family[$n+1];
 			
 				break;
@@ -38,15 +38,17 @@
 		
 		if ($type == "image")
 		{
-			$result = read_exif_data_raw($filename, 0);
+			//$result = read_exif_data_raw($filename, 0);
 			
-			$angle = $object->getMeta("angle");
+			$angle = $object->getMeta("angle", "");
 			
-			if (empty($angle))
-				$angle = GetFileAngle($filename);
+			$thumbnail = getThumbnail($value_id, $maxsize, 0, $angle);
 			
 			if ($object->hasRight("write"))
 			{
+				if ($angle == "")
+					$angle = 0;
+				
 				$angle_left = ($angle+90);
 				if ($angle_left < 0) $angle_left = 360+$angle_left;
 				else if ($angle_left > 360) $angle_left = 360-$angle_left;
@@ -64,16 +66,47 @@
 				$rotate_left = cmd(img(geticon("rotate_ccw")), "exec=show&node_id=".$object->getNodeId()."&meta=angle&value=$angle_left&rebuild_thumb=$value_id")." ";
 				
 				$rotate_right = cmd(img(geticon("rotate_cw")), "exec=show&node_id=".$object->getNodeId()."&meta=angle&value=$angle_right&rebuild_thumb=$value_id")." ";
-				
 			}
-			
-			$thumbnail = getThumbnail($value_id, $maxsize, 0, $angle);
 			
 			if ($thumbnail !== false)
 			{
 				$_SESSION['murrix']['rightcache']['thumbnail'][] = $thumbnail->id;
 				//$data = "<iframe style=\"margin: 0; padding: 0; border: 1px solid black;\" src=\"?thumbnail=$thumbnail->id\" class=\"image-border\" width=\"100%\" height=\"$thumbnail->height\"/>";
-				$data = $thumbnail->Show(true);
+				
+				$regions = fetch("FETCH node WHERE link:node_top='".$object->getNodeId()."' AND link:type='sub' AND property:class_name='image_region' NODESORTBY property:version SORTBY property:name");
+				
+				$rlist = array();
+				
+				foreach ($regions as $region)
+				{
+					$related = fetch("FETCH node WHERE link:node_id='".$region->getNodeId()."' AND link:type='data' NODESORTBY property:version SORTBY property:name");
+					
+					$text = $region->getVarValue("text");
+					if (!empty($text))
+						$text .= "<br/>";
+					
+					$cmdags = array("onmouseover" => "document.getElementById('region".$region->getNodeId()."').style.display='block';");
+					
+					foreach ($related as $rdata)
+						$text .= cmd(img(geticon($rdata->getIcon()))."&nbsp;".$rdata->getName(), "exec=show&node_id=".$rdata->getNodeId(), $cmdags);
+				
+					///FIXME: Check thumbnailsize and do conversion of coords if not matching region specified size!!!
+					list($x, $y, $w, $h) = explode(",", $region->getVarValue("params"));
+					$rlist[] = array("region".$region->getNodeId(), $x, $y, $w, $h, $text);
+				}
+				
+				$data = "<div style=\"text-align: left; overflow: hidden; width: {$thumbnail->width}px; height: {$thumbnail->height}px;\">";
+					
+				if (count($rlist) > 0)
+				{
+					$data .= "<img id=\"id{$thumbnail->id}\" class=\"image-border\" style=\"width: {$thumbnail->width}px; height: {$thumbnail->height}px;\" usemap=\"#map{$thumbnail->id}\" src=\"?thumbnail={$thumbnail->id}\"/>";
+					$data .= drawImageRegions($thumbnail->height, $thumbnail->width, "map".$thumbnail->id, $rlist);
+				}
+				else
+					$data .= "<img id=\"id{$thumbnail->id}\" class=\"image-border\" style=\"width: {$thumbnail->width}px; height: {$thumbnail->height}px;\" src=\"?thumbnail={$thumbnail->id}\"/>";
+					
+				$data .= "</div>";
+				$data .= "<a href=\"javascript:void(null);\" onclick=\"popWin=open('".gettpl_www("popups/regionmaker")."?node_id=".$object->getNodeId()."','PopUpWindow','width=".($thumbnail->width+50).",height=".($thumbnail->height+150).",scrollbars=0,status=0'); popWin.opener = self; popWin.focus(); popWin.moveTo(150,50); return false\">[".ucf(i18n("create region"))."]</a>";
 			}
 			else
 				$data = img(geticon($type, 128));
@@ -101,10 +134,12 @@
 			if ($next !== false) echo cmd(img(imgpath("right.png")), "exec=show&node_id=".$next->getNodeId());
 		?>
 		</div>
-		
-		<a target="top" href="?file=<?=$value_id?>"><?=$data?></a>
+		<?/*<a target="top" href="?file=<?=$value_id?>"><?=$data?></a>*/?>
 		
 		<?
+		
+		echo $data;
+		
 		$description = $object->getVarValue("description");
 		if (!empty($description))
 			echo "<br/>$description<br/>";
@@ -194,8 +229,6 @@
 <div class="main">
 	<center>
 	<?
-
-		
 		if ($next !== false || $prev !== false)
 		{
 		?>
@@ -203,7 +236,6 @@
 			<tr>
 				<? if ($prev !== false) { ?>
 				<td style="vertical-align: top; text-align: center;">
-					<div style="font-weight: bold; text-align: center;"><?=ucw(i18n("previous"))?></div>
 					<div class="show_item_wrapper">
 					<?
 						$child_bak = $child;
@@ -213,10 +245,10 @@
 						?>
 						<div class="clear"></div>
 					</div>
+					<div style="font-weight: bold; text-align: center;"><?=ucw(i18n("previous"))?></div>
 				</td>
 				<? } ?>
 				<td style="vertical-align: top; text-align: center;">
-					<div style="font-weight: bold; text-align: center;"><?=ucw(i18n("this"))?></div>
 					<div class="show_item_wrapper">
 					<?
 						$child_bak = $child;
@@ -227,12 +259,12 @@
 						$child = $child_bak;
 						?>
 						<div class="clear"></div>
-						<?=ucf(i18n("file"))." $n ".i18n("of")." ".count($family)?>
 					</div>
+					<div style="font-weight: bold; text-align: center;"><?=ucw(i18n("this"))?></div>
+					<?=ucf(i18n("file"))." $n ".i18n("of")." ".count($family)?>
 				</td>
 				<? if ($next !== false) { ?>
 				<td style="vertical-align: top; text-align: center;">
-					<div style="font-weight: bold; text-align: center;"><?=ucw(i18n("next"))?></div>
 					<div class="show_item_wrapper">
 					<?
 						$child_bak = $child;
@@ -242,6 +274,7 @@
 						?>
 						<div class="clear"></div>
 					</div>
+					<div style="font-weight: bold; text-align: center;"><?=ucw(i18n("next"))?></div>
 				</td>
 				<? } ?>
 			</tr>

@@ -6,20 +6,47 @@ function getSettings()
 	return $table->get();
 }
 
+function clearSettingsCache()
+{
+	unset($GLOBALS['cache']['settings']);
+}
+
+function fillSettingsCache()
+{
+	if (!isset($GLOBALS['cache']['settings']))
+	{
+		$table = new mTable("settings");
+		$settings = $table->get();
+		
+		if (count($settings) == 0)
+			$GLOBALS['cache']['settings'] = array();
+		else
+		{
+			foreach ($settings as $setting)
+				$GLOBALS['cache']['settings'][$setting['theme']][$setting['name']] = $setting['value'];
+		}
+	}
+}
+
 function getSetting($name, $default = "")
 {
-	$table = new mTable("settings");
+	fillSettingsCache();
 	
-	$settings = $table->get("`name`='$name' AND (`theme`='any' OR `theme`='".$_SESSION['murrix']['theme']."')");
-	
-	if (count($settings) == 0)
-		return $default;
+	$theme = $_SESSION['murrix']['theme'];
+
+	if (isset($GLOBALS['cache']['settings'][$theme][$name]))
+		return $GLOBALS['cache']['settings'][$theme][$name];
 		
-	return $settings[0]['value'];
+	if (isset($GLOBALS['cache']['settings']["any"][$name]))
+		return $GLOBALS['cache']['settings']["any"][$name];
+		
+	return $default;
 }
 
 function setSetting($name, $value, $theme = "")
 {
+	clearSettingsCache();
+	
 	$table = new mTable("settings");
 	
 	if (empty($theme))

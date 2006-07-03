@@ -9,11 +9,8 @@ $data = "";
 if ($type == "image")
 {
 	$maxsize = getSetting("THUMBSIZE", 150);
-	$angle = $child->getMeta("angle");
+	$angle = $child->getMeta("angle", "");
 	
-	if (empty($angle))
-		$angle = GetFileAngle($filename);
-		
 	$thumbnail = getThumbnail($value_id, $maxsize, $maxsize, $angle);
 	
 	$_SESSION['murrix']['rightcache']['thumbnail'][] = $thumbnail->id;

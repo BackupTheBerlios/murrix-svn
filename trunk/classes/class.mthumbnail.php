@@ -23,7 +23,7 @@ class mThumbnail
 		$this->SetByArray(mysql_fetch_array($result, MYSQL_ASSOC));
 	}
 	
-	function setBySize($value_id, $maxwidth, $maxheight, $angle = 1000)
+	function setBySize($value_id, $maxwidth, $maxheight, $angle = "")
 	{
 		global $db_prefix, $abspath;
 
@@ -53,7 +53,7 @@ class mThumbnail
 			$data = "";
 			if ($type == "image")
 			{
-				if ($angle == 1000)
+				if ($angle == "")
 					$angle = GetFileAngle($filename);
 	
 				if ($this->CreateFromFile($filename, $extension, $maxwidth, $maxheight, $angle))
@@ -308,7 +308,7 @@ function checkThumbnailExists($value_id, $maxwidth, $maxheight)
 	return (mysql_num_rows($result) > 0);
 }
 
-function getThumbnail($value_id, $maxwidth, $maxheight, $angle = 1000)
+function getThumbnail($value_id, $maxwidth, $maxheight, $angle = "")
 {
 	$thumbnail = new mThumbnail();
 	

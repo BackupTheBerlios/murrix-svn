@@ -1,5 +1,29 @@
 <?
 
+function drawImageRegions($imageheight, $imagewidth, $mapname, $array)
+{
+	ob_start();
+	
+	foreach ($array as $region)
+	{
+		list($id, $x, $y, $w, $h, $text) = $region;
+		?>
+		<div onmouseout="this.style.display='none';" onmouseover="this.style.display='block';" id="<?=$id?>" class="image_region" style="display: none;  left: <?=$x?>px; top: <?=($y-$imageheight-1)?>px; position: relative; width: <?=$w?>px; height: <?=$h?>px; z-index: 10;"><div class="border"><div id="inner_region" class="text"><?=$text?></div></div></div><?
+	}
+	
+	?><map name="<?=$mapname?>"><?
+	
+	foreach ($array as $region)
+	{
+		list($id, $x, $y, $w, $h) = $region;
+		?><area shape="RECT" coords="<?=$x?>,<?=$y+1?>,<?=($w+$x-1)?>,<?=($h+$y)?>" href="javascript:void(null)" onmouseover="document.getElementById('<?=$id?>').style.display='block';"/><?
+	}
+
+	?></map><?
+	
+	return ob_get_end();
+}
+
 function ucw($text)
 {
 	return ucwords($text);

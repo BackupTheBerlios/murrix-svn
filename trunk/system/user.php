@@ -65,7 +65,7 @@ function getActiveUsers()
 		if ($user->id == $anonymous_id)
 			continue;
 			
-		if (strtotime($user->last_active) + 10 > time())
+		if (strtotime($user->last_active) + 120 > time())
 			$active_users[] = $user;
 	}
 	

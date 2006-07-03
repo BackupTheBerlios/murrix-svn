@@ -540,7 +540,40 @@ table.maintable td.middle table.contact_table .family_tree_person
 	padding: 5px;
 }
 
+table.maintable td.middle div.image_region
+{
+	background-image: url('/design/standard/images/50trans.png');
+	background-repeat: repeat;
+	font-weight: bold;
+	color: white;
+	font-size: 12px;
+	margin: 0;
+	padding: 0;
+}
 
+table.maintable td.middle div.image_region div.border
+{
+	overflow: auto;
+	border: 1px solid yellow;
+	height: 100%;
+}
+
+table.maintable td.middle div.image_region div.text
+{
+	padding: 2px;
+}
+
+table.maintable td.middle div.image_region a
+{
+	display: block;
+	color: white;
+	text-decoration: none;
+}
+
+table.maintable td.middle div.image_region a:hover, table.maintable td.middle div.image_region a:active
+{
+	background-color: gray;
+}
 
 
 div.footer

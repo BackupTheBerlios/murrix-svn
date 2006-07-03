@@ -105,10 +105,7 @@ foreach ($files as $file)
 		$maxsize_big = getSetting("IMGSIZE", 640);
 		$maxsize_small = getSetting("THUMBSIZE", 150);
 		
-		$angle = $file->getMeta("angle");
-		
-		if (empty($angle))
-			$angle = GetFileAngle($filename);
+		$angle = $file->getMeta("angle", "");
 		
 		if (!checkThumbnailExists($value_id, $maxsize_big, 0))
 		{
