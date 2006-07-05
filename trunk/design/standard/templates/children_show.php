@@ -1,64 +1,18 @@
 <?
+$invert = $object->getMeta("sort_direction", "") == "asc" ? "!" : "";
+
+$children = fetch("FETCH node WHERE link:node_top='".$object->getNodeId()."' AND link:type='sub' AND !property:class_name='comment' AND !property:class_name='poll_answer' AND !property:class_name='image_region' NODESORTBY property:version SORTBY $invert".$object->getMeta("sort_by", "property:name"));
+
+$children = getReadable($children);
 
 if (count($children) > 0)
 {
+	$pagername = "children_show";
 	include(gettpl("pager_start", $object));
-
-	switch ($view_slected)
-	{
-		case "thumbnailes":
-		?>
-			<div class="show_item_wrapper">
-			<?
-				for ($i = $start; $i < $end; $i++)
-				{
-					$child = $children[$i];
-					include(gettpl("show_item", $child));
-				}
-				?>
-				<div class="clear"></div>
-			</div>
-			<?
-			break;
-
-		case "table":
-			$list = array();
-			$list[] = array(ucf(i18n("name")), ucf(i18n("description")));
-			for ($i = $start; $i < $end; $i++)
-			{
-				$child = $children[$i];
-
-				$read_right = $child->hasRight("read");
-				if ($read_right)
-					$name = cmd(img(geticon($child->getIcon()))." ".$child->getName(), "exec=show&node_id=".$child->getNodeId());
-				else
-					$name = img(geticon($child->getIcon()))." ".$child->getName();
-
-				$description = $read_right ? $child->getVarValue("description") : "";
-
-				/*$admin = "";
-				if ($child->hasRight("write"))
-				{
-					$admin .= cmd(img(geticon("edit")), "exec=edit&node_id=".$child->getNodeId());
-					$admin .= "&nbsp;";
-					$admin .= cmd(img(geticon("delete")), "exec=delete&node_id=".$child->getNodeId());
-				}
-				*/
-				$list[] = array($name, $description);
-			}
-
-			table($list, "% ".i18n("rows"));
-			break;
 	
-		case "list":
-		default:
-			for ($i = $start; $i < $end; $i++)
-			{
-				$child = $children[$i];
-				include(gettpl("show_line", $child));
-			}
-			break;
-	}
+	$view = $object->getMeta("view", "list");
+	
+	echo compiletpl("scripts/show/children-$view", array("start"=>$start, "end"=>$end, "objects"=>$children), $object);
 
 	include(gettpl("pager_end", $object));
 }

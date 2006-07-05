@@ -36,7 +36,7 @@ include(gettpl("big_title"));
 				<?=ucf(i18n("view"))?>
 				<select class="form" name="view">
 				<?
-					$viewlist = array("list" => "", "thumbnailes" => "thumbnailes", "table" => "table");
+					$viewlist = array("list" => "", "thumbnails" => "thumbnails", "table" => "table");
 					foreach ($viewlist as $key => $view)
 					{
 						$selected = "";

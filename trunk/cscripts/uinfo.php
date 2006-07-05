@@ -31,9 +31,9 @@ class csUinfo extends CScript
 			$stdout .= "Created: ".$user->created."\n";
 			
 		if ($user->last_login == "0000-00-00 00:00:00")
-			$stdout .= "Last login: Never";
+			$stdout .= "Last login: Never"."\n";
 		else
-			$stdout .= "Last login: ".$user->last_login;
+			$stdout .= "Last login: ".$user->last_login."\n";
 			
 		if ($user->last_active == "0000-00-00 00:00:00")
 			$stdout .= "Last activity: Never";

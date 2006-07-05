@@ -390,11 +390,11 @@ function gettpl_www($template, $object = null)
 	return gettpl_path($template, $object, $wwwpath);
 }
 
-function compiletpl($template, $args)
+function compiletpl($template, $args, $object = null)
 {
 	ob_start();
 	
-	include(gettpl($template));
+	include(gettpl($template, $object));
 
 	return ob_get_end();
 }

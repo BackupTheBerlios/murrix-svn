@@ -39,17 +39,17 @@ class csUlist extends CScript
 						$stdout .= "<td></td>";
 						
 					$stdout .= "<td>".$user->groups."</td>";
-					$stdout .= "<td>".$user->created."</td>";
+					$stdout .= "<td>".str_replace(" ", "&nbsp;", $user->created)."</td>";
 					
 					if ($user->last_login == "0000-00-00 00:00:00")
 						$stdout .= "<td>Never</td>";
 					else
-						$stdout .= "<td>".$user->last_login."</td>";
+						$stdout .= "<td>".str_replace(" ", "&nbsp;", $user->last_login)."</td>";
 						
 					if ($user->last_active == "0000-00-00 00:00:00")
 						$stdout .= "<td>Never</td>";
 					else
-						$stdout .= "<td>".$user->last_active."</td>";
+						$stdout .= "<td>".str_replace(" ", "&nbsp;", $user->last_active)."</td>";
 						
 					$stdout .= "</tr>";
 				}

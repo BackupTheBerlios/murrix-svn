@@ -1,5 +1,9 @@
 <?
-$translation['upload folder'] = "uploadkatalog";
+$translation['family tree'] = "släktträd";
+$translation['mother'] = "mamma";
+$translation['father'] = "pappa";
+$translation['children'] = "barn";
+$translation['none'] = "inga";
 $translation['upload folder is empty'] = "uploadkatalogen är tom";
 $translation['upload all'] = "ladda upp alla";
 $translation['logged in user(s)'] = "användare inloggad(e)";
