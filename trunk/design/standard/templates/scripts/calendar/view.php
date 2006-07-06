@@ -1,28 +1,25 @@
 <?
-$right = $center = "";
-$left = img(geticon("date"))."&nbsp;".ucf(i18n("calendar"));
-include(gettpl("big_title"));
+echo compiletpl("title/big", array("left"=>img(geticon("date"))."&nbsp;".ucf(i18n("calendar"))));
 ?>
 
 <table class="calendar_table" cellspacing="0">
 	<tr>
 		<td class="left">
-			<?
-			$firstday = strtotime(date("Y-m", strtotime($date))."-01");
+		<?
+			$firstday = strtotime(date("Y-m", strtotime($args['date']))."-01");
 			for ($p = 1; $p <= 3; $p++)
 			{
 			?>
 				<div class="container">
-					<?include(gettpl("scripts/calendar/small_month"))?>
+					<?=compiletpl("scripts/calendar/small_month", array("events"=>$args['events'],"firstday"=>$firstday))?>
 				</div>
 				<?
 				$firstday = strtotime("+$days_of_month days", $firstday);
 			}
-			$right = $center = "";
-			$left = ucf(i18n("calendars"));
-			include(gettpl("medium_title"));
 			
-			foreach ($calendars as $name => $list)
+			echo compiletpl("title/medium", array("left"=>ucf(i18n("calendars"))));
+			
+			foreach ($args['calendars'] as $name => $list)
 			{
 			?>
 				<div class="container">
@@ -53,44 +50,41 @@ include(gettpl("big_title"));
 			<div class="main">
 				<div class="container">
 					<?=ucf(i18n("view"))?>
-					[ <?=($view == "day" ? ucf(i18n("day")) : cmd(ucf(i18n("day")), "exec=calendar&view=day&date=$date"))?> ]
-					[ <?=($view == "week" ? ucf(i18n("week")) : cmd(ucf(i18n("week")), "exec=calendar&view=week&date=$date"))?> ]
-					[ <?=($view == "month" ? ucf(i18n("month")) : cmd(ucf(i18n("month")), "exec=calendar&view=month&date=$date"))?> ]
+					[ <?=($args['view'] == "day" ? ucf(i18n("day")) : cmd(ucf(i18n("day")), "exec=calendar&view=day&date=".$args['date']))?> ]
+					[ <?=($args['view'] == "week" ? ucf(i18n("week")) : cmd(ucf(i18n("week")), "exec=calendar&view=week&date=".$args['date']))?> ]
+					[ <?=($args['view'] == "month" ? ucf(i18n("month")) : cmd(ucf(i18n("month")), "exec=calendar&view=month&date=".$args['date']))?> ]
 					·
-					[ <?=cmd(ucf(i18n("goto today")), "exec=calendar&view=$view&date=".date("Ymd"))?> ]
+					[ <?=cmd(ucf(i18n("goto today")), "exec=calendar&view=".$args['view']."&date=".date("Ymd"))?> ]
 					·
-					<?=cmd(img(imgpath("left.png")), "exec=calendar&view=$view&date=".date("Ymd", strtotime("-1 week", strtotime($date))))?>
+					<?=cmd(img(imgpath("left.png")), "exec=calendar&view=".$args['view']."&date=".date("Ymd", strtotime("-1 week", strtotime($args['date']))))?>
 					<?=ucf(i18n("week"))?>
-					<?=cmd(img(imgpath("right.png")), "exec=calendar&view=$view&date=".date("Ymd", strtotime("+1 week", strtotime($date))))?>
+					<?=cmd(img(imgpath("right.png")), "exec=calendar&view=".$args['view']."&date=".date("Ymd", strtotime("+1 week", strtotime($args['date']))))?>
 					·
-					<?=cmd(img(imgpath("left.png")), "exec=calendar&date=".date("Ymd", strtotime("-1 month", strtotime($date))))?>
+					<?=cmd(img(imgpath("left.png")), "exec=calendar&view=".$args['view']."&date=".date("Ymd", strtotime("-1 month", strtotime($args['date']))))?>
 					<?=ucf(i18n("month"))?>
-					<?=cmd(img(imgpath("right.png")), "exec=calendar&view=$view&date=".date("Ymd", strtotime("+1 month", strtotime($date))))?>
+					<?=cmd(img(imgpath("right.png")), "exec=calendar&view=".$args['view']."&date=".date("Ymd", strtotime("+1 month", strtotime($args['date']))))?>
 					·
-					<?=cmd(img(imgpath("left.png")), "exec=calendar&view=$view&date=".date("Ymd", strtotime("-1 year", strtotime($date))))?>
+					<?=cmd(img(imgpath("left.png")), "exec=calendar&view=".$args['view']."&date=".date("Ymd", strtotime("-1 year", strtotime($args['date']))))?>
 					<?=ucf(i18n("year"))?>
-					<?=cmd(img(imgpath("right.png")), "exec=calendar&view=$view&date=".date("Ymd", strtotime("+1 year", strtotime($date))))?>
+					<?=cmd(img(imgpath("right.png")), "exec=calendar&view=".$args['view']."&date=".date("Ymd", strtotime("+1 year", strtotime($args['date']))))?>
 				</div>
 			</div>
 			
 			<div class="container">
 				<div id="calendar_main_zone">
 				<?
-					switch ($view)
+					switch ($args['view'])
 					{
 						case "month":
-						$firstday = strtotime(date("Y-m", strtotime($date))."-01");
-						include(gettpl("scripts/calendar/month_view"));
+						echo compiletpl("scripts/calendar/month_view", array("date"=>$this->date, "calendars"=>$this->calendars, "view"=>$this->view, "events"=>$args['events'], "firstday"=>strtotime(date("Y-m", strtotime($args['date']))."-01")));
 						break;
 						
 						case "week":
-						$firstday = strtotime($date);
-						include(gettpl("scripts/calendar/week_view"));
+						echo compiletpl("scripts/calendar/week_view", array("date"=>$this->date, "calendars"=>$this->calendars, "view"=>$this->view, "events"=>$args['events'], "firstday"=>strtotime($args['date'])));
 						break;
 						
 						case "day":
-						$firstday = strtotime($date);
-						include(gettpl("scripts/calendar/day_view"));
+						echo compiletpl("scripts/calendar/day_view", array("date"=>$this->date, "calendars"=>$this->calendars, "view"=>$this->view, "events"=>$args['events'], "firstday"=>strtotime($args['date'])));
 						break;
 					}
 				?>

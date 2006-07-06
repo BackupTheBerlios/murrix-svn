@@ -1,15 +1,8 @@
 <?
-$current_view = "upload";
-include(gettpl("adminpanel", $object));
-
-$vars = $object->getVars();
-
-$left = img(geticon("attach"))."&nbsp;".ucf(i18n("upload"));
-$right = $center = "";
-include(gettpl("big_title"));
-
 global $wwwpath, $abspath;
 
+echo compiletpl("scripts/show/tabs", array("view"=>"upload"), $object);
+echo compiletpl("title/big", array("left"=>img(geticon("attach"))."&nbsp;".ucf(i18n("upload"))), $object);
 ?>
 <div class="main">
 	<object classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93"
@@ -62,12 +55,9 @@ global $wwwpath, $abspath;
 	</object>
 </div>
 <?
-$left = ucf(i18n("upload folder"));
-$right = $center = "";
-include(gettpl("medium_title", $object));
+echo compiletpl("title/medium", array("left"=>ucf(i18n("upload folder"))), $object);
 
 $subitems = GetSubfilesAndSubfolders("$abspath/upload");
-
 if (count($subitems) > 0)
 {
 	$itemlist = array();

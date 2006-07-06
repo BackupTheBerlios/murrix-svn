@@ -1,14 +1,6 @@
 <?
-$current_view = "edit";
-include(gettpl("adminpanel", $object));
-
-$vars = $object->GetVars();
-
-$left = img(geticon("edit"))."&nbsp;".ucf(i18n("edit"));
-$right = ucf(i18n("class")).": ".ucw(str_replace("_", " ", $object->getClassName()));
-$center = "";
-include(gettpl("big_title"));
-
+echo compiletpl("scripts/show/tabs", array("view"=>"edit"), $object);
+echo compiletpl("title/big", array("left"=>img(geticon("edit"))."&nbsp;".ucf(i18n("edit")),"right"=>ucf(i18n("class")).": ".ucw(str_replace("_", " ", $object->getClassName()))), $object);
 ?>
 <form name="sEdit" id="sEdit" action="javascript:void(null);" onsubmit="Post('edit','sEdit');">
 	<input class="hidden" type="hidden" name="action" value="save"/>
@@ -28,7 +20,7 @@ include(gettpl("big_title"));
 					<td>
 						<?=ucf(i18n("language"))?>:
 						<select class="select" name="language">
-							<?
+						<?
 							$selected_lang = $object->getLanguage();
 							if (empty($selected_lang))
 								$selected_lang = $_SESSION['murrix']['language'];
@@ -37,7 +29,7 @@ include(gettpl("big_title"));
 							{
 								?><option value="<?=$language?>" <?=($language == $selected_lang ? "selected" : "")?>><?=ucf(i18n($language))?></option><?
 							}
-							?>
+						?>
 						</select>
 					</td>
 				</tr>

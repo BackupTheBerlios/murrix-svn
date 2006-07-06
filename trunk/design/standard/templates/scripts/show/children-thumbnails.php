@@ -1,10 +1,7 @@
 <div class="show_item_wrapper">
 <?
 	for ($i = $args['start']; $i < $args['end']; $i++)
-	{
-		$child = $args['objects'][$i];
-		include(gettpl("show_item", $child));
-	}
+		echo compiletpl("scripts/show/item", array(), $args['objects'][$i]);
 	?>
 	<div class="clear"></div>
 </div>

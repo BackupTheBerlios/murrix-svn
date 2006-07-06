@@ -1,25 +1,24 @@
-
 <div class="big_title">
-	<? if (!empty($left)) { ?>
+	<? if (!empty($args['left'])) { ?>
 		<div class="left">
 			<div class="inner">
-				<?=$left?>
+				<?=$args['left']?>
 			</div>
 		</div>
 	<? } ?>
 
-	<? if (!empty($center)) { ?>
+	<? if (!empty($args['center'])) { ?>
 		<div class="center">
 			<div class="inner">
-				<?=$center?>
+				<?=$args['center']?>
 			</div>
 		</div>
 	<? } ?>
 
-	<? if (!empty($right)) { ?>
+	<? if (!empty($args['right'])) { ?>
 		<div class="right">
 			<div class="inner">
-				<?=$right?>
+				<?=$args['right']?>
 			</div>
 		</div>
 	<? } ?>

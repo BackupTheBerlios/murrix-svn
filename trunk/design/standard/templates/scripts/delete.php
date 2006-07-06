@@ -1,27 +1,18 @@
 <?
-$current_view = "delete";
-include(gettpl("adminpanel", $object));
-
-$left = img(geticon("delete"))."&nbsp;".ucf(i18n("delete"));
-$right = $center = "";
-include(gettpl("big_title"));
-
+echo compiletpl("scripts/show/tabs", array("view"=>"delete"), $object);
+echo compiletpl("title/big", array("left"=>img(geticon("delete"))."&nbsp;".ucf(i18n("delete"))), $object);
 ?>
 <div class="main">
 	<center>
 		<?="<span style=\"font-weight: bold; font-size: 16px;\">".ucf(i18n("are you sure you want to delete"))." \"".$object->getName()."\"?</span>"?>
 		<br/>
-		<?
-		$yes = cmd(img(geticon("yes", 32))."<br/>".ucf(i18n("yes")), "exec=delete&action=delete&node_id=".$object->getNodeId());
-		$no = cmd(img(geticon("no", 32))."<br/>".ucf(i18n("no")), "exec=show&node_id=".$object->getNodeId());
-		?>
 		<table class="invisible" width="50%">
 			<tr>
 				<td align="center">
-					<?=$yes?>
+					<?=cmd(img(geticon("yes", 32))."<br/>".ucf(i18n("yes")), "exec=delete&action=delete&node_id=".$object->getNodeId())?>
 				</td>
 				<td align="center">
-					<?=$no?>
+					<?=cmd(img(geticon("no", 32))."<br/>".ucf(i18n("no")), "exec=show&node_id=".$object->getNodeId())?>
 				</td>
 			</tr>
 		</table>

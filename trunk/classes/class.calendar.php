@@ -1,10 +1,10 @@
 <?
 
-class Calendar
+class mCalendar
 {
 	var $events;
 	
-	function Calendar($events = null)
+	function mCalendar($events = null)
 	{
 		if ($events == null)
 			$this->events = array();

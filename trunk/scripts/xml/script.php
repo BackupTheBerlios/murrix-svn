@@ -306,18 +306,13 @@ class sXML extends Script
 	
 	function Draw(&$system, &$response, $args)
 	{
-		ob_start();
+		$data = "";
 		if (isAdmin())
-		{
-			include(gettpl("scripts/xml/view"));
-		}
+			$data = compiletpl("scripts/xml/view", array());
 		else
-		{
-			$titel = ucf(i18n("error"));
-			$text = ucf(i18n("not enough rights"));
-			include(gettpl("message"));
-		}
-		$response->addAssign($this->zone, "innerHTML", utf8e(ob_get_end()));
+			$data = compiletpl("message", array("title"=>ucf(i18n("error")), "message"=>ucf(i18n("not enough rights"))));
+		
+		$response->addAssign($this->zone, "innerHTML", utf8e($data));
 	}
 }
 ?>

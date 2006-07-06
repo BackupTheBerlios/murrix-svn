@@ -70,7 +70,7 @@ echo count($files)." file_folders found\n";flush();
 foreach ($files as $file)
 {
 	$file->setMeta("children_show_num_per_page", "all");
-	$file->setMeta("view", "thumbnailes");
+	$file->setMeta("view", "thumbnails");
 	
 }
 echo "\n";flush();

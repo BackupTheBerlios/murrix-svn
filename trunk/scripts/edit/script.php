@@ -113,29 +113,23 @@ class sEdit extends Script
 		else
 			$object = new mObject($this->getNodeId($args));
 		
-		ob_start();
-		
 		$javascript = "";
-		
+		$data = "";
 		if ($object->getNodeId() > 0)
 		{
 			if ($object->HasRight("write"))
-				include(gettpl("scripts/edit", $object));
-			else
 			{
-				$titel = ucf(i18n("error"));
-				$text = ucf(i18n("not enough rights"));
-				include(gettpl("message"));
+				ob_start();
+				include(gettpl("scripts/edit", $object));
+				$data = ob_get_end();
 			}
+			else
+				$data = compiletpl("message", array("title"=>ucf(i18n("error")), "message"=>ucf(i18n("not enough rights"))));
 		}
 		else
-		{
-			$titel = ucf(i18n("error"));
-			$text = ucf(i18n("the specified path is invalid"));
-			include(gettpl("message"));
-		}
-
-		$response->addAssign($this->zone, "innerHTML", utf8e(ob_get_end()));
+			$data = compiletpl("message", array("title"=>ucf(i18n("error")), "message"=>ucf(i18n("the specified path is invalid"))));
+		
+		$response->addAssign($this->zone, "innerHTML", utf8e($data));
 		$response->addScript($javascript);
 	}
 }

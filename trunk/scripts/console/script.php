@@ -35,10 +35,7 @@ class sConsole extends Script
 	{
 		if (!isset($args['cmdline']))
 		{
-			$logtext = $this->logg;
-			ob_start();
-			include(gettpl("scripts/console/console"));
-			$response->addAssign($this->zone, "innerHTML", utf8e(ob_get_end()));
+			$response->addAssign($this->zone, "innerHTML", utf8e(compiletpl("scripts/console/view", array("logtext"=>$this->logg))));
 			$response->addScript("document.getElementById('cmdline').focus();");
 			$this->running = "";
 		}

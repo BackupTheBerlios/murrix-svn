@@ -57,7 +57,7 @@
 	<body class="body" onload="OnLoadHandler();">
 		<div style="float: right; padding: 7px;" id="zone_language">
 		<?
-			include(gettpl("scripts/langswitch"));
+			echo compiletpl("scripts/langswitch", array());
 			$_SESSION['murrix']['system']->makeActive("langswitch");
 		?>
 		</div>
@@ -78,8 +78,7 @@
 			
 			<div class="address" id="zone_addressbar">
 			<?
-				$path = $_SESSION['murrix']['path'];
-				include(gettpl("scripts/addressbar"));
+				echo compiletpl("scripts/addressbar", array("path"=>$_SESSION['murrix']['path']));
 				$_SESSION['murrix']['system']->makeActive("addressbar");
 			?>
 			</div>
@@ -92,7 +91,7 @@
 				<td class="sidebar">
 					<div id="zone_menu">
 					<?
-						include(gettpl("menu"));
+						echo compiletpl("menu", array());
 						$_SESSION['murrix']['system']->makeActive(	"zone", 
 												array("zone_menu" => array(	
 															"template" => "menu",
@@ -108,15 +107,9 @@
 					<?
 						$object = new mObject(getNode($_SESSION['murrix']['path']));
 						if ($object->HasRight("read"))
-						{
-							include(gettpl("scripts/show", $object));
-						}
+							echo compiletpl("scripts/show/view", array(), $object);
 						else
-						{
-							$titel = ucf(i18n("error"));
-							$text = ucf(i18n("not enough rights"));
-							include(gettpl("message"));
-						}
+							echo compiletpl("message", array("title"=>ucf(i18n("error")), "message"=>ucf(i18n("not enough rights"))));
 						$_SESSION['murrix']['system']->makeActive("show");
 					?>
 					</div>
@@ -130,9 +123,9 @@
 						<div id="zone_login">
 						<?
 							if (IsAnonymous())
-								include(gettpl("scripts/login/login"));
+								echo compiletpl("scripts/login/login", array());
 							else
-								include(gettpl("scripts/login/logout"));
+								echo compiletpl("scripts/login/logout", array());
 								
 							$_SESSION['murrix']['system']->makeActive("login");
 							?>
@@ -145,23 +138,20 @@
 					</div>
 					<div id="calendar_container" class="container">
 						<div class="container">
-						<?
-							$firstday = strtotime(date("Y-m")."-01");
-							include(gettpl("scripts/calendar/small_month"));
-						?>
+							<?=compiletpl("scripts/calendar/small_month", array("firstday"=>strtotime(date("Y-m")."-01")))?>
 						</div>
 					</div>
 					
 					<div id="zone_poll">
 					<?
-						include(gettpl("scripts/poll/view"));
+						echo compiletpl("scripts/poll/view", array());
 						$_SESSION['murrix']['system']->makeActive("poll");
 					?>
 					</div>
 					
 					<div id="zone_info">
 					<?
-						include(gettpl("info"));
+						echo compiletpl("info", array());
 						$_SESSION['murrix']['system']->makeActive(	"zone", 
 												array("zone_info" => array(	
 															"template" => "info",

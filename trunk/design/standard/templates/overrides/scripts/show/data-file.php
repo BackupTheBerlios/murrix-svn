@@ -239,12 +239,7 @@
 				<? if ($prev !== false) { ?>
 				<td style="vertical-align: top; text-align: center;">
 					<div class="show_item_wrapper">
-					<?
-						$child_bak = $child;
-						$child = $prev;
-						include(gettpl("show_item", $child));
-						$child = $child_bak;
-						?>
+						<?=compiletpl("scripts/show/item", array(), $prev)?>
 						<div class="clear"></div>
 					</div>
 					<div style="font-weight: bold; text-align: center;"><?=ucw(i18n("previous"))?></div>
@@ -252,14 +247,7 @@
 				<? } ?>
 				<td style="vertical-align: top; text-align: center;">
 					<div class="show_item_wrapper">
-					<?
-						$child_bak = $child;
-						$child = $object;
-						$disabled = true;
-						include(gettpl("show_item", $child));
-						$disabled = false;
-						$child = $child_bak;
-						?>
+						<?=compiletpl("scripts/show/item", array("disabled"=>true), $object)?>
 						<div class="clear"></div>
 					</div>
 					<div style="font-weight: bold; text-align: center;"><?=ucw(i18n("this"))?></div>
@@ -268,12 +256,7 @@
 				<? if ($next !== false) { ?>
 				<td style="vertical-align: top; text-align: center;">
 					<div class="show_item_wrapper">
-					<?
-						$child_bak = $child;
-						$child = $next;
-						include(gettpl("show_item", $child));
-						$child = $child_bak;
-						?>
+						<?=compiletpl("scripts/show/item", array(), $next)?>
 						<div class="clear"></div>
 					</div>
 					<div style="font-weight: bold; text-align: center;"><?=ucw(i18n("next"))?></div>

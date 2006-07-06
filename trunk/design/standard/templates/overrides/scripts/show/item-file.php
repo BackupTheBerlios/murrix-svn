@@ -1,6 +1,6 @@
 <?
-$filename = $child->getVarValue("file");
-$value_id = $child->resolveVarName("file");
+$filename = $object->getVarValue("file");
+$value_id = $object->resolveVarName("file");
 
 $type = getfiletype(pathinfo($filename, PATHINFO_EXTENSION));
 
@@ -9,7 +9,7 @@ $data = "";
 if ($type == "image")
 {
 	$maxsize = getSetting("THUMBSIZE", 150);
-	$angle = $child->getMeta("angle", "");
+	$angle = $object->getMeta("angle", "");
 	
 	$thumbnail = getThumbnail($value_id, $maxsize, $maxsize, $angle);
 	
@@ -27,9 +27,9 @@ else
 ?>
 <div class="show_item">
 <?
-	if ($disabled === true)
-		echo "$img<br/>".$child->getName();
+	if ($args['disabled'] === true)
+		echo "$img<br/>".$object->getName();
 	else
-		echo cmd("$img<br/>".$child->getName(), "exec=show&node_id=".$child->getNodeId());
+		echo cmd("$img<br/>".$object->getName(), "exec=show&node_id=".$object->getNodeId());
 ?>
 </div>

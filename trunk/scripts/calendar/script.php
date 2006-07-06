@@ -153,33 +153,25 @@ class sCalendar extends Script
 				}
 			}
 			
-			$view = $this->view;
-			$date = $this->date;
-			$calendars = $this->calendars;
-	
-			$calendar = new Calendar();
 			$events = $this->getEvents();
-			
-			ob_start();
+			$data = "";
 			switch ($this->view)
 			{
 				case "month":
-				$firstday = strtotime(date("Y-m", strtotime($this->date))."-01");
-				include(gettpl("scripts/calendar/month_view"));
+				$data = compiletpl("scripts/calendar/month_view", array("date"=>$this->date, "calendars"=>$this->calendars, "view"=>$this->view, "events"=>$events, "firstday"=>strtotime(date("Y-m", strtotime($this->date))."-01")));
 				break;
 				
 				case "week":
-				$firstday = strtotime($this->date);
-				include(gettpl("scripts/calendar/week_view"));
+				$data = compiletpl("scripts/calendar/week_view", array("date"=>$this->date, "calendars"=>$this->calendars, "view"=>$this->view, "events"=>$events, "firstday"=>strtotime($this->date)));
 				break;
 				
 				case "day":
-				$firstday = strtotime($this->date);
-				include(gettpl("scripts/calendar/day_view"));
+				$data = compiletpl("scripts/calendar/day_view", array("date"=>$this->date, "calendars"=>$this->calendars, "view"=>$this->view, "events"=>$events, "firstday"=>strtotime($this->date)));
 				break;
 			}
+
 		
-			$response->addAssign("calendar_main_zone", "innerHTML", utf8e(ob_get_end()));
+			$response->addAssign("calendar_main_zone", "innerHTML", utf8e($data));
 			return;
 		}
 	
@@ -189,18 +181,11 @@ class sCalendar extends Script
 	
 	function Draw(&$system, &$response, $args)
 	{
-		$view = $this->view;
-		$date = $this->date;
-		$calendars = $this->calendars;
-
-		$calendar = new Calendar();
 		$events = $this->getEvents();
 
-		ob_start();
-		
-		include(gettpl("scripts/calendar/view"));
+		$data = compiletpl("scripts/calendar/view", array("date"=>$this->date, "calendars"=>$this->calendars, "view"=>$this->view, "events"=>$events,"firstday"=>strtotime($this->date)));
 
-		$response->addAssign($this->zone, "innerHTML", utf8e(ob_get_end()));
+		$response->addAssign($this->zone, "innerHTML", utf8e($data));
 	}
 }
 ?>

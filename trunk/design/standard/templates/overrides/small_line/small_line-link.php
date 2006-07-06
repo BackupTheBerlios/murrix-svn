@@ -1,1 +1,0 @@
-<a title="<?=$child->getName()?>" href="<?=$child->getVarValue("address")?>"><nobr><?=img(geticon($child->getIcon()))."&nbsp;".$child->getName()?></nobr></a>

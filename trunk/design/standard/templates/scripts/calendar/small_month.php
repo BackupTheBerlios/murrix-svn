@@ -1,19 +1,20 @@
 <?
-$first_week_day = date("w", $firstday)-1;
+$calendar = new mCalendar();
+
+$first_week_day = date("w", $args['firstday'])-1;
 if ($first_week_day == -1) // Sunday
 	$first_week_day++;
 	
-$days_of_month = date("t", $firstday);
+$days_of_month = date("t", $args['firstday']);
 	
-$last_week_day = date("w", strtotime("+".($days_of_month-1)." days", $firstday));
+$last_week_day = date("w", strtotime("+".($days_of_month-1)." days", $args['firstday']));
 if ($last_week_day == 0) // Sunday
 	$last_week_day = 7;
-
 ?>
 
 <fieldset>
 	<legend>
-		<?=cmd(ucf(i18n(strtolower(date("F", $firstday))))." ".date("Y", $firstday), "exec=calendar&view=month&date=".date("Ymd", $firstday), "link")?>
+		<?=cmd(ucf(i18n(strtolower(date("F", $args['firstday']))))." ".date("Y", $args['firstday']), "exec=calendar&view=month&date=".date("Ymd", $args['firstday']), "link")?>
 	</legend>
 
 	<table class="small_calendar_table" cellspacing="1">
@@ -28,7 +29,7 @@ if ($last_week_day == 0) // Sunday
 			<td class="sunday red">S</td>
 		</tr>
 		<tr class="week_row">
-			<?
+		<?
 			for ($n = 0; $n < $days_of_month+(7-$last_week_day)+$first_week_day; $n++)
 			{
 				$days = $n-$first_week_day;
@@ -37,11 +38,17 @@ if ($last_week_day == 0) // Sunday
 				else
 					$days = "-$days";
 				
-				$time_now = strtotime("$days days", $firstday);
+				$time_now = strtotime("$days days", $args['firstday']);
 				
 				if ($n%7 == 0)
 				{
-					?></tr><tr class="week_row"><td class="week"><?=cmd(date("W", $time_now), "exec=calendar&view=week&date=".date("Ymd", $time_now), "link")?></td><?
+				?>
+					</tr>
+					<tr class="week_row">
+						<td class="week">
+							<?=cmd(date("W", $time_now), "exec=calendar&view=week&date=".date("Ymd", $time_now), "link")?>
+						</td>
+				<?
 				}
 				
 				$class = "day";
@@ -50,13 +57,17 @@ if ($last_week_day == 0) // Sunday
 				if ($day_of_week == 0 || $day_of_week == 6)
 					$link_class .= " red";
 					
-				if (date("m", $time_now) != date("m", $firstday))
+				if (date("m", $time_now) != date("m", $args['firstday']))
 					$link_class .= " gray";
 					
 				if (date("Y-m-d", $time_now) == date("Y-m-d"))
 					$class .= " today";
 					
-				?><td class="<?=$class?>"><?=cmd(date("j", $time_now), "exec=calendar&view=day&date=".date("Ymd", $time_now), $link_class)?></td><?
+				?>
+				<td class="<?=$class?>">
+					<?=cmd(date("j", $time_now), "exec=calendar&view=day&date=".date("Ymd", $time_now), $link_class)?>
+				</td>
+			<?
 			}
 		?>
 		</tr>

@@ -4,27 +4,14 @@ $class_form .= "<select class=\"select\" onchange=\"Post('new','sClassSelect');\
 $classlist = getClassList();
 foreach ($classlist as $class_name)
 {
-	$selected = "";
-	if ($class_name == $newobject->getClassName())
-		$selected = "selected";
-
-	//if ($object->hasRight("create_subnodes", array($class_name)))
-		$class_form .= "<option $selected value=\"$class_name\">".ucf(str_replace("_", " ", $class_name))."</option>";
+	$selected = $class_name == $newobject->getClassName() ? "selected" : "";
+	$class_form .= "<option $selected value=\"$class_name\">".ucf(str_replace("_", " ", $class_name))."</option>";
 }
 $class_form .= "</select>";
 $class_form .= "</form>";
 
-$current_view = "new";
-include(gettpl("adminpanel", $newobject));
-
-$vars = $newobject->GetVars();
-$newobject->loadClassIcon();
-
-$left = img(geticon($newobject->getIcon()))."&nbsp;".ucf(i18n("new"));
-$right = $class_form;
-$center = "";
-include(gettpl("big_title"));
-
+echo compiletpl("scripts/show/tabs", array("view"=>"new"), $newobject);
+echo compiletpl("title/big", array("left"=>img(geticon($newobject->getIcon()))."&nbsp;".ucf(i18n("new")),"right"=>$class_form), $newobject);
 ?>
 <form name="sEdit" id="sEdit" action="javascript:void(null);" onsubmit="Post('new','sEdit');">
 	<input class="hidden" type="hidden" name="action" value="save"/>
@@ -52,7 +39,7 @@ include(gettpl("big_title"));
 		</div>
 		<br/>
 		<div class="clear"></div>
-		<?
+	<?
 	}
 	
 	foreach ($_SESSION['murrix']['languages'] as $language)
@@ -61,7 +48,7 @@ include(gettpl("big_title"));
 		if ($language != $_SESSION['murrix']['language'])
 			$style = "style=\"display: none;\"";
 	
-	?>
+		?>
 		<div id="edit_<?=$language?>" <?=$style?>>
 			<div class="main">
 				<div class="container">
@@ -133,5 +120,5 @@ include(gettpl("big_title"));
 		</div>
 	<?
 	}
-	?>
+?>
 </form>

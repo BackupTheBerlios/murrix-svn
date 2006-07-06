@@ -1,10 +1,5 @@
 <?
-global $abspath, $wwwpath;
-
-$right = $center = "";
-$left = img(geticon("search"))."&nbsp;".ucf(i18n("search"))." - $query_string";
-include(gettpl("big_title"));
-
+echo compiletpl("title/big", array("left"=>img(geticon("search"))."&nbsp;".ucf(i18n("search"))." - $query_string"));
 ?>
 <div class="main">
 	<div class="container">
@@ -24,10 +19,7 @@ include(gettpl("big_title"));
 					$classlist = getClassList();
 					foreach ($classlist as $class_name)
 					{
-						$selected = "";
-						if ($class_name == $class)
-							$selected = "selected";
-	
+						$selected = $class_name == $class ? "selected" : "";
 						echo "<option $selected value=\"$class_name\">".ucw(str_replace("_", " ", $class_name))."</option>";
 					}
 				?>
@@ -40,11 +32,6 @@ include(gettpl("big_title"));
 	</div>
 </div>
 <?
-
-if (count($children) > 0)
-{
-	foreach ($children as $child)
-		include(gettpl("show_line", $child));
-}
-
+for ($n = 0; $n < count($args['objects']); $n++)
+	echo compiletpl("scripts/show/line", array(), $args['objects'][$n]);
 ?>

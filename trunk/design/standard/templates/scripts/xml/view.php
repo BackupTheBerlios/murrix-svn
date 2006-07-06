@@ -1,9 +1,6 @@
 <?
 global $abspath;
-
-$left = img(geticon("list"))."&nbsp;XML ".ucf(i18n("import"))."/".ucf(i18n("export"));
-$right = $center = "";
-include(gettpl("big_title"));
+echo compiletpl("title/big", array("left"=>img(geticon("list"))."&nbsp;XML ".ucf(i18n("import"))."/".ucf(i18n("export"))));
 ?>
 <div class="xml_wrapper">
 	<div class="main">

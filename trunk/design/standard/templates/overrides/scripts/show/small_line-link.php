@@ -1,0 +1,1 @@
+<a title="<?=$object->getName()?>" href="<?=$object->getVarValue("address")?>"><nobr><?=img(geticon($object->getIcon()))."&nbsp;".$object->getName()?></nobr></a>

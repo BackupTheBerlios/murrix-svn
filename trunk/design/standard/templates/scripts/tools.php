@@ -1,28 +1,25 @@
 <?
-$current_view = "tools";
-include(gettpl("adminpanel", $object));
-
-$right = $center = "";
-$left = img(geticon("settings"))."&nbsp;".ucf(i18n("tools"));
-include(gettpl("big_title", $object));
-
-$children = fetch("FETCH node WHERE link:node_top='".$object->getNodeId()."' AND link:type='sub' NODESORTBY property:version SORTBY property:name");
-$list = array();
-$list[] = array(ucf(i18n("name")));
-
-foreach ($children as $child)
-{
-	$id = "node_id_".$child->getNodeId();
-
-	$checkbox = "<input class=\"input\" type=\"checkbox\" id=\"$id\" name=\"node_ids[]\" value=\"".$child->getNodeId()."\"/>";
-
-	$list[] = array("$checkbox&nbsp;<a href=\"javascript:void(null)\" onclick=\"document.getElementById('$id').checked=!document.getElementById('$id').checked\">".img(geticon($child->getIcon()))."&nbsp;".$child->getName()."</a>");
-}
-
+echo compiletpl("scripts/show/tabs", array("view"=>"tools"), $object);
+echo compiletpl("title/big", array("left"=>img(geticon("settings"))."&nbsp;".ucf(i18n("tools"))), $object);
 ?>
 <form id="toolsObjectList" name="toolsObjectList" action="javascript:void(null);" onsubmit="Post('tools','toolsObjectList')">
-	<? table($list, "% ".i18n("rows")) ?>
+<?
+	$children = fetch("FETCH node WHERE link:node_top='".$object->getNodeId()."' AND link:type='sub' NODESORTBY property:version SORTBY property:name");
 	
+	$list = array();
+	$list[] = array(ucf(i18n("name")));
+	
+	foreach ($children as $child)
+	{
+		$id = "node_id_".$child->getNodeId();
+	
+		$checkbox = "<input class=\"input\" type=\"checkbox\" id=\"$id\" name=\"node_ids[]\" value=\"".$child->getNodeId()."\"/>";
+	
+		$list[] = array("$checkbox&nbsp;<a href=\"javascript:void(null)\" onclick=\"document.getElementById('$id').checked=!document.getElementById('$id').checked\">".img(geticon($child->getIcon()))."&nbsp;".$child->getName()."</a>");
+	}
+
+	echo compiletpl("table", array("list"=>$list, "endstring"=>"% ".i18n("rows")), $object);
+	?>
 	<div class="main">
 		<div class="container">
 			<input class="submit" type="button" onclick="checkUncheckAll(this)" value="<?=ucf(i18n("invert selection"))?>"/>
@@ -38,5 +35,4 @@ foreach ($children as $child)
 			<input class="submit" type="submit" value="<?=ucf(i18n("create link"))?>" onclick="document.getElementById('toolsObjectList').action.value='link';"/>
 		</div>
 	</div>
-
 </form>

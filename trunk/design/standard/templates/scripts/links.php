@@ -1,10 +1,6 @@
 <?
-$current_view = "links";
-include(gettpl("adminpanel", $object));
-
-$left = img(geticon("link"))."&nbsp;".ucf(i18n("links"));
-$right = $center = "";
-include(gettpl("big_title"));
+echo compiletpl("scripts/show/tabs", array("view"=>"links"), $object);
+echo compiletpl("title/big", array("left"=>img(geticon("link"))."&nbsp;".ucf(i18n("links"))), $object);
 
 if ($object->hasRight("write"))
 {
@@ -36,7 +32,7 @@ if ($object->hasRight("write"))
 }
 
 $links = $object->getLinks();
-
+$linklist = array();
 $linklist[] = array(ucf(i18n("type")), ucf(i18n("remote node")), ucf(i18n("remote node is on"))."...", "&nbsp;");
 foreach ($links as $link)
 {
@@ -56,6 +52,5 @@ foreach ($links as $link)
 	$linklist[] = array($link['type'], $remote, ucf(i18n($link['direction'])), $delete);
 }
 
-table($linklist, "% ".i18n("rows"));
-
+echo compiletpl("table", array("list"=>$linklist, "endstring"=>"% ".i18n("rows")), $object);
 ?>

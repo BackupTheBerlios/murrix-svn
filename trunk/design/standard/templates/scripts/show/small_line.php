@@ -1,0 +1,1 @@
+<?=cmd("<nobr>".img(geticon($object->getIcon()))."&nbsp;".$object->getName()."</nobr>", "exec=show&node_id=".$object->getNodeId(), array("title" => $object->getName(), "class" => $args['class']))?>

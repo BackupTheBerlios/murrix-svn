@@ -35,7 +35,7 @@
 			Welcome to the MURRiX administration console<br/>
 			============================================
 		</div>
-		<?=$logtext?>
+		<?=$args['logtext']?>
 	</div>
 	<div id="console_cmd">
 		<form id="sConsoleCmd" action="javascript:void(null);" onsubmit="Post('console','sConsoleCmd')">

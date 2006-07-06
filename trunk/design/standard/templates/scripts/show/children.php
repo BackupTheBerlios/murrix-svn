@@ -8,12 +8,12 @@ $children = getReadable($children);
 if (count($children) > 0)
 {
 	$pagername = "children_show";
-	include(gettpl("pager_start", $object));
+	include(gettpl("pager/start", $object));
 	
 	$view = $object->getMeta("view", "list");
 	
 	echo compiletpl("scripts/show/children-$view", array("start"=>$start, "end"=>$end, "objects"=>$children), $object);
 
-	include(gettpl("pager_end", $object));
+	include(gettpl("pager/end", $object));
 }
 ?>

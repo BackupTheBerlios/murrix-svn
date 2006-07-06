@@ -94,27 +94,19 @@ class sUpload extends Script
 	{
 		$node_id = $this->getNodeId($args);
 
-		ob_start();
+		$data = "";
 		if ($node_id > 0)
 		{
 			$object = new mObject($node_id);
 			if ($object->hasRight("create"))
-				include(gettpl("scripts/upload", $object));
+				$data = compiletpl("scripts/upload", array(), $object);
 			else
-			{
-				$titel = ucf(i18n("error"));
-				$text = ucf(i18n("not enough rights"));
-				include(gettpl("message"));
-			}
+				$data = compiletpl("message", array("title"=>ucf(i18n("error")), "message"=>ucf(i18n("not enough rights"))));
 		}
 		else
-		{
-			$titel = ucf(i18n("error"));
-			$text = ucf(i18n("the specified path is invalid"));
-			include(gettpl("message"));
-		}
+			$data = compiletpl("message", array("title"=>ucf(i18n("error")), "message"=>ucf(i18n("the specified path is invalid"))));
 
-		$response->addAssign($this->zone, "innerHTML", utf8e(ob_get_end()));
+		$response->addAssign($this->zone, "innerHTML", utf8e($data));
 	}
 }
 ?>

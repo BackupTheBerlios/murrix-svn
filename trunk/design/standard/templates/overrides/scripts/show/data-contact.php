@@ -230,9 +230,7 @@
 		</td>
 		<td class="right">
 		<?
-			$left = $right = "";
-			$center = ucf(i18n("family tree"));
-			include(gettpl("medium_title"));
+			echo compiletpl("title/medium", array("center"=>ucf(i18n("family tree"))));
 			
 			$parents = fetch("FETCH node WHERE property:class_name='contact' AND link:node_bottom='".$object->getNodeId()."' AND link:type='parent' NODESORTBY property:version SORTBY property:name");
 			

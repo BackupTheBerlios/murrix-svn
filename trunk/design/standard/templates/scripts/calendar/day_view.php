@@ -1,12 +1,12 @@
 <?
-
-$last_stamp = strtotime("+1 day", $firstday);
-$day_events = $calendar->getEvents($events, $firstday, $last_stamp-$firstday);
+$calendar = new mCalendar();
+$last_stamp = strtotime("+1 day", $args['firstday']);
+$day_events = $calendar->getEvents($args['events'], $args['firstday'], $last_stamp-$args['firstday']);
 ?>
 
 <fieldset>
 	<legend>
-		<?=cmd(ucf(i18n(strtolower(date("l", $firstday))))." ".date("d", $firstday)." ".ucf(i18n(strtolower(date("F", $firstday))))." ".date("Y", $firstday), "exec=calendar&view=day&date=".date("Ymd", $firstday), "link")?>
+		<?=cmd(ucf(i18n(strtolower(date("l", $args['firstday']))))." ".date("d", $args['firstday'])." ".ucf(i18n(strtolower(date("F", $args['firstday']))))." ".date("Y", $args['firstday']), "exec=calendar&view=day&date=".date("Ymd", $args['firstday']), "link")?>
 	</legend>
 
 	<table class="big_day_table" cellspacing="1">

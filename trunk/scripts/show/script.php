@@ -63,30 +63,18 @@ class sShow extends Script
 	{
 		$node_id = $this->getNodeId($args);
 
-		ob_start();
 		if ($node_id > 0)
 		{
 			$object = new mObject($node_id);
 			if ($object->HasRight("read"))
-			{
-				
-				include(gettpl("scripts/show", $object));
-			}
+				$data = compiletpl("scripts/show/view", array(), $object);
 			else
-			{
-				$titel = ucf(i18n("error"));
-				$text = ucf(i18n("not enough rights"));
-				include(gettpl("message"));
-			}
+				$data = compiletpl("message", array("title"=>ucf(i18n("error")), "message"=>ucf(i18n("not enough rights"))), $object);
 		}
 		else
-		{
-			$titel = ucf(i18n("error"));
-			$text = ucf(i18n("the specified path is invalid"));
-			include(gettpl("message"));
-		}
+			$data = compiletpl("message", array("title"=>ucf(i18n("error")), "message"=>ucf(i18n("the specified path is invalid"))), $object);
 
-		$response->addAssign($this->zone, "innerHTML", utf8e(ob_get_end()));
+		$response->addAssign($this->zone, "innerHTML", utf8e($data));
 	}
 }
 ?>

@@ -1,11 +1,6 @@
 <?
-$current_view = "settings";
-include(gettpl("adminpanel", $object));
-
-$left = img(geticon("settings"))."&nbsp;".ucf(i18n("settings"));
-$right = $center = "";
-include(gettpl("big_title"));
-
+echo compiletpl("scripts/show/tabs", array("view"=>"settings"), $object);
+echo compiletpl("title/big", array("left"=>img(geticon("settings"))."&nbsp;".ucw(i18n("settings"))), $object);
 ?>
 <form name="sSettings" id="sSettings" action="javascript:void(null);" onsubmit="Post('settings','sSettings');">
 	<input class="hidden" type="hidden" name="action" value="meta"/>
@@ -151,7 +146,6 @@ include(gettpl("big_title"));
 				<?=ucf(i18n("initial rights"))?>
 				<input class="form" type="text" name="initial_rights" value="<?=$object->getMeta("initial_rights", "")?>"/>
 			</fieldset>
-			
 			<br/>
 			<input class="submit" id="submitButton" type="submit" value="<?=ucf(i18n("save"))?>"/>
 		</div>

@@ -1,10 +1,6 @@
-<?
-$left = $titel;
-$right = $center = "";
-include(gettpl("big_title"));
-?>
+<?=compiletpl("title/big", array("left"=>$args['title']), $object)?>
 <div class="main">
 	<div class="container">
-		<?=$text?>
+		<?=$args['message']?>
 	</di>
 </div>

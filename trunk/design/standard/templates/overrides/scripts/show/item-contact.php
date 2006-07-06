@@ -1,5 +1,5 @@
 <?
-$thumb_id = $child->getVarValue("thumbnail");
+$thumb_id = $object->getVarValue("thumbnail");
 
 if (!empty($thumb_id))
 {
@@ -26,14 +26,14 @@ if (!empty($thumb_id))
 	$img = "<div style=\"height: ".ceil((168-$h)/2)."px;\"></div>".$thumbnail->Show(true);
 }
 else
-	$img = "<div style=\"height: 20px;\"></div>".img(geticon($child->getIcon(), 128));
+	$img = "<div style=\"height: 20px;\"></div>".img(geticon($object->getIcon(), 128));
 
 ?>
 <div class="show_item">
 <?
-	if ($disabled === true)
-		echo "$img<br/>".$child->getName();
+	if ($args['disabled'] === true)
+		echo "$img<br/>".$object->getName();
 	else
-		echo cmd("$img<br/>".$child->getName(), "exec=show&node_id=".$child->getNodeId());
+		echo cmd("$img<br/>".$object->getName(), "exec=show&node_id=".$object->getNodeId());
 ?>
 </div>

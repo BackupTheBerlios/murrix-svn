@@ -40,7 +40,7 @@ if ($home_id > 0)
 	$children = fetch("FETCH node WHERE link:node_top='$home_id' AND link:type='sub' AND !property:class_name='comment' NODESORTBY property:version SORTBY property:name");
 	
 	foreach ($children as $child)
-		include(gettpl("small_line", $child));
+		echo compiletpl("scripts/show/small_line", array("class"=>$class), $child);
 		
 	?></div><?
 }
@@ -72,12 +72,11 @@ foreach ($groups as $group_name)
 		</div>
 		<div id="<?=$home_id?>_container" class="container">
 		<?
-		
-		
-		foreach ($children as $child)
-			include(gettpl("small_line", $child));
-			
-		?></div><?
+			foreach ($children as $child)
+				echo compiletpl("scripts/show/small_line", array("class"=>$class), $child);
+		?>
+		</div>
+	<?
 	}
 }
 ?>

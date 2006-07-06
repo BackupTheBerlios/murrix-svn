@@ -120,24 +120,24 @@ class sNew extends Script
 		$parent_id = $this->getNodeId($args);
 		$object = new mObject($parent_id);
 	
-		$newobject = new mObject();
-		$newobject->setClassName(isset($args['class_name']) ? $args['class_name'] : "folder");
-		$newobject->loadVars();
-
-		ob_start();
-
 		$javascript = "";
-
+		$data = "";
 		if ($object->HasRight("create"))
-			include(gettpl("scripts/new", $newobject));
-		else
 		{
-			$titel = ucf(i18n("error"));
-			$text = ucf(i18n("not enough rights"));
-			include(gettpl("message"));
+			$newobject = new mObject();
+			$newobject->setClassName(isset($args['class_name']) ? $args['class_name'] : "folder");
+			$newobject->loadVars();
+			$newobject->loadClassIcon();
+		
+			ob_start();
+			include(gettpl("scripts/new", $newobject));
+			$data = ob_get_end();
 		}
+		else
+			$data = compiletpl("message", array("title"=>ucf(i18n("error")), "message"=>ucf(i18n("not enough rights"))), $object);
+			
 
-		$response->addAssign($this->zone, "innerHTML", utf8e(ob_get_end()));
+		$response->addAssign($this->zone, "innerHTML", utf8e($data));
 		$response->addScript($javascript);
 	}
 }

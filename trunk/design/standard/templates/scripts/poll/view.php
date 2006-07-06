@@ -25,7 +25,7 @@ if ($polldir_id > 0)
 		<div id="polls_container" class="container">
 			<div class="polls_wrapper">
 				<div class="polls_wrapper_margin">
-					<?
+				<?
 					$polldir_id = getNode("/root/polls");
 					
 					if ($polldir_id <= 0)
@@ -47,8 +47,8 @@ if ($polldir_id > 0)
 						{
 							if (strtotime($object->getVarValue("closedate")) < $now || strtotime($object->getVarValue("opendate")) > $now)
 								continue;
-			
-							include(gettpl("scripts/poll/poll_view", $object));
+								
+							echo compiletpl("scripts/poll/poll_view", array(), $object);
 						}
 					}
 				?>

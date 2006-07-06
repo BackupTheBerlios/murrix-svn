@@ -21,11 +21,7 @@ class sAddressbar extends Script
 
 	function Draw(&$system, &$response, $args)
 	{
-		ob_start();
-		$path = $_SESSION['murrix']['path'];
-		include(gettpl("scripts/addressbar"));
-
-		$response->addAssign($this->zone, "innerHTML", utf8e(ob_get_end()));
+		$response->addAssign($this->zone, "innerHTML", utf8e(compiletpl("scripts/addressbar", array("path"=>$_SESSION['murrix']['path']))));
 	}
 }
 
