@@ -47,7 +47,6 @@ require_once("config.inc.php");
 require_once("classes/class.mvar.php");
 require_once("classes/class.mobject.php");
 require_once("classes/class.mthumbnail.php");
-require_once("classes/class.mrss.php");
 require_once("classes/class.script.php");
 require_once("classes/class.cscript.php");
 require_once("classes/class.calendar.php");
@@ -185,6 +184,20 @@ else if (isset($_GET['xml']) || isset($_POST['xml']))
 		$xml = new mXml();
 		$xml->outputBackupXML(isset($_GET['xml']) ? $_GET : $_POST);
 	}
+	
+	return;
+}
+else if (isset($_GET['rss']))
+{
+	$xml = new mXml();
+
+	if (!isset($_GET['id']))
+	{
+		$list = $xml->getFeeds();
+		echo compiletpl("rsslist", $list);
+	}
+	else
+		$xml->outputFeed($_GET['id']);
 	
 	return;
 }

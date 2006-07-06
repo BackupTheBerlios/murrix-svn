@@ -503,13 +503,13 @@ table.maintable td.middle table.contact_table
 table.maintable td.middle table.contact_table td.left
 {
 	padding: 0;
-	padding-right: 5px;
 	vertical-align: top;
 }
 
 table.maintable td.middle table.contact_table td.right
 {
 	padding: 0;
+	padding-left: 5px;
 	width: 300px;
 	vertical-align: top;
 }

@@ -182,97 +182,32 @@ class mXML
 	}
 	
 	
-	function outputClassXML($id = 0)
+	function getFeeds()
 	{
-		global $version;
-		
-		// An array of serializer options
-		$serializer_options = array(	"addDecl" => true,
-						"encoding" => "ISO-8859-1",
-						"indent" => "  ",
-						"rootName" => "classes",
-						"rootAttributes"  => array("version" => $version),
-						"defaultTagName" => "container");
-		
-		// Instantiate the serializer with the options
-		$Serializer = &new XML_Serializer($serializer_options);
-		
-		$classes = getClassList(true);
-
-		$list = array();
-		
-		$list['title'] = "MURRiX XML-export";
-		
-		foreach ($classes as $class)
-		{
-			$object = new mObject();
-			$object->class_name = $class['name'];
-			$object->loadVars();
-			
-			$vars = $object->getVars();
-			
-			foreach ($vars as $var)
-			{
-				$variable = array();
-				$variable['name'] = $var->name;
-				$variable['type'] = $var->type;
-				$variable['extra'] = $var->extra;
-				$variable['comment'] = $var->comment;
-				$variable['required'] = $var->required;
-				$variable['priority'] = $var->priority;
-				
-				$class[] = $variable;
-			}
-		
-			$list[] = $class;
-		}
-		
-		/*echo "<pre>";
-		print_r($list);
-		echo "</pre>";*/
-		
-		// Serialize the data structure
-		$status = $Serializer->serialize($list);
-		
-		// Check whether serialization worked
-		if (PEAR::isError($status))
-			die($status->getMessage());
-		
-		// Display the XML document
-		header("Content-type: application/xml");
-		echo $Serializer->getSerializedData();
-		//$this->parseClassXML($Serializer->getSerializedData());
+		$table = new mTable("rssexports");
+		return $table->get();
 	}
 	
-	function parseClassXML($data)
-	{
-		// Instantiate the serializer
-		$Unserializer = &new XML_Unserializer();
-		
-		// Serialize the data structure
-		$status = $Unserializer->unserialize($data);
-		
-		// Check whether serialization worked
-		if (PEAR::isError($status))
-			die($status->getMessage());
-		
-		// Display the PHP data structure
-		echo "<pre>";
-		print_r($Unserializer->getUnserializedData());
-		echo "<pre>";
-	}
-	
-	// This function is not working...
 	function outputFeed($id)
 	{
-		global $version;
+		$table = new mTable("rssexports");
+		$feeds = $table->get("`id`='$id'");
+		
+		if (count($feeds) == 0)
+		{
+			echo "No such feed found";
+			return;
+		}
+		
+		$feed = $feeds[0];
+		
 		// An array of serializer options
 		$serializer_options = array(	"addDecl" => true,
 						"encoding" => "ISO-8859-1",
 						"indent" => "  ",
-						"rootName" => "murrix",
-						"rootAttributes"  => array("version" => $version),
-						"defaultTagName" => "object");
+						"rootName" => "rss",
+						"rootAttributes"  => array("version" => "2"),
+						"defaultTagName" => "item");
 		
 		// Instantiate the serializer with the options
 		$Serializer = &new XML_Serializer($serializer_options);
@@ -281,21 +216,22 @@ class mXML
 		
 		$list = array();
 		
-		$list['title'] = "MURRiX XML-export";
-		
+		$list['channel']['title'] = $feed['title'];
+		$list['channel']['link'] = "http://".$_SERVER["HTTP_HOST"];
+		$list['channel']['description'] = $feed['description'];
+		$list['channel']['language'] = "sv";
+		$list['channel']['webMaster'] = $feed['admin'];
 		
 		foreach ($children as $child)
 		{
 			$object = array();
 		
-			$vars = $child->getVars();
-		
 			$object['guid'] = $list['channel']['link']."/rssbackend.php?node_id=".$child->getNodeId();
 			$object['title'] = $child->getName();
 			$object['link'] = $list['channel']['link']."/rssbackend.php?node_id=".$child->getNodeId();
 			$object['pubDate'] = date("r", strtotime($child->getCreated()));
-			$author = new mObject($child->getCreator());
-			$object['author'] = "email@email.com (".$author->getName().")";
+			$author = $child->getUser();
+			$object['author'] = "email@email.com (".$author->name.")";
 			
 			$text = $child->getVarValue("text");
 			if (empty($text))

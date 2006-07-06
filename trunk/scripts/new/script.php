@@ -128,17 +128,18 @@ class sNew extends Script
 			$newobject->setClassName(isset($args['class_name']) ? $args['class_name'] : "folder");
 			$newobject->loadVars();
 			$newobject->loadClassIcon();
-		
-			ob_start();
-			include(gettpl("scripts/new", $newobject));
-			$data = ob_get_end();
+			
+			$new_args = array("parent_node_id"=>$object->getNodeId());
+			$data = compiletplWithOutput("scripts/new", $new_args, $newobject);
+			$javascript = $new_args['output']['js'];
 		}
 		else
 			$data = compiletpl("message", array("title"=>ucf(i18n("error")), "message"=>ucf(i18n("not enough rights"))), $object);
 			
 
 		$response->addAssign($this->zone, "innerHTML", utf8e($data));
-		$response->addScript($javascript);
+		if (!empty($javascript))
+			$response->addScript($javascript);
 	}
 }
 ?>

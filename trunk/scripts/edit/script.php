@@ -119,9 +119,9 @@ class sEdit extends Script
 		{
 			if ($object->HasRight("write"))
 			{
-				ob_start();
-				include(gettpl("scripts/edit", $object));
-				$data = ob_get_end();
+				$edit_args = array();
+				$data = compiletplWithOutput("scripts/edit", $edit_args, $object);
+				$javascript = $edit_args['output']['js'];
 			}
 			else
 				$data = compiletpl("message", array("title"=>ucf(i18n("error")), "message"=>ucf(i18n("not enough rights"))));
@@ -130,7 +130,8 @@ class sEdit extends Script
 			$data = compiletpl("message", array("title"=>ucf(i18n("error")), "message"=>ucf(i18n("the specified path is invalid"))));
 		
 		$response->addAssign($this->zone, "innerHTML", utf8e($data));
-		$response->addScript($javascript);
+		if (!empty($javascript))
+			$response->addScript($javascript);
 	}
 }
 ?>

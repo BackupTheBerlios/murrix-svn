@@ -11,6 +11,11 @@ $count++;
 $templates_override['scripts/show/line.php'][$count]['filename'] = "overrides/scripts/show/line-event.php";
 $templates_override['scripts/show/line.php'][$count]['match']['class'] = "event";
 
+$count++;
+$templates_override['scripts/show/line.php'][$count]['filename'] = "overrides/scripts/show/line-news.php";
+$templates_override['scripts/show/line.php'][$count]['match']['class'] = "news";
+
+
 
 
 $count = 0;

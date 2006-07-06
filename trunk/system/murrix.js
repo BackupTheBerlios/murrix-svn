@@ -120,7 +120,7 @@ function setRun(cmd)
 	eval(parseCommand(URLDecode(cmd)));
 	last_command = cmd;
 	
-	setTimeout("runTimeout()", 600);
+	setTimeout("runTimeout()", 800);
 }
 
 function runTimeout()

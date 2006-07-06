@@ -346,6 +346,15 @@ function compiletpl($template, $args, $object = null)
 	return ob_get_end();
 }
 
+function compiletplWithOutput($template, &$args, $object = null)
+{
+	ob_start();
+	
+	include(gettpl($template, $object));
+
+	return ob_get_end();
+}
+
 function i18n($text, $language = "")
 {
 	if (empty($language))

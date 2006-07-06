@@ -56,7 +56,7 @@ echo compiletpl("title/big", array("left"=>img(geticon("edit"))."&nbsp;".ucf(i18
 							echo $var->getComment();
 							echo $var->getEdit("sEdit");
 							
-							$javascript .= $var->getJavascript("sEdit");
+							$args['output']['js'] .= $var->getJavascript("sEdit");
 							?>
 						</fieldset>
 					</div>

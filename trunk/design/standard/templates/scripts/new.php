@@ -4,19 +4,19 @@ $class_form .= "<select class=\"select\" onchange=\"Post('new','sClassSelect');\
 $classlist = getClassList();
 foreach ($classlist as $class_name)
 {
-	$selected = $class_name == $newobject->getClassName() ? "selected" : "";
+	$selected = $class_name == $object->getClassName() ? "selected" : "";
 	$class_form .= "<option $selected value=\"$class_name\">".ucf(str_replace("_", " ", $class_name))."</option>";
 }
 $class_form .= "</select>";
 $class_form .= "</form>";
 
-echo compiletpl("scripts/show/tabs", array("view"=>"new"), $newobject);
-echo compiletpl("title/big", array("left"=>img(geticon($newobject->getIcon()))."&nbsp;".ucf(i18n("new")),"right"=>$class_form), $newobject);
+echo compiletpl("scripts/show/tabs", array("view"=>"new"), $object);
+echo compiletpl("title/big", array("left"=>img(geticon($object->getIcon()))."&nbsp;".ucf(i18n("new")),"right"=>$class_form), $object);
 ?>
 <form name="sEdit" id="sEdit" action="javascript:void(null);" onsubmit="Post('new','sEdit');">
 	<input class="hidden" type="hidden" name="action" value="save"/>
-	<input class="hidden" type="hidden" name="node_id" value="<?=$object->getNodeId()?>"/>
-	<input class="hidden" type="hidden" name="class_name" value="<?=$newobject->getClassName()?>"/>
+	<input class="hidden" type="hidden" name="node_id" value="<?=$args['parent_node_id']?>"/>
+	<input class="hidden" type="hidden" name="class_name" value="<?=$object->getClassName()?>"/>
 	<?
 	if (count($_SESSION['murrix']['languages']) > 1)
 	{
@@ -60,7 +60,7 @@ echo compiletpl("title/big", array("left"=>img(geticon($newobject->getIcon()))."
 							<td class="right">
 								<?=ucf(i18n("icon"))?>:
 								<input class="hidden" type="hidden" name="<?=$language?>_icon" id="icon"/>
-								<a href="javascript:void(null);" onclick="popWin=open('<?=gettpl_www("popups/iconbrowse")?>?input_id=<?=$language?>_icon&form_id=sEdit','PopUpWindow','width=500,height=400,scrollbars=1,status=0'); popWin.opener = self; popWin.focus(); popWin.moveTo(150,50); return false"><img id="<?=$language?>_icon_img" src="<?=geticon($newobject->getIcon())?>"/></a>
+								<a href="javascript:void(null);" onclick="popWin=open('<?=gettpl_www("popups/iconbrowse")?>?input_id=<?=$language?>_icon&form_id=sEdit','PopUpWindow','width=500,height=400,scrollbars=1,status=0'); popWin.opener = self; popWin.focus(); popWin.moveTo(150,50); return false"><img id="<?=$language?>_icon_img" src="<?=geticon($object->getIcon())?>"/></a>
 							</td>
 						</tr>
 					</table>
@@ -70,9 +70,9 @@ echo compiletpl("title/big", array("left"=>img(geticon($newobject->getIcon()))."
 			<div class="main">
 				<div class="container">
 				<?
-					if (isset($newobject->vars))
+					if (isset($object->vars))
 					{
-						foreach ($newobject->vars as $var)
+						foreach ($object->vars as $var)
 						{
 							$req = "";
 							if ($var->getRequired())
