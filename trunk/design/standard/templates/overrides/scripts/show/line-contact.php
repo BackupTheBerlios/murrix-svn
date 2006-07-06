@@ -30,7 +30,7 @@
 			else
 				$img = img(geticon($object->getIcon(), 64));
 				
-			cmd($img, "exec=show&node_id=".$object->getNodeId());
+			echo cmd($img, "exec=show&node_id=".$object->getNodeId());
 		?>
 		</div>
 	</div>

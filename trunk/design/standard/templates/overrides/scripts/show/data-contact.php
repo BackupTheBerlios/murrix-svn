@@ -228,97 +228,102 @@
 				</div>
 			</div>
 		</td>
-		<td class="right">
 		<?
-			echo compiletpl("title/medium", array("center"=>ucf(i18n("family tree"))));
-			
-			$parents = fetch("FETCH node WHERE property:class_name='contact' AND link:node_bottom='".$object->getNodeId()."' AND link:type='parent' NODESORTBY property:version SORTBY property:name");
-			
-			$children = fetch("FETCH node WHERE property:class_name='contact' AND link:node_top='".$object->getNodeId()."' AND link:type='parent' NODESORTBY property:version SORTBY property:name");
-			
-			$mother = false;
-			$father = false;
-			
-			foreach ($parents as $parent)
-			{
-				if ($parent->getVarValue("gender") == "female")
-					$mother = $parent;
-				else
-					$father = $parent;
-			}
-			?>
-			<div class="container">
-				<table width="100%" cellspacing="0">
-					<tr>
-						<td>
-							<fieldset style="text-align: center; margin-right: 2px;">
-								<legend>
-									<?=ucf(i18n("mother"))?>
-								</legend>
-								<?
-								if ($mother === false)
-									echo ucf(i18n("unknown"));
-								else
-								{
-									if ($mother->hasRight("read"))
-										echo cmd($mother->getName(), "exec=show&node_id=".$mother->getNodeId());
+		$parents = fetch("FETCH node WHERE property:class_name='contact' AND link:node_bottom='".$object->getNodeId()."' AND link:type='parent' NODESORTBY property:version SORTBY property:name");
+		
+		$children = fetch("FETCH node WHERE property:class_name='contact' AND link:node_top='".$object->getNodeId()."' AND link:type='parent' NODESORTBY property:version SORTBY property:name");
+		
+		$mother = false;
+		$father = false;
+		
+		foreach ($parents as $parent)
+		{
+			if ($parent->getVarValue("gender") == "female")
+				$mother = $parent;
+			else
+				$father = $parent;
+		}
+		
+		if (count($children) > 0 || $mother || $father)
+		{
+		?>
+			<td class="right">
+				<?=compiletpl("title/medium", array("center"=>ucf(i18n("family tree"))))?>
+				<div class="container">
+					<table width="100%" cellspacing="0">
+						<tr>
+							<td>
+								<fieldset style="text-align: center; margin-right: 2px;">
+									<legend>
+										<?=ucf(i18n("mother"))?>
+									</legend>
+									<?
+									if ($mother === false)
+										echo ucf(i18n("unknown"));
 									else
-										echo $mother->getName();
-								}
-								?>
-							</fieldset>
-						</td>
-						<td>
-							<fieldset style="text-align: center; margin-left: 2px;">
-								<legend>
-									<?=ucf(i18n("father"))?>
-								</legend>
-								<?
-								if ($father === false)
-									echo ucf(i18n("unknown"));
-								else
-								{
-									if ($father->hasRight("read"))
-										echo cmd($father->getName(), "exec=show&node_id=".$father->getNodeId());
-									else
-										echo $father->getName();
-								}
-								?>
-							</fieldset>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2" style="text-align: center" align="center">
-							<div class="family_tree_person">
-								<?=$object->getName()?>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2" style="text-align: right">
-							<fieldset style="text-align: center">
-								<legend>
-									<?=ucf(i18n("children"))?>
-								</legend>
-								<?
-								if (count($children) == 0)
-									echo ucf(i18n("none"));
-								else
-								{
-									foreach ($children as $child)
 									{
-										if ($child->hasRight("read"))
-											echo cmd($child->getName(), "exec=show&node_id=".$child->getNodeId())."<br/>";
+										if ($mother->hasRight("read"))
+											echo cmd($mother->getName(), "exec=show&node_id=".$mother->getNodeId());
 										else
-											echo $child->getName();
+											echo $mother->getName();
 									}
-								}
-								?>
-							</fieldset>
-						</td>
-					</tr>
-				</table>
-			</div>
-		</td>
+									?>
+								</fieldset>
+							</td>
+							<td>
+								<fieldset style="text-align: center; margin-left: 2px;">
+									<legend>
+										<?=ucf(i18n("father"))?>
+									</legend>
+									<?
+									if ($father === false)
+										echo ucf(i18n("unknown"));
+									else
+									{
+										if ($father->hasRight("read"))
+											echo cmd($father->getName(), "exec=show&node_id=".$father->getNodeId());
+										else
+											echo $father->getName();
+									}
+									?>
+								</fieldset>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2" style="text-align: center" align="center">
+								<div class="family_tree_person">
+									<?=$object->getName()?>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2" style="text-align: right">
+								<fieldset style="text-align: center">
+									<legend>
+										<?=ucf(i18n("children"))?>
+									</legend>
+									<?
+									if (count($children) == 0)
+										echo ucf(i18n("none"));
+									else
+									{
+										foreach ($children as $child)
+										{
+											if ($child->hasRight("read"))
+												echo cmd($child->getName(), "exec=show&node_id=".$child->getNodeId())."<br/>";
+											else
+												echo $child->getName();
+										}
+									}
+									?>
+								</fieldset>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</td>
+		<?
+		}
+	?>
 	</tr>
 </table>
