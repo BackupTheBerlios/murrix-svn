@@ -350,6 +350,42 @@ table.maintable .input_big
 	width: 25em;
 }
 
+div.timeline_wrapper
+{
+
+}
+
+div.timeline_wrapper div.event
+{
+	margin-bottom: 5px;
+}
+
+div.timeline_wrapper div.event .body
+{
+	padding-top: 5px;
+}
+
+div.timeline_wrapper div.event .right
+{
+	float: right;
+}
+
+div.timeline_wrapper div.event .date
+{
+	font-style: italic;
+	font-size: 11px;
+}
+
+div.timeline_wrapper div.event .title
+{
+	border: 1px solid #e1e4e8;
+	border-width: 1px 0 1px 0;
+	background-color: #ebedee;
+	padding: 2px 5px 2px 5px;
+	font-weight: bold;
+}
+
+
 table.maintable td.middle .show_line
 {
 	margin-bottom: 5px;

@@ -1,4 +1,5 @@
 <?
+$translation['timeline'] = "tidslinje";
 $translation['create region'] = "skapa region";
 $translation['exposure time'] = "exponeringstid";
 $translation['focal length'] = "fokuslängd";
@@ -8,7 +9,7 @@ $translation['flash'] = "blixt";
 $translation['shutter speed'] = "slutarhastighet";
 $translation['aperture'] = "bländare";
 $translation['exposure bias'] = "exponerings bias";
-$translation['datails'] = "detaljer";
+$translation['details'] = "detaljer";
 $translation['family tree'] = "släktträd";
 $translation['mother'] = "mamma";
 $translation['father'] = "pappa";

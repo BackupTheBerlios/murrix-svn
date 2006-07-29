@@ -18,6 +18,14 @@ $templates_override['scripts/show/line.php'][$count]['match']['class'] = "news";
 
 
 
+$count++;
+$templates_override['scripts/show/children.php'][$count]['filename'] = "overrides/scripts/show/children-contact.php";
+$templates_override['scripts/show/children.php'][$count]['match']['class'] = "contact";
+
+
+
+
+
 $count = 0;
 $templates_override['scripts/show/small_line.php'][$count]['filename'] = "overrides/scripts/show/small_line-link.php";
 $templates_override['scripts/show/small_line.php'][$count]['match']['class'] = "link";

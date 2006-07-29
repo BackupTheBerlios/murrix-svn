@@ -96,7 +96,7 @@
 						$rlist[] = array("region".$region->getNodeId(), $x, $y, $w, $h, $text);
 					}
 					
-					$data = "<div style=\"text-align: left; overflow: hidden; width: {$thumbnail->width}px; height: {$thumbnail->height}px;\">";
+					//$data = "<div style=\"text-align: left; overflow: hidden; width: {$thumbnail->width}px; height: {$thumbnail->height}px;\">";
 						
 					if (count($rlist) > 0)
 					{
@@ -106,7 +106,7 @@
 					else
 						$data .= "<img id=\"id{$thumbnail->id}\" class=\"image-border\" style=\"width: {$thumbnail->width}px; height: {$thumbnail->height}px;\" src=\"?thumbnail={$thumbnail->id}\"/>";
 						
-					$data .= "</div>";
+					//$data .= "</div>";
 				}
 				else
 					$data = img(geticon($type, 128));
@@ -146,7 +146,7 @@
 			
 			<?=$data?>
 			
-			<table cellspacing="0" style="width: <?=$maxsize?>px;">
+			<table cellspacing="0" style="width: <?=$maxsize?>px; font-style: italic; font-size: 11px;">
 				<tr>
 					<? if (!empty($datetime)) { ?>
 					<td>
@@ -165,7 +165,7 @@
 			<?
 			$description = $object->getVarValue("description");
 			if (!empty($description))
-				echo "$description<br/>";
+				echo "$description<br/><br/>";
 			?>
 			
 			<a href="javascript:noneDisplay('settings');invertDisplay('details');">[<?=ucf(i18n("details"))?>]</a>
@@ -174,7 +174,7 @@
 			<? } ?>
 			<div id="details" style="display: none;">
 				<hr/>
-				<table style="width: <?=$maxsize?>px; text-align: center;">
+				<table style="width: 100%; text-align: center;">
 					<tr>
 						<?
 						if (isset($result['SubIFD']['ApertureValue'])) {
@@ -236,7 +236,7 @@
 						?>
 					</tr>
 				</table>
-				<table style="width: <?=$maxsize?>px; text-align: center;">
+				<table style="width: 100%; text-align: center;">
 					<tr>
 						<?
 						if (!empty($width)) {
@@ -334,7 +334,7 @@
 							<div class="show_item">&nbsp;</div>
 							<div class="clear"></div>
 						</div>
-						<div style="font-weight: bold; text-align: center;"><?=ucw(i18n("no more files"))?></div>
+						<div style="font-weight: bold; text-align: center;"><?=ucf(i18n("no more files"))?></div>
 					<?
 					}
 				?>
@@ -366,7 +366,7 @@
 							<div class="show_item">&nbsp;</div>
 							<div class="clear"></div>
 						</div>
-						<div style="font-weight: bold; text-align: center;"><?=ucw(i18n("no more files"))?></div>
+						<div style="font-weight: bold; text-align: center;"><?=ucf(i18n("no more files"))?></div>
 					<?
 					}
 				?>
