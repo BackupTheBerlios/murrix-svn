@@ -145,22 +145,22 @@ class mThumbnail
 		{
 			case "jpeg":
 			case "jpg":
-			$image = imagecreatefromjpeg($filename);
+			$image = @imagecreatefromjpeg($filename);
 			if (empty($image)) return false;
 			break;
 
 			case "png":
-			$image = imagecreatefrompng($filename);
+			$image = @imagecreatefrompng($filename);
 			if (empty($image)) return false;
 			break;
 
 			case "gif":
-			$image = imagecreatefromgif($filename);
+			$image = @imagecreatefromgif($filename);
 			if (empty($image)) return false;
 			break;
 
 			case "bmp":
-			$image = imagecreatefromwbmp($filename);
+			$image = @imagecreatefromwbmp($filename);
 			if (empty($image)) return false;
 			break;
 

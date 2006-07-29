@@ -26,11 +26,7 @@ require_once("$abspath/session.php");
 	<body>
 		<div id="main">
 			<div id="content">
-			<?
-				$left = $right = "";
-				$center = ucf(i18n("icon"))." ".ucf(i18n("browse"));
-				include(gettpl("big_title"));
-				?>
+				<?=compiletpl("title/big", array("center"=>ucf(i18n("icon"))." ".ucf(i18n("browse"))))?>
 				<div class="main">
 				<?
 					global $abspath, $wwwpath;
@@ -55,7 +51,7 @@ require_once("$abspath/session.php");
 	
 					if ($_SESSION['murrix']['site'] != "standard")
 					{
-						$files = GetSubfiles("$abspath/design/".$_SESSION['murrix']['site']."/icons/64");
+						$files = GetSubfiles("$abspath/design/".$_SESSION['murrix']['theme']."/icons/64");
 	
 						if (count($files) > 0)
 						{
@@ -63,11 +59,11 @@ require_once("$abspath/session.php");
 							echo "<hr/>";
 							foreach ($files as $file)
 							{
-								list($width, $height, $type, $attr) = getimagesize("$abspath/design/standard/icons/64/$file");
+								list($width, $height, $type, $attr) = getimagesize("$abspath/design/".$_SESSION['murrix']['theme']."/icons/64/$file");
 								$file = basename($file);
 								echo "<div style=\"float: left; margin: 5px;\" >\n";
 								echo "<a href=\"javascript:void(null);\" onclick=\"opener.document.getElementById('".$_GET['form_id']."').".$_GET['input_id'].".value='".basename($file, ".png")."'; opener.document.getElementById('".$_GET['input_id']."_img').src='".geticon(basename($file, ".png"))."';self.close();\">\n";
-								echo "<img src=\"$wwwpath/design/standard/icons/64/$file\"  style=\"width: ".$width."px; height: ".$height."px;\"/>\n";
+								echo "<img src=\"$wwwpath/design/".$_SESSION['murrix']['theme']."/icons/64/$file\"  style=\"width: ".$width."px; height: ".$height."px;\"/>\n";
 								echo "</a>\n</div>\n";
 							}
 							echo "<div class=\"clear\"></div>";

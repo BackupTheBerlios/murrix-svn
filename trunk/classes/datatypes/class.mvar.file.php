@@ -37,10 +37,13 @@ class mVarFile extends mVar
 		if (parent::Save())
 		{
 			$filename = "$abspath/files/".$this->value_id.".$extension";
-			if (!copy($names[1], $filename))
+			if ($names[1] != $filename)
 			{
-				return "Error while moving uploaded file from ".$names[1]." to $filename";
-				//return false;
+				if (!copy($names[1], $filename))
+				{
+					return "Error while moving uploaded file from $data".$names[1]." to $filename";
+					//return false;
+				}
 			}
 		}
 	
@@ -56,7 +59,15 @@ class mVarFile extends mVar
 	
 	function getEdit($formname, $var_prefix = "")
 	{
-		return compiletpl("datatypes/file/edit", $this->getStandardArgs($formname, $var_prefix));
+		global $abspath;
+		
+		$args = $this->getStandardArgs($formname, $var_prefix);
+		
+		$extension = pathinfo($args['value'], PATHINFO_EXTENSION);
+
+		$args['filepath'] = "$abspath/files/".$this->value_id.".$extension";
+	
+		return compiletpl("datatypes/file/edit", $args);
 	}
 	
 	function getShow()

@@ -177,6 +177,7 @@ table.maintable td.middle
 	vertical-align: top;
 	padding: 5px;
 	padding-bottom: 0;
+	font-size: 12px;
 }
 
 table.maintable td.middle img
@@ -413,6 +414,7 @@ table.maintable td.middle .show_line .show_line_main_right
 
 table.maintable td.middle .show_item_wrapper
 {
+	font-size: 11px;
 }
 
 table.maintable td.middle .show_item_wrapper .show_item

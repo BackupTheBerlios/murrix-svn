@@ -1,5 +1,20 @@
 <?
 
+function guessObjectType($object)
+{
+	switch ($object->getClassName())
+	{
+		case "file":
+		$object->setMeta("comment_show_num_per_page", "all");
+		$object->setMeta("show_comments", 1);
+		break;
+		
+		case "file_folder":
+		$object->setMeta("children_show_num_per_page", "all");
+		$object->setMeta("view", "thumbnails");
+	}
+}
+
 function createObject($parent, $name, $class = "folder", $values = null)
 {
 	$object = new mObject();
@@ -18,6 +33,7 @@ function createObject($parent, $name, $class = "folder", $values = null)
 
 	if ($object->save())
 	{
+		guessObjectType($object);
 		$object->linkWithNode($parent->getNodeId());
 		clearNodeFileCache($parent->getNodeId());
 		return $object->getNodeId();

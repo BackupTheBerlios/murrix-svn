@@ -51,7 +51,14 @@ class sZone extends Script
 	function Draw(&$system, &$response, $args)
 	{
 		foreach ($this->zones as $key => $value)
-			$response->addAssign($key, "innerHTML", utf8e(compiletpl($value, array())));
+		{
+			$zone_args = array();
+			$data = compiletplWithOutput($value, $zone_args);
+			$response->addAssign($key, "innerHTML", utf8e($data));
+			
+			if (!empty($zone_args['output']['js']))
+				$response->addScript($zone_args['output']['js']);
+		}
 	}
 }
 ?>

@@ -6,11 +6,11 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
 		
 		<?
-		$rss = new mRSS();
-		$feeds = $rss->getFeeds();
+		$xml = new mXml();
+		$feeds = $xml->getFeeds();
 		
 		foreach ($feeds as $feed)
-			echo "<link rel=\"alternate\" type=\"application/rss+xml\" href=\"$wwwpath/backends/rss.php?id=".$feed['id']."\" title=\"".$feed['title']."\"/>";
+			echo "<link rel=\"alternate\" type=\"application/rss+xml\" href=\"?rss&id=".$feed['id']."\" title=\"".$feed['title']."\"/>";
 		?>
 		
 		<link rel="shortcut icon" href="<?=geticon("murrix")?>" type="image/x-icon"/>
@@ -50,11 +50,22 @@
 					arrowObj.src = '<?=imgpath("1uparrow.png")?>';
 				}
 			}
+			
+			var myrules = {
+				'a.cmd' : function(element) {
+					var parts = element.href.split("?");
+					
+					if (typeof parts[1] != 'undefined')
+						element.href = "javascript:setRun('"+parts[1]+"')";
+				}
+			};
+			
+			Behaviour.register(myrules);
 		// -->
 		</script>
 	</head>
 
-	<body class="body" onload="OnLoadHandler();">
+	<body class="body" onload="OnLoadHandler();Behaviour.apply()">
 		<div style="float: right; padding: 7px;" id="zone_language">
 		<?
 			echo compiletpl("scripts/langswitch", array());
@@ -128,7 +139,7 @@
 								echo compiletpl("scripts/login/logout", array());
 								
 							$_SESSION['murrix']['system']->makeActive("login");
-							?>
+						?>
 						</div>
 					</div>
 					
@@ -169,4 +180,3 @@
 		<div id="popupCalendarDiv" style="visibility:hidden; position:absolute; z-index:11;"></div>
 	</body>
 </html>
-

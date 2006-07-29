@@ -62,7 +62,7 @@ $_SESSION['murrix']['site'] = "standard";
 
 echo "MURRiX Cron Script\n\n";flush();
 
-
+/*
 $files = fetch("FETCH node WHERE property:class_name='file_folder' NODESORTBY property:version");
 echo "Setting default metadata for file_folders\n";flush();
 echo count($files)." file_folders found\n";flush();
@@ -86,12 +86,15 @@ foreach ($files as $file)
 	
 }
 echo "\n";flush();
-
+*/
 
 echo "Creating thumbnail for default sizes for all image files\n";flush();
 
-$count_small = 0;
-$count_big = 0;
+$count = 0;
+$thumbnailes = array();
+
+$maxsize_big = getSetting("IMGSIZE", 640);
+$maxsize_small = getSetting("THUMBSIZE", 150);
 
 foreach ($files as $file)
 {
@@ -99,35 +102,34 @@ foreach ($files as $file)
 	$filename = $file->getVarValue("file");
 	$type = getfiletype(pathinfo($filename, PATHINFO_EXTENSION));
 	
-	$data = "";
 	if ($type == "image")
 	{
-		$maxsize_big = getSetting("IMGSIZE", 640);
-		$maxsize_small = getSetting("THUMBSIZE", 150);
-		
 		$angle = $file->getMeta("angle", "");
 		
 		if (!checkThumbnailExists($value_id, $maxsize_big, 0))
 		{
-			$start_time = time();
-			getThumbnail($value_id, $maxsize_big, 0, $angle);
-			$time = time()-$start_time;
-			$count_big++;
-			echo "Successfully created thumbnail for $filename (Size $maxsize_big) Time: $time second(s)\n";flush();
+			$thumbnailes[] = array("node_id"=>$file->getNodeId(), "filename"=>$filename, "value_id"=>$value_id, "width"=>$maxsize_big, "height"=>0, "angle"=>$angle);
 		}
 			
 		if (!checkThumbnailExists($value_id, $maxsize_small, $maxsize_small))
 		{
-			$start_time = time();
-			getThumbnail($value_id, $maxsize_small, $maxsize_small, $angle);
-			$time = time()-$start_time;
-			$count_small++;
-			echo "Successfully created thumbnail for $filename (NodeID ".$file->getNodeId().") (Size $maxsize_small) Time: $time second(s)\n";flush();
+			$thumbnailes[] = array("node_id"=>$file->getNodeId(), "filename"=>$filename, "value_id"=>$value_id, "width"=>$maxsize_small, "height"=>$maxsize_small, "angle"=>$angle);
 		}
 	}
 }
 
-echo "Created thumnails: Size $maxsize_big - $count_big, Size $maxsize_small - $count_small\n";flush();
+echo "Will now create ".count($thumbnails)." thumbnails\n";flush();
+
+foreach ($thumbnails as $thumbnail)
+{
+	$start_time = time();
+	getThumbnail($thumbnail['value_id'], $thumbnail['width'], $thumbnail['height'], $thumbnail['angle']);
+	$time = time()-$start_time;
+	$count++;
+	echo "[$count/".count($thumbnails)."] Successfully created thumbnail for ".$thumbnail['filename']." (NodeID ".$thumbnail['node_id'].") (Size ".$thumbnail['width'].") Time: $time second(s)\n";flush();
+}
+
+echo "Created $count thumbnails\n";flush();
 echo "\n";flush();
 
 

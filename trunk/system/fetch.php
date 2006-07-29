@@ -301,7 +301,7 @@ function fetch($query, $debug = false)
 	return $objects;
 }
 
-function SortBy(&$list, $sortby, $invert)
+function SortBy(&$list, $sortby, $invert = false)
 {
 	switch ($sortby)
 	{

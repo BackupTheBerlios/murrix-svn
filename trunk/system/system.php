@@ -70,6 +70,7 @@ class mSystem
 	
 		$response = new xajaxResponse();
 		$this->TriggerEventIntern($response, $event, utf8d($arguments));
+		$response->addScript("Behaviour.apply();");
 		return $response->getXML();
 	}
 	
@@ -95,6 +96,7 @@ class mSystem
 		if (!empty($_SESSION['debug']))
 			$response->addAlert($_SESSION['debug']);
 
+		$response->addScript("Behaviour.apply();");
 		return $response->getXML();
 	}
 

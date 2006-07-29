@@ -17,7 +17,7 @@ if ($last_week_day == 0) // Sunday
 		<?=cmd(ucf(i18n(strtolower(date("F", $args['firstday']))))." ".date("Y", $args['firstday']), "exec=calendar&view=month&date=".date("Ymd", $args['firstday']), "link")?>
 	</legend>
 
-	<table class="small_calendar_table" cellspacing="1">
+	<table class="small_calendar_table" cellspacing="0">
 		<tr class="title_row">
 			<td class="week">&nbsp;</td>
 			<td class="monday">M</td>

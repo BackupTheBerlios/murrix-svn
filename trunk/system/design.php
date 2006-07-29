@@ -48,37 +48,20 @@ function runjs($name, $js)
 	return "<a href=\"javascript:void(null)\" onclick=\"$js\" onkeyup=\"$js\">$name</a>";
 }
 
-function cmd($name, $cmd, $args = "", $title_deprecated = "")
+function cmd($name, $cmd, $args = null)
 {
-	$arg_string = "";
+	if (is_string($args))
+		$args = array("class" => $args);
+	else if (!is_array($args))
+		$args = array();
 
-	if (!empty($title_deprecated))
-		$arg_string .= "title=\"$title_deprecated\" ";
-
-	$onclick_string = "setRun('$cmd');";
-	$onkeyup_string = "";//run_cmd=true;";
+	$args['class'] = "cmd ".$args['class'];
 	
-	if (!empty($args))
-	{
-		if (is_array($args))
-		{
-			foreach ($args as $key => $value)
-			{
-				if ($key == "onclick")
-					$onclick_string .= "$value;";
-				else if ($key == "onkeyup")
-					$onkeyup_string .= "$value;";
-				else
-					$arg_string .= "$key=\"$value\" ";
-			}
-		}
-		else // assume we got class
-		{
-			$arg_string .= "class=\"$args\" ";
-		}
-	}
+	$string = "";
+	foreach ($args as $key => $value)
+		$string .= "$key=\"$value\" ";
 	
-	return "<a href=\"#$cmd\" onclick=\"$onclick_string\" onkeyup=\"$onkeyup_string\" $arg_string>$name</a>";
+	return "<a href=\"?$cmd\" $string>$name</a>";
 }
 
 function imgpath($append = "")

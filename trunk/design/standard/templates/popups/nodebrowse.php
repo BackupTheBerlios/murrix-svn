@@ -58,12 +58,7 @@ if (!$object->hasRight("read"))
 	</head>
 	
 	<body class="nodebrowse">
-	<?
-		$left = img(geticon($object->getIcon()))." ".$object->getName();
-		$right = $object->getNodeId();
-		$center = "";
-		include(gettpl("big_title"));
-		?>
+		<?=compiletpl("title/big", array("left"=>img(geticon($object->getIcon()))." ".$object->getName(), "right"=>$object->getNodeId()))?>
 		<div class="main">
 			<div class="container">
 				<?=$object->getPathInTree()?>

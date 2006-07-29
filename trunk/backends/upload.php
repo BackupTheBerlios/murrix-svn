@@ -117,6 +117,7 @@ function printToLog($text)
 		
 							if ($object->save())
 							{
+								guessObjectType($object);
 								$parent_new = new mObject(getNode($base));
 								$object->linkWithNode($parent_new->getNodeId());
 								printToLog("Created file_folder ". $object->getPath()."<br/>");
@@ -151,6 +152,7 @@ function printToLog($text)
 		
 					if ($object->save())
 					{
+						guessObjectType($object);
 						$object->linkWithNode($parent_new->getNodeId());
 						clearNodeFileCache($parent_new->getNodeId());
 						printToLog("Created file". $object->getPath()."<br/>");

@@ -1,4 +1,22 @@
 
+function invertDisplay(id)
+{
+	if (document.getElementById(id).style.display == "none")
+		document.getElementById(id).style.display = "block";
+	else
+		document.getElementById(id).style.display = "none";
+}
+
+function blockDisplay(id)
+{
+	document.getElementById(id).style.display = "block";
+}
+
+function noneDisplay(id)
+{
+	document.getElementById(id).style.display = "none";
+}
+
 function checkUncheckAll(theElement)
 {
 	var theForm = theElement.form;
