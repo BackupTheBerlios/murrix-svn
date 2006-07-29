@@ -74,8 +74,9 @@ foreach ($files as $file)
 	
 }
 echo "\n";flush();
-
+*/
 $files = fetch("FETCH node WHERE property:class_name='file' NODESORTBY property:version");
+/*
 echo "Setting default metadata for files\n";flush();
 echo count($files)." files found\n";flush();
 

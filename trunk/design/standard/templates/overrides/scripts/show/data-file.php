@@ -166,7 +166,6 @@
 			$description = $object->getVarValue("description");
 			if (!empty($description))
 				echo "$description<br/>";
-				
 			?>
 			
 			<a href="javascript:noneDisplay('settings');invertDisplay('details');">[<?=ucf(i18n("details"))?>]</a>
@@ -178,19 +177,20 @@
 				<table style="width: <?=$maxsize?>px; text-align: center;">
 					<tr>
 						<?
-						if (isset($result['SubIFD']['ExposureBiasValue'])) {
-						?>
-						<td style="width: 14%;">
-							<div style="font-weight: bold; text-align: center;"><?=ucw(i18n("exposure bias"))?></div>
-							<?=trim($result['SubIFD']['ExposureBiasValue'])?>
-						</td>
-						<?
-						}
 						if (isset($result['SubIFD']['ApertureValue'])) {
 						?>
 						<td style="width: 14%;">
 							<div style="font-weight: bold; text-align: center;"><?=ucw(i18n("aperture"))?></div>
 							<?=trim($result['SubIFD']['ApertureValue'])?>
+						</td>
+						<?
+						}
+						}
+						if (isset($result['SubIFD']['FocalLength'])) {
+						?>
+						<td style="width: 14%;">
+							<div style="font-weight: bold; text-align: center;"><?=ucw(i18n("focal length"))?></div>
+							<?=trim($result['SubIFD']['FocalLength'])?>
 						</td>
 						<?
 						}
@@ -202,22 +202,6 @@
 						</td>
 						<?
 						}
-						if (isset($result['SubIFD']['Flash'])) {
-						?>
-						<td style="width: 14%;">
-							<div style="font-weight: bold; text-align: center;"><?=ucw(i18n("flash"))?></div>
-							<?=trim($result['SubIFD']['Flash'])?>
-						</td>
-						<?
-						}
-						if (isset($result['IFD0']['Orientation'])) {
-						?>
-						<td style="width: 14%;">
-							<div style="font-weight: bold; text-align: center;"><?=ucw(i18n("orientation"))?></div>
-							<?=trim($result['IFD0']['Orientation'])?>
-						</td>
-						<?
-						}
 						if (isset($result['SubIFD']['ExposureTime'])) {
 						?>
 						<td style="width: 14%;">
@@ -226,11 +210,27 @@
 						</td>
 						<?
 						}
-						if (isset($result['SubIFD']['FocalLength'])) {
+						if (isset($result['SubIFD']['ExposureBiasValue'])) {
 						?>
 						<td style="width: 14%;">
-							<div style="font-weight: bold; text-align: center;"><?=ucw(i18n("focal length"))?></div>
-							<?=trim($result['SubIFD']['FocalLength'])?>
+							<div style="font-weight: bold; text-align: center;"><?=ucw(i18n("exposure bias"))?></div>
+							<?=trim($result['SubIFD']['ExposureBiasValue'])?>
+						</td>
+						<?
+						}
+						if (isset($result['SubIFD']['Flash'])) {
+						?>
+						<td style="width: 14%;">
+							<div style="font-weight: bold; text-align: center;"><?=ucw(i18n("flash"))?></div>
+							<?=ucf(i18n(strtolower(trim($result['SubIFD']['Flash']))))?>
+						</td>
+						<?
+						}
+						if (isset($result['IFD0']['Orientation'])) {
+						?>
+						<td style="width: 14%;">
+							<div style="font-weight: bold; text-align: center;"><?=ucw(i18n("orientation"))?></div>
+							<?=trim($result['IFD0']['Orientation'])?>
 						</td>
 						<?
 						}
