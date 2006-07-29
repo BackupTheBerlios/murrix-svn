@@ -265,7 +265,6 @@ if (!isset($_SESSION['murrix']['system']))
 $prof->stopTimer( "system" );
 
 $_SESSION['murrix']['rightcache']['file'] = array();
-$_SESSION['murrix']['rightcache']['thumbnail'] = array();
 
 /* ========================= */
 // Process ajax-calls

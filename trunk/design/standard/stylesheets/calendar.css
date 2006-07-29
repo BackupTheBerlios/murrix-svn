@@ -73,7 +73,7 @@ table.small_calendar_table tr.week_row td.week
 
 table.small_calendar_table tr.week_row td.day
 {
-	border: 1px solid #e1e4e8;
+	/*border: 1px solid #e1e4e8;*/
 	background-color: white;
 	font-weight: normal;
 	padding: 1px;

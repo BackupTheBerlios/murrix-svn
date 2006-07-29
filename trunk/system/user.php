@@ -14,6 +14,8 @@ function isAdmin()
 
 function login($username, $password)
 {
+	$_SESSION['murrix']['rightcache']['thumbnail'] = array();
+	
 	if (function_exists("overrideLogin"))
 		return overrideLogin($username, $password);
 		
@@ -35,11 +37,13 @@ function realLogin($username, $password)
 	$_SESSION['murrix']['user'] = new mUser($users[0]['id']);
 	$_SESSION['murrix']['user']->last_login = date("Y-m-d H:i:s");
 	$_SESSION['murrix']['user']->save();
+	
 	return true;
 }
 
 function logout()
 {
+	$_SESSION['murrix']['rightcache']['thumbnail'] = array();
 	if (function_exists("overrideLogout"))
 		return overrideLogout();
 		
