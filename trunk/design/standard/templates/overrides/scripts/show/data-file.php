@@ -185,7 +185,6 @@
 						</td>
 						<?
 						}
-						}
 						if (isset($result['SubIFD']['FocalLength'])) {
 						?>
 						<td style="width: 14%;">
