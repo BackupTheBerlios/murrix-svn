@@ -82,7 +82,9 @@ class mThumbnail
 	
 	function Show($return = false, $title = "", $style = "")
 	{
-		$str = "<img style=\"$style\" title=\"$title\" alt=\"$title\" src=\"?thumbnail=$this->id\" class=\"image-border\" width=\"$this->width\" height=\"$this->height\"/>";
+		global $wwwpath;
+		$_SESSION['murrix']['rightcache']['thumbnail'][] = $this->id;
+		$str = "<img style=\"$style\" title=\"$title\" alt=\"$title\" src=\"$wwwpath/backends/thumbnail.php?id=$this->id&created=$this->created\" class=\"image-border\" width=\"$this->width\" height=\"$this->height\"/>";
 
 		if ($return)
 			return $str;
@@ -94,12 +96,6 @@ class mThumbnail
 	{
 		global $abspath;
 		$filename = "$abspath/thumbnails/".$this->id.".jpg";
-		
-		if (!file_exists($filename))
-		{
-			$this->setRebuild();
-			return;
-		}
 		
 		header("Content-type: " . image_type_to_mime_type($this->type));
 		header('Last-Modified: '.gmdate('D, d M Y H:i:s', strtotime($this->created)).' GMT');

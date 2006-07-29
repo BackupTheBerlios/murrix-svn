@@ -121,13 +121,13 @@ updateActive();
 /* ========================= */
 if (isset($_GET['thumbnail']))
 {
-	//if (in_array($_GET['thumbnail'], $_SESSION['murrix']['rightcache']['thumbnail']))
+	if (in_array($_GET['thumbnail'], $_SESSION['murrix']['rightcache']['thumbnail']))
 	{
 		$thumbnail = new mThumbnail($_GET['thumbnail']);
 		$thumbnail->Output();
 	}
-	//else
-	//	echo "No rights";
+	else
+		echo "No rights";
 		
 	return;
 }

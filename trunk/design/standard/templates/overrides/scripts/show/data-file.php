@@ -2,6 +2,8 @@
 	<div class="container">
 		<center>
 		<?
+			global $wwwpath;
+		
 			$parent = new mObject(getNode(getParentPath($object->getPathInTree())));
 			
 			$invert = "";
@@ -100,11 +102,11 @@
 						
 					if (count($rlist) > 0)
 					{
-						$data .= "<img id=\"id{$thumbnail->id}\" class=\"image-border\" style=\"width: {$thumbnail->width}px; height: {$thumbnail->height}px;\" usemap=\"#map{$thumbnail->id}\" src=\"?thumbnail={$thumbnail->id}\"/>";
+						$data .= "<img id=\"id{$thumbnail->id}\" class=\"image-border\" style=\"width: {$thumbnail->width}px; height: {$thumbnail->height}px;\" usemap=\"#map{$thumbnail->id}\" src=\"$wwwpath/backends/thumbnail.php?id={$thumbnail->id}&created={$thumbnail->created}\"/>";
 						$data .= drawImageRegions($thumbnail->height, $thumbnail->width, "map".$thumbnail->id, $rlist);
 					}
 					else
-						$data .= "<img id=\"id{$thumbnail->id}\" class=\"image-border\" style=\"width: {$thumbnail->width}px; height: {$thumbnail->height}px;\" src=\"?thumbnail={$thumbnail->id}\"/>";
+						$data .= "<img id=\"id{$thumbnail->id}\" class=\"image-border\" style=\"width: {$thumbnail->width}px; height: {$thumbnail->height}px;\" src=\"$wwwpath/backends/thumbnail.php?id={$thumbnail->id}&created={$thumbnail->created}\"/>";
 						
 					//$data .= "</div>";
 				}
