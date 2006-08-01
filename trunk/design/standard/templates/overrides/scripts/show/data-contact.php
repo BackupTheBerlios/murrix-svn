@@ -376,6 +376,8 @@
 					<?
 						foreach ($events as $event)
 						{
+							$persons = fetch("FETCH node WHERE link:node_bottom='".$event->getNodeId()."' AND link:type='sub' AND property:class_name='contact' AND !property:node_id='".$object->getNodeId()."' NODESORTBY property:version SORTBY property:name");
+						
 							$datetime = $event->getVarValue("date");
 							$time = $event->getVarValue("time");
 							if (!empty($time))
@@ -390,16 +392,27 @@
 								<div class="body" id="event_less_<?=$event->getNodeId()?>">
 									<div class="date">
 									<?
-										if (!empty($description))
+										if (!empty($description) || count($persons) > 0)
 										{
 										?>
 											<div class="right">
+											<?
+												foreach ($persons as $person)
+													echo cmd(img(geticon($person->getIcon()))." ".$person->getName(), "exec=show&node_id=".$person->getNodeId());
+												
+												if (!empty($description))
+												{
+												?>
 												<a href="javascript:noneDisplay('event_less_<?=$event->getNodeId()?>');blockDisplay('event_more_<?=$event->getNodeId()?>')"><?=img(imgpath("1uparrow.png"))?></a>
+												<?
+												}
+											?>
 											</div>
 											<?
 										}
+										
+										echo $datetime;
 										?>
-										<?=$datetime?>
 										<div class="clear"></div>
 									</div>
 								</div>
@@ -410,9 +423,15 @@
 									<div class="body" id="event_more_<?=$event->getNodeId()?>" style="display: none;">
 										<div class="date">
 											<div class="right">
+											<?
+												foreach ($persons as $person)
+													echo cmd(img(geticon($person->getIcon()))." ".$person->getName(), "exec=show&node_id=".$person->getNodeId());
+												?>
 												<a href="javascript:noneDisplay('event_more_<?=$event->getNodeId()?>');blockDisplay('event_less_<?=$event->getNodeId()?>')"><?=img(imgpath("1downarrow.png"))?></a>
 											</div>
-											<?=$datetime?>
+											<?
+											echo $datetime;
+											?>
 											<div class="clear"></div>
 										</div>
 										<hr/>
