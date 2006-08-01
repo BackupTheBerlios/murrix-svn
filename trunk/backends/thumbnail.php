@@ -10,7 +10,7 @@ if (in_array($_GET['id'], $_SESSION['murrix']['rightcache']['thumbnail']))
 	header("Content-Length: ".filesize($filename));
 	@readfile($filename);
 	
-	$_SESSION['murrix']['rightcache']['thumbnail'] = array_diff($_SESSION['murrix']['rightcache']['thumbnail'], array($_GET['id']));
+//	$_SESSION['murrix']['rightcache']['thumbnail'] = array_diff($_SESSION['murrix']['rightcache']['thumbnail'], array($_GET['id']));
 }
 else
 	echo "No rights";

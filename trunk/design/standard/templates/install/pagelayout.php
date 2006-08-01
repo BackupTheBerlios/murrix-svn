@@ -36,10 +36,21 @@
 			{
 				return "exec=install";
 			}
+			
+			var myrules = {
+				'a.cmd' : function(element) {
+					var parts = element.href.split("?");
+					
+					if (typeof parts[1] != 'undefined')
+						element.href = "javascript:setRun('"+parts[1]+"')";
+				}
+			};
+			
+			Behaviour.register(myrules);
 		// -->
 		</script>
 	</head>
-	<body onload="OnLoadHandler()">
+	<body onload="OnLoadHandler();Behaviour.apply()">
 		<div id="install">
 			<div id="header">
 				<div id="header_wrapper">
@@ -57,7 +68,10 @@
 			<center>
 				<div class="main_wrapper">
 					<div id="zone_main">
-						<? include(gettpl("install/stage1")) ?>
+					<?
+						echo compiletpl("install/stage1", array());
+						$_SESSION['murrix']['system']->makeActive("install");
+					?>
 					</div>
 				</div>
 			</center>

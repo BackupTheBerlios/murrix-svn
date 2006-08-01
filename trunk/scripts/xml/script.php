@@ -169,6 +169,9 @@ class sXML extends Script
 			
 			foreach ($this->imported_nodes as $container)
 			{
+				if (!isset($container['created']))
+					$container['created'] = date("Y-m-d H:i:s");
+							
 				$node_id = $node_table->insert(array("created" => $container['created']));
 				
 				$node = new mObject();
@@ -201,6 +204,9 @@ class sXML extends Script
 						$object->setClassName($object_array['class_name']);
 						$object->loadVars();
 						
+						if (!isset($object_array['created']))
+							$object_array['created'] = date("Y-m-d H:i:s");
+						
 						$object->node_id = $node_id;
 						$object->created = $object_array['created'];
 						$object->version = $object_array['version'];
@@ -223,41 +229,45 @@ class sXML extends Script
 						else
 							$object->user_id = $_SESSION['murrix']['user']->id;
 						
-						foreach ($object_array['vars'] as $key => $value)
+						if (is_array($object_array['vars']))
 						{
-							if ($object->checkVarExistance($key) == 0)
+							foreach ($object_array['vars'] as $key => $value)
 							{
-								echo "<span style=\"color:red\">Could not resolve - $key, skipping<br/></span>";
-								continue;
-							}
-								
-							$value['value'] = html_entity_decode($value['value']);
-							if ($value['type'] == "file")
-							{
-								$extension = strtolower(pathinfo($value['value'], PATHINFO_EXTENSION));
-								$oldfile = $args['filepath']."/".$value['file_id'].".$extension";
-								
-								if (!file_exists($oldfile))
-									echo "<span style=\"color:red\">Could not find file - $oldfile, skipping<br/></span>";
-								else
-									$object->setVarValue($key, $value['value'].":$oldfile");
-							}
-							else if ($value['type'] == "thumbnail")
-							{
-								if (!empty($value['thumb_id']))
+								if ($object->checkVarExistance($key) == 0)
 								{
-									$oldfile = $args['thumbpath']."/".$value['thumb_id'].".jpg";
+									echo "<span style=\"color:red\">Could not resolve - $key, skipping<br/></span>";
+									continue;
+								}
+								if (!is_array($value['value']))
+									$value['value'] = html_entity_decode($value['value']);
+									
+								if ($value['type'] == "file")
+								{
+									$extension = strtolower(pathinfo($value['value'], PATHINFO_EXTENSION));
+									$oldfile = $args['filepath']."/".$value['file_id'].".$extension";
 									
 									if (!file_exists($oldfile))
-										echo "<span style=\"color:red\">Could not find thumbfile - $oldfile, skipping<br/></span>";
+										echo "<span style=\"color:red\">Could not find file - $oldfile, skipping<br/></span>";
 									else
-										$object->setVarValue($key, $value['thumb_id'].".jpg:$oldfile");
+										$object->setVarValue($key, $value['value'].":$oldfile");
 								}
+								else if ($value['type'] == "thumbnail")
+								{
+									if (!empty($value['thumb_id']))
+									{
+										$oldfile = $args['thumbpath']."/".$value['thumb_id'].".jpg";
+										
+										if (!file_exists($oldfile))
+											echo "<span style=\"color:red\">Could not find thumbfile - $oldfile, skipping<br/></span>";
+										else
+											$object->setVarValue($key, $value['thumb_id'].".jpg:$oldfile");
+									}
+								}
+								else
+									$object->setVarValue($key, $value['value']);
 							}
-							else
-								$object->setVarValue($key, $value['value']);
 						}
-							
+						
 						$object->save(true);
 						echo "Created object name=".$object->name.", node_id=$node_id, id=".$object->id.",version=".$object->version.",language=".$object->language."<br/>";
 					}

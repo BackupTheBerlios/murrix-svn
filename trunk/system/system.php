@@ -23,7 +23,7 @@ class mSystem
 		$this->xajax->registerFunction("ExecScript");
 		$this->xajax->registerFunction("TriggerEvent");
 		
-		$this->LoadScripts();
+		//$this->LoadScripts();
 	}
 
 	function PrintHeader()
@@ -61,6 +61,15 @@ class mSystem
 			$class_name = "s".ucfirst($folder);
 			$this->scripts[$folder] = new $class_name();
 		}
+	}
+	
+	function LoadScript($name)
+	{
+		if (isset($this->scripts[$name]))
+			return;
+			
+		$class_name = "s".ucfirst($name);
+		$this->scripts[$name] = new $class_name();
 	}
 	
 	function TriggerEvent($event, $arguments = null)

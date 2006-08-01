@@ -205,7 +205,7 @@ else if (isset($_GET['rss']))
 /* ========================= */
 // Set available linktyes
 /* ========================= */
-$link_types = array("sub" => "sub", "data" => "data", "parent" => "parent", "birth" => "birth", "death" => "death");
+$link_types = array("sub" => "sub", "data" => "data", "partner" => "partner", "parent" => "parent", "birth" => "birth", "death" => "death");
 
 if (!isset($_SESSION['murrix']['default_theme']))
 	$_SESSION['murrix']['default_theme'] = getSetting("DEFAULT_THEME", "standard", "any");
@@ -259,9 +259,10 @@ $prof->startTimer( "system" );
 // Init system
 /* ========================= */
 if (!isset($_SESSION['murrix']['system']))
+{
 	$_SESSION['murrix']['system'] = new mSystem(isset($ajax_path) ? $ajax_path : "");
-	
-//$_SESSION['murrix']['System']->LoadScripts();
+	$_SESSION['murrix']['system']->LoadScripts();
+}
 $prof->stopTimer( "system" );
 
 $_SESSION['murrix']['rightcache']['file'] = array();

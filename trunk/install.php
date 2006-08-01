@@ -23,9 +23,9 @@ require_once("classes/class.mtable.php");
 require_once("classes/class.muser.php");
 require_once("classes/class.mgroup.php");
 
-$folders = GetSubfolders("$abspath/scripts");
-foreach ($folders as $folder)
-	require_once("$abspath/scripts/$folder/script.php");
+//$folders = GetSubfolders("$abspath/scripts");
+//foreach ($folders as $folder)
+	require_once("$abspath/scripts/install/script.php");
 
 session_name("MURRiX_Installer");
 session_start();
@@ -36,10 +36,18 @@ $_SESSION['murrix']['site'] = "standard";
 $_SESSION['murrix']['language'] = "eng";
 
 if (!isset($_SESSION['murrix']['system']))
+{
 	$_SESSION['murrix']['system'] = new mSystem($_SERVER['REQUEST_URI']);
+	$_SESSION['murrix']['system']->LoadScript("install");
+}
+
+/* ========================= */
+// Load anonymous user
+/* ========================= */
+if (!isset($_SESSION['murrix']['user']))
+	$_SESSION['murrix']['user'] = new mUser();
 
 $_SESSION['murrix']['system']->xajax->debugOff();
-$_SESSION['murrix']['system']->LoadScripts();
 $_SESSION['murrix']['system']->Process();
 
 include(gettpl("install/pagelayout"));

@@ -1,5 +1,5 @@
 <?
-echo compiletpl("title/big", array("left"=>img(geticon("search"))."&nbsp;".ucf(i18n("search"))." - $query_string"));
+echo compiletpl("title/big", array("left"=>img(geticon("search"))."&nbsp;".ucf(i18n("search"))." - ".$args['query_string']));
 ?>
 <div class="main">
 	<div class="container">
@@ -8,7 +8,7 @@ echo compiletpl("title/big", array("left"=>img(geticon("search"))."&nbsp;".ucf(i
 				<br/>
 				<?=ucf(i18n("querystring"))?>
 				<br/>
-				<input style="width: 60%" name="query" class="form" type="text" value="<?=$query_string?>"/>
+				<input style="width: 60%" name="query" class="form" type="text" value="<?=$args['query_string']?>"/>
 				<br/>
 				<br/>
 				<?=ucf(i18n("class"))?>
@@ -19,7 +19,7 @@ echo compiletpl("title/big", array("left"=>img(geticon("search"))."&nbsp;".ucf(i
 					$classlist = getClassList();
 					foreach ($classlist as $class_name)
 					{
-						$selected = $class_name == $class ? "selected" : "";
+						$selected = $class_name == $args['class'] ? "selected" : "";
 						echo "<option $selected value=\"$class_name\">".ucw(str_replace("_", " ", $class_name))."</option>";
 					}
 				?>

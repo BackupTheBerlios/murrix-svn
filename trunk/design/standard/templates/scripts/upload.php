@@ -14,8 +14,9 @@ if (count($subitems) > 0)
 	
 	foreach ($subitems as $subitem)
 		$itemlist[] = array($subitem);
-		
-	table($itemlist, "% ".i18n("rows"));
+	
+	echo compiletpl("table", array("list"=>$itemlist));
+//	table($itemlist, "% ".i18n("rows"));
 	
 	?>
 	<div class="main">

@@ -52,6 +52,7 @@ $translation['duration'] = "varaktighet";
 $translation['calendars'] = "kalendrar";
 $translation['message'] = "meddelande";
 $translation['thumbnail'] = "tumnagel";
+$translation['birthname'] = "födelsenamn";
 $translation['fullname'] = "fullt namn";
 $translation['nicknames'] = "smeknamn";
 $translation['gender'] = "kön";

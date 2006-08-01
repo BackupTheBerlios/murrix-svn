@@ -238,18 +238,19 @@ $list[] = array("class_name" => "news",		"name" => "text",	"priority" => "20",	"
 
 $list[] = array("class_name" => "contact",	"name" => "thumbnail",	"priority" => "10",	"type" => "thumbnail",	"extra" => 200);
 $list[] = array("class_name" => "contact",	"name" => "fullname",	"priority" => "20",	"type" => "textline");
-$list[] = array("class_name" => "contact",	"name" => "nicknames",	"priority" => "30",	"type" => "array");
-$list[] = array("class_name" => "contact",	"name" => "gender",	"priority" => "40",	"type" => "selection",	"extra" => "male=male,female=female",	"required" => true);
-$list[] = array("class_name" => "contact",	"name" => "emails",	"priority" => "50",	"type" => "array");
-$list[] = array("class_name" => "contact",	"name" => "mobilephones","priority" => "60",	"type" => "array");
-$list[] = array("class_name" => "contact",	"name" => "homephones",	"priority" => "70",	"type" => "array");
-$list[] = array("class_name" => "contact",	"name" => "workphones",	"priority" => "80",	"type" => "array");
-$list[] = array("class_name" => "contact",	"name" => "address",	"priority" => "90",	"type" => "text");
-$list[] = array("class_name" => "contact",	"name" => "icq",	"priority" => "100",	"type" => "textline");
-$list[] = array("class_name" => "contact",	"name" => "msn",	"priority" => "110",	"type" => "textline");
-$list[] = array("class_name" => "contact",	"name" => "skype",	"priority" => "120",	"type" => "textline");
-$list[] = array("class_name" => "contact",	"name" => "allergies",	"priority" => "130",	"type" => "array");
-$list[] = array("class_name" => "contact",	"name" => "other",	"priority" => "140",	"type" => "text");
+$list[] = array("class_name" => "contact",	"name" => "birthname",	"priority" => "30",	"type" => "textline");
+$list[] = array("class_name" => "contact",	"name" => "nicknames",	"priority" => "40",	"type" => "array");
+$list[] = array("class_name" => "contact",	"name" => "gender",	"priority" => "50",	"type" => "selection",	"extra" => "male=male,female=female",	"required" => true);
+$list[] = array("class_name" => "contact",	"name" => "emails",	"priority" => "60",	"type" => "array");
+$list[] = array("class_name" => "contact",	"name" => "mobilephones","priority" => "70",	"type" => "array");
+$list[] = array("class_name" => "contact",	"name" => "homephones",	"priority" => "80",	"type" => "array");
+$list[] = array("class_name" => "contact",	"name" => "workphones",	"priority" => "90",	"type" => "array");
+$list[] = array("class_name" => "contact",	"name" => "address",	"priority" => "100",	"type" => "text");
+$list[] = array("class_name" => "contact",	"name" => "icq",	"priority" => "110",	"type" => "textline");
+$list[] = array("class_name" => "contact",	"name" => "msn",	"priority" => "120",	"type" => "textline");
+$list[] = array("class_name" => "contact",	"name" => "skype",	"priority" => "130",	"type" => "textline");
+$list[] = array("class_name" => "contact",	"name" => "allergies",	"priority" => "140",	"type" => "array");
+$list[] = array("class_name" => "contact",	"name" => "other",	"priority" => "150",	"type" => "text");
 
 $list[] = array("class_name" => "image_region",	"name" => "params",	"priority" => "10",	"type" => "textline",	"required" => true,	"extra" => "X,Y,Width,Height");
 $list[] = array("class_name" => "image_region",	"name" => "text",	"priority" => "20",	"type" => "text");
@@ -316,7 +317,7 @@ $list[] = array("class_name" => "image_region",	"name" => "image_height","priori
 
 			if ($root_obj->save())
 			{
-				$home->setMeta("initial_rights", "admins=rwc");
+				$root_obj->setMeta("initial_rights", "admins=rwc");
 				$this->db_log .= "Created ".$root_obj->getName().".<br/>";
 			}
 			else

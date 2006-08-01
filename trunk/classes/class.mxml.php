@@ -47,6 +47,9 @@ class mXML
 			$node['xmldata'] = "node";
 			$latest_obj = new mObject($node['id']);
 			
+			if ($latest_obj->getClassName() != "contact")
+				continue;
+			
 			if (isset($args['metadata']))
 			{
 				$node['metadata'] = array();

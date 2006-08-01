@@ -67,7 +67,7 @@ class sShow extends Script
 		{
 			$object = new mObject($node_id);
 			if ($object->HasRight("read"))
-				$data = compiletpl("scripts/show/view", array(), $object);
+				$data = compiletpl("scripts/show/view", array("children_show_page"=>$args['children_show_page']), $object);
 			else
 				$data = compiletpl("message", array("title"=>ucf(i18n("error")), "message"=>ucf(i18n("not enough rights"))), $object);
 		}

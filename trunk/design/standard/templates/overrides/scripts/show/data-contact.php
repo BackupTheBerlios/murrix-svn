@@ -23,6 +23,21 @@
 									</tr>
 									<?
 									}
+									$data = $object->getVarValue("birthname");
+									if (!empty($data)) {
+									?>
+									<tr>
+										<td class="left">
+											<?=ucf(i18n("birthname"))?>
+										</td>
+										<td>
+										</td>
+										<td class="right">
+											<?=$object->getVarShow("birthname")?>
+										</td>
+									</tr>
+									<?
+									}
 									$data = $object->getVarValue("gender");
 									if (!empty($data)) {
 									?>
@@ -46,21 +61,42 @@
 									{
 										$birth_event = new mObject($links[0]['remote_id']);
 										$date = $birth_event->getVarValue("date");
-									?>
-									<tr>
-										<td class="left">
-											<?=ucf(i18n("birthday"))?>
-										</td>
-										<td>
-											<?=img(geticon("birthday"))?>
-										</td>
-										<td class="right">
-											<?=$date?><br/>
-											<?=getAge($date)?> <?=i18n("years old")?>
-										</td>
-									</tr>
+										?>
+										<tr>
+											<td class="left">
+												<?=ucf(i18n("birthday"))?>
+											</td>
+											<td>
+												<?=img(geticon("birthday"))?>
+											</td>
+											<td class="right">
+												<?=$date?><br/>
+												<?=getAge($date)?> <?=i18n("years old")?>
+											</td>
+										</tr>
 									<?
 									}
+									
+									$links = $object->getLinks(0, "partner");
+									
+									if (count($links) > 0)
+									{
+										$partner = new mObject($links[0]['remote_id']);
+										?>
+										<tr>
+											<td class="left">
+												<?=ucf(i18n("partner"))?>
+											</td>
+											<td>
+												<?=img(geticon("user"))?>
+											</td>
+											<td class="right">
+												<?=cmd($partner->getName(), "exec=show&node_id=".$partner->getNodeId())?>
+											</td>
+										</tr>
+									<?
+									}
+									
 									$data = $object->getVarValue("mobilephones");
 									if (!empty($data)) {
 									?>

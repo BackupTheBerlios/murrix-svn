@@ -38,7 +38,7 @@ echo compiletpl("title/big", array("left"=>img(geticon("list"))."&nbsp;XML ".ucf
 				<div>
 					<input class="hidden" type="hidden" name="action" value="import"/>
 					<?=ucf(i18n("file"))?><br/>
-					<iframe style="border: none; width: 291px; height: 21px;" src="<?=gettpl_www("popups/fileupload")?>?varid=file"></iframe><br/>
+					<iframe style="border: none; width: 350px; height: 25px; text-align: right;" src="<?=gettpl_www("popups/fileupload")?>?varid=file"></iframe><br/>
 					<input disabled class="input_big" id="nfile" name="nfile" type="text" value="">
 					<input class="hidden" id="file" name="file" type="hidden" value=""/><br/>
 					

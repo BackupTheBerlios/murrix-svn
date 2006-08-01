@@ -28,7 +28,7 @@ class sSearch extends Script
 			$children = getReadable($children);
 		}
 
-		$response->addAssign($this->zone, "innerHTML", utf8e(compiletpl("scripts/search", array("objects"=>$children))));
+		$response->addAssign($this->zone, "innerHTML", utf8e(compiletpl("scripts/search", array("objects"=>$children, "class"=>$class, "query_string"=>$query_string))));
 	}
 }
 ?>

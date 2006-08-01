@@ -109,12 +109,12 @@ foreach ($files as $file)
 		
 		if (!checkThumbnailExists($value_id, $maxsize_big, 0))
 		{
-			$thumbnailes[] = array("node_id"=>$file->getNodeId(), "filename"=>$filename, "value_id"=>$value_id, "width"=>$maxsize_big, "height"=>0, "angle"=>$angle);
+			$thumbnails[] = array("node_id"=>$file->getNodeId(), "filename"=>$filename, "value_id"=>$value_id, "width"=>$maxsize_big, "height"=>0, "angle"=>$angle);
 		}
 			
 		if (!checkThumbnailExists($value_id, $maxsize_small, $maxsize_small))
 		{
-			$thumbnailes[] = array("node_id"=>$file->getNodeId(), "filename"=>$filename, "value_id"=>$value_id, "width"=>$maxsize_small, "height"=>$maxsize_small, "angle"=>$angle);
+			$thumbnails[] = array("node_id"=>$file->getNodeId(), "filename"=>$filename, "value_id"=>$value_id, "width"=>$maxsize_small, "height"=>$maxsize_small, "angle"=>$angle);
 		}
 	}
 }
