@@ -61,7 +61,42 @@ if (!isset($_SESSION['murrix']['user']))
 $_SESSION['murrix']['site'] = "standard";
 
 echo "MURRiX Cron Script\n\n";flush();
+/*
+$files = fetch("FETCH node WHERE property:class_name='contact' NODESORTBY property:version");
+echo "Correcting contactinfo\n";flush();
+echo count($files)." contacts found\n";flush();
+$count = 0;
+foreach ($files as $file)
+{
+	if ($file->getVarValue("fullanme") == $file->getVarValue("birthname"))
+	{
+		$count++;
+		$file->setVarValue("birthname", "");
+		$file->saveCurrent();
+	}
+}
+echo "Corrected $count contacts\n";flush();
+echo "\n";flush();
 
+$files = fetch("FETCH node WHERE property:class_name='contact' NODESORTBY property:version");
+echo "Correcting contact partnerlinks\n";flush();
+echo count($files)." contacts found\n";flush();
+$count = 0;
+foreach ($files as $file)
+{
+	$links = $file->getLinks(0, "partner");
+	if (count($links) > 1)
+	{
+		if ($links[0]['remote_id'] == $links[1]['remote_id'])
+		{
+			$count++;
+			$file->deleteLink($links[1]['id']);
+		}
+	}
+}
+echo "Deleted $count links\n";flush();
+echo "\n";flush();
+*/
 /*
 $files = fetch("FETCH node WHERE property:class_name='file_folder' NODESORTBY property:version");
 echo "Setting default metadata for file_folders\n";flush();

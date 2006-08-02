@@ -10,7 +10,9 @@ foreach ($classlist as $class_name)
 $class_form .= "</select>";
 $class_form .= "</form>";
 
-echo compiletpl("scripts/show/tabs", array("view"=>"new"), $object);
+$parent = new mObject($args['parent_node_id']);
+
+echo compiletpl("scripts/show/tabs", array("view"=>"new"), $parent);
 echo compiletpl("title/big", array("left"=>img(geticon($object->getIcon()))."&nbsp;".ucf(i18n("new")),"right"=>$class_form), $object);
 ?>
 <form name="sEdit" id="sEdit" action="javascript:void(null);" onsubmit="Post('new','sEdit');">
