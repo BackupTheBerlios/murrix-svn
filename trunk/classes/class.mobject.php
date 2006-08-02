@@ -39,7 +39,13 @@ class mObject
 
 
 		if (count($objects) > 0)
-			$this = $objects[0];
+		{
+			foreach (get_object_vars($objects[0]) as $key => $value)
+				$this->$key = $value;
+			
+			//$this = $objects[0];
+		}
+		
 	}
 
 	function loadByObjectId($object_id)
@@ -47,7 +53,9 @@ class mObject
 		$cache_obj = getObjectFromCache($object_id);
 		if (!($cache_obj === false))
 		{
-			$this = $cache_obj;
+			foreach (get_object_vars($cache_obj) as $key => $value)
+				$this->$key = $value;
+			//$this = $cache_obj;
 			return true;
 		}
 	
