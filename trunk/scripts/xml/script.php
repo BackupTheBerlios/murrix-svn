@@ -269,6 +269,7 @@ class sXML extends Script
 						}
 						
 						$object->save(true);
+						guessObjectType($object);
 						echo "Created object name=".$object->name.", node_id=$node_id, id=".$object->id.",version=".$object->version.",language=".$object->language."<br/>";
 					}
 				}
