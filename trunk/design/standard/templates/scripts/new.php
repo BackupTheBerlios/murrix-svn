@@ -1,16 +1,19 @@
 <?
-$class_form = "<form name=\"sClassSelect\" id=\"sClassSelect\" action=\"javascript:void(null);\" onsubmit=\"javascript:void(null)\">";
-$class_form .= "<select class=\"select\" onchange=\"Post('new','sClassSelect');\" name=\"class_name\">";
-$classlist = getClassList();
-foreach ($classlist as $class_name)
-{
-	$selected = $class_name == $object->getClassName() ? "selected" : "";
-	$class_form .= "<option $selected value=\"$class_name\">".ucf(str_replace("_", " ", $class_name))."</option>";
-}
-$class_form .= "</select>";
-$class_form .= "</form>";
-
 $parent = new mObject($args['parent_node_id']);
+
+if ($parent->hasRight("create"))
+{
+	$class_form = "<form name=\"sClassSelect\" id=\"sClassSelect\" action=\"javascript:void(null);\" onsubmit=\"javascript:void(null)\">";
+	$class_form .= "<select class=\"select\" onchange=\"Post('new','sClassSelect');\" name=\"class_name\">";
+	$classlist = getClassList();
+	foreach ($classlist as $class_name)
+	{
+		$selected = $class_name == $object->getClassName() ? "selected" : "";
+		$class_form .= "<option $selected value=\"$class_name\">".ucf(str_replace("_", " ", $class_name))."</option>";
+	}
+	$class_form .= "</select>";
+	$class_form .= "</form>";
+}
 
 echo compiletpl("scripts/show/tabs", array("view"=>"new"), $parent);
 echo compiletpl("title/big", array("left"=>img(geticon($object->getIcon()))."&nbsp;".ucf(i18n("new")),"right"=>$class_form), $object);

@@ -1,7 +1,7 @@
 <?
 $args_title = array();
 $args_title['left'] = img(geticon("comment"))."&nbsp;".ucf(i18n("comments"));
-if ($object->hasRight("create"))
+if ($object->hasRight("create") || $object->hasRight("comment"))
 	$args_title['right'] = cmd(img(geticon("comment"))."&nbsp;".ucf(i18n("post")), "exec=new&node_id=".$object->getNodeId()."&class_name=comment");
 
 echo compiletpl("title/medium", $args_title, $object);

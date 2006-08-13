@@ -28,8 +28,11 @@ if ($last_week_day == 0) // Sunday
 			<td class="saturday red">S</td>
 			<td class="sunday red">S</td>
 		</tr>
-		<tr class="week_row">
 		<?
+		$max = $days_of_month+(7-$last_week_day)+$first_week_day;
+		
+		if ($max > 0)
+		{
 			for ($n = 0; $n < $days_of_month+(7-$last_week_day)+$first_week_day; $n++)
 			{
 				$days = $n-$first_week_day;
@@ -42,8 +45,13 @@ if ($last_week_day == 0) // Sunday
 				
 				if ($n%7 == 0)
 				{
-				?>
-					</tr>
+					if ($n > 0)
+					{
+					?>
+						</tr>
+					<?
+					}
+					?>
 					<tr class="week_row">
 						<td class="week">
 							<?=cmd(date("W", $time_now), "exec=calendar&view=week&date=".date("Ymd", $time_now), "link")?>
@@ -69,7 +77,10 @@ if ($last_week_day == 0) // Sunday
 				</td>
 			<?
 			}
-		?>
-		</tr>
+			?>
+			</tr>
+		<?
+		}
+	?>
 	</table>
 </fieldset>

@@ -26,15 +26,15 @@ class sNew extends Script
 		$parent_id = $this->getNodeId($args);
 		$parent = new mObject($parent_id);
 		
-		if ($parent->hasRight("create"))
+		$class_name = "";
+		if (!empty($args['class_name']))
+			$class_name = $args['class_name'];
+
+		if (empty($class_name))
+			$class_name = $parent->getMeta("default_class_name", "folder");
+		
+		if ($parent->hasRight("create") || $parent->hasRight("comment") && $class_name == "comment")
 		{
-			$class_name = "";
-			if (!empty($args['class_name']))
-				$class_name = $args['class_name'];
-	
-			if (empty($class_name))
-				$class_name = $parent->getMeta("default_class_name", "folder");
-	
 			if (isset($args['action']) && $args['action'] == "save")
 			{
 				if (!empty($class_name))
@@ -88,7 +88,10 @@ class sNew extends Script
 						}
 	
 						if ($object->save())
+						{
+							guessObjectType($object);
 							$saved = true;
+						}
 						else
 						{
 							$message = "Operation unsuccessfull.<br/>";
@@ -122,7 +125,7 @@ class sNew extends Script
 	
 		$javascript = "";
 		$data = "";
-		if ($object->HasRight("create"))
+		if ($object->HasRight("create") || $object->HasRight("comment") && $args['class_name'] == "comment")
 		{
 			$newobject = new mObject();
 			$newobject->setClassName(isset($args['class_name']) ? $args['class_name'] : "folder");

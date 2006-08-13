@@ -9,8 +9,17 @@ $oFCKeditor->BasePath = "$wwwpath/3dparty/FCKeditor/";
 
 $oFCKeditor->Value = stripslashes($args['value']);
 
-$oFCKeditor->Height = 500;
-$oFCKeditor->ToolbarSet = (empty($args['extra']) ? "Default" : $args['extra']);
+list($toolbar, $height) = explode(":", $args['extra']);
+
+if (empty($height))
+	$oFCKeditor->Height = 500;
+else
+	$oFCKeditor->Height = $height;
+	
+if (empty($toolbar))
+	$oFCKeditor->ToolbarSet = "Default";
+else
+	$oFCKeditor->ToolbarSet = $toolbar;
 
 $conffile = "$wwwpath/design/standard/fckconfig.php";
 if (file_exists("$abspath/design/".$_SESSION['murrix']['theme']."/fckconfig.php"))
@@ -21,7 +30,7 @@ $oFCKeditor->Config = array(	"AutoDetectLanguage" => false,
 				"SkinPath" => $oFCKeditor->BasePath."editor/skins/silver/",
 				"CustomConfigurationsPath" => $conffile
 				);
-
-$oFCKeditor->Create();
-
 ?>
+<div style="background-color: white;">
+	<?=$oFCKeditor->Create()?>
+</div>

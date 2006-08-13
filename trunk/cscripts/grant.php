@@ -36,23 +36,7 @@ class csGrant extends CScript
 				}
 				else
 				{
-					$r = trim($object->getRights());
-					$org_rights_parts = explode(",", $r);
-					list($name, $right) = explode("=", $rights);
-					$new_rights = array();
-					foreach ($org_rights_parts as $orp)
-					{
-						list($groupname, $grouprights) = explode("=", $orp);
-						
-						if ($name != $groupname && !empty($groupname))
-							$new_rights[] = "$groupname=$grouprights";
-					}
-					if (!empty($right))
-						$new_rights[] = "$name=$right";
-						
-					$object->setRights(implode(",", $new_rights));
-					
-					if ($object->saveCurrent())
+					if ($object->grantRight($rights))
 						$stdout = "";//ucf(i18n("changed ownership successfully on"))." ".$object->getPathInTree();
 					else
 						$stderr = ucf(i18n("failed to change ownership on"))." ".$object->getPathInTree();
@@ -75,23 +59,7 @@ class csGrant extends CScript
 		if (!(isAdmin() || $object->hasRight("write")))
 			$stderr .=  ucf(i18n("not enough rights to change ownership on"))." ".$object->getPathInTree()."\n";
 	
-		$r = trim($object->getRights());
-		$org_rights_parts = explode(",", $r);
-		list($name, $right) = explode("=", $rights);
-		$new_rights = array();
-		foreach ($org_rights_parts as $orp)
-		{
-			list($groupname, $grouprights) = explode("=", $orp);
-			
-			if ($name != $groupname && !empty($groupname))
-				$new_rights[] = "$groupname=$grouprights";
-		}
-		if (!empty($right))
-			$new_rights[] = "$name=$right";
-			
-		$object->setRights(implode(",", $new_rights));
-					
-		if ($object->saveCurrent())
+		if ($object->grantRight($rights))
 			$stdout .= "";//ucf(i18n("changed ownership successfully on"))." ".$object->getPathInTree()."\n";
 		else
 			$stderr .= ucf(i18n("failed to change ownership on"))." ".$object->getPathInTree()."\n";

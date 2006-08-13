@@ -60,6 +60,8 @@ function cmd($name, $cmd, $args = null)
 	$string = "";
 	foreach ($args as $key => $value)
 		$string .= "$key=\"$value\" ";
+		
+	$cmd = htmlspecialchars($cmd);
 	
 	return "<a href=\"?$cmd\" $string>$name</a>";
 }
@@ -274,7 +276,16 @@ function _gettemplateoverride($filename, $object, $site, $path)
 				
 				if ($rank > $rank_m)// is this better ranked then the last
 				{
-					$tpl = "$path/design/$site/templates/".$template['filename'];
+					if (file_exists("$path/design/$site/templates/".$template['filename']))
+						$tpl = "$path/design/$site/templates/".$template['filename'];
+					else
+					{
+						if ($site != "standard")
+						{
+							if (file_exists("$path/design/standard/templates/".$template['filename']))
+								$tpl = "$path/design/standard/templates/".$template['filename'];
+						}
+					}
 				}
 			}
 		}

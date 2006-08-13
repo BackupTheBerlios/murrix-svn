@@ -1,5 +1,34 @@
 <?
 
+function get_browser_name()
+{
+	$browser = array(
+			"MSIE",            // parent
+			"OPERA",
+			"MOZILLA",        // parent
+			"NETSCAPE",
+			"FIREFOX",
+			"SAFARI"
+	);
+	
+	$name = "OTHER";
+	
+	foreach ($browser as $parent)
+	{
+		if (($s = strpos(strtoupper($_SERVER['HTTP_USER_AGENT']), $parent)) !== false)
+		{
+			/*$f = $s + strlen($parent);
+			$version = substr($_SERVER['HTTP_USER_AGENT'], $f, 5);
+			$version = preg_replace('/[^0-9,.]/','',$version);
+			*/
+			$name = $parent;
+			break;
+		}
+	}
+	
+	return $name;
+}
+
 function guessObjectType($object)
 {
 	switch ($object->getClassName())
@@ -12,6 +41,12 @@ function guessObjectType($object)
 		case "file_folder":
 		$object->setMeta("children_show_num_per_page", "all");
 		$object->setMeta("view", "thumbnails");
+		break;
+		
+		case "news":
+		$object->setMeta("comment_show_num_per_page", "all");
+		$object->setMeta("show_comments", 1);
+		break;
 	}
 }
 
@@ -93,6 +128,17 @@ function splitArgs($args)
 	}
 	
 	return $matches;
+}
+
+function html2txt($document)
+{
+	$search = array('@<script[^>]*?>.*?</script>@si',  // Strip out javascript
+			'@<[\/\!]*?[^<>]*?>@si',            // Strip out HTML tags
+			'@<style[^>]*?>.*?</style>@siU',    // Strip style tags properly
+			'@<![\s\S]*?--[ \t\n\r]*>@'        // Strip multi-line comments including CDATA
+	);
+	$text = preg_replace($search, '', $document);
+	return $text;
 }
 
 function colour($tint)

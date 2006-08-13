@@ -21,6 +21,7 @@ class sSearch extends Script
 		if (is_array($args) && !empty($args['query']))
 		{
 			$query_string = trim($args['query']);
+			$query_string = str_replace(" ", "%", $query_string);
 			$class = (isset($args['class_name']) ? $args['class_name'] : "");
 			$class_query = (!empty($class) ? " AND property:class_name='$class'" : "");
 			$children = fetch("FETCH node WHERE property:name LIKE '%$query_string%' $class_query NODESORTBY property:version SORTBY property:name");

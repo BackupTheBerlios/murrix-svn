@@ -121,8 +121,8 @@ function Poll()
 		
 	if (command != last_command)
 	{
-		if (command == "default")
-			eval(URLDecode(default_command));
+		if (command == "default" || command == "")
+			eval(parseCommand(URLDecode(default_command)));
 		else
 			eval(parseCommand(URLDecode(command)));
 			
@@ -206,11 +206,17 @@ function Post(scriptname, formname)
 		
 	for (var i = 0; i < objForm.elements.length; i++)
 	{
-    		if (document.getElementById(objForm.elements[i].name+'___Frame'))
-    		{
-    			var oEditor = FCKeditorAPI.GetInstance(objForm.elements[i].name);
-    			objForm.elements[i].value = oEditor.EditorDocument.body.innerHTML;
-    		}
+		var oNode = document.getElementById(objForm.elements[i].name+'___Frame');
+		if (oNode)
+		{
+			
+			var oEditor = FCKeditorAPI.GetInstance(objForm.elements[i].name);
+			oEditor.UpdateLinkedField()
+			//objForm.elements[i].value = oEditor.EditorDocument.body.innerHTML;
+			//var oEparent = oNode.parentNode;
+			//oEparent.removeChild(oNode);
+
+		}
 	}
 	
 	return Exec(scriptname, xajax.getFormValues(objForm));

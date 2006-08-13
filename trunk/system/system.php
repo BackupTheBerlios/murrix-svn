@@ -111,6 +111,9 @@ class mSystem
 
 	function ExecIntern(&$response, $name, $arguments = null)
 	{
+		//if (empty($name))
+		//	return;
+	
 		if (empty($arguments) || $arguments == null)
                         $arguments = array();
 	

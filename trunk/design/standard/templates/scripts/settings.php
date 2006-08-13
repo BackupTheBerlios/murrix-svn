@@ -29,19 +29,21 @@ echo compiletpl("title/big", array("left"=>img(geticon("settings"))."&nbsp;".ucw
 				</select>
 				<br/><br/>
 				<?=ucf(i18n("view"))?>
-				<select class="form" name="view">
+				<select class="form" name="view_selector" onchange="document.sSettings.view.value=document.sSettings.view_selector.options[document.sSettings.view_selector.selectedIndex].value">
 				<?
-					$viewlist = array("list" => "", "thumbnails" => "thumbnails", "table" => "table");
+					$viewlist = array("custom" => "[enter custom value]", "list" => "", "thumbnails" => "thumbnails", "table" => "table");
+					$currview = $object->getMeta("view", "");
 					foreach ($viewlist as $key => $view)
 					{
 						$selected = "";
-						if ($key == $object->getMeta("view", ""))
+						if ($view == $currview)
 							$selected = "selected";
 					
 						echo "<option $selected value=\"$view\">".ucf(i18n($key))."</option>";
 					}
 				?>
 				</select>
+				<input class="form" type="text" name="view" value="<?=$currview?>"/>
 			</fieldset>
 			<br/>
 			<fieldset>

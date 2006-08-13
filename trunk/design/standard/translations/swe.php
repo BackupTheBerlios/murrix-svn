@@ -1,4 +1,5 @@
 <?
+$translation['you must log in to vote'] = "du måste logga in för att rösta";
 $translation['timeline'] = "tidslinje";
 $translation['create region'] = "skapa region";
 $translation['exposure time'] = "exponeringstid";

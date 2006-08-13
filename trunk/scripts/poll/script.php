@@ -68,8 +68,7 @@ class sPoll extends Script
 				
 				$answer->name = $_SESSION['murrix']['user']->id;
 				$answer->language = $_SESSION['murrix']['language'];
-				$answer->rights = $poll->getMeta("initial_rights", "---rwc---");
-				$answer->group_id = $poll->getMeta("initial_group", $poll->getGroupId());
+				$answer->rights = $poll->rights;;
 				
 				$answer->setVarValue("answer", $args['answer']);
 

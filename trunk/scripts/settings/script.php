@@ -56,8 +56,12 @@ class sSettings extends Script
 					
 					$object->setMeta("initial_rights", $args['initial_rights']);
 					
+					$_SESSION['murrix']['querycache'] = array();
 					clearNodeFileCache($object->getNodeId());
-					delObjectFromCache($object->getId());
+					
+					$versions = fetch("FETCH object WHERE property:node_id='".$object->getNodeId()."' NODESORTBY property:version,property:name");
+					foreach ($versions as $version)
+						delObjectFromCache($version->getId());
 				}
 			}
 		}

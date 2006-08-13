@@ -63,6 +63,8 @@ class mCalendar
 			$weekly = ($event->getVarValue("reoccuring_weekly", true) == 1);
 		
 			$str_duration = $event->getVarValue("duration");
+			if ($str_duration === false)
+				$str_duration = "1 day";
 				
 			$startdate = $event->getVarValue("date");
 			
@@ -124,50 +126,7 @@ class mCalendar
 		return $list;
 	}
 
-	function getEvents2($startdate, $enddate, $classes = null)
-	{
-		$class_str = "";
-		if ($classes != null)
-		{
-			foreach ($classes as $class)
-			{
-				if (!empty($class_str))
-					$class_str .= " OR ";
-
-				$class_str .= "property:class_name='$class'";
-			}
-		}
-		else
-			$class_str = "property:class_name='event'";
-
-		$events = fetch("FETCH node WHERE ($class_str) NODESORTBY property:version SORTBY var:date");
-		$events = getReadable($events);
-
-		$event_list = array();
-
-		$date = $startdate;
-		while (true)
-		{
-			foreach ($events as $child)
-			{
-				$event_date = getEventDate($child, $date);
-				if ($event_date == $date)
-				{
-					$child->real_date = $date;
-					$event_list[] = $child;
-				}
-			}
-
-			if ($date == $enddate)
-				break;
-
-			$date = date("Y-m-d", strtotime("+1 day" ,strtotime($date)));
-		}
-
-		usort($event_list, array("Calendar", "RealDateSort"));
-		
-		return $event_list;
-	}
+	/*
 
 	function RealDateSort($a, $b)
 	{
@@ -267,6 +226,6 @@ class mCalendar
 			?>
 		</tr>
 	<?
-	}
+	}*/
 }
 ?>

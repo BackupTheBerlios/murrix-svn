@@ -15,6 +15,14 @@ $count++;
 $templates_override['scripts/show/line.php'][$count]['filename'] = "overrides/scripts/show/line-news.php";
 $templates_override['scripts/show/line.php'][$count]['match']['class'] = "news";
 
+$count++;
+$templates_override['scripts/show/line.php'][$count]['filename'] = "overrides/scripts/show/line-file.php";
+$templates_override['scripts/show/line.php'][$count]['match']['class'] = "file";
+
+$count++;
+$templates_override['scripts/show/line.php'][$count]['filename'] = "overrides/scripts/show/line-link.php";
+$templates_override['scripts/show/line.php'][$count]['match']['class'] = "link";
+
 
 
 

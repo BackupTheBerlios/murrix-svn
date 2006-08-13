@@ -78,11 +78,12 @@ class mObject
 
 	function loadByArray($data)
 	{
+		global $db_prefix;
+	
 		$this->id 		= $data['id'];
 		$this->name 		= $data['name'];
 		$this->node_id 		= $data['node_id'];
 		$this->user_id 		= $data['user_id'];
-		$this->rights 		= $data['rights'];
 		$this->created 		= $data['created'];
 		$this->class_name 	= $data['class_name'];
 		$this->version 		= $data['version'];
@@ -90,7 +91,15 @@ class mObject
 		$this->icon 		= $data['icon'];
 
 		$this->loadClassIcon();
-
+		
+		$query = "SELECT * FROM `".$db_prefix."nodes` WHERE id = '$this->node_id'";
+		if ($result = mysql_query($query))
+		{
+			$row = mysql_fetch_array($result, MYSQL_ASSOC);
+			$this->node_created = $row['created'];
+			$this->rights = $row['rights'];
+		}
+		
 		return $this->loadVars();
 	}
 
@@ -230,7 +239,7 @@ class mObject
 		global $db_prefix;
 		
 		$datetime = date("Y-m-d H:i:s");
-		if (!($result = mysql_query("INSERT INTO `".$db_prefix."nodes` (`id`, `created`) VALUES ('', '$datetime')")))
+		if (!($result = mysql_query("INSERT INTO `".$db_prefix."nodes` (`id`, `rights`, `created`) VALUES ('', '".$this->rights."', '$datetime')")))
 		{
 			$this->error = "mObject::getNewNodeId: " . mysql_errno() . " " . mysql_error();
 			return false;
@@ -267,7 +276,7 @@ class mObject
 			$this->user_id = (isset($_SESSION['murrix']['user']) ? $_SESSION['murrix']['user']->id : $this->user_id);
 		}
 		
-		$query = "INSERT INTO `".$db_prefix."objects` (name, node_id, user_id, rights, created, class_name, version, language, icon) VALUES('$this->name', '$this->node_id', '$this->user_id', '$this->rights', '$this->created', '$this->class_name', '$this->version', '$this->language', '$this->icon')";
+		$query = "INSERT INTO `".$db_prefix."objects` (name, node_id, user_id, created, class_name, version, language, icon) VALUES('$this->name', '$this->node_id', '$this->user_id', '$this->created', '$this->class_name', '$this->version', '$this->language', '$this->icon')";
 
 		if (!($result = mysql_query($query)))
 		{
@@ -304,7 +313,7 @@ class mObject
 		// Save a new version of this object
 		global $db_prefix;
 
-		$query = "UPDATE `".$db_prefix."objects` SET `name`='$this->name', `icon`='$this->icon', `user_id`='$this->user_id',  `rights`='$this->rights' WHERE id = '$this->id'";
+		$query = "UPDATE `".$db_prefix."objects` SET `name`='$this->name', `icon`='$this->icon', `user_id`='$this->user_id' WHERE id = '$this->id'";
 		
 		if (!($result = mysql_query($query)))
 		{
@@ -707,6 +716,10 @@ class mObject
 				case "create":
 				$letter = "c";
 				break;
+				
+				case "comment":
+				$letter = "p";
+				break;
 			}
 			
 			if (strpos($grouprights, $letter) !== false && in_array($groupname, $user_groups))
@@ -714,6 +727,66 @@ class mObject
 		}
 		
 		return false;
+	}
+	
+	function grantRight($string, $recursive = false)
+	{
+		global $db_prefix;
+	
+		$current_rights = $this->getRights();
+		$org_rights_parts = explode(",", $current_rights);
+		
+		list($name, $right) = explode("=", $string);
+		
+		$new_rights = array();
+		foreach ($org_rights_parts as $orp)
+		{
+			list($groupname, $grouprights) = explode("=", $orp);
+			
+			if ($name != $groupname && !empty($groupname))
+				$new_rights[] = "$groupname=$grouprights";
+		}
+		
+		if (!empty($string))
+			$new_rights[] = "$name=$right";
+			
+		$this->setRights(implode(",", $new_rights));
+		
+		$_SESSION['murrix']['querycache'] = array();
+		clearNodeFileCache($this->getNodeId());
+		
+		$versions = fetch("FETCH object WHERE property:node_id='".$this->getNodeId()."' NODESORTBY property:version,property:name");
+		foreach ($versions as $version)
+			delObjectFromCache($version->getId());
+		
+		$query = "UPDATE `".$db_prefix."nodes` SET `rights`='$this->rights' WHERE id = '$this->node_id'";
+		
+		if (!($result = mysql_query($query)))
+		{
+			$message = "<b>An error occured while updateing</b><br/>";
+			$message .= "<b>Table:</b> nodes<br/>";
+			$message .= "<b>Query:</b> $query<br/>";
+			$message .= "<b>Error Num:</b> " . mysql_errno() . "<br/>";
+			$message .= "<b>Error:</b> " . mysql_error() . "<br/>";
+			$this->error = $message;
+			return false;
+		}
+		
+		if ($recursive)
+		{
+			$children = fetch("FETCH node WHERE link:node_top='".$this->getNodeId()."' AND link:type='sub' NODESORTBY property:version");
+			
+			foreach ($children as $child)
+			{
+				if (!$child->grantRight($string))
+				{
+					$this->error = $child->error;
+					return false;
+				}
+			}
+		}
+		
+		return true;
 	}
 	
 	var $vars;
@@ -850,6 +923,7 @@ class mObject
 		$array['user_id'] = $this->user_id;
 		$array['rights'] = $this->rights;
 		$array['language'] = $this->language;
+		$array['node_created'] = $this->node_created;
 		
 		// Links
 		$array['links'] = $this->getLinks();
