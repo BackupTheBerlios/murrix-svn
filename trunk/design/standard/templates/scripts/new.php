@@ -22,6 +22,7 @@ echo compiletpl("title/big", array("left"=>img(geticon($object->getIcon()))."&nb
 	<input class="hidden" type="hidden" name="action" value="save"/>
 	<input class="hidden" type="hidden" name="node_id" value="<?=$args['parent_node_id']?>"/>
 	<input class="hidden" type="hidden" name="class_name" value="<?=$object->getClassName()?>"/>
+	<input class="hidden" type="hidden" id="language" name="language" value="eng"/>
 	<?
 	if (count($_SESSION['murrix']['languages']) > 1)
 	{
@@ -104,10 +105,10 @@ echo compiletpl("title/big", array("left"=>img(geticon($object->getIcon()))."&nb
 					
 					$submit = ucf(i18n("save"));
 					if (count($_SESSION['murrix']['languages']) > 1)
-						$submit = ucf(i18n("save $language version"));
+						$submit = ucf(i18n("save"))." ".i18n($language)." ".i18n("version");
 						
 					?>
-					<input class="submit" id="submitButton" type="submit" onclick="document.getElementById('language').value='<?=$language?>'" value="<?=$submit?>"/>
+					<input class="submit" id="submitButton" type="button" onclick="document.getElementById('language').value='<?=$language?>';Post('new','sEdit');" value="<?=$submit?>"/>
 				</div>
 			</div>
 		</div>
@@ -119,7 +120,7 @@ echo compiletpl("title/big", array("left"=>img(geticon($object->getIcon()))."&nb
 	?>
 		<div class="main">
 			<div class="container">
-				<input class="hidden" type="hidden" id="language" name="language" value=""/>
+				
 				<input class="submit" id="submitButton" type="submit" value="<?=ucf(i18n("save all languages"))?>"/>
 			</div>
 		</div>
