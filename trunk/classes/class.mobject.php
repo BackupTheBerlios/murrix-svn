@@ -869,6 +869,9 @@ class mObject
 	var $created;
 	function getCreated() { return $this->created; }
 
+	var $node_created;
+	function getNodeCreated() { return $this->node_created; }
+
 	var $version;
 	function getVersion() { return $this->version; }
 	

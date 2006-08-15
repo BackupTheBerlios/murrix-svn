@@ -107,7 +107,7 @@ class mXML
 					$object->vars[$key]->value = htmlentities($object->vars[$key]->value);
 				}
 			
-				$node['objects'][$object->version] = $object;
+				$node['objects'][] = $object;
 				
 				if (!in_array($object->class_name, $added_classes))
 				{
