@@ -323,6 +323,9 @@ function SortBy(&$list, $sortby, $invert = false)
 	case "property:created":
 		usort(&$list, "SortByCreated");
 		break;
+	case "property:node_created":
+		usort(&$list, "SortByNodeCreated");
+		break;
 	case "property:user_id":
 		usort(&$list, "SortByUser");
 		break;
@@ -347,6 +350,7 @@ function SortByLanguage($a, $b) { return strnatcasecmp($a->getLanguage(), $b->ge
 function SortByIcon($a, $b) { return strnatcasecmp($a->getIcon(), $b->getIcon()); }
 function SortByVersion($a, $b) { return strnatcasecmp($a->getVersion(), $b->getVersion()); }
 function SortByCreated($a, $b) { return strnatcasecmp($a->getCreated(), $b->getCreated()); }
+function SortByNodeCreated($a, $b) { return strnatcasecmp($a->getNodeCreated(), $b->getNodeCreated()); }
 function SortByUser($a, $b) { return strnatcasecmp($a->getUserId(), $b->getUserId()); }
 function SortByGroup($a, $b) { return strnatcasecmp($a->getGroupId(), $b->getGroupId()); }
 function SortByRights($a, $b) { return strnatcasecmp($a->getRights(), $b->getRights()); }
