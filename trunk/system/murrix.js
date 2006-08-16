@@ -81,7 +81,8 @@ function getHash()
 
 function setHash(cmd)
 {
-	document.location.hash = "#"+cmd;
+	if (cmd.length > 0)
+		document.location.hash = cmd;
 }
 
 function parseCommand(cmd)
