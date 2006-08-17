@@ -68,4 +68,12 @@ $count++;
 $templates_override['scripts/show/data.php'][$count]['filename'] = "scripts/poll/poll_view.php";
 $templates_override['scripts/show/data.php'][$count]['match']['class'] = "poll";
 
+$count++;
+$templates_override['scripts/show/data.php'][$count]['filename'] = "overrides/scripts/show/data-folder.php";
+$templates_override['scripts/show/data.php'][$count]['match']['class'] = "folder";
+
+$count++;
+$templates_override['scripts/show/data.php'][$count]['filename'] = "overrides/scripts/show/data-folder.php";
+$templates_override['scripts/show/data.php'][$count]['match']['class'] = "file_folder";
+
 ?>

@@ -31,7 +31,7 @@ echo compiletpl("title/big", array("left"=>img(geticon("settings"))."&nbsp;".ucw
 				<?=ucf(i18n("view"))?>
 				<select class="form" name="view_selector" onchange="document.sSettings.view.value=document.sSettings.view_selector.options[document.sSettings.view_selector.selectedIndex].value">
 				<?
-					$viewlist = array("custom" => "[enter custom value]", "list" => "", "thumbnails" => "thumbnails", "table" => "table");
+					$viewlist = array("custom" => "[enter custom value]", "list" => "", "thumbnails" => "thumbnails", "table" => "table", "sub" => "sub");
 					$currview = $object->getMeta("view", "");
 					foreach ($viewlist as $key => $view)
 					{

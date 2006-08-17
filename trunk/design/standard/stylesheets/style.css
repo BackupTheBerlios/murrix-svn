@@ -183,6 +183,8 @@ table.maintable td.middle
 	padding: 5px;
 	padding-bottom: 0;
 	font-size: 12px;
+	/*background-image: url('/design/standard/images/back.jpg');*/
+	background-repeat: no-repeat;
 }
 
 table.maintable td.middle img
@@ -354,6 +356,27 @@ table.maintable .input_big
 	padding: 2px;
 	width: 25em;
 }
+
+table.maintable .sub_title
+{
+	border: 1px solid #e1e4e8;
+	border-width: 1px 0 1px 0;
+	background-color: #ebedee;
+	margin-bottom: 5px;
+	padding: 5px;
+	font-weight: bold;
+}
+
+table.maintable .sub_title .right
+{
+	float: right;
+}
+
+table.maintable .sub_title a
+{
+	color: black;
+}
+
 
 div.timeline_wrapper
 {
