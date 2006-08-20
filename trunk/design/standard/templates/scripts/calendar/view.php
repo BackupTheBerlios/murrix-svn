@@ -10,12 +10,13 @@ echo compiletpl("title/big", array("left"=>img(geticon("date"))."&nbsp;".ucf(i18
 			$firstday = strtotime(date("Y-m", strtotime($args['date']))."-01");
 			for ($p = 1; $p <= 3; $p++)
 			{
+				$args_small = array("events"=>$args['events'],"firstday"=>$firstday);
 			?>
 				<div class="container">
-					<?=compiletpl("scripts/calendar/small_month", array("events"=>$args['events'],"firstday"=>$firstday))?>
+					<?=compiletplWithOutput("scripts/calendar/small_month", $args_small)?>
 				</div>
 				<?
-				$firstday = strtotime("+$days_of_month days", $firstday);
+				$firstday = strtotime("+1 month", $firstday);
 			}
 			
 			echo compiletpl("title/medium", array("left"=>ucf(i18n("calendars"))));

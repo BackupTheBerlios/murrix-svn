@@ -64,6 +64,7 @@ table.small_calendar_table .gray, table.small_calendar_table a.gray
 table.small_calendar_table tr.title_row
 {
 	font-weight: bold;
+	text-align: center;
 }
 
 table.small_calendar_table tr.week_row td.week
@@ -77,6 +78,7 @@ table.small_calendar_table tr.week_row td.day
 	background-color: white;
 	font-weight: normal;
 	padding: 1px;
+	text-align: center;
 }
 
 table.small_calendar_table tr.week_row td.today

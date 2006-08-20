@@ -3,13 +3,13 @@ $calendar = new mCalendar();
 
 $first_week_day = date("w", $args['firstday'])-1;
 if ($first_week_day == -1) // Sunday
-	$first_week_day++;
+	$first_week_day = 6;
 	
-$days_of_month = date("t", $args['firstday']);
+$days_of_month = date("t", $args['firstday'])-1;
 	
-$last_week_day = date("w", strtotime("+".($days_of_month-1)." days", $args['firstday']));
+$last_week_day = date("w", strtotime("+".($days_of_month)." days", $args['firstday']))-1;
 if ($last_week_day == 0) // Sunday
-	$last_week_day = 7;
+	$last_week_day = 6;
 
 $days_to_show = $days_of_month+(7-$last_week_day)+$first_week_day;
 
@@ -87,7 +87,14 @@ $month_events = $calendar->getEvents($args['events'], $first_stamp, $last_stamp-
 						$day_events = $calendar->getEvents($month_events, $time_now, 60*60*24);
 						foreach ($day_events as $de)
 						{
-							echo "<div class=\"event\" style=\"background-color: ".$de->rand_color.";\">".cmd($de->getName(), "exec=show&node_id=".$de->getNodeId())."</div>";
+							$person = fetch("FETCH node WHERE link:node_id='".$de->getNodeId()."' AND link:type='birth' AND property:class_name='contact'");
+							
+							if (count($person) > 0)
+							{
+								echo "<div class=\"event\" style=\"background-color: ".$de->rand_color.";\">".cmd(img(geticon("birthday"))." ".$person[0]->getName()."<br/>".getAge($de->getVarValue("date"))." ". i18n("years old"), "exec=show&node_id=".$de->getNodeId())."</div>";
+							}
+							else
+								echo "<div class=\"event\" style=\"background-color: ".$de->rand_color.";\">".cmd($de->getName(), "exec=show&node_id=".$de->getNodeId())."</div>";
 						}
 					?>
 				</td>

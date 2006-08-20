@@ -3,13 +3,13 @@ $calendar = new mCalendar();
 
 $first_week_day = date("w", $args['firstday'])-1;
 if ($first_week_day == -1) // Sunday
-	$first_week_day++;
+	$first_week_day = 6;
 	
-$days_of_month = date("t", $args['firstday']);
+$days_of_month = date("t", $args['firstday'])-1;
 	
-$last_week_day = date("w", strtotime("+".($days_of_month-1)." days", $args['firstday']));
+$last_week_day = date("w", strtotime("+".($days_of_month)." days", $args['firstday']))-1;
 if ($last_week_day == 0) // Sunday
-	$last_week_day = 7;
+	$last_week_day = 6;
 ?>
 
 <fieldset>
