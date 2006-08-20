@@ -91,7 +91,7 @@ $month_events = $calendar->getEvents($args['events'], $first_stamp, $last_stamp-
 							
 							if (count($person) > 0)
 							{
-								echo "<div class=\"event\" style=\"background-color: ".$de->rand_color.";\">".cmd(img(geticon("birthday"))." ".$person[0]->getName()."<br/>".getAge($de->getVarValue("date"))." ". i18n("years old"), "exec=show&node_id=".$de->getNodeId())."</div>";
+								echo "<div class=\"event\" style=\"background-color: ".$de->rand_color.";\">".cmd(img(geticon("birthday"))." ".$person[0]->getName()."<br/>".getAge($de->getVarValue("date"), date("Y-m-d", $time_now))." ". i18n("years old"), "exec=show&node_id=".$de->getNodeId())."</div>";
 							}
 							else
 								echo "<div class=\"event\" style=\"background-color: ".$de->rand_color.";\">".cmd($de->getName(), "exec=show&node_id=".$de->getNodeId())."</div>";

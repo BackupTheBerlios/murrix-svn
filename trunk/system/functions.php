@@ -77,12 +77,13 @@ function createObject($parent, $name, $class = "folder", $values = null)
 	return false;
 }
 
-function getAge($birthdate)
+function getAge($birthdate, $now = "now")
 {
 	list($byear, $bmonth, $bday) = explode("-", $birthdate);
-	$year = date("Y");
-	$month = date("m");
-	$day = date("d");
+	$time = strtotime($now);
+	$year = date("Y", $time);
+	$month = date("m", $time);
+	$day = date("d", $time);
 	
 	if ($year > $byear)
 	{
