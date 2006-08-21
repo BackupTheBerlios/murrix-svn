@@ -39,10 +39,6 @@ $month_events = $calendar->getEvents($args['events'], $first_stamp, $last_stamp-
 			for ($n = 0; $n < $days_to_show; $n++)
 			{
 				$days = $n-$first_week_day;
-				if ($days > 0)
-					$days = "+$days";
-				else
-					$days = "-$days";
 				
 				$time_now = strtotime("$days days", $args['firstday']);
 				

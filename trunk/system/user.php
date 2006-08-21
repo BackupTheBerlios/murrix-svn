@@ -148,7 +148,7 @@ function createUser($name, $username, $password, $email, $groups, $create_home =
 	
 		$home->name = $username;
 		$home->language = $_SESSION['murrix']['language'];
-		$home->rights = "$username=r";
+		$home->rights = "$username=rc";
 	
 		$home->setVarValue("description", "This is the home of $name");
 	
@@ -209,7 +209,7 @@ function createGroup($name, $description, $create_home = true)
 	
 		$home->name = $name;
 		$home->language = $_SESSION['murrix']['language'];
-		$home->rights = "$name=r";
+		$home->rights = "$name=rc";
 	
 		$home->setVarValue("description", "This is the home of $name");
 	

@@ -33,13 +33,9 @@ if ($last_week_day == 0) // Sunday
 		
 		if ($max > 0)
 		{
-			for ($n = 0; $n < $days_of_month+(7-$last_week_day)+$first_week_day; $n++)
+			for ($n = 0; $n < $max; $n++)
 			{
 				$days = $n-$first_week_day;
-				if ($days > 0)
-					$days = "+$days";
-				else
-					$days = "-$days";
 				
 				$time_now = strtotime("$days days", $args['firstday']);
 				
