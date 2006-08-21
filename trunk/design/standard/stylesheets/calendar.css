@@ -59,6 +59,12 @@ table.small_calendar_table .red, table.small_calendar_table a.red
 table.small_calendar_table .gray, table.small_calendar_table a.gray
 {
 	color: gray;
+	font-weight: normal;
+}
+
+table.small_calendar_table .gray, table.small_calendar_table a.bold
+{
+	font-weight: bold;
 }
 
 table.small_calendar_table tr.title_row
@@ -149,6 +155,11 @@ table.big_month_table tr.week_row td.day
 	vertical-align: top;
 	padding: 1px;
 	overflow: hidden;
+}
+
+table.big_month_table tr.week_row td.gray
+{
+	background-color: #F8F8F8;
 }
 
 table.big_month_table tr.week_row td.today

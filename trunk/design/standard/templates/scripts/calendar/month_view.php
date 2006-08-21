@@ -5,10 +5,10 @@ $first_week_day = date("w", $args['firstday'])-1;
 if ($first_week_day == -1) // Sunday
 	$first_week_day = 6;
 	
-$days_of_month = date("t", $args['firstday'])-1;
-	
+$days_of_month = date("t", $args['firstday']);
+
 $last_week_day = date("w", strtotime("+".($days_of_month)." days", $args['firstday']))-1;
-if ($last_week_day == 0) // Sunday
+if ($last_week_day == -1) // Sunday
 	$last_week_day = 6;
 
 $days_to_show = $days_of_month+(7-$last_week_day)+$first_week_day;
@@ -60,7 +60,10 @@ $month_events = $calendar->getEvents($args['events'], $first_stamp, $last_stamp-
 					$link_class .= " red";
 					
 				if (date("m", $time_now) != date("m", $args['firstday']))
+				{
+					$class .= " gray";
 					$link_class .= " gray";
+				}
 					
 				if (date("Y-m-d", $time_now) == date("Y-m-d"))
 					$class .= " today";

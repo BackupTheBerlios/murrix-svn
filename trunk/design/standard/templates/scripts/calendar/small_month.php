@@ -8,8 +8,14 @@ if ($first_week_day == -1) // Sunday
 $days_of_month = date("t", $args['firstday'])-1;
 	
 $last_week_day = date("w", strtotime("+".($days_of_month)." days", $args['firstday']))-1;
-if ($last_week_day == 0) // Sunday
+if ($last_week_day == -1) // Sunday
 	$last_week_day = 6;
+
+$days_to_show = $days_of_month+(7-$last_week_day)+$first_week_day;
+
+$first_stamp = strtotime("-$first_week_day days", $args['firstday']);
+$last_stamp = strtotime("+$days_to_show days", $first_stamp);
+$month_events = $calendar->getEvents($args['events'], $first_stamp, $last_stamp-$first_stamp);
 ?>
 
 <fieldset>
@@ -29,11 +35,9 @@ if ($last_week_day == 0) // Sunday
 			<td class="sunday red">S</td>
 		</tr>
 		<?
-		$max = $days_of_month+(7-$last_week_day)+$first_week_day;
-		
-		if ($max > 0)
+		if ($days_to_show > 0)
 		{
-			for ($n = 0; $n < $max; $n++)
+			for ($n = 0; $n < $days_to_show; $n++)
 			{
 				$days = $n-$first_week_day;
 				
@@ -66,7 +70,12 @@ if ($last_week_day == 0) // Sunday
 					
 				if (date("Y-m-d", $time_now) == date("Y-m-d"))
 					$class .= " today";
-					
+				
+				$day_events = $calendar->getEvents($month_events, $time_now, 60*60*24);
+				
+				if (count($day_events) > 0)
+					$link_class .= " bold";
+				
 				?>
 				<td class="<?=$class?>">
 					<?=cmd(date("j", $time_now), "exec=calendar&view=day&date=".date("Ymd", $time_now), $link_class)?>

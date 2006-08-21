@@ -28,6 +28,9 @@ class mCalendar
 	
 	function getEvents($events, $start_stamp, $duration)
 	{
+		if (count($events) == 0)
+			return array();
+	
 		$ref_year = array();
 		$ref_month = array();
 		$ref_day = array();
