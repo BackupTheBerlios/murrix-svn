@@ -61,6 +61,8 @@ if (!isset($_SESSION['murrix']['user']))
 $_SESSION['murrix']['site'] = "standard";
 
 echo "MURRiX Cron Script\n\n";flush();
+
+$GLOBALS['cache']['settings']["any"]['INSTANTTHUMBS'] = "true"; 
 /*
 $files = fetch("FETCH node WHERE property:class_name='contact' NODESORTBY property:version");
 echo "Correcting contactinfo\n";flush();

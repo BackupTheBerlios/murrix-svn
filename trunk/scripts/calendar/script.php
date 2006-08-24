@@ -110,7 +110,7 @@ class sCalendar extends Script
 				if (!$this->calendars[$name][$i]->active)
 					continue;
 					
-				$children = fetch("FETCH node WHERE link:node_top='".$this->calendars[$name][$i]->getNodeId()."' AND link:type='sub' AND property:class_name='event' NODESORTBY property:version SORTBY var:date");
+				$children = fetch("FETCH node WHERE link:node_top='".$this->calendars[$name][$i]->getNodeId()."' AND link:type='sub' NODESORTBY property:version SORTBY var:date");
 				
 				$children_unique = array();
 				
