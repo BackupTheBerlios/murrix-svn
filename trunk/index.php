@@ -150,6 +150,8 @@ else if (isset($_GET['file']))
 			header("Content-Description: File Transfer");
 			header("Content-Disposition: attachment; filename=\"".$data['data']."\"");
 		}
+		
+		header("Content-Length: ".filesize("$abspath/files/".$_GET['file'].".$extension"));
 	
 		$type = getfiletype($extension);
 
