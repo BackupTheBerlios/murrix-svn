@@ -111,8 +111,8 @@ class mSystem
 
 	function ExecIntern(&$response, $name, $arguments = null)
 	{
-		//if (empty($name))
-		//	return;
+		if (empty($name))
+			return;
 	
 		if (empty($arguments) || $arguments == null)
                         $arguments = array();
@@ -125,7 +125,6 @@ class mSystem
 				$this->scripts[$name]->zone = $arguments['zone'];
 		
 			$this->scripts[$name]->active = true;
-			$this->scripts[$name]->Exec($this, $response, $arguments);
 			
 			foreach ($this->scripts as $key => $value)
 			{
@@ -135,6 +134,8 @@ class mSystem
 				if ($this->scripts[$key]->zone == $this->scripts[$name]->zone)
 					$this->scripts[$key]->active = false;
 			}
+			
+			$this->scripts[$name]->Exec($this, $response, $arguments);
 		}
 
 		$response->addScript("endScript('$name');");

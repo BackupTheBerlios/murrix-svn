@@ -38,9 +38,9 @@ if (!empty($text))
 ?>
 	<div class="adminpanel">
 		<?=$text?>
+		<div class="clear"></div>
 	</div>
-	<br/>
-	<div class="clear"></div>
+	
 <?
 }
 ?>

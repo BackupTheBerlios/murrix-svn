@@ -2,9 +2,20 @@
 
 class sAddressbar extends Script
 {
+	var $divider;
+
 	function sAddressbar()
 	{
 		$this->zone = "zone_addressbar";
+		$this->divider = "/";
+	}
+
+	function onActive($arguments)
+	{
+		if (!empty($arguments['divider']))
+			$this->divider = $arguments['divider'];
+			
+		parent::onActive($arguments);
 	}
 
 	function EventHandler(&$system, &$response, $event, $args)
@@ -21,7 +32,7 @@ class sAddressbar extends Script
 
 	function Draw(&$system, &$response, $args)
 	{
-		$response->addAssign($this->zone, "innerHTML", utf8e(compiletpl("scripts/addressbar", array("path"=>$_SESSION['murrix']['path']))));
+		$response->addAssign($this->zone, "innerHTML", utf8e(compiletpl("scripts/addressbar", array("divider"=>$this->divider, "path"=>$_SESSION['murrix']['path']))));
 	}
 }
 
