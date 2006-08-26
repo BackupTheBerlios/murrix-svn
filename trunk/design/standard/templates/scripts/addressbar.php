@@ -8,7 +8,7 @@ $path2 = "";
 $count = 0;
 foreach ($parts as $part)
 {
-	$path2 .= "$divider$part";
+	$path2 .= "/$part";
 	if ($count > 0)
 		echo "&nbsp;$divider&nbsp;";
 
