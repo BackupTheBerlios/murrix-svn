@@ -1,6 +1,7 @@
 <?
 echo compiletpl("scripts/show/tabs", array("view"=>"edit"), $object);
-echo compiletpl("title/big", array("left"=>img(geticon("edit"))."&nbsp;".ucf(i18n("edit")),"right"=>ucf(i18n("class")).": ".ucw(str_replace("_", " ", $object->getClassName()))), $object);
+echo compiletpl("title/big", array("left"=>img(geticon($object->getIcon()))."&nbsp;".$object->getName()), $object);
+echo ucf(i18n("class")).": ".ucw(str_replace("_", " ", $object->getClassName()));
 ?>
 <form name="sEdit" id="sEdit" action="javascript:void(null);" onsubmit="Post('edit','sEdit');">
 	<input class="hidden" type="hidden" name="action" value="save"/>

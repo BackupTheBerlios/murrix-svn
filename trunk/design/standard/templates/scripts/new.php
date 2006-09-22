@@ -16,7 +16,8 @@ if ($parent->hasRight("create"))
 }
 
 echo compiletpl("scripts/show/tabs", array("view"=>"new"), $parent);
-echo compiletpl("title/big", array("left"=>img(geticon($object->getIcon()))."&nbsp;".ucf(i18n("new")),"right"=>$class_form), $object);
+echo compiletpl("title/big", array("left"=>img(geticon($parent->getIcon()))."&nbsp;".$parent->getName()), $parent);
+echo ucf(i18n("class")).": $class_form";
 ?>
 <form name="sEdit" id="sEdit" action="javascript:void(null);" onsubmit="Post('new','sEdit');">
 	<input class="hidden" type="hidden" name="action" value="save"/>

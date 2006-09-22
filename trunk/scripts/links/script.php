@@ -84,6 +84,7 @@ class sLinks extends Script
 					return;
 				}
 				
+				$args['message'] = ucf(i18n("created new link successfully"));
 				$_SESSION['murrix']['path'] = $object->getPathInTree();
 				$system->TriggerEventIntern($response, "newlocation", $args);
 				return;
@@ -101,7 +102,7 @@ class sLinks extends Script
 		if ($node_id > 0)
 		{
 			$object = new mObject($node_id);
-			$data = compiletpl("scripts/links", array(), $object);
+			$data = compiletpl("scripts/links", array("message"=>$args['message']), $object);
 		}
 		else
 			$data = compiletpl("message", array("title"=>ucf(i18n("error")), "message"=>ucf(i18n("the specified path is invalid"))));

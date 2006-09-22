@@ -1,6 +1,6 @@
 <?
 echo compiletpl("scripts/show/tabs", array("view"=>"versions"), $object);
-echo compiletpl("title/big", array("left"=>img(geticon("list"))."&nbsp;".ucf(i18n("versions"))), $object);
+echo compiletpl("title/big", array("left"=>img(geticon($object->getIcon()))."&nbsp;".$object->getName()), $object);
 
 $num_versions = count($object->getVersionNumbers());
 

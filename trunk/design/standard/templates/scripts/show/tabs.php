@@ -36,8 +36,11 @@ if ($object->hasRight("create"))
 if (!empty($text))
 {
 ?>
-	<div class="adminpanel">
-		<?=$text?>
+	<div class="adminpanel_wrapper">
+		<div class="adminpanel">
+			<?=$text?>
+			
+		</div>
 		<div class="clear"></div>
 	</div>
 	

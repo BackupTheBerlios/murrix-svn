@@ -62,6 +62,8 @@ class sSettings extends Script
 					$versions = fetch("FETCH object WHERE property:node_id='".$object->getNodeId()."' NODESORTBY property:version,property:name");
 					foreach ($versions as $version)
 						delObjectFromCache($version->getId());
+						
+					$args['message'] = ucf(i18n("saved settings successfully"));
 				}
 			}
 		}
@@ -78,7 +80,7 @@ class sSettings extends Script
 		{
 			$object = new mObject($node_id);
 			if ($object->HasRight("write"))
-				$data = compiletpl("scripts/settings", array(), $object);
+				$data = compiletpl("scripts/settings", array("message"=>$args['message']), $object);
 			else
 				$data = compiletpl("message", array("title"=>ucf(i18n("error")), "message"=>ucf(i18n("not enough rights"))));
 		}

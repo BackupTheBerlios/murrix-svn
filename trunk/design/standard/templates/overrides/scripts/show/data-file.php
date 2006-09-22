@@ -45,7 +45,7 @@
 				
 				$angle = $object->getMeta("angle", "");
 				
-				$thumbnail = getThumbnail($value_id, $maxsize, 0, $angle);
+				$thumbnail = getThumbnail($value_id, $maxsize, floor($maxsize*0.67), $angle);
 				
 				if ($object->hasRight("write"))
 				{

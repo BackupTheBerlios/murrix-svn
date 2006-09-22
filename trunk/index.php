@@ -211,11 +211,12 @@ $link_types = array("sub" => "sub", "data" => "data", "partner" => "partner", "p
 
 if (!isset($_SESSION['murrix']['default_theme']))
 	$_SESSION['murrix']['default_theme'] = getSetting("DEFAULT_THEME", "standard", "any");
-	
-$theme = GetInput("theme", $_SESSION['murrix']['default_theme']);
 
-$_SESSION['murrix']['theme'] = $theme;
-$_SESSION['murrix']['site'] = $theme;
+if (!isset($_SESSION['murrix']['theme']))
+	$_SESSION['murrix']['theme'] = $_SESSION['murrix']['default_theme'];
+
+$_SESSION['murrix']['theme'] = GetInput("theme", $_SESSION['murrix']['theme']);
+$theme = $_SESSION['murrix']['site'] = $_SESSION['murrix']['theme'];
 
 if (!isset($_SESSION['murrix']['default_path']))
 	$_SESSION['murrix']['default_path'] = getSetting("DEFAULT_PATH", "/root/public");

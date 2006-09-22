@@ -1,6 +1,6 @@
 <?
 echo compiletpl("scripts/show/tabs", array("view"=>"settings"), $object);
-echo compiletpl("title/big", array("left"=>img(geticon("settings"))."&nbsp;".ucw(i18n("settings"))), $object);
+echo compiletpl("title/big", array("left"=>img(geticon($object->getIcon()))."&nbsp;".$object->getName()), $object);
 ?>
 <form name="sSettings" id="sSettings" action="javascript:void(null);" onsubmit="Post('settings','sSettings');">
 	<input class="hidden" type="hidden" name="action" value="meta"/>
@@ -150,6 +150,7 @@ echo compiletpl("title/big", array("left"=>img(geticon("settings"))."&nbsp;".ucw
 			</fieldset>
 			<br/>
 			<input class="submit" id="submitButton" type="submit" value="<?=ucf(i18n("save"))?>"/>
+			<?=$args['message']?>
 		</div>
 	</div>
 </form>

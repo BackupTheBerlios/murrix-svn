@@ -224,6 +224,14 @@ table.maintable td.middle div.adminpanel a.tab_selected
 	background-color: #e1e4e8;
 }
 
+div.poster
+{
+	font-size: 9px;
+	font-style: italic;
+	margin-left: 5px;
+	margin-bottom: 5px;
+}
+
 table.maintable td.middle div.big_title
 {
 	border: 1px solid #e1e4e8;

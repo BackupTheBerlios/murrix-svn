@@ -2,7 +2,7 @@
 global $wwwpath, $abspath;
 
 echo compiletpl("scripts/show/tabs", array("view"=>"upload"), $object);
-echo compiletpl("title/big", array("left"=>img(geticon("attach"))."&nbsp;".ucf(i18n("upload"))), $object);
+echo compiletpl("title/big", array("left"=>img(geticon($object->getIcon()))."&nbsp;".$object->getName()), $object);
 
 echo compiletpl("title/medium", array("left"=>ucf(i18n("upload folder"))), $object);
 

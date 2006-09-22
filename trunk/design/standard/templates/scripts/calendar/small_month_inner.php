@@ -56,12 +56,16 @@ $month_events = $calendar->getEvents($args['events'], $first_stamp, $last_stamp-
 			
 			$class = "day";
 			$link_class = "link";
+			
+			if (date("m", $time_now) != date("m", $args['firstday']))
+			{
+				$class .= " gray";
+				$link_class .= " gray";
+			}
+				
 			$day_of_week = date("w", $time_now);
 			if ($day_of_week == 0 || $day_of_week == 6)
 				$link_class .= " red";
-				
-			if (date("m", $time_now) != date("m", $args['firstday']))
-				$link_class .= " gray";
 				
 			if (date("Y-m-d", $time_now) == date("Y-m-d"))
 				$class .= " today";

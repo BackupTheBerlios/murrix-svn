@@ -69,7 +69,7 @@ function cmd($name, $cmd, $args = null)
 function imgpath($append = "")
 {
 	global $wwwpath;
-	return "$wwwpath/design/".$_SESSION['murrix']['site']."/images/$append";
+	return "$wwwpath/design/".$_SESSION['murrix']['theme']."/images/$append";
 }
 
 function img($img, $title = "", $style = "", $id = "")
@@ -201,8 +201,8 @@ function geticon($name, $size = 16, $ext = "png")
 	global $abspath, $wwwpath;
 	$name = strtolower($name);
 	
-	if (file_exists("$abspath/design/".$_SESSION['murrix']['site']."/icons/$size/$name.$ext"))
-		return "$wwwpath/design/".$_SESSION['murrix']['site']."/icons/$size/$name.$ext";
+	if (file_exists("$abspath/design/".$_SESSION['murrix']['theme']."/icons/$size/$name.$ext"))
+		return "$wwwpath/design/".$_SESSION['murrix']['theme']."/icons/$size/$name.$ext";
 
 	if (file_exists("$abspath/design/standard/icons/$size/$name.png"))
 		return "$wwwpath/design/standard/icons/$size/$name.png";
@@ -213,10 +213,10 @@ function geticon($name, $size = 16, $ext = "png")
 function getjs()
 {
 	global $abspath, $wwwpath;
-	$files = GetSubfiles("$abspath/design/".$_SESSION['murrix']['site']."/javascripts");
+	$files = GetSubfiles("$abspath/design/".$_SESSION['murrix']['theme']."/javascripts");
 
 	for ($n = 0; $n < count($files); $n++)
-		$files[$n] = "$wwwpath/design/".$_SESSION['murrix']['site']."/javascripts/".$files[$n];
+		$files[$n] = "$wwwpath/design/".$_SESSION['murrix']['theme']."/javascripts/".$files[$n];
 
 	return $files;
 }
@@ -227,27 +227,27 @@ function getcss()
 		return array();
 		
 	global $abspath, $wwwpath;
-	$files = GetSubfiles("$abspath/design/".$_SESSION['murrix']['site']."/stylesheets");
+	$files = GetSubfiles("$abspath/design/".$_SESSION['murrix']['theme']."/stylesheets");
 
 	$files2 = array();
 	for ($n = 0; $n < count($files); $n++)
 	{
 		$paths = pathinfo($files[$n]);
 		if (strtolower($paths['extension']) == "css")
-			$files2[] = "$wwwpath/design/".$_SESSION['murrix']['site']."/stylesheets/".$files[$n];
+			$files2[] = "$wwwpath/design/".$_SESSION['murrix']['theme']."/stylesheets/".$files[$n];
 	}
 
 	return $files2;
 }
 
-function _gettemplateoverride($filename, $object, $site, $path)
+function _gettemplateoverride($filename, $object, $theme, $path)
 {
 	global $abspath;
 
 	$tpl = "";
-	if (file_exists("$abspath/design/$site/templates/override.inc.php")) // We have possible overrides, check these first
+	if (file_exists("$abspath/design/$theme/templates/override.inc.php")) // We have possible overrides, check these first
 	{
-		include("$abspath/design/$site/templates/override.inc.php");
+		include("$abspath/design/$theme/templates/override.inc.php");
 
 		if (isset($templates_override[$filename]))// We have possible overrides for this files
 		{
@@ -276,11 +276,11 @@ function _gettemplateoverride($filename, $object, $site, $path)
 				
 				if ($rank > $rank_m)// is this better ranked then the last
 				{
-					if (file_exists("$path/design/$site/templates/".$template['filename']))
-						$tpl = "$path/design/$site/templates/".$template['filename'];
+					if (file_exists("$path/design/$theme/templates/".$template['filename']))
+						$tpl = "$path/design/$theme/templates/".$template['filename'];
 					else
 					{
-						if ($site != "standard")
+						if ($theme != "standard")
 						{
 							if (file_exists("$path/design/standard/templates/".$template['filename']))
 								$tpl = "$path/design/standard/templates/".$template['filename'];
@@ -300,12 +300,12 @@ function gettpl_path($template, $object = null, $path = "")
 
 	$filename = "$template.php";
 
-	$tpl = _gettemplateoverride($filename, $object, $_SESSION['murrix']['site'], $path);
+	$tpl = _gettemplateoverride($filename, $object, $_SESSION['murrix']['theme'], $path);
 
 	if (empty($tpl)) // No override template found, check for default
 	{
-		if (file_exists("$abspath/design/".$_SESSION['murrix']['site']."/templates/$filename")) // Found default template
-			$tpl = "$path/design/".$_SESSION['murrix']['site']."/templates/$filename";
+		if (file_exists("$abspath/design/".$_SESSION['murrix']['theme']."/templates/$filename")) // Found default template
+			$tpl = "$path/design/".$_SESSION['murrix']['theme']."/templates/$filename";
 		else // Did not find default template using standard instead
 		{
 			$tpl = _gettemplateoverride($filename, $object, "standard", $path);

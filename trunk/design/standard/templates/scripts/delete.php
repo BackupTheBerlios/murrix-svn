@@ -1,6 +1,6 @@
 <?
 echo compiletpl("scripts/show/tabs", array("view"=>"delete"), $object);
-echo compiletpl("title/big", array("left"=>img(geticon("delete"))."&nbsp;".ucf(i18n("delete"))), $object);
+echo compiletpl("title/big", array("left"=>img(geticon($object->getIcon()))."&nbsp;".$object->getName()), $object);
 ?>
 <div class="main">
 	<center>

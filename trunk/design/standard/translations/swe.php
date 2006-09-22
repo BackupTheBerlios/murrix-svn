@@ -1,4 +1,6 @@
 <?
+$translation['created new link successfully'] = "sparade ny länk";
+$translation['saved settings successfully'] = "sparade inställningar";
 $translation['you must log in to vote'] = "du måste logga in för att rösta";
 $translation['timeline'] = "tidslinje";
 $translation['create region'] = "skapa region";
@@ -155,9 +157,9 @@ $translation['created'] = "skapad";
 $translation['author'] = "författare";
 $translation['rows'] = "rader";
 $translation['new version from here'] = "ny version härifrån";
-$translation['create new link to'] = "skapa ny länk till";
+$translation['create new link'] = "skapa ny länk";
 $translation['as'] = "som";
-$translation['create link'] = "skapa länk";
+$translation['create sub links'] = "skapa sublänkar";
 $translation['link'] = "länk";
 $translation['type'] = "typ";
 $translation['remote node'] = "fjärrnod";
