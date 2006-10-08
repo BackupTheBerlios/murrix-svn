@@ -1,0 +1,88 @@
+body.nodebrowse
+{
+	font-family: Arial, Verdana, Helvetica, sans-serif;
+	background-color: white;
+	margin: 0;
+	padding: 0;
+}
+
+body.nodebrowse a
+{
+	color: #1a1a92;
+	text-decoration: none;
+}
+
+body.nodebrowse a:hover, body.nodebrowse a:active
+{
+	color: blue;
+}
+
+body.nodebrowse .hidden
+{
+	display: none;
+	margin: 0;
+	padding: 0;
+}
+
+body.nodebrowse img
+{
+	border: none;
+	vertical-align: text-bottom;
+}
+
+body.nodebrowse .container
+{
+	margin-bottom: 5px;
+}
+
+body.nodebrowse div.clear
+{
+	clear: both;
+}
+
+body.nodebrowse div.main
+{
+	background-color: #F9F9F9;
+	border: 1px solid #DCD7FF;
+	margin-bottom: 5px;
+	padding: 5px;
+	font-size: 11px;
+}
+
+body.nodebrowse input.input
+{
+	border: 1px solid #ebedee;
+	width: 190px;
+	padding: 1px;
+}
+
+body.nodebrowse input.submit
+{
+	border: 1px solid #e1e4e8;
+	background-color: #ebedee;
+}
+
+body.nodebrowse div.big_title
+{
+	border: 1px solid #e1e4e8;
+	border-width: 1px 0 1px 0;
+	background-color: #ebedee;
+	margin-bottom: 5px;
+	text-align: center;
+	padding: 2px 5px 2px 5px;
+	height: 24px;
+}
+
+body.nodebrowse div.big_title div.left
+{
+	text-align: left;
+	font-size: 20px;
+	float: left;
+}
+
+body.nodebrowse div.big_title div.right
+{
+	text-align: right;
+	float: right;
+	margin: 6px 0 6px 0;
+}

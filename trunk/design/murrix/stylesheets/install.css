@@ -1,0 +1,106 @@
+
+#install .main_wrapper
+{
+	border: 1px solid #5B5B7A;
+	padding: 0;
+	margin: 0;
+	width: 800px;
+	background-color: #F9F9F9;
+}
+
+#install .main_title
+{
+	background-color: #9191C3;
+	padding: 10px;
+	color: #5B5B7A;
+	margin: 10px;
+	margin-bottom: 0;
+	font-size: 28px;
+	text-align: center;
+	vertical-align: middle;
+}
+
+#install .menu
+{
+	font-size: 14px;
+	font-weight: bold;
+	padding: 10px;
+	width: 140px;
+	background-color: #D0C9FF;
+	margin: 10px;
+}
+
+#install .main
+{
+	font-size: 12px;
+	padding: 0;
+	height: 100%;
+	margin: 10px;
+	margin-left: 0;
+}
+
+#install .textline
+{
+	width: 150px;
+	border: 1px solid #9191C3;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+#install .selectbox
+{
+	width: 150px;
+	border: 1px solid #9191C3;
+}
+
+#install .warning
+{
+	padding: 10px;
+	text-align: center;
+	font-weight: bold;
+	color: red;
+	font-size: 14px;
+	border: 1px dashed red;
+}
+
+#install .main_nav
+{
+	padding: 0;
+	margin: 10px;
+	margin-left: 0;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+#install .main_nav a:hover
+{
+	text-decoration: underline;
+}
+
+#install iframe
+{
+	width: 100%;
+	height: 300px;
+	border: 1px solid #9191C3;
+	background-color: #FFFFFF;
+}
+
+#install table.invisible
+{
+	width: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+#install table.invisible tr
+{
+	padding: 0;
+	margin: 0;
+}
+
+#install table.invisible td
+{
+	padding: 0;
+	margin: 0;
+	vertical-align: top;
+}

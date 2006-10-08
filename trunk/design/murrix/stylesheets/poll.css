@@ -1,0 +1,67 @@
+.polls_wrapper
+{
+}
+
+.polls_wrapper_margin
+{
+}
+
+.polls_wrapper .title
+{
+	margin-bottom: 5px;
+	padding: 5px;
+	font-weight: bold;
+	font-size: 14px;
+	text-align: center;
+}
+
+.polls_wrapper .poll
+{
+	background-color: #F9F9F9;
+	border: 1px solid #DCD7FF;
+	padding: 5px;
+	margin: 0;
+	margin-bottom: 5px;
+	padding-bottom: 0;
+}
+
+.poll .question
+{
+	font-weight: bold;
+	border-bottom: 1px solid #DCD7FF;
+	margin-bottom: 5px;
+}
+
+.poll .date
+{
+	font-size: 8px;
+}
+
+.poll .result
+{
+
+}
+
+.poll .staple_wrapper
+{
+	border: 1px solid #DCD7FF;
+	background-color: #FFFFFF;
+	padding: 0;
+}
+
+.poll .staple
+{
+	background-color: red;
+	height: 10px;
+	margin: 0;
+}
+
+.poll .alternatives
+{
+	padding-bottom: 5px;
+}
+
+.poll .alternative
+{
+	margin-bottom: 5px;
+}
