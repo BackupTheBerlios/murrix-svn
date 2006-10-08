@@ -1,5 +1,41 @@
 <?
 
+function mailToMaillist($subject, $from, $body, $maillists)
+{
+	$headers = "From: $from\r\n";
+	$headers .= "Reply-To: $from\r\n";
+	$headers .= "X-Mailer: PHP/".phpversion();
+
+	// To send HTML mail, the Content-type header must be set
+	//$headers  = 'MIME-Version: 1.0' . "\r\n";
+	//$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+
+	foreach ($maillists as $maillist)
+	{
+		$addresses = getMaillistAddresses($maillists);
+		$addresses = implode(",", $addresses);
+
+		if (!mail($addresses, "[$maillists] $subject", $body, $headers))
+			return false;
+	}
+	
+	return true;
+}
+
+function getMaillistAddresses($maillist)
+{
+	$children = fetch("FETCH node WHERE link:node_top='".getNode("/root/maillists/$maillist")."' AND link:type='sub' AND property:class_name='simple' NODESORTBY property:version");
+	
+	$children = getReadable($children);
+	
+	$addresses = array();
+	
+	foreach ($children as $child)
+		$addresses[] = $child->getName();
+		
+	return $addresses;
+}
+
 function get_browser_name()
 {
 	$browser = array(

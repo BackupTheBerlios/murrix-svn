@@ -224,6 +224,40 @@ table.maintable td.middle div.adminpanel a.tab_selected
 	background-color: #e1e4e8;
 }
 
+
+
+table.maintable td.middle div.tabs
+{
+	margin: 0;
+}
+
+table.maintable td.middle div.tabs a.tab
+{
+	float: left;
+	padding: 5px;
+	border: 1px solid #e1e4e8;
+	border-bottom-width: 0;
+	margin-right: 5px;
+	display: block;
+	background-color: #f7f7f9;
+}
+
+table.maintable td.middle div.tabs a.tab:hover, table.maintable td.middle div.tabs a.tab:active
+{
+	background-color: #ebedee;
+}
+
+table.maintable td.middle div.tabs a.tab_selected
+{
+	float: left;
+	padding: 5px;
+	border: 1px solid #e1e4e8;
+	border-bottom-width: 0;
+	margin-right: 5px;
+	display: block;
+	background-color: #e1e4e8;
+}
+
 div.poster
 {
 	font-size: 9px;

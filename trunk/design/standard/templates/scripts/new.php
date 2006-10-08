@@ -17,7 +17,17 @@ if ($parent->hasRight("create"))
 
 echo compiletpl("scripts/show/tabs", array("view"=>"new"), $parent);
 echo compiletpl("title/big", array("left"=>img(geticon($parent->getIcon()))."&nbsp;".$parent->getName()), $parent);
-echo ucf(i18n("class")).": $class_form";
+
+if (!empty($class_form))
+{
+?>
+	<div class="main">
+		<div class="container">
+			<?=ucf(i18n("class")).": $class_form"?>
+		</div>
+	</div>
+<?
+}
 ?>
 <form name="sEdit" id="sEdit" action="javascript:void(null);" onsubmit="Post('new','sEdit');">
 	<input class="hidden" type="hidden" name="action" value="save"/>
@@ -28,7 +38,7 @@ echo ucf(i18n("class")).": $class_form";
 	if (count($_SESSION['murrix']['languages']) > 1)
 	{
 	?>
-		<div class="adminpanel">
+		<div class="tabs">
 		<?
 			foreach ($_SESSION['murrix']['languages'] as $language)
 			{
@@ -42,10 +52,10 @@ echo ucf(i18n("class")).": $class_form";
 					
 				?><a id="select_<?=$language?>" class="tab<?=($language == $_SESSION['murrix']['language'] ? "_selected" : "")?>" href="javascript:void(null)" onclick="<?=$hide.$show?>"><?=img(imgpath("$language.jpg"))." ".ucf(i18n($language))?></a><?
 			}
-		?>
+			?>
+			<br/>
+			<div class="clear"></div>
 		</div>
-		<br/>
-		<div class="clear"></div>
 	<?
 	}
 	
@@ -121,7 +131,6 @@ echo ucf(i18n("class")).": $class_form";
 	?>
 		<div class="main">
 			<div class="container">
-				
 				<input class="submit" id="submitButton" type="submit" value="<?=ucf(i18n("save all languages"))?>"/>
 			</div>
 		</div>

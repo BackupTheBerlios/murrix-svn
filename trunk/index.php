@@ -23,6 +23,7 @@ require_once("system/filecache.php");
 require_once("system/objectcache.php");
 require_once("system/settings.php");
 require_once("system/user.php");
+require_once("system/class.php");
 
 
 /* ========================= */
@@ -207,7 +208,7 @@ else if (isset($_GET['rss']))
 /* ========================= */
 // Set available linktyes
 /* ========================= */
-$link_types = array("sub" => "sub", "data" => "data", "partner" => "partner", "parent" => "parent", "birth" => "birth", "death" => "death");
+$link_types = array("sub" => "sub", "data" => "data", "partner" => "partner", "parent" => "parent", "birth" => "birth", "death" => "death", "link" => "link");
 
 if (!isset($_SESSION['murrix']['default_theme']))
 	$_SESSION['murrix']['default_theme'] = getSetting("DEFAULT_THEME", "standard", "any");
