@@ -22,10 +22,10 @@ if ($object->hasRight("write"))
 			<?=ucf(i18n("type"))?>
 			<select class="form" name="type">
 			<?
-				global $link_types;
-				foreach ($link_types as $key => $link_type)
+				$link_types = getLinkTypes();
+				foreach ($link_types as $key => $name)
 				{
-					echo "<option ".($key == "sub" ? "selected" : "")." value=\"$key\">".ucw(str_replace("_", " ", $link_type))."</option>";
+					echo "<option ".($key == "sub" ? "selected" : "")." value=\"$key\">".ucw(str_replace("_", " ", $name))."</option>";
 				}
 			?>
 			</select>
@@ -51,7 +51,7 @@ foreach ($links as $link)
 		$remote = cmd(img(geticon($remote_obj->getIcon()))."&nbsp;".$remote_obj->getName(), "exec=show&node_id=".$remote_obj->getNodeId());
 	}
 
-	if ($object->hasRight("write"))
+	if ($object->hasRight("write") && ($object->getNumLinksSubBottom() > 1 || ($link['type'] != "sub" && $link['direction'] != "bottom")))
 		$delete = cmd(img(geticon("delete"))."&nbsp;".ucf(i18n("delete")), "exec=links&action=deletelink&node_id=".$object->getNodeId()."&remote_id=".$link['remote_id']."&type=".$link['type']."&direction=".($link['direction'] == "top" ? "bottom" : "top"));
 	else
 		$delete = "";

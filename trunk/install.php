@@ -32,12 +32,12 @@ session_start();
 
 global $db_prefix;
 
-$_SESSION['murrix']['site'] = "standard";
+$_SESSION['murrix']['theme'] = "standard";
 $_SESSION['murrix']['language'] = "eng";
 
 if (!isset($_SESSION['murrix']['system']))
 {
-	$_SESSION['murrix']['system'] = new mSystem($_SERVER['REQUEST_URI']);
+	$_SESSION['murrix']['system'] = new mSystem();
 	$_SESSION['murrix']['system']->LoadScript("install");
 }
 

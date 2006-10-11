@@ -565,6 +565,23 @@ class mObject
 
 		return (mysql_num_rows($result) > 0);
 	}
+	
+	function getNumLinksSubBottom()
+	{
+		global $db_prefix;
+	
+		$node_id = $this->node_id;
+		
+		$query = "SELECT id FROM `".$db_prefix."links` WHERE node_bottom = '$node_id' AND `type` = 'sub'";
+		
+		if (!($result = mysql_query($query)))
+		{
+			$this->error = "mObject::getNumLinksSubBottom: " . mysql_errno() . " " . mysql_error();
+			return false;
+		}
+
+		return mysql_num_rows($result);
+	}
 
 	function getLinks($node_id = 0, $type = "")
 	{

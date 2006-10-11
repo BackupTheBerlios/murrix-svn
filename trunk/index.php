@@ -87,6 +87,8 @@ foreach ($files as $file)
 /* ========================= */
 require_once("session.php");
 
+require_once("system/links.php");
+
 $prof->stopTimer( "include" );
 $prof->startTimer( "database" );
 /* ========================= */
@@ -208,7 +210,6 @@ else if (isset($_GET['rss']))
 /* ========================= */
 // Set available linktyes
 /* ========================= */
-$link_types = array("sub" => "sub", "data" => "data", "partner" => "partner", "parent" => "parent", "birth" => "birth", "death" => "death", "link" => "link");
 
 if (!isset($_SESSION['murrix']['default_theme']))
 	$_SESSION['murrix']['default_theme'] = getSetting("DEFAULT_THEME", "standard", "any");
@@ -264,7 +265,7 @@ $prof->startTimer( "system" );
 /* ========================= */
 if (!isset($_SESSION['murrix']['system']))
 {
-	$_SESSION['murrix']['system'] = new mSystem(isset($ajax_path) ? $ajax_path : "");
+	$_SESSION['murrix']['system'] = new mSystem();
 	$_SESSION['murrix']['system']->LoadScripts();
 }
 $prof->stopTimer( "system" );

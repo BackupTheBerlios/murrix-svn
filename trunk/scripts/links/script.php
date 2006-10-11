@@ -29,16 +29,22 @@ class sLinks extends Script
 			{
 				$object = new mObject($args['node_id']);
 	
+				/*$links = $object->getLinks();
+				if ($object->getNumLinksSubBottom() <= 1 && ($link['type'] == "sub" && $link['direction'] == "bottom"))
+					$response->addAlert(ucf(i18n("unable to delete last link")));
+				else*/ 
 				if ($object->hasRight("write"))
+				{
 					$object->unlinkWithNode($args['remote_id'], $args['type'], $args['direction']);
+					clearNodeFileCache($object->getNodeId());
+					clearNodeFileCache($args['remote_id']);
+
+					$_SESSION['murrix']['path'] = $object->getPathInTree();
+					$system->TriggerEventIntern($response, "newlocation", $args);
+				}
 				else
 					$response->addAlert(ucf(i18n("you don't have enough rights to delete this link")));
 					
-				clearNodeFileCache($object->getNodeId());
-				clearNodeFileCache($args['remote_id']);
-
-				$_SESSION['murrix']['path'] = $object->getPathInTree();
-				$system->TriggerEventIntern($response, "newlocation", $args);
 				return;
 			}
 			else if ($args['action'] == "newlink")
