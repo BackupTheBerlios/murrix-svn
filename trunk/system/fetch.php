@@ -344,16 +344,16 @@ function SortBy(&$list, $sortby, $invert = false)
 		$list = array_reverse($list);
 }
 
-function SortByName($a, $b) { return strnatcasecmp($a->getName(), $b->getName()); }
-function SortByClass($a, $b) { return strnatcasecmp($a->getClassName(), $b->getClassName()); }
-function SortByLanguage($a, $b) { return strnatcasecmp($a->getLanguage(), $b->getLanguage()); }
-function SortByIcon($a, $b) { return strnatcasecmp($a->getIcon(), $b->getIcon()); }
-function SortByVersion($a, $b) { return strnatcasecmp($a->getVersion(), $b->getVersion()); }
-function SortByCreated($a, $b) { return strnatcasecmp($a->getCreated(), $b->getCreated()); }
-function SortByNodeCreated($a, $b) { return strnatcasecmp($a->getNodeCreated(), $b->getNodeCreated()); }
-function SortByUser($a, $b) { return strnatcasecmp($a->getUserId(), $b->getUserId()); }
-function SortByGroup($a, $b) { return strnatcasecmp($a->getGroupId(), $b->getGroupId()); }
-function SortByRights($a, $b) { return strnatcasecmp($a->getRights(), $b->getRights()); }
+function SortByName($a, $b) { return _strnatcasecmp($a->getName(), $b->getName()); }
+function SortByClass($a, $b) { return _strnatcasecmp($a->getClassName(), $b->getClassName()); }
+function SortByLanguage($a, $b) { return _strnatcasecmp($a->getLanguage(), $b->getLanguage()); }
+function SortByIcon($a, $b) { return _strnatcasecmp($a->getIcon(), $b->getIcon()); }
+function SortByVersion($a, $b) { return _strnatcasecmp($a->getVersion(), $b->getVersion()); }
+function SortByCreated($a, $b) { return _strnatcasecmp($a->getCreated(), $b->getCreated()); }
+function SortByNodeCreated($a, $b) { return _strnatcasecmp($a->getNodeCreated(), $b->getNodeCreated()); }
+function SortByUser($a, $b) { return _strnatcasecmp($a->getUserId(), $b->getUserId()); }
+function SortByGroup($a, $b) { return _strnatcasecmp($a->getGroupId(), $b->getGroupId()); }
+function SortByRights($a, $b) { return _strnatcasecmp($a->getRights(), $b->getRights()); }
 
 function mergesort(&$array, $sortby)
 {

@@ -1,5 +1,41 @@
 <?
 
+function _strnatcasecmp($left, $right)
+{
+	return _strnatcmp(strtolower($left), strtolower($right));
+}
+
+function _strnatcmp($left, $right)
+{
+	if ($left == $right)
+		return 0;
+
+	$max_left = strlen($left);
+	$max_right = strlen($right);
+	
+	$max = $max_left < $max_right ? $max_left : $max_right;
+	
+
+	for ($n = 0; $n < $max; $n++)
+	{
+		$left_letter = ord($left[$n]);
+		$right_letter = ord($right[$n]);
+		
+		if ($left_letter == 228) $left_letter = 229;
+		else if ($left_letter == 229) $left_letter = 228;
+		
+		if ($right_letter == 228) $right_letter = 229;
+		else if ($right_letter == 229) $right_letter = 228;
+	
+		if ($left_letter < $right_letter)
+			return -1;
+		else if ($left_letter > $right_letter)
+			return 1;
+	}
+	
+	return 0;
+}
+
 function mailToMaillist($subject, $from, $body, $maillists)
 {
 	$headers = "From: $from\r\n";
