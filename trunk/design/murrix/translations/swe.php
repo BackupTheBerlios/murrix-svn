@@ -2,7 +2,7 @@
 global $abspath;
 @include("$abspath/design/standard/translations/swe.php");
 
-
+$translation['homefolders'] = "hemkataloger";
 $translation['created by'] = "skapad av";
 $translation['switch to'] = "växla till";
 $translation['this page uses cookies'] = "denna sidan använder kakor";

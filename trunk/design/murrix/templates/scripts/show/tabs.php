@@ -2,7 +2,7 @@
 $text = "";
 $current = "";
 
-if (($object->hasRight("read") && ($object->getMeta("show_versionstab", 0) == 1 || $object->getMeta("show_linkstab", 0) == 1)) || $object->hasRight("edit"))
+if (($object->hasRight("read") && ($object->getMeta("show_versionstab", 0) == 1 || $object->getMeta("show_linkstab", 0) == 1)) || $object->hasRight("edit") || $object->hasRight("create"))
 {
 	$titel = img(geticon("search"))."&nbsp;".ucf(i18n("view"));
 	

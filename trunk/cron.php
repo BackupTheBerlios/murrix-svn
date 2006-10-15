@@ -130,7 +130,7 @@ echo "Creating thumbnail for default sizes for all image files\n";flush();
 
 $count = 0;
 $thumbnailes = array();
-
+$_SESSION['murrix']['theme'] = getSetting("DEFAULT_THEME", "standard");
 $maxsize_big = getSetting("IMGSIZE", 640);
 $maxsize_small = getSetting("THUMBSIZE", 150);
 

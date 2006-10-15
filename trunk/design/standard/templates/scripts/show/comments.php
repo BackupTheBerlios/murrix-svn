@@ -7,7 +7,7 @@ if ($object->hasRight("create") || $object->hasRight("comment"))
 echo compiletpl("title/medium", $args_title, $object);
 
 $pagername = "comments_show";
-$children = fetch("FETCH node WHERE link:node_top='".$object->getNodeId()."' AND link:type='sub' AND property:class_name='comment' NODESORTBY property:version SORTBY property:created");
+$children = fetch("FETCH node WHERE link:node_top='".$object->getNodeId()."' AND link:type='sub' AND property:class_name='comment' NODESORTBY property:version SORTBY !property:created");
 
 $children = getReadable($children);
 

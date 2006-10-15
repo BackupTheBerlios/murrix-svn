@@ -100,6 +100,10 @@ class mSystem
 			$response->addAlert($_SESSION['debug']);
 
 		$response->addScript("Behaviour.apply();");
+		
+		$_SESSION['murrix']['callcache'] = array();
+		$_SESSION['murrix']['querycache'] = array();
+
 		return $response->getXML();
 	}
 
