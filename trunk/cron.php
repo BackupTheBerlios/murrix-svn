@@ -62,6 +62,7 @@ $_SESSION['murrix']['site'] = "standard";
 
 echo "MURRiX Cron Script\n\n";flush();
 
+fillSettingsCache();
 $GLOBALS['cache']['settings']["any"]['INSTANTTHUMBS'] = "true"; 
 /*
 $files = fetch("FETCH node WHERE property:class_name='contact' NODESORTBY property:version");
@@ -144,9 +145,9 @@ foreach ($files as $file)
 	{
 		$angle = $file->getMeta("angle", "");
 		
-		if (!checkThumbnailExists($value_id, $maxsize_big, 0))
+		if (!checkThumbnailExists($value_id, $maxsize_big, $maxsize_big))
 		{
-			$thumbnails[] = array("node_id"=>$file->getNodeId(), "filename"=>$filename, "value_id"=>$value_id, "width"=>$maxsize_big, "height"=>0, "angle"=>$angle);
+			$thumbnails[] = array("node_id"=>$file->getNodeId(), "filename"=>$filename, "value_id"=>$value_id, "width"=>$maxsize_big, "height"=>$maxsize_big, "angle"=>$angle);
 		}
 			
 		if (!checkThumbnailExists($value_id, $maxsize_small, $maxsize_small))

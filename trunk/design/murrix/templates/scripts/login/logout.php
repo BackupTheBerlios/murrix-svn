@@ -20,28 +20,32 @@
 	<?=ucf(i18n("homefolders"))?>
 </div>
 <div class="menu_login">
-	<?
-	$home_id = $_SESSION['murrix']['user']->home_id;
-		
-	if ($home_id > 0)
-	{
-		$home = new mObject($home_id);
-		echo cmd(img(geticon("home"))."&nbsp;".ucf($home->getName()), "exec=show&node_id=$home_id")."<br/>";
-	}
-	
-	$groups = $_SESSION['murrix']['user']->getGroups();
-	
-	foreach ($groups as $group_name)
-	{
-		$group = new mGroup();
-		$group->setByName($group_name);
-		$home_id = $group->home_id;
-		
-		if ($home_id > 0)
-		{
-			$home = new mObject($home_id);
-			echo cmd(img(geticon($home->getIcon()))."&nbsp;".ucf($home->getName()), "exec=show&node_id=$home_id")."<br/>";
-		}
-	}
-?>
+	<center>
+		<div style="display: table-cell; text-align: left">
+		<?
+			$home_id = $_SESSION['murrix']['user']->home_id;
+				
+			if ($home_id > 0)
+			{
+				$home = new mObject($home_id);
+				echo cmd(img(geticon("home"))."&nbsp;".ucf($home->getName()), "exec=show&node_id=$home_id")."<br/>";
+			}
+			
+			$groups = $_SESSION['murrix']['user']->getGroups();
+			
+			foreach ($groups as $group_name)
+			{
+				$group = new mGroup();
+				$group->setByName($group_name);
+				$home_id = $group->home_id;
+				
+				if ($home_id > 0)
+				{
+					$home = new mObject($home_id);
+					echo cmd(img(geticon($home->getIcon()))."&nbsp;".ucf($home->getName()), "exec=show&node_id=$home_id")."<br/>";
+				}
+			}
+			?>
+		</div>
+	</center>
 </div>

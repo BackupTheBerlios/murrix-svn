@@ -33,7 +33,7 @@ if (!empty($class_form))
 	<input class="hidden" type="hidden" name="action" value="save"/>
 	<input class="hidden" type="hidden" name="node_id" value="<?=$args['parent_node_id']?>"/>
 	<input class="hidden" type="hidden" name="class_name" value="<?=$object->getClassName()?>"/>
-	<input class="hidden" type="hidden" id="language" name="language" value="eng"/>
+	<input class="hidden" type="hidden" name="languages" value="<?=implode(",", $_SESSION['murrix']['languages'])?>"/>
 	<?
 	if (count($_SESSION['murrix']['languages']) > 1)
 	{
@@ -113,20 +113,22 @@ if (!empty($class_form))
 						<?
 						}
 					}
-					
+					/*
 					$submit = ucf(i18n("save"));
 					if (count($_SESSION['murrix']['languages']) > 1)
 						$submit = ucf(i18n("save"))." ".i18n($language)." ".i18n("version");
-						
+					<input class="submit" id="submitButton" type="button" onclick="document.getElementById('language').value='<?=$language?>';Post('new','sEdit');" value="<?=$submit?>"/>*/
 					?>
-					<input class="submit" id="submitButton" type="button" onclick="document.getElementById('language').value='<?=$language?>';Post('new','sEdit');" value="<?=$submit?>"/>
+					
 				</div>
 			</div>
 		</div>
 	<?
 	}
-	
-	if (count($_SESSION['murrix']['languages']) > 1)
+	?>
+	<input class="submit" id="submitButton" type="submit" value="<?=ucf(i18n("save"))?>"/>
+	<?
+	/*if (count($_SESSION['murrix']['languages']) > 1)
 	{
 	?>
 		<div class="main">
@@ -135,6 +137,6 @@ if (!empty($class_form))
 			</div>
 		</div>
 	<?
-	}
+	}*/
 ?>
 </form>

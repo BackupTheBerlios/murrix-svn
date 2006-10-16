@@ -39,25 +39,31 @@ class sNew extends Script
 			{
 				if (!empty($class_name))
 				{
-					if (!empty($args['language']))
-						$languages = array($args['language']);
-					else
-						$languages = $_SESSION['murrix']['languages'];
+					$languages = explode(",", $args['languages']);
+					$languages_tosave = array();
 				
 					foreach ($languages as $language)
 					{
-						if (empty($args[$language.'_name']))
+						if (!empty($args[$language.'_name']))
 						{
-							$response->addAlert(ucf(i18n($language))." ".i18n("version").": ".ucf(i18n("please enter a name")));
-							return;
-						}
-		
-						if (!(strpos($args[$language.'_name'], "\\") === false) || !(strpos($args[$language.'_name'], "/") === false) || !(strpos($args[$language.'_name'], "+") === false))
-						{
-							$response->addAlert(ucf(i18n($language))." ".i18n("version").": ".ucf(i18n("you can not use '\\', '/' or '+' in the name")));
-							return;
+							if (!(strpos($args[$language.'_name'], "\\") === false) || !(strpos($args[$language.'_name'], "/") === false) || !(strpos($args[$language.'_name'], "+") === false))
+							{
+								$response->addAlert(ucf(i18n($language))." ".i18n("version").": ".ucf(i18n("you can not use '\\', '/' or '+' in the name")));
+								return;
+							}
+
+							$languages_tosave[] = $language;
 						}
 					}
+
+					if (count($languages_tosave) == 0)
+					{
+						$response->addAlert(ucf(i18n("nothing to save")));
+						return;
+					}
+
+					$languages = $languages_tosave;
+				
 	
 					$object = new mObject();
 					$object->setClassName($class_name);
