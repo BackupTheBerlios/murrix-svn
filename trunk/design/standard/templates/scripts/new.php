@@ -113,30 +113,16 @@ if (!empty($class_form))
 						<?
 						}
 					}
-					/*
-					$submit = ucf(i18n("save"));
-					if (count($_SESSION['murrix']['languages']) > 1)
-						$submit = ucf(i18n("save"))." ".i18n($language)." ".i18n("version");
-					<input class="submit" id="submitButton" type="button" onclick="document.getElementById('language').value='<?=$language?>';Post('new','sEdit');" value="<?=$submit?>"/>*/
-					?>
-					
+				?>
 				</div>
 			</div>
 		</div>
 	<?
 	}
 	?>
-	<input class="submit" id="submitButton" type="submit" value="<?=ucf(i18n("save"))?>"/>
-	<?
-	/*if (count($_SESSION['murrix']['languages']) > 1)
-	{
-	?>
-		<div class="main">
-			<div class="container">
-				<input class="submit" id="submitButton" type="submit" value="<?=ucf(i18n("save all languages"))?>"/>
-			</div>
+	<div class="main">
+		<div class="container">
+			<input class="submit" id="submitButton" type="submit" value="<?=ucf(i18n("save"))?>"/>
 		</div>
-	<?
-	}*/
-?>
+	</div>
 </form>
