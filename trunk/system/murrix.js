@@ -107,11 +107,14 @@ function parseCommand(cmd)
 		}
 	}
 	
-	var cmd = "Exec('"+script+"',Hash("+hash_arg+"))";
+	var cmd = "Exec('"+cmd+"','"+script+"',Hash("+hash_arg+"))";
 	return cmd;
 }
 
 var poll_intervall;
+
+var scroll_positions = new Array();
+var scroll_set = 0;
 
 function Poll()
 {
@@ -122,22 +125,38 @@ function Poll()
 		
 	if (command != last_command)
 	{
+		scroll_positions[last_command] = (document.all)?document.body.scrollTop:window.pageYOffset;
+		//alert("saved "+scroll_positions[last_command]+" for "+last_command);
+		
 		if (command == "default" || command == "")
 			eval(parseCommand(URLDecode(default_command)));
 		else
 			eval(parseCommand(URLDecode(command)));
-			
+		
+		scroll_set = -1;
+		/*
+		if (typeof scroll_positions[command] == 'undefined')
+			scroll_set = 0;
+		else
+			scroll_set = scroll_positions[command];
+		*/
 		last_command = command;
 	}
 }
 
 function setRun(cmd)
 {
+	scroll_set = 0;
+	scroll_positions[last_command] = (document.all)?document.body.scrollTop:window.pageYOffset;
+	//alert("2saved "+scroll_positions[last_command]+" for "+last_command);
+	
 	clearInterval(poll_intervall);
 	
 	setHash(cmd);
+	
 	eval(parseCommand(URLDecode(cmd)));
 	last_command = cmd;
+	
 	
 	setTimeout("runTimeout()", 800);
 }
@@ -153,7 +172,7 @@ function OnLoadHandler()
 	last_command = "";
 	poll_intervall = setInterval("Poll()", 600);
 	
-	setInterval("xajax_TriggerEvent('poll','')", 60000);
+//	setInterval("xajax_TriggerEvent('poll','')", 60000);
 }
 
 function Hash()
@@ -191,10 +210,10 @@ function triggerEvent(event, args)
 	return false;
 }
 
-function Exec(scriptname, args)
+function Exec(cmd, scriptname, args)
 {
 	startScript(scriptname);
-	xajax_ExecScript(scriptname, args);
+	xajax_ExecScript(cmd, scriptname, args);
 	return false;
 }
 
@@ -220,7 +239,7 @@ function Post(scriptname, formname)
 		}
 	}
 	
-	return Exec(scriptname, xajax.getFormValues(objForm));
+	return Exec('', scriptname, xajax.getFormValues(objForm));
 }
 
 function openCalendar(varid, buttonid)
@@ -243,10 +262,15 @@ function startScript(zone)
 		loading(true, zone);
 }
 
-function endScript(zone)
+function endScript(cmd, zone)
 {
-	//if (zone == "zone_main")
-	//	scroll(0,0);
+	if (zone == "zone_main" && scroll_set != -1)
+	{
+		scroll(0, scroll_set);
+	
+		//alert(zone+'::'+cmd+'::'+scroll_set);
+		//scroll_set = 0;
+	}
 		
 	var list = new Array();
 	var count = 0;

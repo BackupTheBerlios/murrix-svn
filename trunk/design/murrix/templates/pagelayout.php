@@ -111,7 +111,7 @@
 									
 								</div>
 								
-								
+								<a href="http://murrix.berlios.de/"><img alt="MURRiX" src="<?=imgpath("murrix.gif")?>" style="width: 80px; height: 15px;"/></a><br/><br/>
 								<a href="http://validator.w3.org/check?uri=referer"><img src="<?=imgpath("valid-xhtml10.gif")?>" alt="Valid XHTML 1.1" style="height: 15px; width: 80px;"/></a><br/><br/>
 								<a href="http://jigsaw.w3.org/css-validator/check/referer"><img src="<?=imgpath("valid-css.gif")?>" alt="Valid CSS!" style="height: 15px; width: 80px;"/></a><br/><br/>
 								<a href="http://www.getfirefox.com/"><img alt="Firefox" src="<?=imgpath("getfirefox.gif")?>" style="width: 80px; height: 15px;"/></a>

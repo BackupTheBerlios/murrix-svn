@@ -22,6 +22,8 @@ require_once("$abspath/system/filecache.php");
 require_once("$abspath/system/settings.php");
 require_once("$abspath/system/user.php");
 
+require_once("$abspath/3dparty/exifer/exif.php");
+
 require_once("$abspath/session.php");
 
 if (($str = db_connect()) !== true)
@@ -91,7 +93,7 @@ if ($type != "image")
 
 $angle = $object->getMeta("angle", "");
 			
-$thumbnail = getThumbnail($value_id, $maxsize, 0, $angle);
+$thumbnail = getThumbnail($value_id, $maxsize, $maxsize, $angle);
 
 if ($thumbnail == false)
 {

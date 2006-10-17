@@ -99,7 +99,9 @@
 					}
 					
 					//$data = "<div style=\"text-align: left; overflow: hidden; width: {$thumbnail->width}px; height: {$thumbnail->height}px;\">";
-						
+				/*	PrintPre($rlist);
+					echo "<br>";
+					echo $thumbnail->height."x".$thumbnail->width;*/
 					if (count($rlist) > 0)
 					{
 						$data .= "<img id=\"id{$thumbnail->id}\" class=\"image-border\" style=\"width: {$thumbnail->width}px; height: {$thumbnail->height}px;\" usemap=\"#map{$thumbnail->id}\" src=\"$wwwpath/backends/thumbnail.php?id={$thumbnail->id}&created={$thumbnail->created}\"/>";
@@ -117,11 +119,16 @@
 				
 				$datetime = "";
 				if (isset($result['IFD0']['DateTime']))
+					$datetime = trim($result['IFD0']['DateTime']);
+				else if (isset($result['SubIFD']['DateTimeOriginal']))
+					$datetime = trim($result['SubIFD']['DateTimeOriginal']);
+				
+				if (!empty($datetime))
 				{
-					$date = trim($result['IFD0']['DateTime']);
-					list($date, $time) = explode(" ", $date);
+					list($date, $time) = explode(" ", $datetime);
 					$datetime = str_replace(":", "-", $date)." $time";
 				}
+				
 			}
 			else
 				$data = img(geticon($type, 128));
@@ -309,6 +316,7 @@
 		</center>
 	</div>
 </div>
+
 <div class="main">
 	<center>
 	<?

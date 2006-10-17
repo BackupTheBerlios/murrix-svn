@@ -88,18 +88,16 @@ class mSystem
 		$response->addScript("endScript('$event');");
 	}
 
-	function Exec($name, $arguments = null)
+	function Exec($cmd, $name, $arguments = null)
 	{
 		if (empty($arguments) || $arguments == null || !isset($arguments))
                         $arguments = array();
 	
 		$response = new xajaxResponse();
-		$this->ExecIntern($response, $name, utf8d($arguments));
+		$this->ExecIntern($cmd, $response, $name, utf8d($arguments));
 		
 		if (!empty($_SESSION['debug']))
 			$response->addAlert($_SESSION['debug']);
-
-		$response->addScript("Behaviour.apply();");
 		
 		$_SESSION['murrix']['callcache'] = array();
 		$_SESSION['murrix']['querycache'] = array();
@@ -107,7 +105,7 @@ class mSystem
 		return $response->getXML();
 	}
 
-	function ExecIntern(&$response, $name, $arguments = null)
+	function ExecIntern($cmd, &$response, $name, $arguments = null)
 	{
 		if (empty($name))
 			return;
@@ -136,7 +134,8 @@ class mSystem
 			$this->scripts[$name]->Exec($this, $response, $arguments);
 		}
 
-		$response->addScript("endScript('$name');");
+		$response->addScript("Behaviour.apply();");
+		$response->addScript("endScript('$cmd', '".$this->scripts[$name]->zone."');");
 	}
 
 	function SetZone($name, $zone)
@@ -158,9 +157,9 @@ class mSystem
 	}
 }
 
-function ExecScript($name, $arguments)
+function ExecScript($cmd, $name, $arguments)
 {
-	return $_SESSION['murrix']['system']->Exec($name, $arguments);
+	return $_SESSION['murrix']['system']->Exec($cmd, $name, $arguments);
 }
 
 function TriggerEvent($event, $arguments)
