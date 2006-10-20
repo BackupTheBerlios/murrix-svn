@@ -1,4 +1,6 @@
 <?
+header("Content-Type: text/plain");
+
 $abspath = "../../";
 $wwwpath = "";
 
@@ -8,13 +10,13 @@ require_once("$abspath/system/functions.php");
 
 $abspath = getcwd()."/$abspath";
 
-$smiley_path_www = imgpath("smileys/");
-$smiley_path_abs = $abspath."design/".$_SESSION['murrix']['theme']."/images/smileys";
+$smiley_path_www = "$wwwpath/".getThemeConstant("smileys_path")."/";
+$smiley_path_abs = $abspath.getThemeConstant("smileys_path")."/";
 
 //FCKConfig.StylesXmlPath = '../fckstyles.xml' ;
 ?>
 
-FCKConfig.EditorAreaCSS = '<?="$wwwpath/design/".$_SESSION['murrix']['theme']."/stylesheet/fckeditor.css"?>';
+FCKConfig.EditorAreaCSS = '<?="$wwwpath/".getThemeConstant("fck_css_path")?>';
 
 FCKConfig.ToolbarSets["Default"] = [
 	['Source','Preview','Templates'],

@@ -16,20 +16,41 @@ if ($type == "image")
 	$_SESSION['murrix']['rightcache']['thumbnail'][] = $thumbnail->id;
 	
 	if ($thumbnail !== false)
-		$data = "<div style=\"height: ".ceil((168-$thumbnail->height)/2)."px;\"></div>".$thumbnail->Show(true);
+		$data = $thumbnail->Show(true);
 }
 
 if (!empty($data))
 	$img = $data;
 else
-	$img = "<div style=\"height: 20px;\"></div>".img(geticon($type, 128));
+	$img = img(geticon($type, 128));
+
+$name = $object->getName();
+
+if ($args['disabled'] != true)
+{
+	$name = cmd($name, "exec=show&node_id=".$object->getNodeId());
+	$img = cmd($img, "exec=show&node_id=".$object->getNodeId());
+}
 
 ?>
 <div class="show_item">
-<?
-	if ($args['disabled'] === true)
-		echo "$img<br/>".$object->getName();
-	else
-		echo cmd("$img<br/>".$object->getName(), "exec=show&node_id=".$object->getNodeId());
-?>
+	<table cellspacing="0" style="width: 100%; height: 100%;">
+		<tr>
+			<td>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<?=$img?>
+			</td>
+		</tr>
+		<tr>
+			<td valign="bottom">
+				<div class="name_label">
+					<?=$name?>
+				</div>
+			</td>
+		</tr>
+		
+	</table>
 </div>

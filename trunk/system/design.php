@@ -1,5 +1,13 @@
 <?
 
+function getThemeConstant($name)
+{
+	if (isset($_SESSION['murrix']['themes'][$_SESSION['murrix']['theme']][$name]))
+		return $_SESSION['murrix']['themes'][$_SESSION['murrix']['theme']][$name];
+		
+	return "";
+}
+
 function drawImageRegions($imageheight, $imagewidth, $mapname, $array)
 {
 	ob_start();

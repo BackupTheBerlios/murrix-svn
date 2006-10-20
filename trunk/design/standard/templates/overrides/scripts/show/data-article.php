@@ -1,4 +1,4 @@
 <div class="main">
-	<?=html_entity_decode($object->getVarValue("text"))?>
+	<?=$object->getVarShow("text")?>
 </div>
 <div class="clear"></div>

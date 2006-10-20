@@ -21,14 +21,10 @@ if (empty($toolbar))
 else
 	$oFCKeditor->ToolbarSet = $toolbar;
 
-$conffile = "$wwwpath/design/standard/fckconfig.php";
-if (file_exists("$abspath/design/".$_SESSION['murrix']['theme']."/fckconfig.php"))
-	$conffile = "$wwwpath/design/".$_SESSION['murrix']['theme']."/fckconfig.php";
-	
 $oFCKeditor->Config = array(	"AutoDetectLanguage" => false,
 				"DefaultLanguage" => ($_SESSION['murrix']['language'] == "swe" ? "sv" : "en"),
 				"SkinPath" => $oFCKeditor->BasePath."editor/skins/silver/",
-				"CustomConfigurationsPath" => $conffile
+				"CustomConfigurationsPath" => "$wwwpath/".getThemeConstant("fck_config_path")
 				);
 ?>
 <div style="background-color: white;">

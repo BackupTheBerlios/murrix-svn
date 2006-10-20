@@ -1,31 +1,78 @@
 
-body
+p
 {
-	margin: 0;
-	padding: 0;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 10px;
-	background-color: #EEEEEE;
+	font-size: 14px;
+	font-family: "trebuchet MS", Arial, Helvetica, "Sans Serif";
 }
 
-.Bold
+div
 {
+	font-size: 14px;
+	font-family: "trebuchet MS", Arial, Helvetica, "Sans Serif";
+}
+
+pre
+{
+	font-size: 12px;
+	font-family: "trebuchet MS", Arial, Helvetica, "Sans Serif";
+}
+
+address
+{
+	font-size: 12px;
+	font-family: "trebuchet MS", Arial, Helvetica, "Sans Serif";
+}
+
+h1
+{
+	font-size: 24px;
+	font-family: "trebuchet MS", Arial, Helvetica, "Sans Serif";
+}
+
+h2
+{
+	font-family: "trebuchet MS", Arial, Helvetica, "Sans Serif";
+	margin-bottom: 10px;
+	text-align: left;
+	background-image: url('/design/murrix/images/wave.png');
+	background-repeat: no-repeat;
+	border-bottom: 1px solid #D5D5E1;
+	height: 25px;
+	vertical-align: bottom;
+	font-size: 20px;
 	font-weight: bold;
+	padding-left: 4px;
 }
 
-.Title
+h3
 {
+	font-family: "trebuchet MS", Arial, Helvetica, "Sans Serif";
+	margin-bottom: 10px;
+	text-align: left;
+	background-image: url('/design/murrix/images/wave_medium.png');
+	background-repeat: no-repeat;
+	background-position: bottom left;
+	border-bottom: 1px solid #D5D5E1;
+	vertical-align: bottom;
 	font-weight: bold;
 	font-size: 18px;
-	color: #cc3300;
+	padding-left: 4px;
 }
 
-.Code
+h4
 {
-	border: 1px solid #DCD7FF;
-	padding-right: 5px;
-	padding-left: 5px;
-	color: #000066;
-	font-family: 'Courier New' , Monospace;
-	background-color: #F9F9F9;
+	font-family: "trebuchet MS", Arial, Helvetica, "Sans Serif";
+	font-size: 16px;
+}
+
+h5
+{
+	font-family: "trebuchet MS", Arial, Helvetica, "Sans Serif";
+	font-size: 14px;
+}
+
+h6
+{
+	font-family: "trebuchet MS", Arial, Helvetica, "Sans Serif";
+	font-size: 12px;
 }
