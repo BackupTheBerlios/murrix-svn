@@ -101,27 +101,6 @@ function get_browser_name()
 	return $name;
 }
 
-function guessObjectType($object)
-{
-	switch ($object->getClassName())
-	{
-		case "file":
-		$object->setMeta("comment_show_num_per_page", "all");
-		$object->setMeta("show_comments", 1);
-		break;
-		
-		case "file_folder":
-		$object->setMeta("children_show_num_per_page", "all");
-		$object->setMeta("view", "thumbnails");
-		break;
-		
-		case "news":
-		$object->setMeta("comment_show_num_per_page", "all");
-		$object->setMeta("show_comments", 1);
-		break;
-	}
-}
-
 function createObject($parent, $name, $class = "folder", $values = null)
 {
 	$object = new mObject();

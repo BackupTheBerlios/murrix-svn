@@ -272,6 +272,38 @@ $list[] = array("class_name" => "image_region",	"name" => "image_height","priori
 					$this->db_log .= "Inserted data into ".$this->db_prefix."vars.<br/>";
 			}
 			
+			
+			
+			
+			if ($this->done)
+			{
+				$db_prefix = $this->db_prefix;
+				$table = new mTable("initial_meta");
+				
+				$list = array();
+				$list[] = array("class_name" => "file",		"name" => "comment_show_num_per_page",	"value" => "all");
+				$list[] = array("class_name" => "file",		"name" => "show_comments",		"value" => 1);
+				$list[] = array("class_name" => "file_folder",	"name" => "children_show_num_per_page",	"value" => "all");
+				$list[] = array("class_name" => "file_folder",	"name" => "view",			"value" => "thumbnails");
+				$list[] = array("class_name" => "news",		"name" => "comment_show_num_per_page",	"value" => "all");
+				$list[] = array("class_name" => "news",		"name" => "show_comments",		"value" => 1);
+				
+				$failed = false;
+				foreach ($list as $item)
+				{
+					if ($table->insert($item) === false)
+					{
+						$this->db_log .= "Failed to insert ".$item['name']." into ".$this->db_prefix."classes.<br/>";
+						$failed = true;
+						$this->done = false;
+					}
+				}
+				
+				if (!$failed)
+					$this->db_log .= "Inserted data into ".$this->db_prefix."initial_meta.<br/>";
+			}
+			
+			
 			// Create initial groups
 			$administrator_group = new mGroup();
 			$administrator_group->name = "admins";
