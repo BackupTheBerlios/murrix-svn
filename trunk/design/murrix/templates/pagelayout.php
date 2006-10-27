@@ -104,5 +104,8 @@ if ($_SESSION['murrix']['system']->firstrun)
 			</tr>
 		</table>
 	</center>
+	
+	<div id="popupCalendarDiv" style="visibility:hidden; position:absolute; z-index:11;"></div>
+	
 	</body>
 </html>
