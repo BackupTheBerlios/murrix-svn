@@ -2,7 +2,7 @@
 
 class csUlist extends CScript
 {
-	function exec($args, $stdin, &$stdout, &$stderr, &$response, &$system)
+	function exec($args, $stdin, &$stdout, &$stderr, &$system)
 	{
 		$user = new mUser();
 		$users = $user->getList();

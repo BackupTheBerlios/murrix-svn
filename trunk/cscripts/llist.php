@@ -2,7 +2,7 @@
 
 class csLlist extends CScript
 {
-	function exec($args, $stdin, &$stdout, &$stderr, &$response, &$system)
+	function exec($args, $stdin, &$stdout, &$stderr, &$system)
 	{
 		$object = new mObject(getNode($_SESSION['murrix']['path']));
 		$links = $object->getLinks();

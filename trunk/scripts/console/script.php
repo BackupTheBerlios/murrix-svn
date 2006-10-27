@@ -111,7 +111,7 @@ class sConsole extends Script
 	{
 		if (!empty($this->running) && isset($this->scripts[$this->running]))
 		{
-			if ($this->scripts[$this->running]->exec($cmd, $stdin, $stdout, $stderr, $response, $system))
+			if ($this->scripts[$this->running]->exec($cmd, $stdin, $stdout, $stderr, $system))
 			{
 				$this->running = "";
 				$system->addJSScript("document.getElementById('cmdline').type='text';");
@@ -145,7 +145,7 @@ class sConsole extends Script
 			
 			$this->scripts[$cmd2]->stage = 0;
 			
-			if (!$this->scripts[$cmd2]->exec($args, $stdin, $stdout, $stderr, $response, $system))
+			if (!$this->scripts[$cmd2]->exec($args, $stdin, $stdout, $stderr, $system))
 				$this->running = $cmd2;
 			else
 				$this->running = "";

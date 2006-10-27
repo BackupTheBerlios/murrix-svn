@@ -2,7 +2,7 @@
 
 class csSget extends CScript
 {
-	function exec($args, $stdin, &$stdout, &$stderr, &$response, &$system)
+	function exec($args, $stdin, &$stdout, &$stderr, &$system)
 	{
 		if (!empty($args))
 		{

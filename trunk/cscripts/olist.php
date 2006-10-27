@@ -2,7 +2,7 @@
 
 class csOlist extends CScript
 {
-	function exec($args, $stdin, &$stdout, &$stderr, &$response, &$system)
+	function exec($args, $stdin, &$stdout, &$stderr, &$system)
 	{
 		$object = new mObject(getNode($_SESSION['murrix']['path']));
 		$children = fetch("FETCH node WHERE link:node_top='".$object->getNodeId()."' AND link:type='sub' NODESORTBY property:version SORTBY ".$object->getMeta("sort_by", "property:name"));

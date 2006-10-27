@@ -2,7 +2,7 @@
 
 class csGlist extends CScript
 {
-	function exec($args, $stdin, &$stdout, &$stderr, &$response, &$system)
+	function exec($args, $stdin, &$stdout, &$stderr, &$system)
 	{
 		$group = new mGroup();
 		$groups = $group->getList();

@@ -21,8 +21,15 @@ if (count($subitems) > 0)
 	?>
 	<div class="main">
 		<div class="container">
-			<?=cmd(ucf(i18n("upload all")), "exec=upload&action=upload&node_id=".$object->getNodeId())?>
-			<?=$_SESSION['murrix']['system']->createZone("zone_upload_logg")?>
+			<?
+				$_SESSION['murrix']['system']->setZoneData("zone_upload_logg", "");
+				echo $_SESSION['murrix']['system']->createZone("zone_upload_logg");
+			?>
+			<form id="upload" name="upload" action="javascript:void(null);" onsubmit="Post('upload','upload')">
+				<input class="hidden" type="hidden" name="action" value="upload"/>
+				<input class="hidden" type="hidden" name="node_id" value="<?=$object->getNodeId()?>"/>
+				<input class="submit" type="submit" value="<?=ucf(i18n("upload all"))?>"/>
+			</form>
 		</div>
 	</div>
 <?

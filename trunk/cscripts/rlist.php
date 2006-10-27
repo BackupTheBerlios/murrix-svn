@@ -2,7 +2,7 @@
 
 class csRlist extends CScript
 {
-	function exec($args, $stdin, &$stdout, &$stderr, &$response, &$system)
+	function exec($args, $stdin, &$stdout, &$stderr, &$system)
 	{
 		$object = new mObject(getNode($_SESSION['murrix']['path']));
 		$versions = fetch("FETCH object WHERE property:node_id='".$object->getNodeId()."' NODESORTBY property:language,property:version,property:name");
