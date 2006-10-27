@@ -10,7 +10,7 @@ class sZone extends Script
 		$this->zone = "";
 	}
 	
-	function eventHandler(&$system, &$response, $event, $args)
+	function eventHandler(&$system, $event, $args)
 	{
 		if (is_array($this->events[$event]))
 		{
@@ -48,7 +48,7 @@ class sZone extends Script
 		parent::onActive($arguments);
 	}
 	
-	function draw(&$system, &$response, $args)
+	function draw(&$system, $args)
 	{
 		foreach ($this->zones as $key => $value)
 		{

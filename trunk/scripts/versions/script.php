@@ -7,7 +7,7 @@ class sVersions extends Script
 		$this->zone = "zone_main";
 	}
 	
-	function eventHandler(&$system, &$response, $event, $args)
+	function eventHandler(&$system, $event, $args)
 	{
 		switch ($event)
 		{
@@ -16,12 +16,12 @@ class sVersions extends Script
 			case "login":
 			case "logout":
 			if ($this->active)
-				$this->draw($system, $response, $args);
+				$this->draw($system, $args);
 			break;
 		}
 	}
 
-	function execute(&$system, &$response, $args)
+	function execute(&$system, $args)
 	{
 		if (isset($args['action']) && $args['action'] == "deleteversion")
 		{
@@ -42,10 +42,10 @@ class sVersions extends Script
 			}
 		}
 		
-		$system->triggerEventIntern($response, "newlocation", $args);
+		$system->triggerEventIntern("newlocation", $args);
 	}
 	
-	function draw(&$system, &$response, $args)
+	function draw(&$system, $args)
 	{
 		$node_id = $this->getNodeId($args);
 

@@ -7,7 +7,7 @@ class sUpload extends Script
 		$this->zone = "zone_main";
 	}
 	
-	function eventHandler(&$system, &$response, $event, $args)
+	function eventHandler(&$system, $event, $args)
 	{
 		switch ($event)
 		{
@@ -16,12 +16,12 @@ class sUpload extends Script
 			case "login":
 			case "logout":
 			if ($this->active)
-				$this->draw($system, $response, $args);
+				$this->draw($system, $args);
 			break;
 		}
 	}
 	
-	function execute(&$system, &$response, $args)
+	function execute(&$system, $args)
 	{
 		if ($args['action'] == "upload")
 		{
@@ -56,7 +56,7 @@ class sUpload extends Script
 		}
 	
 	
-		$this->draw($system, $response, $args);
+		$this->draw($system, $args);
 	}
 	
 	function importDir($parent, $path)
@@ -90,7 +90,7 @@ class sUpload extends Script
 		}
 	}
 	
-	function draw(&$system, &$response, $args)
+	function draw(&$system, $args)
 	{
 		$node_id = $this->getNodeId($args);
 

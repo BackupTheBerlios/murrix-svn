@@ -7,7 +7,7 @@ class sPoll extends Script
 		$this->zone = "zone_poll";
 	}
 	
-	function eventHandler(&$system, &$response, $event, $args)
+	function eventHandler(&$system, $event, $args)
 	{
 		switch ($event)
 		{
@@ -15,12 +15,12 @@ class sPoll extends Script
 			case "login":
 			case "logout":
 			if ($this->active)
-				$this->draw($system, $response, $args);
+				$this->draw($system, $args);
 			break;
 		}
 	}
 	
-	function execute(&$system, &$response, $args)
+	function execute(&$system, $args)
 	{
 		if (isset($args['node_id']))
 		{
@@ -79,10 +79,10 @@ class sPoll extends Script
 			}
 		}
 	
-		$this->draw($system, $response, $args);
+		$this->draw($system, $args);
 	}
 	
-	function draw(&$system, &$response, $args)
+	function draw(&$system, $args)
 	{
 		$system->setZoneData($this->zone, utf8e(compiletpl("scripts/poll/view", array())));
 	}

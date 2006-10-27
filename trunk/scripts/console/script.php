@@ -11,12 +11,12 @@ class sConsole extends Script
 		$this->logg = $this->getLogTitle();
 	}
 	
-	function execute(&$system, &$response, $args)
+	function execute(&$system, $args)
 	{
 		if (!isset($this->scripts))
 			$this->loadScripts();
 	
-		$this->draw($system, $response, $args);
+		$this->draw($system, $args);
 	}
 	
 	function getLogTitle()
@@ -40,7 +40,7 @@ class sConsole extends Script
 		$this->logg .= $text;
 	}
 	
-	function draw(&$system, &$response, $args)
+	function draw(&$system, $args)
 	{
 		if (!isset($args['cmdline']))
 		{
@@ -90,7 +90,7 @@ class sConsole extends Script
 				}
 				else
 				{
-					if ($this->execCommand($cmd, $stdout, $stderr, $response, $system))
+					if ($this->execCommand($cmd, $stdout, $stderr, $system))
 						$system->addJSScript("document.getElementById('cmdline').value='';");
 					
 					
@@ -107,7 +107,7 @@ class sConsole extends Script
 		$system->addJSScript("var console_log = document.getElementById(\"console_log\");console_log.scrollTop = console_log.scrollHeight;");
 	}
 	
-	function execCommand($cmd, &$stdout, &$stderr, &$response, &$system)
+	function execCommand($cmd, &$stdout, &$stderr, &$system)
 	{
 		if (!empty($this->running) && isset($this->scripts[$this->running]))
 		{

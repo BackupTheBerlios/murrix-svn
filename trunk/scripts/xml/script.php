@@ -14,7 +14,7 @@ class sXML extends Script
 		$this->imported_links = array();
 	}
 	
-	function eventHandler(&$system, &$response, $event, $args)
+	function eventHandler(&$system, $event, $args)
 	{
 		switch ($event)
 		{
@@ -22,7 +22,7 @@ class sXML extends Script
 			case "login":
 			case "logout":
 			if ($this->active)
-				$this->draw($system, $response, $args);
+				$this->draw($system, $args);
 			break;
 		}
 	}
@@ -32,7 +32,7 @@ class sXML extends Script
 		return strnatcasecmp($a['version'], $b['version']);
 	}
 	
-	function execute(&$system, &$response, $args)
+	function execute(&$system, $args)
 	{
 		global $abspath, $wwwpath, $db_prefix;
 
@@ -312,10 +312,10 @@ class sXML extends Script
 			return;
 		}
 		
-		$this->draw($system, $response, $args);
+		$this->draw($system, $args);
 	}
 	
-	function draw(&$system, &$response, $args)
+	function draw(&$system, $args)
 	{
 		$data = "";
 		if (isAdmin())

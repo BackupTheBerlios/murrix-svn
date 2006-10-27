@@ -14,15 +14,15 @@ class Script
 		$this->active = true;
 	}
 
-	function eventHandler(&$system, &$response, $event, $args)
+	function eventHandler(&$system, $event, $args)
 	{
 	}
 
-	function execute(&$system, &$response, $args)
+	function execute(&$system, $args)
 	{
 	}
 
-	function draw(&$system, &$response, $args)
+	function draw(&$system, $args)
 	{
 
 	}

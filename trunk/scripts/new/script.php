@@ -7,7 +7,7 @@ class sNew extends Script
 		$this->zone = "zone_main";
 	}
 	
-	function eventHandler(&$system, &$response, $event, $args)
+	function eventHandler(&$system, $event, $args)
 	{
 		switch ($event)
 		{
@@ -16,12 +16,12 @@ class sNew extends Script
 			case "login":
 			case "logout":
 			if ($this->active)
-				$this->draw($system, $response, $args);
+				$this->draw($system, $args);
 			break;
 		}
 	}
 
-	function execute(&$system, &$response, $args)
+	function execute(&$system, $args)
 	{
 		$parent_id = $this->getNodeId($args);
 		$parent = new mObject($parent_id);
@@ -122,10 +122,10 @@ class sNew extends Script
 		}
 		
 		$args['class_name'] = $class_name;
-		$this->draw($system, $response, $args);
+		$this->draw($system, $args);
 	}
 	
-	function draw(&$system, &$response, $args)
+	function draw(&$system, $args)
 	{
 		$parent_id = $this->getNodeId($args);
 		$object = new mObject($parent_id);

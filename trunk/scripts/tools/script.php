@@ -7,7 +7,7 @@ class sTools extends Script
 		$this->zone = "zone_main";
 	}
 	
-	function eventHandler(&$system, &$response, $event, $args)
+	function eventHandler(&$system, $event, $args)
 	{
 		switch ($event)
 		{
@@ -16,12 +16,12 @@ class sTools extends Script
 			case "login":
 			case "logout":
 			if ($this->active)
-				$this->draw($system, $response, $args);
+				$this->draw($system, $args);
 			break;
 		}
 	}
 
-	function execute(&$system, &$response, $args)
+	function execute(&$system, $args)
 	{
 		if (isset($args['action']))
 		{
@@ -113,10 +113,10 @@ class sTools extends Script
 			}
 		}
 
-		$this->draw($system, $response, $args);
+		$this->draw($system, $args);
 	}
 	
-	function draw(&$system, &$response, $args)
+	function draw(&$system, $args)
 	{
 		$node_id = $this->getNodeId($args);
 

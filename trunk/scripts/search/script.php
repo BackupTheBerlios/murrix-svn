@@ -7,12 +7,12 @@ class sSearch extends Script
 		$this->zone = "zone_main";
 	}
 	
-	function execute(&$system, &$response, $args)
+	function execute(&$system, $args)
 	{
-		$this->draw($system, $response, $args);
+		$this->draw($system, $args);
 	}
 	
-	function draw(&$system, &$response, $args)
+	function draw(&$system, $args)
 	{
 		$query_string = "";
 		$class = "";

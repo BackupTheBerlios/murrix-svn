@@ -3,19 +3,19 @@
 if ($_SESSION['murrix']['system']->firstrun)
 {
 	$_SESSION['murrix']['system']->makeActive("langswitch");
-	$_SESSION['murrix']['system']->execIntern("exec=langswitch", $response, "langswitch");
+	$_SESSION['murrix']['system']->execIntern("exec=langswitch", "langswitch");
 	
 	$_SESSION['murrix']['system']->makeActive("addressbar", array("divider"=>"&gt;"));
-	$_SESSION['murrix']['system']->execIntern("exec=addressbar", $response, "addressbar");
+	$_SESSION['murrix']['system']->execIntern("exec=addressbar", "addressbar");
 
 	if (empty($_SESSION['murrix']['system']->command))
 	{
 		$_SESSION['murrix']['system']->makeActive("show");
-		$_SESSION['murrix']['system']->execIntern("exec=show", $response, "show");
+		$_SESSION['murrix']['system']->execIntern("exec=show", "show");
 	}
 	
 	$_SESSION['murrix']['system']->makeActive("login");
-	$_SESSION['murrix']['system']->execIntern("exec=login", $response, "login");
+	$_SESSION['murrix']['system']->execIntern("exec=login", "login");
 	
 	$_SESSION['murrix']['system']->firstrun = false;
 }

@@ -94,7 +94,7 @@ class mSystem
 			$exec = "show";
 		}
 		
-		$this->execIntern($cmd_string, $response, $exec, $arguments);
+		$this->execIntern($cmd_string, $exec, $arguments);
 	}
 	
 	function process()
@@ -147,18 +147,29 @@ class mSystem
                         $arguments = array();
 	
 		$response = new xajaxResponse();
-		$this->triggerEventIntern($response, $event, utf8d($arguments));
+		$this->triggerEventIntern($event, utf8d($arguments));
+		
+		if (count($this->zones) > 0)
+		{
+			foreach ($this->zones as $name => $value)
+			{
+				if ($this->zones[$name]['changed'])
+					$response->addAssign($name, "innerHTML", $this->zones[$name]['data']);
+			}
+		}
+		
+		$response->addScript($this->js);
 		$response->addScript("Behaviour.apply();");
 		$response->addScript("endScript('$event');");
 		return $response->getXML();
 	}
 	
-	function triggerEventIntern(&$response, $event, $arguments = null)
+	function triggerEventIntern($event, $arguments = null)
 	{
 		foreach ($this->scripts as $key => $value)
 		{
 			//if ($this->scripts[$key]->active)
-			$this->scripts[$key]->eventHandler($this, $response, $event, $arguments);
+			$this->scripts[$key]->eventHandler($this, $event, $arguments);
 		}
 	}
 
@@ -168,7 +179,7 @@ class mSystem
                         $arguments = array();
 	
 		$response = new xajaxResponse();
-		$this->execIntern($cmd, $response, $name, utf8d($arguments));
+		$this->execIntern($cmd, $name, utf8d($arguments));
 		
 		if (!empty($_SESSION['debug']))
 			$response->addAlert($_SESSION['debug']);
@@ -189,7 +200,7 @@ class mSystem
 		return $response->getXML();
 	}
 
-	function execIntern($cmd, &$response, $name, $arguments = null)
+	function execIntern($cmd, $name, $arguments = null)
 	{
 		if (empty($name))
 			return;
@@ -215,7 +226,7 @@ class mSystem
 					$this->scripts[$key]->active = false;
 			}
 			
-			$this->scripts[$name]->execute($this, $response, $arguments);
+			$this->scripts[$name]->execute($this, $arguments);
 		}
 	}
 

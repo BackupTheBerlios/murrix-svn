@@ -17,7 +17,7 @@ class sInstall extends Script
 		$this->zone = "zone_main";
 	}
 	
-	function Exec(&$system, &$response, $args)
+	function execute(&$system, $args)
 	{
 		global $abspath, $wwwpath, $db_prefix;
 
@@ -571,10 +571,10 @@ $list[] = array("class_name" => "image_region",	"name" => "image_height","priori
 				$this->db_log .= "Installation failed!<br/>";
 		}
 		
-		$this->Draw($system, $response, $args);
+		$this->draw($system, $args);
 	}
 	
-	function Draw(&$system, &$response, $args)
+	function draw(&$system, $args)
 	{
 		global $wwwpath, $abspath;
 		ob_start();

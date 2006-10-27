@@ -7,7 +7,7 @@ class sEdit extends Script
 		$this->zone = "zone_main";
 	}
 	
-	function eventHandler(&$system, &$response, $event, $args)
+	function eventHandler(&$system, $event, $args)
 	{
 		switch ($event)
 		{
@@ -16,12 +16,12 @@ class sEdit extends Script
 			case "login":
 			case "logout":
 			if ($this->active)
-				$this->draw($system, $response, $args);
+				$this->draw($system, $args);
 			break;
 		}
 	}
 
-	function execute(&$system, &$response, $args)
+	function execute(&$system, $args)
 	{
 		if (isset($args['action']) && $args['action'] == "save")
 		{
@@ -101,10 +101,10 @@ class sEdit extends Script
 			return;
 		}
 
-		$this->draw($system, $response, $args);
+		$this->draw($system, $args);
 	}
 	
-	function draw(&$system, &$response, $args)
+	function draw(&$system, $args)
 	{
 		if (isset($args['object_id']))
 		{

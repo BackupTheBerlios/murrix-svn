@@ -18,19 +18,19 @@ class sAddressbar extends Script
 		parent::onActive($arguments);
 	}
 
-	function eventHandler(&$system, &$response, $event, $args)
+	function eventHandler(&$system, $event, $args)
 	{
 		switch ($event)
 		{
 			case "newlang":
 			case "newlocation":
 			if ($this->active)
-				$this->Draw($system, $response, $args);
+				$this->draw($system, $args);
 			break;
 		}
 	}
 
-	function draw(&$system, &$response, $args)
+	function draw(&$system, $args)
 	{
 		$system->setZoneData($this->zone, utf8e(compiletpl("scripts/addressbar", array("divider"=>$this->divider, "path"=>$_SESSION['murrix']['path']))));
 	}

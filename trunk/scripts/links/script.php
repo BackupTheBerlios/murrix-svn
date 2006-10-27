@@ -7,7 +7,7 @@ class sLinks extends Script
 		$this->zone = "zone_main";
 	}
 	
-	function eventHandler(&$system, &$response, $event, $args)
+	function eventHandler(&$system, $event, $args)
 	{
 		switch ($event)
 		{
@@ -16,12 +16,12 @@ class sLinks extends Script
 			case "login":
 			case "logout":
 			if ($this->active)
-				$this->draw($system, $response, $args);
+				$this->draw($system, $args);
 			break;
 		}
 	}
 
-	function execute(&$system, &$response, $args)
+	function execute(&$system, $args)
 	{
 		if (isset($args['action']))
 		{
@@ -40,7 +40,7 @@ class sLinks extends Script
 					clearNodeFileCache($args['remote_id']);
 
 					$_SESSION['murrix']['path'] = $object->getPathInTree();
-					$system->TriggerEventIntern($response, "newlocation", $args);
+					$system->triggerEventIntern("newlocation", $args);
 				}
 				else
 					$system->addAlert(ucf(i18n("you don't have enough rights to delete this link")));
@@ -92,15 +92,15 @@ class sLinks extends Script
 				
 				$args['message'] = ucf(i18n("created new link successfully"));
 				$_SESSION['murrix']['path'] = $object->getPathInTree();
-				$system->triggerEventIntern($response, "newlocation", $args);
+				$system->triggerEventIntern("newlocation", $args);
 				return;
 			}
 		}
 		
-		$this->draw($system, $response, $args);
+		$this->draw($system, $args);
 	}
 	
-	function draw(&$system, &$response, $args)
+	function draw(&$system, $args)
 	{
 		$node_id = $this->getNodeId($args);
 
