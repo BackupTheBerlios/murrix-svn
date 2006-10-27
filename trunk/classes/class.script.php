@@ -14,15 +14,15 @@ class Script
 		$this->active = true;
 	}
 
-	function EventHandler(&$system, &$response, $event, $args)
+	function eventHandler(&$system, &$response, $event, $args)
 	{
 	}
 
-	function Exec(&$system, &$response, $args)
+	function execute(&$system, &$response, $args)
 	{
 	}
 
-	function Draw(&$system, &$response, $args)
+	function draw(&$system, &$response, $args)
 	{
 
 	}
@@ -44,7 +44,7 @@ class Script
 		return $args['node_id'];
 	}
 	
-	function PrintJavascript()
+	function printJavascript()
 	{
 	}
 }

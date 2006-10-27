@@ -7,7 +7,7 @@ class sLogin extends Script
 		$this->zone = "zone_login";
 	}
 
-	function EventHandler(&$system, &$response, $event, $args = null)
+	function eventHandler(&$system, &$response, $event, $args = null)
 	{
 		switch ($event)
 		{
@@ -15,13 +15,13 @@ class sLogin extends Script
 			case "logout":
 			case "newlang":
 			if ($this->active)
-				$this->Draw($system, $response, array());
+				$this->draw($system, $response, array());
 				
 			break;
 		}
 	}
 
-	function Exec(&$system, &$response, $args)
+	function execute(&$system, &$response, $args)
 	{
 		if (isset($args['action']))
 		{
@@ -34,7 +34,7 @@ class sLogin extends Script
 					$system->addAlert(utf8e(ucf(i18n("login failed")).". ".ucf(i18n("please try again"))."."));
 				else
 				{
-					$system->TriggerEventIntern($response, "login", array());
+					$system->triggerEventIntern($response, "login", array());
 					//$response->addScript("window.location.reload()");
 				}
 				return;
@@ -43,16 +43,16 @@ class sLogin extends Script
 			{
 				logout();
 
-				$system->TriggerEventIntern($response, "logout", array());
+				$system->triggerEventIntern($response, "logout", array());
 				//$response->addScript("window.location.reload()");
 				return;
 			}
 		}
 		
-		$this->Draw($system, $response, array());
+		$this->draw($system, $response, array());
 	}
 
-	function Draw(&$system, &$response, $args)
+	function draw(&$system, &$response, $args)
 	{
 		ob_start();
 		

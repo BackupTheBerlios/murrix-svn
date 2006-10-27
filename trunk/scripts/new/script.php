@@ -7,7 +7,7 @@ class sNew extends Script
 		$this->zone = "zone_main";
 	}
 	
-	function EventHandler(&$system, &$response, $event, $args)
+	function eventHandler(&$system, &$response, $event, $args)
 	{
 		switch ($event)
 		{
@@ -16,12 +16,12 @@ class sNew extends Script
 			case "login":
 			case "logout":
 			if ($this->active)
-				$this->Draw($system, $response, $args);
+				$this->draw($system, $response, $args);
 			break;
 		}
 	}
 
-	function Exec(&$system, &$response, $args)
+	function execute(&$system, &$response, $args)
 	{
 		$parent_id = $this->getNodeId($args);
 		$parent = new mObject($parent_id);
@@ -122,17 +122,17 @@ class sNew extends Script
 		}
 		
 		$args['class_name'] = $class_name;
-		$this->Draw($system, $response, $args);
+		$this->draw($system, $response, $args);
 	}
 	
-	function Draw(&$system, &$response, $args)
+	function draw(&$system, &$response, $args)
 	{
 		$parent_id = $this->getNodeId($args);
 		$object = new mObject($parent_id);
 	
 		$javascript = "";
 		$data = "";
-		if ($object->HasRight("create") || $object->HasRight("comment") && $args['class_name'] == "comment")
+		if ($object->hasRight("create") || $object->hasRight("comment") && $args['class_name'] == "comment")
 		{
 			$newobject = new mObject();
 			$newobject->setClassName(isset($args['class_name']) ? $args['class_name'] : "folder");

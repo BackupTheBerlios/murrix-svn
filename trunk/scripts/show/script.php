@@ -7,7 +7,7 @@ class sShow extends Script
 		$this->zone = "zone_main";
 	}
 	
-	function EventHandler(&$system, &$response, $event, $args)
+	function eventHandler(&$system, &$response, $event, $args)
 	{
 		switch ($event)
 		{
@@ -16,12 +16,12 @@ class sShow extends Script
 			case "login":
 			case "logout":
 			if ($this->active)
-				$this->Draw($system, $response, $args);
+				$this->draw($system, $response, $args);
 			break;
 		}
 	}
 
-	function Exec(&$system, &$response, $args)
+	function execute(&$system, &$response, $args)
 	{
 		if (!is_array($args))
 			$args = array();
@@ -56,17 +56,17 @@ class sShow extends Script
 			$_SESSION['murrix']['path'] = $object->getPathInTree();
 		}
 
-		$system->TriggerEventIntern($response, "newlocation", $args);
+		$system->triggerEventIntern($response, "newlocation", $args);
 	}
 	
-	function Draw(&$system, &$response, $args)
+	function draw(&$system, &$response, $args)
 	{
 		$node_id = $this->getNodeId($args);
 
 		if ($node_id > 0)
 		{
 			$object = new mObject($node_id);
-			if ($object->HasRight("read"))
+			if ($object->hasRight("read"))
 				$data = compiletpl("scripts/show/view", array("children_show_page"=>$args['children_show_page']), $object);
 			else
 				$data = compiletpl("message", array("title"=>ucf(i18n("error")), "message"=>ucf(i18n("not enough rights"))), $object);

@@ -7,7 +7,7 @@ class sLinks extends Script
 		$this->zone = "zone_main";
 	}
 	
-	function EventHandler(&$system, &$response, $event, $args)
+	function eventHandler(&$system, &$response, $event, $args)
 	{
 		switch ($event)
 		{
@@ -16,12 +16,12 @@ class sLinks extends Script
 			case "login":
 			case "logout":
 			if ($this->active)
-				$this->Draw($system, $response, $args);
+				$this->draw($system, $response, $args);
 			break;
 		}
 	}
 
-	function Exec(&$system, &$response, $args)
+	function execute(&$system, &$response, $args)
 	{
 		if (isset($args['action']))
 		{
@@ -92,15 +92,15 @@ class sLinks extends Script
 				
 				$args['message'] = ucf(i18n("created new link successfully"));
 				$_SESSION['murrix']['path'] = $object->getPathInTree();
-				$system->TriggerEventIntern($response, "newlocation", $args);
+				$system->triggerEventIntern($response, "newlocation", $args);
 				return;
 			}
 		}
 		
-		$this->Draw($system, $response, $args);
+		$this->draw($system, $response, $args);
 	}
 	
-	function Draw(&$system, &$response, $args)
+	function draw(&$system, &$response, $args)
 	{
 		$node_id = $this->getNodeId($args);
 

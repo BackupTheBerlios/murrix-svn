@@ -11,12 +11,12 @@ class sConsole extends Script
 		$this->logg = $this->getLogTitle();
 	}
 	
-	function Exec(&$system, &$response, $args)
+	function execute(&$system, &$response, $args)
 	{
 		if (!isset($this->scripts))
 			$this->loadScripts();
 	
-		$this->Draw($system, $response, $args);
+		$this->draw($system, $response, $args);
 	}
 	
 	function getLogTitle()
@@ -40,7 +40,7 @@ class sConsole extends Script
 		$this->logg .= $text;
 	}
 	
-	function Draw(&$system, &$response, $args)
+	function draw(&$system, &$response, $args)
 	{
 		if (!isset($args['cmdline']))
 		{

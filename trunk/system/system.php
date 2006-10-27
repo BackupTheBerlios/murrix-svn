@@ -26,7 +26,7 @@ class mSystem
 		$this->xajax->registerFunction("TriggerEvent");
 	}
 
-	function PrintHeader()
+	function printHeader()
 	{
 		$this->xajax->printJavascript("3dparty/xajax/");
 
@@ -35,7 +35,7 @@ class mSystem
 		<!--
 			<?
 			foreach ($this->scripts as $key => $value)
-				$this->scripts[$key]->PrintJavascript();
+				$this->scripts[$key]->printJavascript();
 			?>
 			
 			function getDefaultCommand()
@@ -97,7 +97,7 @@ class mSystem
 		$this->execIntern($cmd_string, $response, $exec, $arguments);
 	}
 	
-	function Process()
+	function process()
 	{
 		if (count($this->zones) > 0)
 		{
@@ -117,7 +117,7 @@ class mSystem
 		$this->execCommand($this->command);
 	}
 	
-	function LoadScripts()
+	function loadScripts()
 	{
 		global $abspath;
 		
@@ -132,7 +132,7 @@ class mSystem
 		}
 	}
 	
-	function LoadScript($name)
+	function loadScript($name)
 	{
 		if (isset($this->scripts[$name]))
 			return;
@@ -141,28 +141,28 @@ class mSystem
 		$this->scripts[$name] = new $class_name();
 	}
 	
-	function TriggerEvent($event, $arguments = null)
+	function triggerEvent($event, $arguments = null)
 	{
 		if (empty($arguments) || $arguments == null || !isset($arguments))
                         $arguments = array();
 	
 		$response = new xajaxResponse();
-		$this->TriggerEventIntern($response, $event, utf8d($arguments));
+		$this->triggerEventIntern($response, $event, utf8d($arguments));
 		$response->addScript("Behaviour.apply();");
 		$response->addScript("endScript('$event');");
 		return $response->getXML();
 	}
 	
-	function TriggerEventIntern(&$response, $event, $arguments = null)
+	function triggerEventIntern(&$response, $event, $arguments = null)
 	{
 		foreach ($this->scripts as $key => $value)
 		{
 			//if ($this->scripts[$key]->active)
-			$this->scripts[$key]->EventHandler($this, $response, $event, $arguments);
+			$this->scripts[$key]->eventHandler($this, $response, $event, $arguments);
 		}
 	}
 
-	function Exec($cmd, $name, $arguments = null)
+	function execute($cmd, $name, $arguments = null)
 	{
 		if (empty($arguments) || $arguments == null || !isset($arguments))
                         $arguments = array();
@@ -215,11 +215,11 @@ class mSystem
 					$this->scripts[$key]->active = false;
 			}
 			
-			$this->scripts[$name]->Exec($this, $response, $arguments);
+			$this->scripts[$name]->execute($this, $response, $arguments);
 		}
 	}
 
-	function SetZone($name, $zone)
+	function setZone($name, $zone)
 	{
 		if (isset($this->scripts[$name]))
 			$this->scripts[$name]->zone = $zone;
@@ -295,11 +295,11 @@ class mSystem
 
 function ExecScript($cmd, $name, $arguments)
 {
-	return $_SESSION['murrix']['system']->Exec($cmd, $name, $arguments);
+	return $_SESSION['murrix']['system']->execute($cmd, $name, $arguments);
 }
 
 function TriggerEvent($event, $arguments)
 {
-	return $_SESSION['murrix']['system']->TriggerEvent($event, $arguments);
+	return $_SESSION['murrix']['system']->triggerEvent($event, $arguments);
 }
 ?>

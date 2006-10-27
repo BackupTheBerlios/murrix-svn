@@ -7,18 +7,18 @@ class sLangswitch extends Script
 		$this->zone = "zone_language";
 	}
 
-	function EventHandler(&$system, &$response, $event, $args = null)
+	function eventHandler(&$system, &$response, $event, $args = null)
 	{
 		switch ($event)
 		{
 			case "newlang":
 			if ($this->active)
-				$this->Draw($system, $response, $args);
+				$this->draw($system, $response, $args);
 			break;
 		}
 	}
 
-	function Exec(&$system, &$response, $args)
+	function exec(&$system, &$response, $args)
 	{
 		if (isset($args['language']))
 		{
@@ -36,10 +36,10 @@ class sLangswitch extends Script
 				return;
 			}
 		}
-		$this->Draw($system, $response, $args);
+		$this->draw($system, $response, $args);
 	}
 
-	function Draw(&$system, &$response, $args)
+	function draw(&$system, &$response, $args)
 	{
 		$system->setZoneData($this->zone, utf8e(compiletpl("scripts/langswitch", array())));
 	}

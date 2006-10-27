@@ -18,7 +18,7 @@ class sAddressbar extends Script
 		parent::onActive($arguments);
 	}
 
-	function EventHandler(&$system, &$response, $event, $args)
+	function eventHandler(&$system, &$response, $event, $args)
 	{
 		switch ($event)
 		{
@@ -30,7 +30,7 @@ class sAddressbar extends Script
 		}
 	}
 
-	function Draw(&$system, &$response, $args)
+	function draw(&$system, &$response, $args)
 	{
 		$system->setZoneData($this->zone, utf8e(compiletpl("scripts/addressbar", array("divider"=>$this->divider, "path"=>$_SESSION['murrix']['path']))));
 	}

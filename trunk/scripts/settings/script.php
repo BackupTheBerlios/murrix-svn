@@ -7,7 +7,7 @@ class sSettings extends Script
 		$this->zone = "zone_main";
 	}
 	
-	function EventHandler(&$system, &$response, $event, $args)
+	function eventHandler(&$system, &$response, $event, $args)
 	{
 		switch ($event)
 		{
@@ -16,12 +16,12 @@ class sSettings extends Script
 			case "login":
 			case "logout":
 			if ($this->active)
-				$this->Draw($system, $response, $args);
+				$this->draw($system, $response, $args);
 			break;
 		}
 	}
 
-	function Exec(&$system, &$response, $args)
+	function execute(&$system, &$response, $args)
 	{
 		if ($args['action'] == "meta")
 		{
@@ -68,10 +68,10 @@ class sSettings extends Script
 			}
 		}
 		
-		$this->Draw($system, $response, $args);
+		$this->draw($system, $response, $args);
 	}
 	
-	function Draw(&$system, &$response, $args)
+	function draw(&$system, &$response, $args)
 	{
 		$node_id = $this->getNodeId($args);
 
@@ -79,7 +79,7 @@ class sSettings extends Script
 		if ($node_id > 0)
 		{
 			$object = new mObject($node_id);
-			if ($object->HasRight("write"))
+			if ($object->hasRight("write"))
 				$data = compiletpl("scripts/settings", array("message"=>$args['message']), $object);
 			else
 				$data = compiletpl("message", array("title"=>ucf(i18n("error")), "message"=>ucf(i18n("not enough rights"))));

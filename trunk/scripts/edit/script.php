@@ -7,7 +7,7 @@ class sEdit extends Script
 		$this->zone = "zone_main";
 	}
 	
-	function EventHandler(&$system, &$response, $event, $args)
+	function eventHandler(&$system, &$response, $event, $args)
 	{
 		switch ($event)
 		{
@@ -16,12 +16,12 @@ class sEdit extends Script
 			case "login":
 			case "logout":
 			if ($this->active)
-				$this->Draw($system, $response, $args);
+				$this->draw($system, $response, $args);
 			break;
 		}
 	}
 
-	function Exec(&$system, &$response, $args)
+	function execute(&$system, &$response, $args)
 	{
 		if (isset($args['action']) && $args['action'] == "save")
 		{
@@ -45,7 +45,7 @@ class sEdit extends Script
 				{
 					$object = new mObject($node_id);
 	
-					if ($object->HasRight("write"))
+					if ($object->hasRight("write"))
 					{
 						$object->name = trim($args['name']);
 						$object->icon = trim($args['icon']);
@@ -101,10 +101,10 @@ class sEdit extends Script
 			return;
 		}
 
-		$this->Draw($system, $response, $args);
+		$this->draw($system, $response, $args);
 	}
 	
-	function Draw(&$system, &$response, $args)
+	function draw(&$system, &$response, $args)
 	{
 		if (isset($args['object_id']))
 		{
@@ -118,7 +118,7 @@ class sEdit extends Script
 		$data = "";
 		if ($object->getNodeId() > 0)
 		{
-			if ($object->HasRight("write"))
+			if ($object->hasRight("write"))
 			{
 				$edit_args = array();
 				$data = compiletplWithOutput("scripts/edit", $edit_args, $object);

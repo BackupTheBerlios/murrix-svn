@@ -14,21 +14,21 @@ class sCalendar extends Script
 		$this->fillCalendars();
 	}
 	
-	function EventHandler(&$system, &$response, $event, $args = null)
+	function eventHandler(&$system, &$response, $event, $args = null)
 	{
 		switch ($event)
 		{
 			case "newlang":
 			case "newlocation":
 			if ($this->active)
-				$this->Draw($system, $response, array());
+				$this->draw($system, $response, array());
 			break;
 			
 			case "login":
 			case "logout":
 			$this->fillCalendars();
 			if ($this->active)
-				$this->Draw($system, $response, array());
+				$this->draw($system, $response, array());
 			break;
 		}
 	}
@@ -131,7 +131,7 @@ class sCalendar extends Script
 		return $events;
 	}
 
-	function Exec(&$system, &$response, $args)
+	function execute(&$system, &$response, $args)
 	{
 		if (!empty($args['view']))
 			$this->view = $args['view'];
@@ -177,7 +177,7 @@ class sCalendar extends Script
 		$this->Draw($system, $response, $args);
 	}
 	
-	function Draw(&$system, &$response, $args)
+	function draw(&$system, &$response, $args)
 	{
 		$events = $this->getEvents();
 
