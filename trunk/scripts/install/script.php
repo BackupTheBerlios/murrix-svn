@@ -33,7 +33,7 @@ class sInstall extends Script
 		{
 			if ($args['admin_password1'] != $args['admin_password2'])
 			{
-				$response->addAlert("Passwords don't match, please try again.");
+				$system->addAlert("Passwords don't match, please try again.");
 				return;
 			}
 			$this->admin_password = $args['admin_password1'];
@@ -61,7 +61,7 @@ class sInstall extends Script
 		{
 			if (empty($this->admin_username) || empty($this->admin_password))
 			{
-				$response->addAlert("Please fill in all fields.");
+				$system->addAlert("Please fill in all fields.");
 				return;
 			}
 		}
@@ -69,7 +69,7 @@ class sInstall extends Script
 		{
 			if (empty($this->db_address) || empty($this->db_name) || empty($this->db_username) || empty($this->db_password))
 			{
-				$response->addAlert("Please fill in all fields. Table prefix is optional.");
+				$system->addAlert("Please fill in all fields. Table prefix is optional.");
 				return;
 			}
 
@@ -579,7 +579,7 @@ $list[] = array("class_name" => "image_region",	"name" => "image_height","priori
 		global $wwwpath, $abspath;
 		ob_start();
 		include(gettpl("install/stage".$args['stage']));
-		$response->addAssign($this->zone, "innerHTML", utf8e(ob_get_end()));
+		$system->setZoneData($this->zone, utf8e(ob_get_end()));
 	}
 }
 ?>

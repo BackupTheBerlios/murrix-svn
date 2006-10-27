@@ -55,6 +55,7 @@ require_once("classes/class.mtable.php");
 require_once("classes/class.muser.php");
 require_once("classes/class.mgroup.php");
 require_once("classes/class.mxml.php");
+require_once("classes/class.mmsg.php");
 
 
 /* ========================= */
@@ -63,7 +64,8 @@ require_once("classes/class.mxml.php");
 require_once("3dparty/exifer/exif.php");
 require_once("3dparty/FCKeditor/fckeditor.php");
 
-
+$messages = new mMsg();
+$messages->clearAll();
 
 
 
@@ -88,6 +90,8 @@ foreach ($files as $file)
 require_once("session.php");
 
 require_once("system/links.php");
+
+
 
 $prof->stopTimer( "include" );
 $prof->startTimer( "database" );
@@ -269,6 +273,8 @@ if (!isset($_SESSION['murrix']['system']))
 	$_SESSION['murrix']['system']->LoadScripts();
 }
 $prof->stopTimer( "system" );
+
+$_SESSION['murrix']['system']->transport = getSetting("TRANSPORT", 1, "ajax");
 
 $_SESSION['murrix']['rightcache']['file'] = array();
 

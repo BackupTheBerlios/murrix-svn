@@ -31,7 +31,7 @@ class sTools extends Script
 			{
 				if (count($args['node_ids']) == 0)
 				{
-					$response->addAlert(ucf(i18n("you must select at least one object")));
+					$system->addAlert(ucf(i18n("you must select at least one object")));
 					return;
 				}
 				
@@ -48,7 +48,7 @@ class sTools extends Script
 							$not_allowed_str .= $child->getPathInTree()."\n";
 							
 						if (!empty($not_allowed_str))
-							$response->addAlert(ucf(i18n("you did not have enough rights to delete these nodes:"))."\n$not_allowed_str");
+							$system->addAlert(ucf(i18n("you did not have enough rights to delete these nodes:"))."\n$not_allowed_str");
 					}
 					
 					clearNodeFileCache($object->getNodeId());
@@ -95,20 +95,20 @@ class sTools extends Script
 						}
 						else
 						{
-							$response->addAlert(ucf(i18n("you don't have enough rights on the target")));
+							$system->addAlert(ucf(i18n("you don't have enough rights on the target")));
 							return;
 						}
 					}
 					else
 					{
-						$response->addAlert(ucf(i18n("the remote object you specified does not exist")));
+						$system->addAlert(ucf(i18n("the remote object you specified does not exist")));
 						return;
 					}
 				}
 			}
 			else
 			{
-				$response->addAlert(ucf(i18n("you don't have enough rights")));
+				$system->addAlert(ucf(i18n("you don't have enough rights")));
 				return;
 			}
 		}
@@ -129,7 +129,7 @@ class sTools extends Script
 		else
 			$data = compiletpl("message", array("title"=>ucf(i18n("error")), "message"=>ucf(i18n("the specified path is invalid"))));
 
-		$response->addAssign($this->zone, "innerHTML", utf8e($data));
+		$system->setZoneData($this->zone, utf8e($data));
 	}
 }
 ?>

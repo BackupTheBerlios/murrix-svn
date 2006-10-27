@@ -31,10 +31,6 @@
 */?>
 <div id="console_wrapper">
 	<div id="console_log" onmouseup="document.getElementById('cmdline').focus();">
-		<div class="title">
-			Welcome to the MURRiX administration console<br/>
-			============================================
-		</div>
 		<?=$args['logtext']?>
 	</div>
 	<div id="console_cmd">

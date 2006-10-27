@@ -86,19 +86,25 @@ echo compiletpl("title/big", array("left"=>img(geticon("date"))."&nbsp;".ucf(i18
 			<div class="clear"></div>
 			<div id="calendar_main_zone">
 			<?
-				switch ($args['view'])
+				$data = $_SESSION['murrix']['system']->getZoneData("calendar_main_zone");
+				if (!empty($data))
+					echo $data;
+				else
 				{
-					case "month":
-					echo compiletpl("scripts/calendar/month_view", array("date"=>$args['date'], "calendars"=>$args['calendars'], "view"=>$args['view'], "events"=>$args['events'], "firstday"=>strtotime(date("Y-m", strtotime($args['date']))."-01")));
-					break;
-					
-					case "week":
-					echo compiletpl("scripts/calendar/week_view", array("date"=>$args['date'], "calendars"=>$args['calendars'], "view"=>$args['view'], "events"=>$args['events'], "firstday"=>strtotime($args['date'])));
-					break;
-					
-					case "day":
-					echo compiletpl("scripts/calendar/day_view", array("date"=>$args['date'], "calendars"=>$args['calendars'], "view"=>$args['view'], "events"=>$args['events'], "firstday"=>strtotime($args['date'])));
-					break;
+					switch ($args['view'])
+					{
+						case "month":
+						echo compiletpl("scripts/calendar/month_view", array("date"=>$args['date'], "calendars"=>$args['calendars'], "view"=>$args['view'], "events"=>$args['events'], "firstday"=>strtotime(date("Y-m", strtotime($args['date']))."-01")));
+						break;
+						
+						case "week":
+						echo compiletpl("scripts/calendar/week_view", array("date"=>$args['date'], "calendars"=>$args['calendars'], "view"=>$args['view'], "events"=>$args['events'], "firstday"=>strtotime($args['date'])));
+						break;
+						
+						case "day":
+						echo compiletpl("scripts/calendar/day_view", array("date"=>$args['date'], "calendars"=>$args['calendars'], "view"=>$args['view'], "events"=>$args['events'], "firstday"=>strtotime($args['date'])));
+						break;
+					}
 				}
 			?>
 			</div>

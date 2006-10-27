@@ -48,7 +48,7 @@ class sNew extends Script
 						{
 							if (!(strpos($args[$language.'_name'], "\\") === false) || !(strpos($args[$language.'_name'], "/") === false) || !(strpos($args[$language.'_name'], "+") === false))
 							{
-								$response->addAlert(ucf(i18n($language))." ".i18n("version").": ".ucf(i18n("you can not use '\\', '/' or '+' in the name")));
+								$system->addAlert(ucf(i18n($language))." ".i18n("version").": ".ucf(i18n("you can not use '\\', '/' or '+' in the name")));
 								return;
 							}
 
@@ -58,7 +58,7 @@ class sNew extends Script
 
 					if (count($languages_tosave) == 0)
 					{
-						$response->addAlert(ucf(i18n("nothing to save")));
+						$system->addAlert(ucf(i18n("nothing to save")));
 						return;
 					}
 
@@ -86,7 +86,7 @@ class sNew extends Script
 							
 							if (empty($value) && $var->getRequired() && $var->getType() != "boolean")
 							{
-								$response->addAlert(utf8e(ucf(i18n($language))." ".i18n("version").": ".ucf(str_replace("_", " ", i18n($var->getName(true))))." ".i18n("is a required field")));
+								$system->addAlert(utf8e(ucf(i18n($language))." ".i18n("version").": ".ucf(str_replace("_", " ", i18n($var->getName(true))))." ".i18n("is a required field")));
 								return;
 							}
 							
@@ -103,7 +103,7 @@ class sNew extends Script
 							$message = "Operation unsuccessfull.<br/>";
 							$message .= "Error output:<br/>";
 							$message .= $object->getLastError();
-							$response->addAlert($message);
+							$system->addAlert($message);
 							return;
 						}
 					}
@@ -112,7 +112,8 @@ class sNew extends Script
 					{
 						clearNodeFileCache($parent->getNodeId());
 						$object->linkWithNode($parent->getNodeId());
-						$response->addScript("setHash('exec=show&node_id=".$object->getNodeId()."');");
+						
+						$system->addRedirect("exec=show&node_id=".$object->getNodeId());
 					}
 	
 					return;
@@ -146,9 +147,9 @@ class sNew extends Script
 			$data = compiletpl("message", array("title"=>ucf(i18n("error")), "message"=>ucf(i18n("not enough rights"))), $object);
 			
 
-		$response->addAssign($this->zone, "innerHTML", utf8e($data));
+		$system->setZoneData($this->zone, utf8e($data));
 		if (!empty($javascript))
-			$response->addScript($javascript);
+			$system->addScript($javascript);
 	}
 }
 ?>

@@ -31,7 +31,7 @@ class sUpload extends Script
 			
 			if (!$new_parent->hasRight("write"))
 			{
-				$response->addAlert(ucf(i18n("not enough rights")));
+				$system->addAlert(ucf(i18n("not enough rights")));
 				return;
 			}
 			
@@ -51,7 +51,7 @@ class sUpload extends Script
 				}
 			}
 			
-			$response->addAssign("zone_upload_logg", "innerHTML", utf8e($this->logg));
+			$system->setZoneData("zone_upload_logg", utf8e($this->logg));
 			return;
 		}
 	
@@ -106,7 +106,7 @@ class sUpload extends Script
 		else
 			$data = compiletpl("message", array("title"=>ucf(i18n("error")), "message"=>ucf(i18n("the specified path is invalid"))));
 
-		$response->addAssign($this->zone, "innerHTML", utf8e($data));
+		$system->setZoneData($this->zone, utf8e($data));
 	}
 }
 ?>

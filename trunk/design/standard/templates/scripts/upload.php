@@ -22,7 +22,7 @@ if (count($subitems) > 0)
 	<div class="main">
 		<div class="container">
 			<?=cmd(ucf(i18n("upload all")), "exec=upload&action=upload&node_id=".$object->getNodeId())?>
-			<div id="zone_upload_logg"></div>
+			<?=$_SESSION['murrix']['system']->createZone("zone_upload_logg")?>
 		</div>
 	</div>
 <?

@@ -170,11 +170,9 @@ class sCalendar extends Script
 				break;
 			}
 
-		
-			$response->addAssign("calendar_main_zone", "innerHTML", utf8e($data));
+			$system->setZoneData("calendar_main_zone", utf8e($data));
 			return;
 		}
-	
 	
 		$this->Draw($system, $response, $args);
 	}
@@ -185,7 +183,7 @@ class sCalendar extends Script
 
 		$data = compiletpl("scripts/calendar/view", array("date"=>$this->date, "calendars"=>$this->calendars, "view"=>$this->view, "events"=>$events,"firstday"=>strtotime($this->date)));
 
-		$response->addAssign($this->zone, "innerHTML", utf8e($data));
+		$system->setZoneData($this->zone, utf8e($data));
 	}
 }
 ?>

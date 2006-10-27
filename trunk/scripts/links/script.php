@@ -43,7 +43,7 @@ class sLinks extends Script
 					$system->TriggerEventIntern($response, "newlocation", $args);
 				}
 				else
-					$response->addAlert(ucf(i18n("you don't have enough rights to delete this link")));
+					$system->addAlert(ucf(i18n("you don't have enough rights to delete this link")));
 					
 				return;
 			}
@@ -66,7 +66,7 @@ class sLinks extends Script
 						{
 							if (!$object->linkWithNode($remote_node_id, $args['type']))
 							{
-								$response->addAlert(ucf(i18n($object->error)));
+								$system->addAlert(ucf(i18n($object->error)));
 								return;
 							}
 							clearNodeFileCache($object->getNodeId());
@@ -74,19 +74,19 @@ class sLinks extends Script
 						}
 						else
 						{
-							$response->addAlert(ucf(i18n("you don't have enough rights on the remote object to create this link")));
+							$system->addAlert(ucf(i18n("you don't have enough rights on the remote object to create this link")));
 							return;
 						}
 					}
 					else
 					{
-						$response->addAlert(ucf(i18n("the remote object you specified does not exist")));
+						$system->addAlert(ucf(i18n("the remote object you specified does not exist")));
 						return;
 					}
 				}
 				else
 				{
-					$response->addAlert(ucf(i18n("you don't have enough rights to create a link")));
+					$system->addAlert(ucf(i18n("you don't have enough rights to create a link")));
 					return;
 				}
 				
@@ -113,7 +113,7 @@ class sLinks extends Script
 		else
 			$data = compiletpl("message", array("title"=>ucf(i18n("error")), "message"=>ucf(i18n("the specified path is invalid"))));
 
-		$response->addAssign($this->zone, "innerHTML", utf8e($data));
+		$system->setZoneData($this->zone, utf8e($data));
 	}
 }
 ?>

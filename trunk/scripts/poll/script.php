@@ -26,13 +26,13 @@ class sPoll extends Script
 		{
 			if (isAnonymous())
 			{
-				$response->addAlert(ucf(i18n("anonymous user can not vote")));
+				$system->addAlert(ucf(i18n("anonymous user can not vote")));
 				return;
 			}
 			
 			if (!isset($args['answer']))
 			{
-				$response->addAlert(ucf(i18n("you must choose an alternative")));
+				$system->addAlert(ucf(i18n("you must choose an alternative")));
 				return;
 			}
 		
@@ -44,13 +44,13 @@ class sPoll extends Script
 				
 				if (strtotime($poll->getVarValue("closedate")) < $now)
 				{
-					$response->addAlert(ucf(i18n("this poll is closed")));
+					$system->addAlert(ucf(i18n("this poll is closed")));
 					return;
 				}
 				
 				if (strtotime($poll->getVarValue("opendate")) > $now)
 				{
-					$response->addAlert(ucf(i18n("this poll is not open yet")));
+					$system->addAlert(ucf(i18n("this poll is not open yet")));
 					return;
 				}
 				
@@ -58,7 +58,7 @@ class sPoll extends Script
 				
 				if (count($answers) > 0)
 				{
-					$response->addAlert(ucf(i18n("you have already voted in this poll")));
+					$system->addAlert(ucf(i18n("you have already voted in this poll")));
 					return;
 				}
 			
@@ -84,7 +84,7 @@ class sPoll extends Script
 	
 	function Draw(&$system, &$response, $args)
 	{
-		$response->addAssign($this->zone, "innerHTML", utf8e(compiletpl("scripts/poll/view", array())));
+		$system->setZoneData($this->zone, utf8e(compiletpl("scripts/poll/view", array())));
 	}
 }
 ?>

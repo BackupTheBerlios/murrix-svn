@@ -85,6 +85,13 @@ function setHash(cmd)
 		document.location.hash = cmd;
 }
 
+function setHref(cmd)
+{
+	if (cmd.length > 0)
+		document.location.href = '?'+cmd;
+}
+
+
 function parseCommand(cmd)
 {
 	var args = cmd.split("&");
@@ -126,7 +133,6 @@ function Poll()
 	if (command != last_command)
 	{
 		scroll_positions[last_command] = (document.all)?document.body.scrollTop:window.pageYOffset;
-		//alert("saved "+scroll_positions[last_command]+" for "+last_command);
 		
 		if (command == "default" || command == "")
 			eval(parseCommand(URLDecode(default_command)));
@@ -134,12 +140,6 @@ function Poll()
 			eval(parseCommand(URLDecode(command)));
 		
 		scroll_set = -1;
-		/*
-		if (typeof scroll_positions[command] == 'undefined')
-			scroll_set = 0;
-		else
-			scroll_set = scroll_positions[command];
-		*/
 		last_command = command;
 	}
 }
@@ -148,7 +148,6 @@ function setRun(cmd)
 {
 	scroll_set = 0;
 	scroll_positions[last_command] = (document.all)?document.body.scrollTop:window.pageYOffset;
-	//alert("2saved "+scroll_positions[last_command]+" for "+last_command);
 	
 	clearInterval(poll_intervall);
 	
@@ -168,11 +167,13 @@ function runTimeout()
 
 function OnLoadHandler()
 {
-	default_command = init();
+	default_command = getDefaultCommand();
 	last_command = "";
 	poll_intervall = setInterval("Poll()", 600);
 	
-//	setInterval("xajax_TriggerEvent('poll','')", 60000);
+	setInterval("xajax_TriggerEvent('poll','')", 60000);
+	
+	runZoneJS();
 }
 
 function Hash()
@@ -229,13 +230,8 @@ function Post(scriptname, formname)
 		var oNode = document.getElementById(objForm.elements[i].name+'___Frame');
 		if (oNode)
 		{
-			
 			var oEditor = FCKeditorAPI.GetInstance(objForm.elements[i].name);
 			oEditor.UpdateLinkedField()
-			//objForm.elements[i].value = oEditor.EditorDocument.body.innerHTML;
-			//var oEparent = oNode.parentNode;
-			//oEparent.removeChild(oNode);
-
 		}
 	}
 	
@@ -267,9 +263,6 @@ function endScript(cmd, zone)
 	if (zone == "zone_main" && scroll_set != -1)
 	{
 		scroll(0, scroll_set);
-	
-		//alert(zone+'::'+cmd+'::'+scroll_set);
-		//scroll_set = 0;
 	}
 		
 	var list = new Array();

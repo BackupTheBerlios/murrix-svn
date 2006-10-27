@@ -1,4 +1,50 @@
+<?
+// Set up default
+if ($_SESSION['murrix']['system']->firstrun)
+{
+	$_SESSION['murrix']['system']->makeActive("langswitch");
+	$_SESSION['murrix']['system']->execIntern("exec=langswitch", $response, "langswitch");
+	
+	$_SESSION['murrix']['system']->makeActive("addressbar", array("divider"=>"&gt;"));
+	$_SESSION['murrix']['system']->execIntern("exec=addressbar", $response, "addressbar");
+
+	if (empty($_SESSION['murrix']['system']->command))
+	{
+		$_SESSION['murrix']['system']->makeActive("show");
+		$_SESSION['murrix']['system']->execIntern("exec=show", $response, "show");
+	}
+	
+	$_SESSION['murrix']['system']->makeActive("login");
+	$_SESSION['murrix']['system']->execIntern("exec=login", $response, "login");
+	
+	$_SESSION['murrix']['system']->makeActive("poll");
+	$_SESSION['murrix']['system']->execIntern("exec=poll", $response, "poll");
+	
+	$_SESSION['murrix']['system']->makeActive(	"zone", 
+							array("zone_info" => array(	
+										"template" => "info",
+										"events" => array(
+												"poll",
+												"login",
+												"logout",
+												"newlang"))));
+	$_SESSION['murrix']['system']->makeActive(	"zone", 
+							array("zone_menu" => array(	
+										"template" => "menu",
+										"events" => array(
+												"login",
+												"logout",
+												"newlang"))));
+	$_SESSION['murrix']['system']->execIntern("exec=zone", $response, "zone");
+	$_SESSION['murrix']['system']->TriggerEventIntern($response, "poll");
+	
+	$_SESSION['murrix']['system']->firstrun = false;
+}
+
+?>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 
 	<head>
@@ -29,11 +75,6 @@
 		?>
 		<script type="text/javascript">
 		<!--
-			function init()
-			{
-				return "exec=show&path=<?=urlencode($_SESSION['murrix']['default_path'])?>";
-			}
-			
 			function toggleSidebarContainer(itemName)
 			{
 				var containerObj = document.getElementById(itemName+'_container');
@@ -50,27 +91,13 @@
 					arrowObj.src = '<?=imgpath("1uparrow.png")?>';
 				}
 			}
-			
-			var myrules = {
-				'a.cmd' : function(element) {
-					var parts = element.href.split("?");
-					
-					if (typeof parts[1] != 'undefined')
-						element.href = "javascript:setRun('"+parts[1]+"')";
-				}
-			};
-			
-			Behaviour.register(myrules);
 		// -->
 		</script>
 	</head>
 
-	<body class="body" onload="OnLoadHandler();Behaviour.apply()">
-		<div style="float: right; padding: 7px;" id="zone_language">
-		<?
-			echo compiletpl("scripts/langswitch", array());
-			$_SESSION['murrix']['system']->makeActive("langswitch");
-		?>
+	<body class="body" onload="OnLoadHandler();">
+		<div style="float: right; padding: 7px;">
+			<?=$_SESSION['murrix']['system']->createZone("zone_language")?>
 		</div>
 		
 		<div class="header">
@@ -87,11 +114,8 @@
 				</form>
 			</div>
 			
-			<div class="address" id="zone_addressbar">
-			<?
-				echo compiletpl("scripts/addressbar", array("path"=>$_SESSION['murrix']['path']));
-				$_SESSION['murrix']['system']->makeActive("addressbar");
-			?>
+			<div class="address">
+				<?=$_SESSION['murrix']['system']->createZone("zone_addressbar")?>
 			</div>
 			
 			<div class="clear"></div>
@@ -100,30 +124,10 @@
 		<table class="maintable" cellspacing="0">
 			<tr class="row">
 				<td class="sidebar">
-					<div id="zone_menu">
-					<?
-						echo compiletpl("menu", array());
-						$_SESSION['murrix']['system']->makeActive(	"zone", 
-												array("zone_menu" => array(	
-															"template" => "menu",
-															"events" => array(
-																	"login",
-																	"logout",
-																	"newlang"))));
-					?>
-					</div>
+					<?=$_SESSION['murrix']['system']->createZone("zone_menu")?>
 				</td>
 				<td class="middle">
-					<div id="zone_main">
-					<?
-						$object = new mObject(getNode($_SESSION['murrix']['path']));
-						if ($object->HasRight("read"))
-							echo compiletpl("scripts/show/view", array(), $object);
-						else
-							echo compiletpl("message", array("title"=>ucf(i18n("error")), "message"=>ucf(i18n("not enough rights"))));
-						$_SESSION['murrix']['system']->makeActive("show");
-					?>
-					</div>
+					<?=$_SESSION['murrix']['system']->createZone("zone_main")?>
 				</td>
 				<td class="sidebar">
 					<div class="title">
@@ -131,16 +135,7 @@
 						<?=ucf(i18n("login"))?>
 					</div>
 					<div id="login_container" class="container">
-						<div id="zone_login">
-						<?
-							if (IsAnonymous())
-								echo compiletpl("scripts/login/login", array());
-							else
-								echo compiletpl("scripts/login/logout", array());
-								
-							$_SESSION['murrix']['system']->makeActive("login");
-						?>
-						</div>
+						<?=$_SESSION['murrix']['system']->createZone("zone_login")?>
 					</div>
 					
 					<div class="title">
@@ -153,22 +148,9 @@
 						</div>
 					</div>
 					
-					<div id="zone_poll">
-					<?
-						echo compiletpl("scripts/poll/view", array());
-						$_SESSION['murrix']['system']->makeActive("poll");
-					?>
-					</div>
+					<?=$_SESSION['murrix']['system']->createZone("zone_poll")?>
 					
-					<div id="zone_info">
-					<?
-						echo compiletpl("info", array());
-						$_SESSION['murrix']['system']->makeActive(	"zone", 
-												array("zone_info" => array(	
-															"template" => "info",
-															"events" => "poll")));
-					?>
-					</div>
+					<?=$_SESSION['murrix']['system']->createZone("zone_info")?>
 				</td>
 			</tr>
 		</table>

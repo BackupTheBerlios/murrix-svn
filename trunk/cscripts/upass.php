@@ -14,7 +14,7 @@ class csUpass extends CScript
 			case 1:
 				$this->password1 = $args;
 				$stdout = ucf(i18n("enter new password again:"));
-				$response->addAssign("cmdline","type","password");
+				$system->addJSScript("document.getElementById('cmdline').type='password';");
 				$this->stage = 2;
 				return false;
 				
@@ -64,7 +64,7 @@ class csUpass extends CScript
 		}
 		
 		$stdout = ucf(i18n("enter new password:"));
-		$response->addAssign("cmdline","type","password");
+		$system->addJSScript("document.getElementById('cmdline').type='password';");
 		$this->stage = 1;
 		return false;
 	}

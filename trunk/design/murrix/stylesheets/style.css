@@ -597,7 +597,6 @@ div.medium_title
 	background-repeat: no-repeat;
 	background-position: bottom left;
 	border-bottom: 1px solid #D5D5E1;
-	height: px;
 	vertical-align: bottom;
 	font-weight: bold;
 }
@@ -607,7 +606,6 @@ div.medium_title div.left
 	font-size: 14px;
 	float: left;
 	margin: 1px 0 1px 0;
-	text-align: bottom;
 }
 
 div.medium_title div.center

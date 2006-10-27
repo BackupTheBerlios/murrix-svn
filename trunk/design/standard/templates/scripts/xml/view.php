@@ -54,7 +54,7 @@ echo compiletpl("title/big", array("left"=>img(geticon("list"))."&nbsp;XML ".ucf
 					
 					<br/>
 					<input class="submit" id="submitButton" type="submit" value="<?=ucf(i18n("import"))?>"/><br/>
-					<div id="zone_import_log"></div>
+					<?=$_SESSION['murrix']['system']->createZone("zone_import_log")?>
 				</div>
 			</form>
 		</fieldset>

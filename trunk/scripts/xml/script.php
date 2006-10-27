@@ -40,13 +40,13 @@ class sXML extends Script
 		{
 			if (empty($args['node_id']))
 			{
-				$response->addAlert(ucf(i18n("you must specifiy a node")));
+				$system->addAlert(ucf(i18n("you must specifiy a node")));
 				return;
 			}
 			
 			if (empty($args['file']))
 			{
-				$response->addAlert(ucf(i18n("you must upload a file to import")));
+				$system->addAlert(ucf(i18n("you must upload a file to import")));
 				return;
 			}
 			
@@ -308,7 +308,7 @@ class sXML extends Script
 			}
 			
 			//print_r($import_data);
-			$response->addAssign("zone_import_log", "innerHTML", utf8e("<br/>".ob_get_end()));
+			$system->setZoneData("zone_import_log", utf8e("<br/>".ob_get_end()));
 			return;
 		}
 		
@@ -323,7 +323,7 @@ class sXML extends Script
 		else
 			$data = compiletpl("message", array("title"=>ucf(i18n("error")), "message"=>ucf(i18n("not enough rights"))));
 		
-		$response->addAssign($this->zone, "innerHTML", utf8e($data));
+		$system->setZoneData($this->zone, utf8e($data));
 	}
 }
 ?>

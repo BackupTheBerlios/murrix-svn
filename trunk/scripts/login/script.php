@@ -31,7 +31,7 @@ class sLogin extends Script
 				$p = trim($args['password']);
 		
 				if (!login($u, $p))
-					$response->addAlert(utf8e(ucf(i18n("login failed")).". ".ucf(i18n("please try again"))."."));
+					$system->addAlert(utf8e(ucf(i18n("login failed")).". ".ucf(i18n("please try again"))."."));
 				else
 				{
 					$system->TriggerEventIntern($response, "login", array());
@@ -61,7 +61,7 @@ class sLogin extends Script
 		else
 			include(gettpl("scripts/login/logout"));
 
-		$response->addAssign($this->zone, "innerHTML", utf8e(ob_get_end()));
+		$system->setZoneData($this->zone, utf8e(ob_get_end()));
 	}
 }
 

@@ -11,7 +11,7 @@ foreach ($_SESSION['murrix']['languages'] as $language)
 	echo compiletpl("title/medium", array("left"=>img(imgpath("$language.jpg"))."&nbsp;".ucf(i18n($language))), $object);
 
 	$versionlist = array();
-	$versionlist[] = array(ucf(i18n("version")), ucf(i18n("created")), ucf(i18n("class")), ucf(i18n("name")), ucf(i18n("user")), ucf(i18n("rights")), "&nbsp;");
+	$versionlist[] = array(ucf(i18n("version")), ucf(i18n("created")), ucf(i18n("name")), ucf(i18n("user")), "&nbsp;");
 	foreach ($versions as $version)
 	{
 		$user = $version->getUser();
@@ -35,7 +35,7 @@ foreach ($_SESSION['murrix']['languages'] as $language)
 		else
 			$delete = "";
 		
-		$versionlist[] = array($version->getVersion(), $version->getCreated(),  $version->getClassName(), $version->getName(), $user, $version->getRights(), $edit);
+		$versionlist[] = array($version->getVersion(), $version->getCreated(),  $version->getName(), $user, $edit);
 	}
 	
 	echo compiletpl("table", array("list"=>$versionlist, "endstring"=>"% ".i18n("rows")), $object);

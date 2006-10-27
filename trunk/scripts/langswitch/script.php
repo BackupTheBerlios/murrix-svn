@@ -32,7 +32,7 @@ class sLangswitch extends Script
 				$_SESSION['murrix']['path'] = $object->getPath();
 	
 				//$system->TriggerEventIntern($response, "newlang");
-				$response->addScript("window.location.reload()");
+				$system->addJSScript("window.location.reload()");
 				return;
 			}
 		}
@@ -41,7 +41,7 @@ class sLangswitch extends Script
 
 	function Draw(&$system, &$response, $args)
 	{
-		$response->addAssign($this->zone, "innerHTML", utf8e(compiltetpl("scripts/langswitch", array())));
+		$system->setZoneData($this->zone, utf8e(compiletpl("scripts/langswitch", array())));
 	}
 }
 

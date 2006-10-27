@@ -8,7 +8,7 @@ class sConsole extends Script
 	{
 		$this->zone = "zone_main";
 		$this->running = "";
-		$this->logg = "";
+		$this->logg = $this->getLogTitle();
 	}
 	
 	function Exec(&$system, &$response, $args)
@@ -19,15 +19,24 @@ class sConsole extends Script
 		$this->Draw($system, $response, $args);
 	}
 	
-	function setLogText(&$response, $text)
+	function getLogTitle()
 	{
-		$response->addAssign("console_log", "innerHTML", utf8e($text));
+		$title = "Welcome to the MURRiX administration console<br/>";
+		$title .= "============================================<br/>";
+		return $title;
+	}
+	
+	function setLogText(&$system, $text)
+	{
+		$text = $this->getLogTitle().$text;
+		
+		$system->setZoneData("console_log", utf8e($text));
 		$this->logg = $text;
 	}
 	
-	function addLogText(&$response, $text)
+	function addLogText(&$system, $text)
 	{
-		$response->addAppend("console_log", "innerHTML", utf8e($text));
+		$system->addZoneData("console_log", utf8e($text));
 		$this->logg .= $text;
 	}
 	
@@ -35,8 +44,8 @@ class sConsole extends Script
 	{
 		if (!isset($args['cmdline']))
 		{
-			$response->addAssign($this->zone, "innerHTML", utf8e(compiletpl("scripts/console/view", array("logtext"=>$this->logg))));
-			$response->addScript("document.getElementById('cmdline').focus();");
+			$system->setZoneData($this->zone, utf8e(compiletpl("scripts/console/view", array("logtext"=>$this->logg))));
+			$system->addJSScript("document.getElementById('cmdline').focus();");
 			$this->running = "";
 		}
 		
@@ -52,24 +61,24 @@ class sConsole extends Script
 				
 				if ($cmd == "clear")
 				{
-					$response->addAssign("cmdline", "value", "");
-					$this->setLogText($response, "");
+					$system->addJSScript("document.getElementById('cmdline').value='';");
+					$this->setLogText($system, "");
 				}
 				else if ($cmd == "list")
 				{
-					$response->addAssign("cmdline", "value", "");
-					$this->addLogText($response, "<div class=\"cmd\">] $cmd</div>");
+					$system->addJSScript("document.getElementById('cmdline').value='';");
+					$this->addLogText($system, "<div class=\"cmd\">] $cmd</div>");
 					
 					$list = "";
 					foreach ($this->scripts as $key => $script)
 						$list .= "$key ";
 						
-					$this->addLogText($response, "<div class=\"out\">".nl2br($list)."</div>");
+					$this->addLogText($system, "<div class=\"out\">".nl2br($list)."</div>");
 				}
 				else if ($cmd == "zones")
 				{
-					$response->addAssign("cmdline", "value", "");
-					$this->addLogText($response, "<div class=\"cmd\">] $cmd</div>");
+					$system->addJSScript("document.getElementById('cmdline').value='';");
+					$this->addLogText($system, "<div class=\"cmd\">] $cmd</div>");
 					
 					$list = "";
 					foreach ($system->scripts as $name => $script)
@@ -77,25 +86,25 @@ class sConsole extends Script
 						$list .= "ZONE=".$system->scripts[$name]->zone." CLASS=$name ACTIVE=".$system->scripts[$name]->active."\n";
 					}
 						
-					$this->addLogText($response, "<div class=\"out\">".nl2br($list)."</div>");
+					$this->addLogText($system, "<div class=\"out\">".nl2br($list)."</div>");
 				}
 				else
 				{
 					if ($this->execCommand($cmd, $stdout, $stderr, $response, $system))
-						$response->addAssign("cmdline", "value", "");
+						$system->addJSScript("document.getElementById('cmdline').value='';");
 					
 					
 					
 					if (!empty($stderr))
-						$this->addLogText($response, "<div class=\"err\">".nl2br($stderr)."</div>");
+						$this->addLogText($system, "<div class=\"err\">".nl2br($stderr)."</div>");
 						
 					if (!empty($stdout))
-						$this->addLogText($response, "<div class=\"out\">".nl2br($stdout)."</div>");
+						$this->addLogText($system, "<div class=\"out\">".nl2br($stdout)."</div>");
 				}
 			}
 		}
 		
-		$response->addScript("var console_log = document.getElementById(\"console_log\");console_log.scrollTop = console_log.scrollHeight;");
+		$system->addJSScript("var console_log = document.getElementById(\"console_log\");console_log.scrollTop = console_log.scrollHeight;");
 	}
 	
 	function execCommand($cmd, &$stdout, &$stderr, &$response, &$system)
@@ -105,20 +114,20 @@ class sConsole extends Script
 			if ($this->scripts[$this->running]->exec($cmd, $stdin, $stdout, $stderr, $response, $system))
 			{
 				$this->running = "";
-				$response->addAssign("cmdline","type","text");
+				$system->addJSScript("document.getElementById('cmdline').type='text';");
 			}
 				
 			return true;
 		}
 		
-		$response->addAssign("cmdline","type","text");
+		$system->addJSScript("document.getElementById('cmdline').type='text';");
 		
 		if (empty($cmd))
 			return false;
 			
 		$cmds = explode("|", $cmd);
 		
-		$this->addLogText($response, "<div class=\"cmd\">] $cmd</div>");
+		$this->addLogText($system, "<div class=\"cmd\">] $cmd</div>");
 		
 		foreach ($cmds as $cmd)
 		{

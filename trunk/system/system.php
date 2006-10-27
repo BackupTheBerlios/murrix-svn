@@ -6,9 +6,17 @@ class mSystem
 {
 	var $xajax;
 	var $scripts;
+	var $zones;
+	var $js;
+	
+	var $ajax;
+	var $firstrun;
+	var $transport;
+	var $command;
 
 	function mSystem()
 	{
+		$this->firstrun = true;
 		$this->xajax = new xajax();
 		$this->xajax->debugOff();
 		$this->xajax->errorHandlerOn();
@@ -16,14 +24,11 @@ class mSystem
 		
 		$this->xajax->registerFunction("ExecScript");
 		$this->xajax->registerFunction("TriggerEvent");
-		
-		//$this->LoadScripts();
 	}
 
 	function PrintHeader()
 	{
 		$this->xajax->printJavascript("3dparty/xajax/");
-		echo "<script type=\"text/javascript\" src=\"system/murrix.js\"></script>\n";
 
 		?>
 		<script type="text/javascript">
@@ -32,14 +37,84 @@ class mSystem
 			foreach ($this->scripts as $key => $value)
 				$this->scripts[$key]->PrintJavascript();
 			?>
+			
+			function getDefaultCommand()
+			{
+				return "exec=show&node_id=<?=getNode($_SESSION['murrix']['default_path'])?>";
+			}
+			
+			function runZoneJS()
+			{
+				Behaviour.register(bhRules);
+				<?=$this->getJSScript()?>
+				Behaviour.apply();
+			}
+			
+			var bhRules = {
+			<?
+				if ($_SESSION['murrix']['system']->transport == "ajax")
+				{
+				?>
+					'a.cmd' : function(element) {
+						var parts = element.href.split("?");
+						
+						if (typeof parts[1] != 'undefined')
+							element.href = "javascript:setRun('"+parts[1]+"')";
+					}
+				<?
+				}
+			?>
+			};
 		// -->
 		</script>
 		<?
 	}
 	
+	function execCommand($cmd)
+	{
+		$exec = "";
+		$arguments = array();
+		$cmd_string = "";
+		
+		foreach ($cmd as $key => $value)
+		{
+			if ($key == "exec")
+				$exec = $value;
+			else
+				$arguments[$key] = $value;
+				
+			$cmd_string .= "$key=$value&";
+		}
+		
+		$cmd_string = substr($cmd_string, 0, strlen($cmd_string)-1);
+		
+		if (empty($exec))
+		{
+			$arguments['node_id'] = getNode($_SESSION['murrix']['default_path']);
+			$exec = "show";
+		}
+		
+		$this->execIntern($cmd_string, $response, $exec, $arguments);
+	}
+	
 	function Process()
 	{
+		if (count($this->zones) > 0)
+		{
+			foreach ($this->zones as $name => $value)
+				$this->zones[$name]['changed'] = false;
+		}
+			
+		$this->js = "";
+	
+		$this->ajax = true;
 		$this->xajax->processRequests();
+		$this->ajax = false;
+		// exec scripts with data from POST or GET
+		
+		$this->command = empty($_GET) ? $_POST : $_GET;
+		
+		$this->execCommand($this->command);
 	}
 	
 	function LoadScripts()
@@ -74,6 +149,7 @@ class mSystem
 		$response = new xajaxResponse();
 		$this->TriggerEventIntern($response, $event, utf8d($arguments));
 		$response->addScript("Behaviour.apply();");
+		$response->addScript("endScript('$event');");
 		return $response->getXML();
 	}
 	
@@ -84,8 +160,6 @@ class mSystem
 			//if ($this->scripts[$key]->active)
 			$this->scripts[$key]->EventHandler($this, $response, $event, $arguments);
 		}
-
-		$response->addScript("endScript('$event');");
 	}
 
 	function Exec($cmd, $name, $arguments = null)
@@ -94,18 +168,28 @@ class mSystem
                         $arguments = array();
 	
 		$response = new xajaxResponse();
-		$this->ExecIntern($cmd, $response, $name, utf8d($arguments));
+		$this->execIntern($cmd, $response, $name, utf8d($arguments));
 		
 		if (!empty($_SESSION['debug']))
 			$response->addAlert($_SESSION['debug']);
 		
 		$_SESSION['murrix']['callcache'] = array();
 		$_SESSION['murrix']['querycache'] = array();
+		
+		foreach ($this->zones as $name => $value)
+		{
+			if ($this->zones[$name]['changed'])
+				$response->addAssign($name, "innerHTML", $this->zones[$name]['data']);
+		}
+		
+		$response->addScript($this->js);
+		$response->addScript("endScript('$cmd', '".$this->scripts[$name]->zone."');");
+		$response->addScript("Behaviour.apply();");
 
 		return $response->getXML();
 	}
 
-	function ExecIntern($cmd, &$response, $name, $arguments = null)
+	function execIntern($cmd, &$response, $name, $arguments = null)
 	{
 		if (empty($name))
 			return;
@@ -114,7 +198,7 @@ class mSystem
                         $arguments = array();
 	
 		if (!isset($this->scripts[$name]))
-			$response->addAlert("Exec: Error: No such script; $name");
+			$this->addAlert("Exec: Error: No such script; $name");
 		else
 		{
 			if (isset($arguments['zone']))
@@ -133,9 +217,6 @@ class mSystem
 			
 			$this->scripts[$name]->Exec($this, $response, $arguments);
 		}
-
-		$response->addScript("Behaviour.apply();");
-		$response->addScript("endScript('$cmd', '".$this->scripts[$name]->zone."');");
 	}
 
 	function SetZone($name, $zone)
@@ -154,6 +235,61 @@ class mSystem
 			$this->scripts[$name]->active = true;
 			$this->scripts[$name]->onActive($arguments);
 		}
+	}
+	
+	function createZone($name)
+	{
+		$data = "<div id=\"$name\">";
+		
+		if (isset($this->zones[$name]))
+			$data .= utf8d($this->zones[$name]['data']);
+			
+		$data .= "</div>";
+		
+		return $data;
+	}
+	
+	function addAlert($msg)
+	{
+		$this->js .= "alert($msg);\n";
+	}
+	
+	function addJSScript($js)
+	{
+		$this->js .= "$js\n";
+	}
+	
+	function setZoneData($name, $data)
+	{
+		$this->zones[$name]['data'] = $data;
+		$this->zones[$name]['changed'] = true;
+	}
+	
+	function addZoneData($name, $data)
+	{
+		$this->zones[$name]['data'] .= $data;
+		$this->zones[$name]['changed'] = true;
+	}
+	
+	function getZoneData($name)
+	{
+		if (isset($this->zones[$name]))
+			return $this->zones[$name]['data'];
+		
+		return "";
+	}
+	
+	function addRedirect($cmd)
+	{
+		if ($this->transport == "ajax")
+			$this->js .= "setHash('$cmd');\n";
+		else
+			$this->js .= "setHref('$cmd');\n";
+	}
+	
+	function getJSScript()
+	{
+		return $this->js;
 	}
 }
 

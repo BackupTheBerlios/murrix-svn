@@ -32,7 +32,7 @@ class sAddressbar extends Script
 
 	function Draw(&$system, &$response, $args)
 	{
-		$response->addAssign($this->zone, "innerHTML", utf8e(compiletpl("scripts/addressbar", array("divider"=>$this->divider, "path"=>$_SESSION['murrix']['path']))));
+		$system->setZoneData($this->zone, utf8e(compiletpl("scripts/addressbar", array("divider"=>$this->divider, "path"=>$_SESSION['murrix']['path']))));
 	}
 }
 

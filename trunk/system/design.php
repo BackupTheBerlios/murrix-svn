@@ -225,8 +225,13 @@ function getjs()
 
 	for ($n = 0; $n < count($files); $n++)
 		$files[$n] = "$wwwpath/design/".$_SESSION['murrix']['theme']."/javascripts/".$files[$n];
+		
+	$files2 = GetSubfiles("$abspath/system/javascripts");
 
-	return $files;
+	for ($n = 0; $n < count($files2); $n++)
+		$files2[$n] = "$wwwpath/system/javascripts/".$files2[$n];
+
+	return array_merge($files, $files2);
 }
 
 function getcss()

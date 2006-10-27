@@ -28,13 +28,13 @@ class sEdit extends Script
 			$bError = false;
 			if (empty($args['name']))
 			{
-				$response->addAlert(ucf(i18n("please enter a name")));
+				$system->addAlert(ucf(i18n("please enter a name")));
 				$bError = true;
 			}
 
 			if (!(strpos($args['name'], "\\") === false) || !(strpos($args['name'], "/") === false) || !(strpos($args['name'], "+") === false))
 			{
-				$response->addAlert(ucf(i18n("you can not use '\\', '/' or '+' in the name")));
+				$system->addAlert(ucf(i18n("you can not use '\\', '/' or '+' in the name")));
 				$bError = true;
 			}
 
@@ -63,7 +63,7 @@ class sEdit extends Script
 							
 							if (empty($value) && $var->getRequired() && $var->getType() != "boolean")
 							{
-								$response->addAlert(utf8e(ucf(str_replace("_", " ", i18n($var->getName(true))))." ".i18n("is a required field")));
+								$system->addAlert(utf8e(ucf(str_replace("_", " ", i18n($var->getName(true))))." ".i18n("is a required field")));
 								return;
 							}
 							
@@ -77,7 +77,8 @@ class sEdit extends Script
 							
 						if ($ret)
 						{
-							$response->addScript("setHash('exec=show&node_id=$node_id');");
+							$system->addRedirect("exec=show&node_id=$node_id");
+
 							clearNodeFileCache($object->getNodeId());
 							
 							$links = $object->getLinks();
@@ -92,7 +93,7 @@ class sEdit extends Script
 							$message = "Operation unsuccessfull.<br/>";
 							$message .= "Error output:<br/>";
 							$message .= $object->getLastError();
-							$response->addAlert($message);
+							$system->addAlert($message);
 						}
 					}
 				}
@@ -129,9 +130,9 @@ class sEdit extends Script
 		else
 			$data = compiletpl("message", array("title"=>ucf(i18n("error")), "message"=>ucf(i18n("the specified path is invalid"))));
 		
-		$response->addAssign($this->zone, "innerHTML", utf8e($data));
+		$system->setZoneData($this->zone, utf8e($data));
 		if (!empty($javascript))
-			$response->addScript($javascript);
+			$system->addScript($javascript);
 	}
 }
 ?>

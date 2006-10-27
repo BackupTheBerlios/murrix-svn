@@ -37,8 +37,8 @@ class sDelete extends Script
 					$node_id = getNode($_SESSION['murrix']['path']);
 					clearNodeFileCache($object->getNodeId());
 					$object->deleteNode();
-
-					$response->addScript("setHash('exec=show&node_id=$node_id');");
+					
+					$system->addRedirect("exec=show&node_id=$node_id");
 					return;
 				}
 			}
@@ -63,7 +63,7 @@ class sDelete extends Script
 		else
 			$data = compiletpl("message", array("title"=>ucf(i18n("error")), "message"=>ucf(i18n("the specified path is invalid"))));
 
-		$response->addAssign($this->zone, "innerHTML", utf8e($data));
+		$system->setZoneData($this->zone, utf8e($data));
 	}
 }
 ?>

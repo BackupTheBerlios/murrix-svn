@@ -15,7 +15,7 @@ class sZone extends Script
 		if (is_array($this->events[$event]))
 		{
 			foreach ($this->events[$event] as $key)
-				$response->addAssign($key, "innerHTML", utf8e(compiletpl($this->zones[$key], array())));
+				$system->setZoneData($key, utf8e(compiletpl($this->zones[$key], array())));
 		}
 	}
 
@@ -54,10 +54,10 @@ class sZone extends Script
 		{
 			$zone_args = array();
 			$data = compiletplWithOutput($value, $zone_args);
-			$response->addAssign($key, "innerHTML", utf8e($data));
+			$system->setZoneData($key, utf8e($data));
 			
 			if (!empty($zone_args['output']['js']))
-				$response->addScript($zone_args['output']['js']);
+				$system->addScript($zone_args['output']['js']);
 		}
 	}
 }

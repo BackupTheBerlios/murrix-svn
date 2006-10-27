@@ -14,7 +14,7 @@ class mXML
 		$serializer_options = array(	"addDecl" => true,
 						"encoding" => "UTF8",
 						"indent" => "  ",
-						"rootName" => "murrix_export",
+						"rootName" => "murrix_xml",
 						"defaultTagName" => "container");
 		
 		// Instantiate the serializer with the options
@@ -26,6 +26,8 @@ class mXML
 		
 		if (isset($args['name']))
 			$list['name'] = $args['name'];
+		else
+			$list['name'] = "Unnamed MURRiX XML";
 		
 		if (isset($args['description']))
 			$list['description'] = $args['description'];
