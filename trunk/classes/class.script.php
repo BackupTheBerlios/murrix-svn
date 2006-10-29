@@ -4,6 +4,7 @@ class Script
 {
 	var $zone;
 	var $active;
+	var $actionHandlers;
 	
 	function Script()
 	{
@@ -17,9 +18,35 @@ class Script
 	function eventHandler(&$system, $event, $args)
 	{
 	}
+	
+	function addActionHandler($action)
+	{
+		if (!is_array($this->actionHandlers))
+			$this->actionHandlers = array();
+		
+		if (method_exists($this, $action))
+		{
+			$this->actionHandlers[] = $action;
+			return true;
+		}
+		
+		return false;
+	}
 
 	function execute(&$system, $args)
 	{
+		if (!is_array($this->actionHandlers))
+			$this->actionHandlers = array();
+		
+		if (in_array($args['action'], $this->actionHandlers))
+		{
+			$actionHandler = "action".ucf($args['action']);
+			
+			$this->$actionHandler($system, $args);
+			return;
+		}
+		
+		$this->draw($system, $args);
 	}
 
 	function draw(&$system, $args)

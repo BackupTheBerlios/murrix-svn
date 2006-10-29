@@ -262,7 +262,7 @@ class mSystem
 	
 	function addAlert($msg)
 	{
-		$this->js .= "alert($msg);\n";
+		$this->js .= "alert('$msg');\n";
 	}
 	
 	function addJSScript($js)

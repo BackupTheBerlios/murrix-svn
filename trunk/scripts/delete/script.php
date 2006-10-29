@@ -5,6 +5,7 @@ class sDelete extends Script
 	function sDelete()
 	{
 		$this->zone = "zone_main";
+		$this->addActionHandler("delete");
 	}
 	
 	function eventHandler(&$system, $event, $args)
@@ -21,40 +22,34 @@ class sDelete extends Script
 		}
 	}
 
-	function execute(&$system, $args)
+	function actionDelete(&$system, $args)
 	{
-		if (isset($args['action']) && $args['action'] == "delete")
+		$object = new mObject($this->getNodeId($args));
+
+		if ($object->getNodeId() > 0)
 		{
-			$node_id = $this->getNodeId($args);
-
-			if ($node_id > 0)
+			if ($object->hasRight("write"))
 			{
-				$object = new mObject($node_id);
-	
-				if ($object->hasRight("write"))
-				{
-					$_SESSION['murrix']['path'] = GetParentPath($object->getPathInTree());
-					$node_id = getNode($_SESSION['murrix']['path']);
-					clearNodeFileCache($object->getNodeId());
-					$object->deleteNode();
-					
-					$system->addRedirect("exec=show&node_id=$node_id");
-					return;
-				}
+				$parent_id = getNode(GetParentPath($object->getPathInTree()));
+				
+				$object->deleteNode();
+				
+				$system->addRedirect("exec=show&node_id=$parent_id");
 			}
+			else
+				$system->addAlert(ucf(i18n("not enough rights")));
 		}
-
-		$this->draw($system, $args);
+		else
+			$system->addAlert(ucf(i18n("the specified path is invalid")));
 	}
 	
 	function draw(&$system, $args)
 	{
-		$node_id = $this->getNodeId($args);
+		$object = new mObject($this->getNodeId($args));
 
 		$data = "";
-		if ($node_id > 0)
+		if ($object->getNodeId() > 0)
 		{
-			$object = new mObject($node_id);
 			if ($object->hasRight("write"))
 				$data = compiletpl("scripts/delete", array(), $object);
 			else

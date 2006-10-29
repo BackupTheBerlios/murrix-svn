@@ -5,6 +5,7 @@ class sEdit extends Script
 	function sEdit()
 	{
 		$this->zone = "zone_main";
+		$this->addActionHandler("save");
 	}
 	
 	function eventHandler(&$system, $event, $args)
@@ -21,87 +22,79 @@ class sEdit extends Script
 		}
 	}
 
-	function execute(&$system, $args)
+	function actionSave(&$system, $args)
 	{
-		if (isset($args['action']) && $args['action'] == "save")
+		$bError = false;
+		if (empty($args['name']))
 		{
-			$bError = false;
-			if (empty($args['name']))
-			{
-				$system->addAlert(ucf(i18n("please enter a name")));
-				$bError = true;
-			}
+			$system->addAlert(ucf(i18n("please enter a name")));
+			$bError = true;
+		}
 
-			if (!(strpos($args['name'], "\\") === false) || !(strpos($args['name'], "/") === false) || !(strpos($args['name'], "+") === false))
-			{
-				$system->addAlert(ucf(i18n("you can not use '\\', '/' or '+' in the name")));
-				$bError = true;
-			}
+		if (!(strpos($args['name'], "\\") === false) || !(strpos($args['name'], "/") === false) || !(strpos($args['name'], "+") === false))
+		{
+			$system->addAlert(ucf(i18n("you can not use '\\', '/' or '+' in the name")));
+			$bError = true;
+		}
 
-			if (!$bError)
+		if (!$bError)
+		{
+			$object = new mObject($this->getNodeId($args));
+			if ($object->getNodeId() > 0)
 			{
-				$node_id = $this->getNodeId($args);
-				if ($node_id > 0)
+				if ($object->hasRight("write"))
 				{
-					$object = new mObject($node_id);
+					$object->name = trim($args['name']);
+					$object->icon = trim($args['icon']);
+					
+					$newlang = ($object->getLanguage() != trim($args['language']));
+					$object->language = trim($args['language']);
 	
-					if ($object->hasRight("write"))
+					$vars = $object->getVars();
+	
+					foreach ($vars as $var)
 					{
-						$object->name = trim($args['name']);
-						$object->icon = trim($args['icon']);
+						$key = "v".$var->id;
 						
-						$newlang = ($object->getLanguage() != trim($args['language']));
-						$object->language = trim($args['language']);
-		
-						$vars = $object->getVars();
-		
-						foreach ($vars as $var)
+						$value = (isset($args[$key]) ? $args[$key] : (isset($args[$var->id]) ? $args[$var->id] : ""));
+						
+						if (empty($value) && $var->getRequired() && $var->getType() != "boolean")
 						{
-							$key = "v".$var->id;
-							
-							$value = (isset($args[$key]) ? $args[$key] : (isset($args[$var->id]) ? $args[$var->id] : ""));
-							
-							if (empty($value) && $var->getRequired() && $var->getType() != "boolean")
-							{
-								$system->addAlert(utf8e(ucf(str_replace("_", " ", i18n($var->getName(true))))." ".i18n("is a required field")));
-								return;
-							}
-							
-							$object->setVarValue($var->name, $value);
+							$system->addAlert(utf8e(ucf(str_replace("_", " ", i18n($var->getName(true))))." ".i18n("is a required field")));
+							return;
 						}
 						
-						if ($args['newversion'] == "on" || $newlang)
-							$ret = $object->save();
-						else
-							$ret = $object->saveCurrent();
-							
-						if ($ret)
-						{
-							$system->addRedirect("exec=show&node_id=$node_id");
+						$object->setVarValue($var->name, $value);
+					}
+					
+					if ($args['newversion'] == "on" || $newlang)
+						$ret = $object->save();
+					else
+						$ret = $object->saveCurrent();
+						
+					if ($ret)
+					{
+						$system->addRedirect("exec=show&node_id=".$object->getNodeId());
 
-							clearNodeFileCache($object->getNodeId());
-							
-							$links = $object->getLinks();
-							foreach ($links as $link)
-							{
-								if ($link['type'] == "sub")
-									clearNodeFileCache($link['remote_id']);
-							}
-						}
-						else
+						clearNodeFileCache($object->getNodeId());
+						
+						$links = $object->getLinks();
+						foreach ($links as $link)
 						{
-							$message = "Operation unsuccessfull.<br/>";
-							$message .= "Error output:<br/>";
-							$message .= $object->getLastError();
-							$system->addAlert($message);
+							if ($link['type'] == "sub")
+								clearNodeFileCache($link['remote_id']);
 						}
+					}
+					else
+					{
+						$message = "Operation unsuccessfull.<br/>";
+						$message .= "Error output:<br/>";
+						$message .= $object->getLastError();
+						$system->addAlert($message);
 					}
 				}
 			}
-			return;
 		}
-
-		$this->draw($system, $args);
 	}
 	
 	function draw(&$system, $args)
@@ -131,8 +124,9 @@ class sEdit extends Script
 			$data = compiletpl("message", array("title"=>ucf(i18n("error")), "message"=>ucf(i18n("the specified path is invalid"))));
 		
 		$system->setZoneData($this->zone, utf8e($data));
+		
 		if (!empty($javascript))
-			$system->addScript($javascript);
+			$system->addJSScript($javascript);
 	}
 }
 ?>
