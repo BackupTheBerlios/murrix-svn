@@ -218,7 +218,7 @@ class mObject
 				$version->deleteCurrentVersion();
 		}
 		
-		clearNodeFileCache($object->getNodeId());
+		clearNodeFileCache($this->getNodeId());
 		// Delete all links
 		$links = $this->getLinks();
 		foreach ($links as $link)
