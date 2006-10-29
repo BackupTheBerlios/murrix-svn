@@ -23,8 +23,10 @@ class Script
 	{
 		if (!is_array($this->actionHandlers))
 			$this->actionHandlers = array();
+			
+		$actionHandler = "action".ucf($action);
 		
-		if (method_exists($this, $action))
+		if (method_exists($this, $actionHandler))
 		{
 			$this->actionHandlers[] = $action;
 			return true;

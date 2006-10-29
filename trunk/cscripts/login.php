@@ -36,7 +36,7 @@ class csLogin extends CScript
 			$this->username = $args;
 			$stdout = ucf(i18n("password:"));
 			$this->stage = 1;
-			$response->addAssign("cmdline","type","password");
+			$system->addJSScript("document.getElementById('cmdline').type='password';");
 			return false;
 		}
 		return true;
