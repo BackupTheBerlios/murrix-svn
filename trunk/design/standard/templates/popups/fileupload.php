@@ -28,7 +28,9 @@ if (($str = db_connect()) !== true)
 $root_id = getSetting("ROOT_NODE_ID", 1, "any");
 $anonymous_id = getSetting("ANONYMOUS_ID", 1, "any");
 
-$parent = new mObject(getNode($_SESSION['murrix']['path']));
+$parent_id = getInput("parent_id", getNode($_SESSION['murrix']['path']));
+
+$parent = new mObject($parent_id);
 
 if (!$parent->hasRight("create") && !isAdmin())
 {
@@ -44,7 +46,7 @@ if (isset($_POST['action']) && $_POST['action'] == "upload")
 ?>
 	<script type="text/javascript">
 		parent.document.getElementById('<?=$varid?>').value = '<?=$_FILES['file']['name']?>' + ':' + '<?=$_FILES['file']['tmp_name']."_tmpfile"?>';
-		parent.document.getElementById('n<?=$varid?>').value = '<?=$_FILES['file']['name']?>';
+		parent.document.getElementById('n<?=$varid?>').value = '<?=$_FILES['file']['name']." - ".DownloadSize(filesize($_FILES['file']['tmp_name']."_tmpfile"))?>';
 		self.close();
 	</script>
 	<?
@@ -63,6 +65,7 @@ if (isset($_POST['action']) && $_POST['action'] == "upload")
 				<input style="margin: 0;display: none;" type="hidden" name="MAX_FILE_SIZE" value="2000000"/>
 				<input style="margin: 0;display: none;" type="hidden" name="varid" value="<?=$varid?>"/>
 				<input style="margin: 0;display: none;" name="action" type="hidden" value="upload"/>
+				<input style="margin: 0;display: none;" name="parent_id" type="hidden" value="<?=$parent->getNodeId()?>"/>
 				<input style="margin: 0;" name="file" type="file"/>
 				<input style="margin: 0;" name="submit" type="submit" value="Upload"/>
 			</div>

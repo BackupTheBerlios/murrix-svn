@@ -397,4 +397,18 @@ function mergesort(&$array, $sortby)
 		$array[] = $array2[$ptr2++];
 }
 
+function getNodeIdTree($root_id)
+{
+	$node_ids = array($root_id);
+	
+	$table = new mTable("links");
+	
+	$links = $table->get("`type`='sub' AND `node_top`='$root_id'");
+	
+	foreach ($links as $link)
+		$node_ids = array_merge($node_ids, getNodeIdTree($link['node_bottom']));
+	
+	return $node_ids;
+}
+
 ?>

@@ -26,11 +26,13 @@ $templates_override['scripts/show/line.php'][$count]['match']['class'] = "link";
 
 
 
-$count++;
+$count = 0;
 $templates_override['scripts/show/children.php'][$count]['filename'] = "overrides/scripts/show/children-contact.php";
 $templates_override['scripts/show/children.php'][$count]['match']['class'] = "contact";
 
-
+$count++;
+$templates_override['scripts/show/children.php'][$count]['filename'] = "overrides/scripts/show/children-account.php";
+$templates_override['scripts/show/children.php'][$count]['match']['class'] = "account";
 
 
 
@@ -75,5 +77,9 @@ $templates_override['scripts/show/data.php'][$count]['match']['class'] = "folder
 $count++;
 $templates_override['scripts/show/data.php'][$count]['filename'] = "overrides/scripts/show/data-folder.php";
 $templates_override['scripts/show/data.php'][$count]['match']['class'] = "file_folder";
+
+$count++;
+$templates_override['scripts/show/data.php'][$count]['filename'] = "overrides/scripts/show/data-account.php";
+$templates_override['scripts/show/data.php'][$count]['match']['class'] = "account";
 
 ?>

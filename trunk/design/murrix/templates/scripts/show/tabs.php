@@ -135,6 +135,21 @@ if ($object->hasRight("create"))
 	$text .= cmd($titel, "exec=upload&node_id=".$object->getNodeId(), array("onmouseup"=>"document.getElementById('adminpanel').style.display='none'", "class"=>$class));
 }
 
+if ($object->hasRight("create"))
+{
+	$titel = img(geticon("menu"))."&nbsp;".ucf(i18n("import"));
+	
+	if ($args['view'] == "import")
+	{
+		$current = $titel;
+		$class = "tab_selected";
+	}
+	else
+		$class = "tab";
+		
+	$text .= cmd($titel, "exec=import&node_id=".$object->getNodeId(), array("onmouseup"=>"document.getElementById('adminpanel').style.display='none'", "class"=>$class));
+}
+
 if (!empty($text))
 {
 ?>

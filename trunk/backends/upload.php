@@ -21,6 +21,7 @@ require_once("$abspath/system/filecache.php");
 require_once("$abspath/system/objectcache.php");
 require_once("$abspath/system/settings.php");
 require_once("$abspath/system/user.php");
+require_once("$abspath/system/class.php");
 
 session_id($_GET['PHPSESSID']);
 

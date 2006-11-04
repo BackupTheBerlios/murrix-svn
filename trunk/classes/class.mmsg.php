@@ -23,11 +23,17 @@ class mMsg
 		
 		$GLOBALS['murrix']['messages'][$id] = $message;
 		
-		return $id;
+		if ($error)
+			return -$id;
+		else
+			return $id;
 	}
 	
 	function isError($id)
 	{
+		if ($id < 0)
+			$id = -$id;
+			
 		if (isset($GLOBALS['murrix']['messages'][$id]))
 			return $GLOBALS['murrix']['messages'][$id];
 		
@@ -36,6 +42,9 @@ class mMsg
 	
 	function get($id)
 	{
+		if ($id < 0)
+			$id = -$id;
+	
 		if (isset($GLOBALS['murrix']['messages'][$id]))
 			return $GLOBALS['murrix']['messages'][$id];
 		
@@ -44,6 +53,9 @@ class mMsg
 	
 	function getText($id)
 	{
+		if ($id < 0)
+			$id = -$id;
+	
 		if (isset($GLOBALS['murrix']['messages'][$id]))
 			return $GLOBALS['murrix']['messages'][$id]['text'];
 		

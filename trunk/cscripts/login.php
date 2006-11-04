@@ -20,7 +20,7 @@ class csLogin extends CScript
 					}
 					else
 					{
-						$system->TriggerEventIntern($response, "login", array());
+						$system->triggerEventIntern("login", array());
 						//$response->addScript("window.location.reload()");
 						
 						$user = new mUser();

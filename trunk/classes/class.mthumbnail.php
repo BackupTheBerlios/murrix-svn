@@ -23,6 +23,11 @@ class mThumbnail
 		$this->SetByArray(mysql_fetch_array($result, MYSQL_ASSOC));
 	}
 	
+	function getId()
+	{
+		return $this->id;
+	}
+	
 	function setBySize($value_id, $maxwidth, $maxheight, $angle = "")
 	{
 		global $db_prefix, $abspath;

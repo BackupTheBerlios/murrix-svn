@@ -6,7 +6,7 @@ class csLogout extends CScript
 	{
 		logout();
 
-		$system->TriggerEventIntern($response, "logout", array());
+		$system->triggerEventIntern("logout", array());
 		$stdout = ucf(i18n("logout successfull"));
 		return true;
 	}

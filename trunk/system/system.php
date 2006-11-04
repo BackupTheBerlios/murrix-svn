@@ -7,6 +7,7 @@ class mSystem
 	var $xajax;
 	var $scripts;
 	var $zones;
+	var $ajax_zones;
 	var $js;
 	
 	var $ajax;
@@ -104,6 +105,8 @@ class mSystem
 			foreach ($this->zones as $name => $value)
 				$this->zones[$name]['changed'] = false;
 		}
+		
+		$this->ajax_zones = array();
 			
 		$this->js = "";
 	
@@ -158,6 +161,12 @@ class mSystem
 			}
 		}
 		
+		if (count($this->ajax_zones) > 0)
+		{
+			foreach ($this->ajax_zones as $name => $value)
+				$response->addAssign($name, "innerHTML", $value);
+		}
+		
 		$response->addScript($this->js);
 		$response->addScript("Behaviour.apply();");
 		$response->addScript("endScript('$event');");
@@ -191,6 +200,12 @@ class mSystem
 		{
 			if ($this->zones[$name]['changed'])
 				$response->addAssign($name, "innerHTML", $this->zones[$name]['data']);
+		}
+		
+		if (count($this->ajax_zones) > 0)
+		{
+			foreach ($this->ajax_zones as $name => $value)
+				$response->addAssign($name, "innerHTML", $value);
 		}
 		
 		$response->addScript($this->js);
@@ -270,6 +285,11 @@ class mSystem
 		$this->js .= "$js\n";
 	}
 	
+	function setAjaxZoneData($name, $data)
+	{
+		$this->ajax_zones[$name] = $data;
+	}
+	
 	function setZoneData($name, $data)
 	{
 		$this->zones[$name]['data'] = $data;
@@ -279,6 +299,12 @@ class mSystem
 	function addZoneData($name, $data)
 	{
 		$this->zones[$name]['data'] .= $data;
+		$this->zones[$name]['changed'] = true;
+	}
+	
+	function paddZoneData($name, $data)
+	{
+		$this->zones[$name]['data'] = $data.$this->zones[$name]['data'];
 		$this->zones[$name]['changed'] = true;
 	}
 	

@@ -24,6 +24,7 @@ require_once("system/objectcache.php");
 require_once("system/settings.php");
 require_once("system/user.php");
 require_once("system/class.php");
+require_once("system/import.php");
 
 
 /* ========================= */

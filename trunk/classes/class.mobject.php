@@ -906,13 +906,24 @@ class mObject
 	function setIcon($icon) { $this->icon = $icon; }
 	function getIcon($class = true)
 	{
-		if (empty($this->icon) && $this->class_name == "file")
-			return getfiletype(pathinfo($this->getVarValue("file"), PATHINFO_EXTENSION));
-	
-		if (empty($this->icon) && $class)
+		if ($class)
+		{
+			if (empty($this->class_icon))
+				$this->loadClassIcon();
+				
 			return $this->class_icon;
-			
-		return $this->icon;
+		}
+		
+		if (!empty($this->icon))
+			return $this->icon;
+	
+		if ($this->getClassName() == "file")
+			return getfiletype(pathinfo($this->getVarValue("file"), PATHINFO_EXTENSION));
+		
+		if (empty($this->class_icon))
+				$this->loadClassIcon();
+				
+		return $this->class_icon;
 	}
 
 	var $user_id;

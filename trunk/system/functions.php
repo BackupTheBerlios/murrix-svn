@@ -1,5 +1,43 @@
 <?
 
+if (!function_exists('substr_compare'))
+{
+	function substr_compare($main_str, $str, $offset, $length = NULL, $case_insensitivity = false)
+	{
+		$offset = (int) $offset;
+		
+		// Throw a warning because the offset is invalid
+		if ($offset >= strlen($main_str))
+		{
+			trigger_error('The start position cannot exceed initial string length.', E_USER_WARNING);
+			return false;
+		}
+		
+		// We are comparing the first n-characters of each string, so let's use the PHP function to do it
+		if ($offset == 0 && is_int($length) && $case_insensitivity === true)
+			return strncasecmp($main_str, $str, $length);
+		
+		// Get the substring that we are comparing
+		if (is_int($length))
+		{
+			$main_substr = substr($main_str, $offset, $length);
+			$str_substr = substr($str, 0, $length);
+		}
+		else
+		{
+			$main_substr = substr($main_str, $offset);
+			$str_substr = $str;
+		}
+		
+		// Return a case-insensitive comparison of the two strings
+		if ($case_insensitivity === true)
+			return strcasecmp($main_substr, $str_substr);
+		
+		// Return a case-sensitive comparison of the two strings
+		return strcmp($main_substr, $str_substr);
+	}
+}
+
 function _strnatcasecmp($left, $right)
 {
 	return _strnatcmp(strtolower($left), strtolower($right));
@@ -101,32 +139,7 @@ function get_browser_name()
 	return $name;
 }
 
-function createObject($parent, $name, $class = "folder", $values = null)
-{
-	$object = new mObject();
-	$object->setClassName($class);
-	$object->loadVars();
 
-	$object->name = $name;
-	$object->language = $_SESSION['murrix']['language'];
-	$object->rights = $parent->getMeta("initial_rights", $parent->getRights());
-	
-	if (is_array($values))
-	{
-		foreach ($values as $key => $value)
-			$object->setVarValue($key, $value);
-	}
-
-	if ($object->save())
-	{
-		guessObjectType($object);
-		$object->linkWithNode($parent->getNodeId());
-		clearNodeFileCache($parent->getNodeId());
-		return $object->getNodeId();
-	}
-	
-	return false;
-}
 
 function getAge($birthdate, $now = "now")
 {
@@ -365,8 +378,32 @@ function db_connect()
 	return true;
 }
 
+function extractPath($path)
+{
+	$path = ltrim($path, "/");
+	$parts = explode("/", $path);
+	$parts = array_reverse($parts);
+	
+	$path = "";
+	
+	for ($n = 0; $n < count($parts); $n++)
+	{
+		if ($parts[$n] == "..")
+		{
+			$n++;
+			continue;
+		}
+		
+		$path = "/".$parts[$n].$path;
+	}
+	
+	return "$path/";
+}
+
 function GetParentPath($path)
 {
+	$path = rtrim($path, "/");
+
 	$paths = explode("/", $path);
 	array_pop($paths);
 	return implode("/", $paths);
@@ -440,26 +477,10 @@ function GetSubfiles($dir)
 
 function GetSubfilesAndSubfolders($dir)
 {
-	$files = array();
-	if (!file_exists($dir))
-		return $files;
+	$folders = GetSubfolders($dir);
+	$files = GetSubfiles($dir);
 
-	$dh = opendir($dir);
-	while (false !== ($filename = readdir($dh)))
-	{
-		if ($filename[0] != ".")
-			$files[] = $filename;
-	}
-
-	closedir($dh);
-	
-	if (count($files) > 0)
-	{
-		natcasesort($files);
-		$files = array_values($files);
-	}
-
-	return $files;
+	return array_merge($folders, $files);
 }
 
 function is_binary($link)
@@ -591,7 +612,7 @@ function DownloadSize($size)
 		$ext  = $sizes[$i];
 	}
 
-	return round($size, 2)."&nbsp;".$ext;
+	return round($size, 2)." ".$ext;
 }
 
 ?>

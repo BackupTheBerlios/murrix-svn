@@ -37,6 +37,11 @@ class mVar
 		$this->value_id = isset($array['value_id']) ? $array['value_id'] : "";
 	}
 	
+	function getId()
+	{
+		return $this->id;
+	}
+	
 	function getName($raw = false)
 	{
 		if ($raw)

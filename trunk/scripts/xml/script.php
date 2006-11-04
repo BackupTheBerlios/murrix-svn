@@ -63,7 +63,7 @@ class sXML extends Script
 			$extension = pathinfo($filename, PATHINFO_EXTENSION);
 			if ($extension == "bz2")
 			{
-				echo "Found bz2-compressed file.</br>";
+				echo "Found bz2-compressed file.<br/>";
 				$bz = bzopen($full_filename, "r");
 				while (!feof($bz))
 					$data .= bzread($bz, 4096);
@@ -71,7 +71,7 @@ class sXML extends Script
 			}
 			else
 			{
-				echo "Found uncompressed file.</br>";
+				echo "Found uncompressed file.<br/>";
 				$bz = fopen($full_filename, "r");
 				while (!feof($bz))
 					$data .= fread($bz, 4096);
