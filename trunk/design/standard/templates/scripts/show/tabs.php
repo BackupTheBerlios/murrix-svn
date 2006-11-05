@@ -30,7 +30,7 @@ if ($object->hasRight("create"))
 {
 	$text .= cmd(img(geticon("file"))."&nbsp;".ucf(i18n("new")), "exec=new&node_id=".$object->getNodeId(), ($args['view'] == "new" ? "tab_selected" : "tab"));
 	
-	$text .= cmd(img(geticon("attach"))."&nbsp;".ucf(i18n("upload")), "exec=upload&node_id=".$object->getNodeId(), ($args['view'] == "upload" ? "tab_selected" : "tab"));
+	$text .= cmd(img(geticon("menu"))."&nbsp;".ucf(i18n("import")), "exec=import&node_id=".$object->getNodeId(), ($args['view'] == "import" ? "tab_selected" : "tab"));
 }
 
 if (!empty($text))

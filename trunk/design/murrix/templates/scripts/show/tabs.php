@@ -122,21 +122,6 @@ if ($object->hasRight("create"))
 	$text .= cmd($titel, "exec=new&node_id=".$object->getNodeId(), array("onmouseup"=>"document.getElementById('adminpanel').style.display='none'", "class"=>$class));
 
 
-	$titel = img(geticon("attach"))."&nbsp;".ucf(i18n("upload"));
-	
-	if ($args['view'] == "upload")
-	{
-		$current = $titel;
-		$class = "tab_selected";
-	}
-	else
-		$class = "tab";
-		
-	$text .= cmd($titel, "exec=upload&node_id=".$object->getNodeId(), array("onmouseup"=>"document.getElementById('adminpanel').style.display='none'", "class"=>$class));
-}
-
-if ($object->hasRight("create"))
-{
 	$titel = img(geticon("menu"))."&nbsp;".ucf(i18n("import"));
 	
 	if ($args['view'] == "import")
