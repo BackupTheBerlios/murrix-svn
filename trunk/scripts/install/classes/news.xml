@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF8"?>
+<murrix_xml>
+	<version>0.7 alpha</version>
+	<created>2006-11-04 22:41:47</created>
+	<name>MURRiX Class XML - news</name>
+	<container>
+		<xmldata>class</xmldata>
+		<name>news</name>
+		<icon>news</icon>
+		<variables>
+			<expire>
+				<priority>10</priority>
+				<type>date</type>
+				<required>1</required>
+				<extra />
+				<comment />
+			</expire>
+			<text>
+				<priority>20</priority>
+				<type>xhtml</type>
+				<required>1</required>
+				<extra>Default</extra>
+				<comment />
+			</text>
+		</variables>
+		<metadata>
+			<comment_show_num_per_page>all</comment_show_num_per_page>
+			<show_comments>1</show_comments>
+		</metadata>
+	</container>
+</murrix_xml>

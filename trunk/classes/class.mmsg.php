@@ -35,7 +35,7 @@ class mMsg
 			$id = -$id;
 			
 		if (isset($GLOBALS['murrix']['messages'][$id]))
-			return $GLOBALS['murrix']['messages'][$id];
+			return $GLOBALS['murrix']['messages'][$id]['error'];
 		
 		return false;
 	}

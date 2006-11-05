@@ -4,20 +4,542 @@ class sInstall extends Script
 {
 	function sInstall()
 	{
-		$this->admin_password = "";
-		$this->admin_username = "admin";
-		$this->db_address = "localhost";
-		$this->db_name = "murrix";
-		$this->db_prefix = "murrix_";
-		$this->db_username = "";
-		$this->db_password = "";
-		$this->site = "standard";
-		$this->db_exists = false;
-		$this->db_tables = false;
+		$this->db = array();
+		$this->db['adress'] = "localhost";
+		$this->db['name'] = "murrix";
+		$this->db['prefix'] = "murrix_";
+		$this->db['address'] = "localhost";
+		$this->db['username'] = "";
+		$this->db['password'] = "";
+		
+		$this->config = array();
+		$this->config['username'] = "admin";
+		$this->config['password'] = "";
+		$this->config['theme'] = "murrix";
+		$this->config['imgsize'] = 550;
+		$this->config['thumbsize'] = 150;
+		$this->config['instantthumbs'] = "true";
+		$this->config['default_path'] = "/root/public";
+		$this->config['default_lang'] = "eng";
+		$this->config['transport'] = "standard";
+	
 		$this->zone = "zone_main";
+		
+		$this->addActionHandler("preinstall");
+		$this->addActionHandler("license");
+		$this->addActionHandler("database");
+		$this->addActionHandler("databasecheck");
+		$this->addActionHandler("config");
+		$this->addActionHandler("finish");
 	}
 	
-	function execute(&$system, $args)
+	function actionPreinstall(&$system, $args)
+	{
+		$checks = array();
+		
+		// Check PHP version
+		// Check MySQL support and version
+		
+		global $abspath;
+		
+		$checks['root']['text'] = "Checking if '$abspath' is writable";
+		$checks['root']['status'] = is_writable("$abspath");
+		$checks['root']['fatal'] = true;
+		
+		$checks['cache']['text'] = "Checking if '$abspath/cache' is writable";
+		$checks['cache']['status'] = is_writable("$abspath/cache");
+		$checks['cache']['fatal'] = true;
+		
+		$checks['files']['text'] = "Checking if '$abspath/files' is writable";
+		$checks['files']['status'] = is_writable("$abspath/files");
+		$checks['files']['fatal'] = true;
+		
+		$checks['thumbnails']['text'] = "Checking if '$abspath/thumbnails' is writable";
+		$checks['thumbnails']['status'] = is_writable("$abspath/thumbnails");
+		$checks['thumbnails']['fatal'] = true;
+	
+		$data = compiletpl("preinstall", array("checks"=>$checks));
+		$system->setZoneData($this->zone, utf8e($data));
+		
+		$data = compiletpl("menu", array("action"=>"preinstall"));
+		$system->setZoneData("zone_menu", utf8e($data));
+	}
+	
+	function actionLicense(&$system, $args)
+	{
+		$data = compiletpl("license", array());
+		$system->setZoneData($this->zone, utf8e($data));
+		
+		$data = compiletpl("menu", array("action"=>"license"));
+		$system->setZoneData("zone_menu", utf8e($data));
+	}
+	
+	function actionDatabase(&$system, $args)
+	{
+		$data = compiletpl("database", $this->db);
+		$system->setZoneData($this->zone, utf8e($data));
+		
+		$data = compiletpl("menu", array("action"=>"database"));
+		$system->setZoneData("zone_menu", utf8e($data));
+	}
+	
+	function actionDatabasecheck(&$system, $args)
+	{
+		global $abspath;
+		
+		if (empty($args['adress']))
+		{
+			$system->addAlert("You must enter a server adress");
+			return;
+		}
+		
+		if (empty($args['name']))
+		{
+			$system->addAlert("You must enter a database name");
+			return;
+		}
+		
+		if (empty($args['username']))
+		{
+			$system->addAlert("You must enter a username");
+			return;
+		}
+		
+		if (empty($args['password']))
+		{
+			$system->addAlert("You must enter a password");
+			return;
+		}
+		
+		unset($args['action']);
+		$this->db = $args;
+		
+		$checks = array();
+
+		$checks['connect']['text'] = "Trying to connect to database";
+		$checks['connect']['fatal'] = true;
+
+		if (!$db_conn = @mysql_connect($this->db['adress'], $this->db['username'], $this->db['password']))
+		{
+			$checks['connect']['status'] = false;
+			//$logtext .= "Error connecting to MySQL: " . mysql_errno() . " " . mysql_error()."<br/>";
+		}
+		else
+		{
+			$checks['connect']['status'] = true;
+			
+			$checks['database']['text'] = "Checking for existing database";
+			$checks['database']['fatal'] = false;
+			
+			
+				
+			if (mysql_select_db($this->db['name']))
+			{
+				$checks['database']['status'] = true;
+			
+				$checks['tables']['text'] = "Checking for existing tables";
+				$checks['tables']['fatal'] = false;
+				$checks['tables']['status'] = false;
+				
+				$files = GetSubfiles("$abspath/scripts/install/db");
+				foreach ($files as $table)
+				{
+					$table = basename($table, ".sql");
+					if (mysql_query("SELECT * FROM `".$this->db['prefix']."$table`"))
+					{
+						$checks['tables']['status'] = true;
+						break;
+					}
+				}
+			}
+			else
+				$checks['database']['status'] = false;
+		}
+		
+		
+		$data = compiletpl("databasecheck", array("checks"=>$checks));
+		$system->setZoneData($this->zone, utf8e($data));
+		
+		$data = compiletpl("menu", array("action"=>"databasecheck"));
+		$system->setZoneData("zone_menu", utf8e($data));
+	}
+	
+	function actionConfig(&$system, $args)
+	{
+		$data = compiletpl("config", $this->config);
+		$system->setZoneData($this->zone, utf8e($data));
+		
+		$data = compiletpl("menu", array("action"=>"config"));
+		$system->setZoneData("zone_menu", utf8e($data));
+	}
+	
+	function actionFinish(&$system, $args)
+	{
+		global $abspath, $db_prefix;
+		$db_prefix = $this->db['prefix'];
+		
+		if (empty($args['theme']))
+		{
+			$system->addAlert("You must enter select a theme");
+			return;
+		}
+		
+		if (empty($args['imgsize']))
+		{
+			$system->addAlert("You must enter a imagesize");
+			return;
+		}
+		
+		if (empty($args['thumbsize']))
+		{
+			$system->addAlert("You must enter a thumbnailsize");
+			return;
+		}
+		
+		if (empty($args['default_lang']))
+		{
+			$system->addAlert("You must enter a default language");
+			return;
+		}
+		
+		if (empty($args['default_path']))
+		{
+			$system->addAlert("You must enter a default path");
+			return;
+		}
+		
+		if (empty($args['password']))
+		{
+			$system->addAlert("You must enter a password");
+			return;
+		}
+		
+		unset($args['action']);
+		$this->config = $args;
+		
+		
+		$logtext = "";
+			
+		if (!$db_conn = mysql_pconnect($this->db['adress'], $this->db['username'], $this->db['password']))
+		{
+			$system->addAlert("Error connecting to MySQL: " . mysql_errno() . " " . mysql_error());
+			return;
+		}
+			
+		if (!mysql_select_db($this->db['name']))
+		{
+			if (mysql_query("CREATE DATABASE `".$this->db['name']."`"))
+				$logtext .= "Database ".$this->db['name']." created.<br/>";
+			else
+			{
+				$system->addAlert("Failed to create database ".$this->db['name'].". Error: " . mysql_errno() . " " . mysql_error());
+				return;
+			}
+		}
+
+		mysql_select_db($this->db['name']);
+		
+		$files = GetSubfiles("$abspath/scripts/install/db");
+		foreach ($files as $file)
+		{
+			$query = "DROP TABLE IF EXISTS `".$this->db['prefix'].basename($file, ".sql")."`";
+			mysql_query($query);
+		
+			$query = str_replace("%PREFIX%", $this->db['prefix'], implode("", file("$abspath/scripts/install/db/$file")));
+			
+			if (mysql_query($query))
+				$logtext .= "Imported $file successfully.<br/>";
+			else
+			{
+				$system->addAlert("Failed to import $file. Error: " . mysql_errno() . " " . mysql_error()."\n$query");
+				return;
+			}
+		}
+		
+		$xml = new mXml();
+		
+		$files = GetSubfiles("$abspath/scripts/install/classes");
+		foreach ($files as $file)
+		{
+			$filedata = getFileData($file, "$abspath/scripts/install/classes/$file");
+			$msgid = $xml->parseXML(array("node_id" => 0, "data" => $filedata));
+			
+			$logtext .= mMsg::getText($msgid);
+			
+			if (mMsg::isError($msgid))
+			{
+				$system->addAlert(mMsg::getError($msgid));
+				return;
+			}
+			else
+				$logtext .= "Imported $file successfully.<br/>";
+		}
+
+		// Create initial groups
+		$administrator_group = new mGroup();
+		$administrator_group->name = "admins";
+		$administrator_group->description = "Administrators group";
+		$administrator_group->save();
+		
+		// Create initial users
+		
+		$anonymous = new mUser();
+		$anonymous->name = "Anonymous";
+		$anonymous->username = "";
+		$anonymous->password = "";
+		$anonymous->home = "";
+		$anonymous->groups = "";
+		$anonymous->save();
+		
+		$administrator = new mUser();
+		$administrator->name = "Administrator";
+		$administrator->username = "admin";
+		$administrator->password = md5($this->config['password']);
+		$administrator->home_id = 0;
+		$administrator->groups = "admins";
+		$administrator->save();
+		
+		$_SESSION['murrix']['user'] = $administrator;
+		
+		
+		$files = GetSubfiles("$abspath/scripts/install/objects");
+		foreach ($files as $file)
+		{
+			$filedata = getFileData($file, "$abspath/scripts/install/objects/$file");
+			$msgid = $xml->parseXML(array("node_id" => 0, "data" => $filedata));
+			
+			$logtext .= mMsg::getText($msgid);
+			
+			if (mMsg::isError($msgid))
+			{
+				$system->addAlert(mMsg::getError($msgid));
+				return;
+			}
+			else
+				$logtext .= "Imported $file successfully.<br/>";
+		}
+		
+		$files = GetSubfiles("$abspath/cache");
+		foreach ($files as $file)
+			unlink("$abspath/cache/$file");
+			
+		$files = GetSubfiles("$abspath/files");
+		foreach ($files as $file)
+			unlink("$abspath/files/$file");
+			
+		$files = GetSubfiles("$abspath/thumbnails");
+		foreach ($files as $file)
+			unlink("$abspath/thumbnails/$file");
+		
+		// Insert initial objects
+/*
+		$root_obj = new mObject();
+		$root_obj->setClassName("folder");
+		$root_obj->loadVars();
+		$root_obj->setLanguage("eng");
+		$root_obj->setName("root");
+		$root_obj->setIcon("murrix");
+		$root_obj->setRights("all=r");
+		
+		$root_obj->setVarValue("description", "This is the root node");
+
+		if ($root_obj->save())
+		{
+			$root_obj->setMeta("initial_rights", "admins=rwc");
+			$logtext .= "Created ".$root_obj->getName().".<br/>";
+		}
+		else
+		{
+			$logtext .= "Failed to create ".$root_obj->getName().".<br/>";
+			$logtext .= $root_obj->error;
+			$this->done = false;
+		}
+
+		$home_obj = new mObject();
+		$home_obj->setClassName("folder");
+		$home_obj->loadVars();
+		$home_obj->setLanguage("eng");
+		$home_obj->setName("home");
+		$home_obj->setIcon("home");
+		$home_obj->setRights("all=r");
+
+		$home_obj->setVarValue("description", "This folder contain home folders");
+		
+		if ($home_obj->save())
+		{
+			$home_obj->linkWithNode($root_obj->getNodeId());
+			$logtext .= "Created ".$home_obj->getName().".<br/>";
+		}
+		else
+		{
+			$logtext .= "Failed to create ".$home_obj->getName().".<br/>";
+			$logtext .= $home_obj->error;
+			$this->done = false;
+		}
+		
+		$users_home_obj = new mObject();
+		$users_home_obj->setClassName("folder");
+		$users_home_obj->loadVars();
+		$users_home_obj->setLanguage("eng");
+		$users_home_obj->setName("users");
+		$users_home_obj->setIcon("user");
+		$users_home_obj->setRights("all=r");
+
+		$users_home_obj->setVarValue("description", "This folder contain home folders");
+		
+		if ($users_home_obj->save())
+		{
+			$users_home_obj->linkWithNode($home_obj->getNodeId());
+			$logtext .= "Created ".$users_home_obj->getName().".<br/>";
+		}
+		else
+		{
+			$logtext .= "Failed to create ".$users_home_obj->getName().".<br/>";
+			$logtext .= $users_home_obj->error;
+			$this->done = false;
+		}
+		
+		$group_home_obj = new mObject();
+		$group_home_obj->setClassName("folder");
+		$group_home_obj->loadVars();
+		$group_home_obj->setLanguage("eng");
+		$group_home_obj->setName("groups");
+		$group_home_obj->setIcon("group2");
+		$group_home_obj->setRights("all=r");
+
+		$users_home_obj->setVarValue("description", "This folder contain group folders");
+		
+		if ($group_home_obj->save())
+		{
+			$group_home_obj->linkWithNode($home_obj->getNodeId());
+			$logtext .= "Created ".$group_home_obj->getName().".<br/>";
+		}
+		else
+		{
+			$logtext .= "Failed to create ".$group_home_obj->getName().".<br/>";
+			$logtext .= $group_home_obj->error;
+			$this->done = false;
+		}
+		
+		$adminhome_obj = new mObject();
+		$adminhome_obj->setClassName("folder");
+		$adminhome_obj->loadVars();
+		$adminhome_obj->setLanguage("eng");
+		$adminhome_obj->setName($this->admin_username);
+		$adminhome_obj->setRights("admins=rwc");
+
+		$adminhome_obj->setVarValue("description", "This is the home for ".$this->admin_username);
+		
+		if ($adminhome_obj->save())
+		{
+			$adminhome_obj->linkWithNode($users_home_obj->getNodeId());
+			$logtext .= "Created ".$adminhome_obj->getName().".<br/>";
+			
+			$administrator->home_id = $adminhome_obj->getNodeId();
+			$administrator->save();
+		}
+		else
+		{
+			$logtext .= "Failed to create ".$adminhome_obj->getName().".<br/>";
+			$logtext .= $adminhome_obj->error;
+			$this->done = false;
+		}
+		
+		$adminshome_obj = new mObject();
+		$adminshome_obj->setClassName("folder");
+		$adminshome_obj->loadVars();
+		$adminshome_obj->setLanguage("eng");
+		$adminshome_obj->setName("admins");
+		$adminshome_obj->setRights("admins=rwc");
+
+		$adminshome_obj->setVarValue("description", "This is the home for admins");
+		
+		if ($adminshome_obj->save())
+		{
+			$adminshome_obj->linkWithNode($group_home_obj->getNodeId());
+			$logtext .= "Created ".$adminshome_obj->getName().".<br/>";
+			
+			$administrator_group->home_id = $adminshome_obj->getNodeId();
+			$administrator_group->save();
+		}
+		else
+		{
+			$logtext .= "Failed to create ".$adminshome_obj->getName().".<br/>";
+			$logtext .= $adminshome_obj->error;
+			$this->done = false;
+		}
+		
+		$public_obj = new mObject();
+		$public_obj->setClassName("folder");
+		$public_obj->loadVars();
+		$public_obj->setLanguage("eng");
+		$public_obj->setName("public");
+		$public_obj->setRights("all=r");
+
+		$public_obj->setVarValue("description", "This folder is readable by anyone");
+		
+		if ($public_obj->save())
+		{
+			$public_obj->linkWithNode($root_obj->getNodeId());
+			$logtext .= "Created ".$public_obj->getName().".<br/>";
+		}
+		else
+		{
+			$logtext .= "Failed to create ".$public_obj->getName().".<br/>";
+			$logtext .= $public_obj->error;
+			$this->done = false;
+		}
+		*/
+		
+		
+		
+		setSetting("ROOT_NODE_ID",	1,				"any");
+		setSetting("ANONYMOUS_ID",	$anonymous->id,			"any");
+		setSetting("TRANSPORT",		$this->config['transport'],	"any");
+		setSetting("DEFAULT_THEME",	$this->config['theme'],		"any");
+		
+		setSetting("IMGSIZE",		$this->config['imgsize'],	$this->config['theme']);
+		setSetting("THUMBSIZE",		$this->config['thumbsize'],	$this->config['theme']);
+		setSetting("INSTANTTHUMBS",	$this->config['instantthumbs'],	$this->config['theme']);
+		setSetting("DEFAULT_PATH",	$this->config['default_path'],	$this->config['theme']);
+		setSetting("DEFAULT_LANG",	$this->config['default_lang'],	$this->config['theme']);
+
+		$confdata = "<?\n";
+		$confdata .= "\$mysql_address = \"".$this->db['adress']."\";\n";
+		$confdata .= "\$mysql_user = \"".$this->db['username']."\";\n";
+		$confdata .= "\$mysql_pass = \"".$this->db['password']."\";\n";
+		$confdata .= "\$mysql_db = \"".$this->db['name']."\";\n";
+		$confdata .= "\$db_prefix = \"".$this->db['prefix']."\";\n";
+		$confdata .= "?>";
+
+		if (is_writable($abspath))
+		{
+			$conffile = fopen("$abspath/config.inc.php", "w");
+			fwrite($conffile, $confdata);
+			fclose($conffile);
+			chmod("$abspath/config.inc.php", 0600);
+			$logtext .= "Wrote config, $abspath/config.inc.php.<br/>";
+		}
+		else
+		{
+			$logtext .= "Unable to write config file.<br/>";
+			$logtext .= "Please put the folowing into \"config.inc.php\" and place it in MURRiXs rootpath:<br/>";
+			$logtext .= "<br/>";
+			$logtext .= nl2br(htmlentities($confdata));
+			$logtext .= "<br/>";
+		}
+		
+		$logtext .= "Installation complete!<br/>";
+		
+		
+		$data = compiletpl("finish", array("logtext"=>$logtext));
+		$system->setZoneData($this->zone, utf8e($data));
+		
+		$data = compiletpl("menu", array("action"=>"finish"));
+		$system->setZoneData("zone_menu", utf8e($data));
+	}
+	
+	/*function execute(&$system, $args)
 	{
 		global $abspath, $wwwpath, $db_prefix;
 
@@ -73,22 +595,22 @@ class sInstall extends Script
 				return;
 			}
 
-			$this->db_log = "";
+			$logtext = "";
 
 			if (!$db_conn = @mysql_connect($this->db_address, $this->db_username, $this->db_password))
 			{
-				$this->db_login = false;
-				$this->db_log .= "Error connecting to MySQL: " . mysql_errno() . " " . mysql_error()."<br/>";
+				$logtextin = false;
+				$logtext .= "Error connecting to MySQL: " . mysql_errno() . " " . mysql_error()."<br/>";
 			}
 			else
 			{
-				$this->db_login = true;
+				$logtextin = true;
 				$this->db_tables = false;
 				
 				if (mysql_select_db($this->db_name))
 				{
 					$this->db_exists = true;
-					$this->db_log .= "Database ".$this->db_name." exists.<br/>";
+					$logtext .= "Database ".$this->db_name." exists.<br/>";
 
 					$files = GetSubfiles("$abspath/scripts/install/db");
 					foreach ($files as $table)
@@ -96,7 +618,7 @@ class sInstall extends Script
 						$table = basename($table, ".sql");
 						if (mysql_query("SELECT * FROM `".$this->db_prefix."$table`"))
 						{
-							$this->db_log .= "Table ".$this->db_prefix."$table exists.<br/>";
+							$logtext .= "Table ".$this->db_prefix."$table exists.<br/>";
 							$this->db_tables = true;
 							$db_prefix = $this->db_prefix;
 						}
@@ -112,12 +634,12 @@ class sInstall extends Script
 		else if ($args['stage'] == 7)
 		{
 			$this->done = true;
-			$this->db_log = "";
+			$logtext = "";
 			
 			if (!$db_conn = mysql_pconnect($this->db_address, $this->db_username, $this->db_password))
 			{
 				$this->done = false;
-				$this->db_log .= "Error connecting to MySQL: " . mysql_errno() . " " . mysql_error()."<br/>";
+				$logtext .= "Error connecting to MySQL: " . mysql_errno() . " " . mysql_error()."<br/>";
 			}
 
 			if ($this->done)
@@ -125,10 +647,10 @@ class sInstall extends Script
 				if (!$this->db_exists)
 				{
 					if (mysql_query("CREATE DATABASE `".$this->db_name."`"))
-						$this->db_log .= "Database ".$this->db_name." created.<br/>";
+						$logtext .= "Database ".$this->db_name." created.<br/>";
 					else
 					{
-						$this->db_log .= "Failed to create database ".$this->db_name.". Error: " . mysql_errno() . " " . mysql_error()."<br/>";
+						$logtext .= "Failed to create database ".$this->db_name.". Error: " . mysql_errno() . " " . mysql_error()."<br/>";
 						$this->done = false;
 					}
 				}
@@ -145,165 +667,32 @@ class sInstall extends Script
 				$query = str_replace("%PREFIX%", $this->db_prefix, implode("", file("$abspath/scripts/install/db/$file")));
 				
 				if (mysql_query($query))
-					$this->db_log .= "Imported $file successfully.<br/>";
+					$logtext .= "Imported $file successfully.<br/>";
 				else
 				{
-					$this->db_log .= "Falied to import $file. Error: " . mysql_errno() . " " . mysql_error()."<br/>";
-					$this->db_log .= $query;
+					$logtext .= "Falied to import $file. Error: " . mysql_errno() . " " . mysql_error()."<br/>";
+					$logtext .= $query;
 					$this->done = false;
 					break;
 				}
 			}
-
-			if ($this->done)
+			
+			$xml = new mXml();
+			
+			$files = GetSubfiles("$abspath/scripts/install/classes");
+			foreach ($files as $file)
 			{
-				$db_prefix = $this->db_prefix;
-				$table = new mTable("classes");
+				$filedata = getFileData($file, "$abspath/scripts/install/classes/$file");
+				$msgid = $xml->parseXML(array("node_id" => 0, "data" => $filedata));
 				
-				$list = array();
-				$list[] = array("name" => "folder",		"default_icon" => "folder");
-				$list[] = array("name" => "file_folder",	"default_icon" => "file_folder");
-				$list[] = array("name" => "file",		"default_icon" => "file");
-				$list[] = array("name" => "comment",		"default_icon" => "comment");
-				$list[] = array("name" => "article",		"default_icon" => "article");
-				$list[] = array("name" => "link",		"default_icon" => "global");
-				$list[] = array("name" => "event",		"default_icon" => "date");
-				$list[] = array("name" => "forum_topic",	"default_icon" => "comment");
-				$list[] = array("name" => "forum_thread",	"default_icon" => "comment");
-				$list[] = array("name" => "message",		"default_icon" => "message");
-				$list[] = array("name" => "poll",		"default_icon" => "question");
-				$list[] = array("name" => "poll_answer",	"default_icon" => "apply");
-				$list[] = array("name" => "news",		"default_icon" => "news");
-				$list[] = array("name" => "contact",		"default_icon" => "user");
-				$list[] = array("name" => "image_region",	"default_icon" => "murrix");
+				$logtext .= mMsg::getText($msgid);
 				
-				$failed = false;
-				foreach ($list as $item)
-				{
-					if ($table->insert($item) === false)
-					{
-						$this->db_log .= "Failed to insert ".$item['name']." into ".$this->db_prefix."classes.<br/>";
-						$failed = true;
-						$this->done = false;
-					}
-				}
-				
-				if (!$failed)
-					$this->db_log .= "Inserted data into ".$this->db_prefix."classes.<br/>";
+				if (mMsg::isError($msgid))
+					$this->done = false;
+				else
+					$logtext .= "Imported $file successfully.<br/>";
 			}
 
-			if ($this->done)
-			{
-				$db_prefix = $this->db_prefix;
-				$table = new mTable("vars");
-				
-				$list = array();
-$list[] = array("class_name" => "folder",	"name" => "description","priority" => "10",	"type" => "text");
-
-$list[] = array("class_name" => "article",	"name" => "text",	"priority" => "10",	"type" => "xhtml",	"required" => true,	"extra" => "Default");
-
-$list[] = array("class_name" => "link",		"name" => "address",	"priority" => "10",	"type" => "url",	"required" => true);
-
-$list[] = array("class_name" => "comment",	"name" => "message",	"priority" => "10",	"type" => "xhtml",	"required" => true,	"extra" => "Simple");
-
-$list[] = array("class_name" => "file_folder",	"name" => "description","priority" => "10",	"type" => "text");
-
-$list[] = array("class_name" => "file",		"name" => "file",	"priority" => "10",	"type" => "file",	"required" => true);
-$list[] = array("class_name" => "file",		"name" => "description","priority" => "20",	"type" => "text");
-
-$list[] = array("class_name" => "event", "name" => "date",		"priority" => "10",	"type" => "date",	"required" => true);
-$list[] = array("class_name" => "event", "name" => "time",		"priority" => "20",	"type" => "time");
-$list[] = array("class_name" => "event", "name" => "reoccuring_yearly",	"priority" => "30",	"type" => "boolean",	"required" => true);
-$list[] = array("class_name" => "event", "name" => "reoccuring_monthly","priority" => "40",	"type" => "boolean",	"required" => true);
-$list[] = array("class_name" => "event", "name" => "description",	"priority" => "50",	"type" => "xhtml",	"extra" => "Default");
-$list[] = array("class_name" => "event", "name" => "calendar_hide",	"priority" => "60",	"type" => "boolean",	"required" => true);
-
-$list[] = array("class_name" => "message",	"name" => "text",	"priority" => "10",	"type" => "xhtml",	"required" => true,	"extra" => "Simple");
-$list[] = array("class_name" => "message",	"name" => "attatchment","priority" => "20",	"type" => "node");
-$list[] = array("class_name" => "message",	"name" => "sender",	"priority" => "30",	"type" => "hidden",	"extra" => "name");
-
-$list[] = array("class_name" => "forum_topic",	"name" => "description","priority" => "10",	"type" => "text",	"required" => true);
-$list[] = array("class_name" => "forum_thread",	"name" => "description","priority" => "10",	"type" => "text",	"required" => true);
-
-$list[] = array("class_name" => "poll",		"name" => "question",	"priority" => "10",	"type" => "text",	"required" => true);
-$list[] = array("class_name" => "poll",		"name" => "opendate",	"priority" => "20",	"type" => "date",	"required" => true);
-$list[] = array("class_name" => "poll",		"name" => "closedate",	"priority" => "30",	"type" => "date",	"required" => true);
-$list[] = array("class_name" => "poll",		"name" => "hide_result","priority" => "40",	"type" => "boolean",	"required" => true);
-$list[] = array("class_name" => "poll",		"name" => "alternatives","priority" => "50",	"type" => "array",	"required" => true);
-
-$list[] = array("class_name" => "poll_answer",	"name" => "answer",	"priority" => "10",	"type" => "textline",	"required" => true);
-
-$list[] = array("class_name" => "news",		"name" => "expire",	"priority" => "10",	"type" => "date",	"required" => true);
-$list[] = array("class_name" => "news",		"name" => "text",	"priority" => "20",	"type" => "xhtml",	"required" => true,	"extra" => "Default");
-
-$list[] = array("class_name" => "contact",	"name" => "thumbnail",	"priority" => "10",	"type" => "thumbnail",	"extra" => 200);
-$list[] = array("class_name" => "contact",	"name" => "fullname",	"priority" => "20",	"type" => "textline");
-$list[] = array("class_name" => "contact",	"name" => "birthname",	"priority" => "30",	"type" => "textline");
-$list[] = array("class_name" => "contact",	"name" => "nicknames",	"priority" => "40",	"type" => "array");
-$list[] = array("class_name" => "contact",	"name" => "gender",	"priority" => "50",	"type" => "selection",	"extra" => "male=male,female=female",	"required" => true);
-$list[] = array("class_name" => "contact",	"name" => "emails",	"priority" => "60",	"type" => "array");
-$list[] = array("class_name" => "contact",	"name" => "mobilephones","priority" => "70",	"type" => "array");
-$list[] = array("class_name" => "contact",	"name" => "homephones",	"priority" => "80",	"type" => "array");
-$list[] = array("class_name" => "contact",	"name" => "workphones",	"priority" => "90",	"type" => "array");
-$list[] = array("class_name" => "contact",	"name" => "address",	"priority" => "100",	"type" => "text");
-$list[] = array("class_name" => "contact",	"name" => "icq",	"priority" => "110",	"type" => "textline");
-$list[] = array("class_name" => "contact",	"name" => "msn",	"priority" => "120",	"type" => "textline");
-$list[] = array("class_name" => "contact",	"name" => "skype",	"priority" => "130",	"type" => "textline");
-$list[] = array("class_name" => "contact",	"name" => "allergies",	"priority" => "140",	"type" => "array");
-$list[] = array("class_name" => "contact",	"name" => "other",	"priority" => "150",	"type" => "text");
-
-$list[] = array("class_name" => "image_region",	"name" => "params",	"priority" => "10",	"type" => "textline",	"required" => true,	"extra" => "X,Y,Width,Height");
-$list[] = array("class_name" => "image_region",	"name" => "text",	"priority" => "20",	"type" => "text");
-$list[] = array("class_name" => "image_region",	"name" => "image_width","priority" => "30",	"type" => "textline",	"required" => true);
-$list[] = array("class_name" => "image_region",	"name" => "image_height","priority" => "40",	"type" => "textline",	"required" => true);
-
-				$failed = false;
-				foreach ($list as $item)
-				{
-					if ($table->insert($item) === false)
-					{
-						$this->db_log .= "Failed to insert ".$item['class_name'].".".$item['name']." into ".$this->db_prefix."vars.<br/>";
-						$failed = true;
-						$this->done = false;
-					}
-				}
-				
-				if (!$failed)
-					$this->db_log .= "Inserted data into ".$this->db_prefix."vars.<br/>";
-			}
-			
-			
-			
-			
-			if ($this->done)
-			{
-				$db_prefix = $this->db_prefix;
-				$table = new mTable("initial_meta");
-				
-				$list = array();
-				$list[] = array("class_name" => "file",		"name" => "comment_show_num_per_page",	"value" => "all");
-				$list[] = array("class_name" => "file",		"name" => "show_comments",		"value" => 1);
-				$list[] = array("class_name" => "file_folder",	"name" => "children_show_num_per_page",	"value" => "all");
-				$list[] = array("class_name" => "file_folder",	"name" => "view",			"value" => "thumbnails");
-				$list[] = array("class_name" => "news",		"name" => "comment_show_num_per_page",	"value" => "all");
-				$list[] = array("class_name" => "news",		"name" => "show_comments",		"value" => 1);
-				
-				$failed = false;
-				foreach ($list as $item)
-				{
-					if ($table->insert($item) === false)
-					{
-						$this->db_log .= "Failed to insert ".$item['name']." into ".$this->db_prefix."classes.<br/>";
-						$failed = true;
-						$this->done = false;
-					}
-				}
-				
-				if (!$failed)
-					$this->db_log .= "Inserted data into ".$this->db_prefix."initial_meta.<br/>";
-			}
-			
-			
 			// Create initial groups
 			$administrator_group = new mGroup();
 			$administrator_group->name = "admins";
@@ -332,11 +721,6 @@ $list[] = array("class_name" => "image_region",	"name" => "image_height","priori
 			
 			// Insert initial objects
 
-			/*
-			==========
-			== Root ==
-			==========
-			*/
 			$root_obj = new mObject();
 			$root_obj->setClassName("folder");
 			$root_obj->loadVars();
@@ -350,20 +734,15 @@ $list[] = array("class_name" => "image_region",	"name" => "image_height","priori
 			if ($root_obj->save())
 			{
 				$root_obj->setMeta("initial_rights", "admins=rwc");
-				$this->db_log .= "Created ".$root_obj->getName().".<br/>";
+				$logtext .= "Created ".$root_obj->getName().".<br/>";
 			}
 			else
 			{
-				$this->db_log .= "Failed to create ".$root_obj->getName().".<br/>";
-				$this->db_log .= $root_obj->error;
+				$logtext .= "Failed to create ".$root_obj->getName().".<br/>";
+				$logtext .= $root_obj->error;
 				$this->done = false;
 			}
 
-			/*
-			===========
-			== Home ==
-			===========
-			*/
 			$home_obj = new mObject();
 			$home_obj->setClassName("folder");
 			$home_obj->loadVars();
@@ -377,20 +756,15 @@ $list[] = array("class_name" => "image_region",	"name" => "image_height","priori
 			if ($home_obj->save())
 			{
 				$home_obj->linkWithNode($root_obj->getNodeId());
-				$this->db_log .= "Created ".$home_obj->getName().".<br/>";
+				$logtext .= "Created ".$home_obj->getName().".<br/>";
 			}
 			else
 			{
-				$this->db_log .= "Failed to create ".$home_obj->getName().".<br/>";
-				$this->db_log .= $home_obj->error;
+				$logtext .= "Failed to create ".$home_obj->getName().".<br/>";
+				$logtext .= $home_obj->error;
 				$this->done = false;
 			}
 			
-			/*
-			================
-			== Users Home ==
-			================
-			*/
 			$users_home_obj = new mObject();
 			$users_home_obj->setClassName("folder");
 			$users_home_obj->loadVars();
@@ -404,20 +778,15 @@ $list[] = array("class_name" => "image_region",	"name" => "image_height","priori
 			if ($users_home_obj->save())
 			{
 				$users_home_obj->linkWithNode($home_obj->getNodeId());
-				$this->db_log .= "Created ".$users_home_obj->getName().".<br/>";
+				$logtext .= "Created ".$users_home_obj->getName().".<br/>";
 			}
 			else
 			{
-				$this->db_log .= "Failed to create ".$users_home_obj->getName().".<br/>";
-				$this->db_log .= $users_home_obj->error;
+				$logtext .= "Failed to create ".$users_home_obj->getName().".<br/>";
+				$logtext .= $users_home_obj->error;
 				$this->done = false;
 			}
 			
-			/*
-			=================
-			== Groups Home ==
-			=================
-			*/
 			$group_home_obj = new mObject();
 			$group_home_obj->setClassName("folder");
 			$group_home_obj->loadVars();
@@ -431,20 +800,15 @@ $list[] = array("class_name" => "image_region",	"name" => "image_height","priori
 			if ($group_home_obj->save())
 			{
 				$group_home_obj->linkWithNode($home_obj->getNodeId());
-				$this->db_log .= "Created ".$group_home_obj->getName().".<br/>";
+				$logtext .= "Created ".$group_home_obj->getName().".<br/>";
 			}
 			else
 			{
-				$this->db_log .= "Failed to create ".$group_home_obj->getName().".<br/>";
-				$this->db_log .= $group_home_obj->error;
+				$logtext .= "Failed to create ".$group_home_obj->getName().".<br/>";
+				$logtext .= $group_home_obj->error;
 				$this->done = false;
 			}
 			
-			/*
-			================
-			== Admin Home ==
-			================
-			*/
 			$adminhome_obj = new mObject();
 			$adminhome_obj->setClassName("folder");
 			$adminhome_obj->loadVars();
@@ -457,23 +821,18 @@ $list[] = array("class_name" => "image_region",	"name" => "image_height","priori
 			if ($adminhome_obj->save())
 			{
 				$adminhome_obj->linkWithNode($users_home_obj->getNodeId());
-				$this->db_log .= "Created ".$adminhome_obj->getName().".<br/>";
+				$logtext .= "Created ".$adminhome_obj->getName().".<br/>";
 				
 				$administrator->home_id = $adminhome_obj->getNodeId();
 				$administrator->save();
 			}
 			else
 			{
-				$this->db_log .= "Failed to create ".$adminhome_obj->getName().".<br/>";
-				$this->db_log .= $adminhome_obj->error;
+				$logtext .= "Failed to create ".$adminhome_obj->getName().".<br/>";
+				$logtext .= $adminhome_obj->error;
 				$this->done = false;
 			}
 			
-			/*
-			=================
-			== Admins Home ==
-			=================
-			*/
 			$adminshome_obj = new mObject();
 			$adminshome_obj->setClassName("folder");
 			$adminshome_obj->loadVars();
@@ -486,23 +845,18 @@ $list[] = array("class_name" => "image_region",	"name" => "image_height","priori
 			if ($adminshome_obj->save())
 			{
 				$adminshome_obj->linkWithNode($group_home_obj->getNodeId());
-				$this->db_log .= "Created ".$adminshome_obj->getName().".<br/>";
+				$logtext .= "Created ".$adminshome_obj->getName().".<br/>";
 				
 				$administrator_group->home_id = $adminshome_obj->getNodeId();
 				$administrator_group->save();
 			}
 			else
 			{
-				$this->db_log .= "Failed to create ".$adminshome_obj->getName().".<br/>";
-				$this->db_log .= $adminshome_obj->error;
+				$logtext .= "Failed to create ".$adminshome_obj->getName().".<br/>";
+				$logtext .= $adminshome_obj->error;
 				$this->done = false;
 			}
 			
-			/*
-			============
-			== Public ==
-			============
-			*/
 			$public_obj = new mObject();
 			$public_obj->setClassName("folder");
 			$public_obj->loadVars();
@@ -515,12 +869,12 @@ $list[] = array("class_name" => "image_region",	"name" => "image_height","priori
 			if ($public_obj->save())
 			{
 				$public_obj->linkWithNode($root_obj->getNodeId());
-				$this->db_log .= "Created ".$public_obj->getName().".<br/>";
+				$logtext .= "Created ".$public_obj->getName().".<br/>";
 			}
 			else
 			{
-				$this->db_log .= "Failed to create ".$public_obj->getName().".<br/>";
-				$this->db_log .= $public_obj->error;
+				$logtext .= "Failed to create ".$public_obj->getName().".<br/>";
+				$logtext .= $public_obj->error;
 				$this->done = false;
 			}
 			
@@ -529,7 +883,8 @@ $list[] = array("class_name" => "image_region",	"name" => "image_height","priori
 			{
 				setSetting("ROOT_NODE_ID",	$root_obj->getNodeId(),	"any");
 				setSetting("ANONYMOUS_ID",	$anonymous->id,		"any");
-				setSetting("IMGSIZE",		640,			"any");
+				setSetting("TRANSPORT",		"ajax",			"any");
+				setSetting("IMGSIZE",		550,			"any");
 				setSetting("THUMBSIZE",		150,			"any");
 				setSetting("INSTANTTHUMBS",	"true",			"any");
 				setSetting("DEFAULT_THEME",	$this->site,		"any");
@@ -539,7 +894,6 @@ $list[] = array("class_name" => "image_region",	"name" => "image_height","priori
 				
 				
 	
-				/* ======================================================================================= */
 	
 				$confdata = "<?\n";
 				$confdata .= "\$mysql_address = \"".$this->db_address."\";\n";
@@ -555,31 +909,28 @@ $list[] = array("class_name" => "image_region",	"name" => "image_height","priori
 					fwrite($conffile, $confdata);
 					fclose($conffile);
 					chmod("$abspath/config.inc.php", 0600);
-					$this->db_log .= "Wrote config, $abspath/config.inc.php.<br/>";
+					$logtext .= "Wrote config, $abspath/config.inc.php.<br/>";
 				}
 				else
 				{
-					$this->db_log .= "Unable to write config file.<br/>";
-					$this->db_log .= "Please put the folowing into \"config.inc.php\" and place it in MURRiXs rootpath:<br/>";
-					$this->db_log .= "<br/>";
-					$this->db_log .= nl2br($confdata);
-					$this->db_log .= "<br/>";
+					$logtext .= "Unable to write config file.<br/>";
+					$logtext .= "Please put the folowing into \"config.inc.php\" and place it in MURRiXs rootpath:<br/>";
+					$logtext .= "<br/>";
+					$logtext .= nl2br(htmlentities($confdata));
+					$logtext .= "<br/>";
 				}
-				$this->db_log .= "Installation complete!<br/>";
+				$logtext .= "Installation complete!<br/>";
 			}
 			else
-				$this->db_log .= "Installation failed!<br/>";
+				$logtext .= "Installation failed!<br/>";
 		}
 		
 		$this->draw($system, $args);
 	}
-	
+	*/
 	function draw(&$system, $args)
 	{
-		global $wwwpath, $abspath;
-		ob_start();
-		include(gettpl("install/stage".$args['stage']));
-		$system->setZoneData($this->zone, utf8e(ob_get_end()));
+		$this->actionPreinstall($system, $args);
 	}
 }
 ?>

@@ -40,6 +40,7 @@ class mXML
 		$vars_table = new mTable("vars");
 		$node_table = new mTable("nodes");
 		$links_table = new mTable("links");
+		$initial_meta_table = new mTable("initial_meta");
 		
 		$class_list = array();
 		$node_list = array();
@@ -53,11 +54,13 @@ class mXML
 		{
 			$used_node_ids[] = $node_id;
 		
+			$latest_obj = new mObject($node_id);
+		
 			$node = array();
 			$node['xmldata'] = "node";
 			$node['id'] = $node_id;
-			$latest_obj = new mObject($node_id);
-				
+			$node['rights'] =  $latest_obj->getRights();
+			
 			$node['metadata'] = array();
 			$metadata = $latest_obj->getAllMeta();
 			foreach ($metadata as $meta)
@@ -76,7 +79,6 @@ class mXML
 				$object['user'] = $user->username;
 				
 				$object['language'] =  $version->getLanguage();
-				$object['rights'] =  $version->getRights();
 				$object['icon'] =  $version->icon;
 				$object['name'] =  $version->getName();
 				$object['class_name'] =  $version->getClassName();
@@ -119,6 +121,10 @@ class mXML
 						$class['variables'][$var['name']]['extra'] = $var['extra'];
 						$class['variables'][$var['name']]['comment'] = $var['comment'];
 					}
+					
+					$initial_meta = $initial_meta_table->get("`class_name`='".$version->getClassName()."'");
+					foreach ($initial_meta as $meta)
+						$class['metadata'][$meta['name']] = $meta['value'];
 					
 					$class_list[] = $class;
 					$used_classes[] = $version->getClassName();
@@ -196,6 +202,9 @@ class mXML
 		$imported_users = array();
 		$imported_groups = array();
 		
+		if (isset($import_data['container']['xmldata']))
+			$import_data['container'] = array($import_data['container']);
+		
 		foreach ($import_data['container'] as $container)
 		{
 			switch ($container['xmldata'])
@@ -220,16 +229,23 @@ class mXML
 				$imported_groups[] = $container;
 				break;
 			}
+			
 		}
 		
-		$logtext .= "Found ".count($imported_classes)." classes<br/>";
-		$logtext .= "Found ".count($imported_nodes)." nodes<br/>";
-		$logtext .= "Found ".count($imported_links)." links<br/>";
-		$logtext .= "Found ".count($imported_users)." users<br/>";
-		$logtext .= "Found ".count($imported_groups)." groups<br/>";
+		if (count($imported_classes) > 0)
+			$logtext .= "Found ".count($imported_classes)." classes<br/>";
+		if (count($imported_nodes) > 0)
+			$logtext .= "Found ".count($imported_nodes)." nodes<br/>";
+		if (count($imported_links) > 0)
+			$logtext .= "Found ".count($imported_links)." links<br/>";
+		if (count($imported_users) > 0)
+			$logtext .= "Found ".count($imported_users)." users<br/>";
+		if (count($imported_groups) > 0)
+			$logtext .= "Found ".count($imported_groups)." groups<br/>";
 		
 		$class_table = new mTable("classes");
 		$vars_table = new mTable("vars");
+		$initial_meta_table = new mTable("initial_meta");
 		
 		foreach ($imported_classes as $class)
 		{
@@ -243,8 +259,17 @@ class mXML
 				
 				$class_table->insert(array("name"=>$class['name'], "default_icon"=>$class['icon']));
 				
-				foreach ($class['variables'] as $varname => $properties)
-					$vars_table->insert(array("class_name"=>$class['name'], "name"=>$varname, "priority"=>$properties['priority'], "required"=>$properties['required'], "type"=>$properties['type'], "extra"=>$properties['extra'], "comment"=>$properties['comment']));
+				if (count($class['variables']) > 0)
+				{
+					foreach ($class['variables'] as $varname => $properties)
+						$vars_table->insert(array("class_name"=>$class['name'], "name"=>$varname, "priority"=>$properties['priority'], "required"=>$properties['required'], "type"=>$properties['type'], "extra"=>$properties['extra'], "comment"=>$properties['comment']));
+				}
+				
+				if (count($class['metadata']) > 0)
+				{
+					foreach ($class['metadata'] as $name => $value)
+						$initial_meta_table->insert(array("class_name"=>$class['name'], "name"=>$name, "value"=>$value));
+				}
 				
 				continue;
 			}
@@ -276,8 +301,13 @@ class mXML
 		{
 			if (!isset($container['created']))
 				$container['created'] = date("Y-m-d H:i:s");
-						
-			$node_id = $node_table->insert(array("created" => $container['created']));
+		
+			if (isset($container['rights']))
+				$rights = $container['rights'];
+			else
+				$rights = $parent->getRights();
+		
+			$node_id = $node_table->insert(array("created" => $container['created'], "rights" => $rights));
 			
 			$node = new mObject();
 			$node->node_id = $node_id;
@@ -310,11 +340,6 @@ class mXML
 				$object->name = $object_array['name'];
 				$object->icon = $object_array['icon'];
 				$object->language = $object_array['language'];
-				
-				if (isset($object_array['right']))
-					$object->rights = $object_array['rights'];
-				else
-					$object->rights = $parent->getRights();
 				
 				if (isset($object_array['user']))
 				{

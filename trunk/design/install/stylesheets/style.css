@@ -1,0 +1,999 @@
+
+body.body
+{
+	font-family: "trebuchet MS", Arial, Helvetica, "Sans Serif";
+	background-color: #d5d5e1;
+/* 	background-image: url('/design/murrix/images/'); */
+/* 	background-repeat: no-repeat; */
+/* 	background-attachment: fixed; */
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	font-size: 14px;
+}
+
+form
+{
+	display: inline;
+}
+
+a
+{
+	color: #1a1a92;
+	text-decoration: none;
+}
+
+.bold
+{
+	font-weight: bold;
+}
+
+a:hover, a:active
+{
+	color: blue;
+}
+
+.hidden
+{
+	display: none;
+	margin: 0;
+	padding: 0;
+}
+
+img
+{
+	border: none;
+	vertical-align: middle;
+}
+
+div.nowrap
+{
+	white-space: nowrap;
+}
+
+div.clear
+{
+	clear: both;
+}
+
+table.body_table
+{
+	width: 862px;
+	margin: 0;
+	padding: 0;
+}
+
+table.body_table td.fade_left
+{
+	background-image: url('/design/murrix/images/edge_fade_left.png');
+	background-repeat: repeat-y;
+	width: 30px;
+	margin: 0;
+	padding: 0
+}
+
+table.body_table td.fade_right
+{
+	background-image: url('/design/murrix/images/edge_fade_right.png');
+	background-repeat: repeat-y;
+	width: 30px;
+	margin: 0;
+	padding: 0
+}
+
+table.body_table td.title
+{
+	background-image: url('/design/murrix/images/title.png');
+	background-repeat: no-repeat;
+	width: 862px;
+	height: 181px;
+	margin: 0;
+	padding: 40px;
+	vertical-align: top;
+}
+
+table.body_table td.bottom
+{
+	background-image: url('/design/murrix/images/footer.png');
+	background-repeat: no-repeat;
+	width: 862px;
+	height: 81px;
+	margin: 0;
+	padding: 10px 40px 40px 40px;
+	font-weight: bold;
+	color: white;
+	text-align: center;	
+}
+
+table.body_table td.bottom a
+{
+	color: white;
+}
+
+table.body_table td.bottom a:hover, table.body_table td.bottom a:active
+{
+	color: blue;
+}
+
+table.body_table td.middle
+{
+	background-color: white;
+	margin: 0;
+	padding: 0;
+	border: 1px solid black;
+	vertical-align: top;
+	
+}
+
+table.main_table
+{
+	width: 100%;
+	height: 100%;
+}
+
+table.main_table td.main
+{
+	padding: 20px;
+	width: 660px;
+	vertical-align: top;
+	text-align: left;
+}
+
+table.main_table td.menu
+{
+	background-color: #939393;
+	padding: 20px;
+	width: 202px;
+	vertical-align: top;
+	text-align: center;
+}
+
+div.menu_title
+{
+	background-image: url('/design/murrix/images/small.png');
+	height: 27px;
+	background-repeat: no-repeat;
+	padding-top: 2px;
+	font-size: 20px;
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+
+div.menu_title a
+{
+	color: black;
+}
+
+div.menu_title a:hover, div.menu_title a:active
+{
+	color: blue;
+}
+
+
+table.main_table td.menu div.menu_search
+{
+	margin-bottom: 30px;
+}
+
+table.main_table td.menu .input
+{
+	border: 1px solid black;
+	margin-bottom: 5px;
+	padding: 1px 3px 1px 3px;
+}
+
+table.main_table td.menu .submit
+{
+	border: 1px solid black;
+	background-color: #d5d5e1;
+	margin-bottom: 5px;
+}
+
+table.main_table td.menu div.label
+{
+	margin-bottom: 4px;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+table.main_table td.menu div.menu_login
+{
+	margin-bottom: 30px;
+}
+
+table.main_table td.menu div.menu_calendar
+{
+	margin-bottom: 30px;
+	border-bottom: 1px solid black;
+	border-right: 1px solid black;
+}
+
+table.main_table td.menu div.menu_calendar .title_row td
+{
+	border-bottom: 1px solid black;
+}
+
+table.main_table td.menu div.menu_calendar .week
+{
+	border-right: 1px solid black;
+}
+
+div.buttons
+{
+	padding-bottom: 30px;
+}
+
+div.buttons a.button
+{
+	background-image: url('/design/murrix/images/cube.png');
+	height: 20px;
+	background-repeat: no-repeat;
+	padding-left: 24px;
+	padding-right: 10px;
+	font-size: 15px;
+	font-weight: bold;
+	margin: 0;
+	display: block;
+	float: left;
+	color: black;
+}
+
+div.buttons a.button:hover, div.buttons a.button:active
+{
+	color: blue;
+	text-decoration: underline;
+}
+
+#zone_addressbar
+{
+	padding: 0;
+	margin-bottom: 10px;
+	font-style: italic;
+}
+
+#zone_addressbar a
+{
+	color: black;
+	
+}
+
+#zone_addressbar a:hover, #zone_addressbar a:active
+{
+	color: blue;
+	text-decoration: underline;
+}
+
+#zone_language
+{
+	float: right;
+	text-align: center;
+	color: white;
+	font-weight: bold;
+}
+
+#zone_language .image
+{
+	border: 1px solid black;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+div.header
+{
+	font-weight: bold;
+	color: black;
+	background-color: #ebedee;
+	font-size: 25px;
+	text-align: center;
+	height: 30px;
+	background-image: url('/design/standard/images/grayback.jpg');
+	background-repeat: repeat;
+}
+
+div.bar
+{
+	padding: 3px 5px 3px 5px;
+	height: 20px;
+	background-image: url('/design/standard/images/bar.png');
+	background-repeat: repeat-x;
+}
+
+div.bar div.search
+{
+	float: right;
+}
+
+div.bar input.search
+{
+	width: 16px;
+	height: 16px;
+	border: none;
+	padding: 1px;
+	vertical-align: top;
+}
+
+div.bar input.input
+{
+	border: 1px solid #ebedee;
+	height: 16px;
+	width: 15em;
+	padding: 1px;
+	vertical-align: top;
+}
+
+div.bar div.address
+{
+	font-size: 10px;
+	padding: 3px 0 3px 0;
+}
+
+div.bar div.address a
+{
+	color: black;
+}
+
+div.bar div.address a:hover, div.bar div.address a:active
+{
+	color: blue;
+}
+
+table.maintable
+{
+	width: 100%;
+}
+
+table.maintable td.sidebar
+{
+	vertical-align: top;
+	width: 155px;
+	background-color: #f5f5f7;
+	padding: 5px;
+	text-align: center;
+	padding-bottom: 0;
+}
+
+table.maintable td.sidebar a.sidebar
+{
+	color: black;
+}
+
+.container
+{
+	margin-bottom: 5px;
+}
+
+table.maintable td.sidebar div.title
+{
+	border: 1px solid #e1e4e8;
+	border-width: 1px 0 1px 0;
+	background-color: #ebedee;
+	margin-bottom: 5px;
+}
+
+table.maintable td.sidebar div.title a.left
+{
+	margin-right: 2px;
+	margin-top: -2px;
+	float: left;
+}
+
+table.maintable td.sidebar div.title a.right
+{
+	margin-right: 2px;
+	margin-top: -2px;
+	float: right;
+}
+
+table.maintable td.sidebar div.container a.sidebar
+{
+	text-align: left;
+	display: block;
+	padding: 3px;
+}
+
+table.maintable td.sidebar div.container a.sidebar:hover, table.maintable td.sidebar div.container a.sidebar:active
+{
+	border: 1px solid #e1e4e8;
+	border-width: 1px 0 1px 0;
+	background-color: #ebedee;
+	padding: 2px 3px 2px 3px;
+}
+
+table.maintable td.sidebar input.input
+{
+	border: 1px solid #ebedee;
+	height: 16px;
+	width: 136px;
+	margin-bottom: 5px;
+	padding: 1px;
+}
+
+table.maintable td.sidebar input.submit
+{
+	border: 1px solid #e1e4e8;
+	background-color: #ebedee;
+}
+
+table.maintable td.middle
+{
+	vertical-align: top;
+	padding: 5px;
+	padding-bottom: 0;
+	font-size: 12px;
+	/*background-image: url('/design/standard/images/back.jpg');*/
+	background-repeat: no-repeat;
+}
+
+img
+{
+	vertical-align: middle;
+}
+
+div.adminpanel_wrapper
+{
+	float: right;
+	width: 111px;
+	margin-right: 1px;
+	margin-top: -8px;
+	margin-bottom: 8px;
+}
+
+div.adminpanel_button_wrapper
+{
+	width: 100px;
+	border: 1px solid #D5D5E1;
+	border-bottom: none;
+	padding: 5px;
+	position: absolute;
+}
+
+div.adminpanel_button
+{
+	color: black;
+	display: block;
+	padding: 2px;
+	cursor: pointer;
+	background-image: url('/design/murrix/images/1downarrow.png');
+	background-repeat: no-repeat;
+	background-position: center right;
+}
+
+div.adminpanel
+{
+	width: 100px;
+	border: 1px solid #D5D5E1;
+	padding: 5px;
+	position: absolute;
+	background-color: white;
+	display: none;
+}
+
+div.adminpanel div.clear
+{
+	clear: none;
+}
+
+div.adminpanel a.tab
+{
+	color: black;
+	display: block;
+	padding: 2px;
+}
+
+div.adminpanel a.tab:hover, div.adminpanel a.tab:active
+{
+	color: blue;
+}
+
+div.adminpanel a.tab_selected
+{
+	color: black;
+	font-weight: bold;
+	display: block;
+	padding: 2px;
+	background-color: #D5D5E1;
+}
+
+div.tabs
+{
+	margin: 0;
+	margin-bottom: 10px;
+	border-bottom: 1px solid #e1e4e8;
+}
+
+div.tabs a.tab
+{
+	float: left;
+	padding: 5px;
+	border: 1px solid #e1e4e8;
+	border-bottom-width: 0;
+	margin-right: 5px;
+	display: block;
+	background-color: #f7f7f9;
+}
+
+div.tabs a.tab:hover, div.tabs a.tab:active
+{
+	background-color: #ebedee;
+}
+
+div.tabs a.tab_selected
+{
+	float: left;
+	padding: 5px;
+	border: 1px solid #e1e4e8;
+	border-bottom-width: 0;
+	margin-right: 5px;
+	display: block;
+	background-color: #e1e4e8;
+}
+
+
+div.poster
+{
+	font-size: 9px;
+	font-style: italic;
+	margin-top: -5px;
+	margin-left: 5px;
+	margin-bottom: 10px;
+}
+
+div.big_title
+{
+	margin-bottom: 10px;
+	text-align: left;
+	background-image: url('/design/murrix/images/wave.png');
+	background-repeat: no-repeat;
+	border-bottom: 1px solid #D5D5E1;
+	height: 25px;
+	vertical-align: bottom;
+}
+
+div.big_title div.clear
+{
+	clear: both;
+}
+
+div.big_title div.left
+{
+	float: left;
+}
+
+div.big_title div.left div.inner
+{
+	font-family: "trebuchet MS", Arial, Helvetica, "Sans Serif";
+	text-align: left;
+	vertical-align: bottom;
+	font-size: 20px;
+	font-weight: bold;
+	padding-left: 4px;
+}
+
+div.big_title div.right
+{
+	float: right;
+}
+
+div.big_title select.select
+{
+	border: 1px solid #ebedee;
+	height: 18px;
+}
+
+div.medium_title
+{
+	margin-bottom: 10px;
+	text-align: left;
+	background-image: url('/design/murrix/images/wave_medium.png');
+	background-repeat: no-repeat;
+	background-position: bottom left;
+	border-bottom: 1px solid #D5D5E1;
+	vertical-align: bottom;
+	font-weight: bold;
+}
+
+div.medium_title div.left
+{
+	padding-left: 5px;
+	font-size: 14px;
+	float: left;
+	margin: 1px 0 1px 0;
+}
+
+div.medium_title div.center
+{
+	font-size: 12px;
+	text-align: center;
+	margin: 1px 0 1px 0;
+}
+
+div.medium_title div.right
+{
+	text-align: right;
+	float: right;
+	margin: 1px 0 1px 0;
+}
+
+div.medium_title img
+{
+}
+
+.top_edit_table
+{
+	margin: 0;
+	padding: 0;
+	width: 100%
+}
+
+.top_edit_table .right
+{
+	text-align: right;
+}
+
+.top_edit_table .left
+{
+	text-align: left;
+}
+
+.top_edit_table input.input
+{
+	border: 1px solid #ebedee;
+	height: 16px;
+	width: 20em;
+	padding: 1px;
+}
+
+table.maintable div.main, table.maintable .poll
+{
+	background-color: #F9F9F9;
+	border: 1px solid #DCD7FF;
+	margin-bottom: 5px;
+	padding: 5px;
+	padding-bottom: 0;
+}
+
+table.maintable div.main input.submit
+{
+	border: 1px solid #e1e4e8;
+	background-color: #ebedee;
+}
+
+fieldset
+{
+	border: 1px solid #D5D5E1;
+	margin: 0;
+	background-color: #E5E5F2;
+}
+
+fieldset legend
+{
+	font-weight: bold;
+}
+
+.form, .input
+{
+	border: 1px solid black;
+	padding: 2px;
+}
+
+.input_big
+{
+	border: 1px solid black;
+	padding: 2px;
+	width: 25em;
+}
+
+table.maintable .sub_title
+{
+	border: 1px solid #e1e4e8;
+	border-width: 1px 0 1px 0;
+	background-color: #ebedee;
+	margin-bottom: 5px;
+	padding: 5px;
+	font-weight: bold;
+}
+
+table.maintable .sub_title .right
+{
+	float: right;
+}
+
+table.maintable .sub_title a
+{
+	color: black;
+}
+
+
+div.timeline_wrapper
+{
+
+}
+
+div.timeline_wrapper div.event
+{
+	margin-bottom: 5px;
+}
+
+div.timeline_wrapper div.event .body
+{
+	padding-top: 5px;
+}
+
+div.timeline_wrapper div.event .right
+{
+	float: right;
+}
+
+div.timeline_wrapper div.event .date
+{
+	font-style: italic;
+	font-size: 11px;
+}
+
+div.timeline_wrapper div.event .title
+{
+	border: 1px solid #e1e4e8;
+	border-width: 1px 0 1px 0;
+	background-color: #ebedee;
+	padding: 2px 5px 2px 5px;
+	font-weight: bold;
+}
+
+
+.show_line
+{
+	margin-bottom: 5px;
+	min-height: 70px;
+}
+
+hr
+{
+	border: 0 none;
+	margin: 0;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	color: #e1e4e8;
+	background-color: #e1e4e8;
+	height: 1px;
+}
+
+.show_line .show_line_logo
+{
+	float: left;
+	margin: 5px;
+	position: absolute;
+	z-index: 2;
+}
+
+.show_line .show_line_main
+{
+	display: block;
+	vertical-align: top;
+}
+
+.show_line .show_line_main_top
+{
+	border: 1px solid #e1e4e8;
+	border-width: 1px 0 1px 0;
+	background-color: #ebedee;
+	padding: 5px;
+}
+
+.show_line .show_line_main_top_inner
+{
+	margin-left: 70px;
+}
+
+.show_line .show_line_main_top_inner_title
+{
+	font-weight: bold;
+	font-size: 14px;
+}
+
+.show_line .show_line_main_bottom
+{
+	margin-left: 70px;
+	padding: 5px;
+}
+
+.show_line .show_line_main_right
+{
+	float: right;
+	margin: 5px;
+}
+
+.show_item_wrapper
+{
+	font-size: 11px;
+}
+
+.show_item_wrapper .show_item
+{
+	border: 1px solid #e1e4e8;
+	background-color: #f5f5f7;
+	width: 160px;
+	height: 180px;
+	text-align: center;
+	float: left;
+	margin: 0 5px 5px 0;
+}
+
+.show_item_wrapper .show_item .name_label
+{
+	overflow: hidden;
+	background-color: #D5D5E1;
+}
+
+.show_item_wrapper .show_item:hover, .show_item_wrapper .show_item:active
+{
+	border: 1px solid #e1e4e8;
+	background-color: #ebedee;
+}
+
+.listwrapper
+{
+	margin-bottom: 5px;
+}
+
+.listwrapper table
+{
+	padding: 0;
+	border: none;
+	width: 100%;
+}
+
+.listwrapper table thead
+{
+	border: 1px solid #e1e4e8;
+	border-width: 1px 0 1px 0;
+	background-color: #ebedee;
+	padding: 5px;
+}
+
+.listwrapper table thead td
+{
+	padding: 5px;
+}
+
+.listwrapper table tfoot td
+{
+	padding: 5px;
+}
+
+.listwrapper table tbody td
+{
+	padding: 5px;
+	vertical-align: top;
+}
+
+.listwrapper table tbody .row
+{
+}
+
+.listwrapper table tbody .row_selected
+{
+	background-color: #f5f5f7;
+}
+
+.listwrapper table tfoot
+{
+	padding: 5px;
+	background-color: #ebedee;
+}
+.listwrapper table tbody
+{
+	margin: 0;
+	padding: 5px;
+}
+
+.listwrapper table .empty
+{
+	height: 10px;
+}
+
+
+table.contact_table
+{
+	width: 100%;
+}
+
+table.contact_table td.left
+{
+	padding: 0;
+	vertical-align: top;
+}
+
+table.contact_table td.right
+{
+	padding: 0;
+	padding-left: 5px;
+	width: 300px;
+	vertical-align: top;
+}
+
+table.contact_table_inner td
+{
+	vertical-align: top;
+}
+
+table.contact_table_inner td.left
+{
+	vertical-align: top;
+	font-weight: bold;
+	text-align: right;
+}
+
+table.contact_table_inner td.right
+{
+	vertical-align: top;
+}
+
+table.contact_table .family_tree_person
+{
+	margin: 0;
+	margin-top: 5px;
+	text-align: center;
+	border: 1px solid #e1e4e8;
+	padding: 5px;
+}
+
+div.image_region
+{
+	background-image: url('/design/standard/images/50trans.png');
+	background-repeat: repeat;
+	font-weight: bold;
+	color: white;
+	font-size: 12px;
+	margin: 0;
+	padding: 0;
+}
+
+div.image_region div.border
+{
+	overflow: auto;
+	border: 1px solid yellow;
+	height: 100%;
+}
+
+div.image_region div.text
+{
+	padding: 2px;
+}
+
+div.image_region a
+{
+	display: block;
+	color: white;
+	text-decoration: none;
+}
+
+div.image_region a:hover, div.image_region a:active
+{
+	background-color: gray;
+}
+
+
+div.footer
+{
+	padding: 5px;
+	background-color: #e1e4e8;
+}
+
+div.footer div.left
+{
+	float: left;
+}
+
+div.footer div.right
+{
+	float: right;
+}

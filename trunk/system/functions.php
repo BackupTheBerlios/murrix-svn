@@ -1,5 +1,47 @@
 <?
 
+function getFileData($filename, $full_filename)
+{
+	$extension = pathinfo($filename, PATHINFO_EXTENSION);
+	if ($extension == "bz2")
+	{
+		$bz = bzopen($full_filename, "r");
+		while (!feof($bz))
+			$data .= bzread($bz, 4096);
+		bzclose($bz);
+	}
+	else
+	{
+		$bz = fopen($full_filename, "r");
+		while (!feof($bz))
+			$data .= fread($bz, 4096);
+		fclose($bz);
+	}
+	
+	return $data;
+}
+
+function getFile($full_filename)
+{
+	$extension = pathinfo($full_filename, PATHINFO_EXTENSION);
+	if ($extension == "bz2")
+	{
+		$bz = bzopen($full_filename, "r");
+		while (!feof($bz))
+			$data .= bzread($bz, 4096);
+		bzclose($bz);
+	}
+	else
+	{
+		$bz = fopen($full_filename, "r");
+		while (!feof($bz))
+			$data .= fread($bz, 4096);
+		fclose($bz);
+	}
+	
+	return $data;
+}
+
 if (!function_exists('substr_compare'))
 {
 	function substr_compare($main_str, $str, $offset, $length = NULL, $case_insensitivity = false)
@@ -420,6 +462,15 @@ function PrintPre($input)
 	echo "<pre>";
 	print_r($input);
 	echo "</pre>";
+}
+
+function returnPrintPre($input)
+{
+	ob_start();
+	echo "<pre>";
+	print_r($input);
+	echo "</pre>";
+	return ob_get_end();
 }
 
 function GetInput($name, $default = "")

@@ -75,7 +75,10 @@ $messages->clearAll();
 /* ========================= */
 $folders = GetSubfolders("$abspath/scripts");
 foreach ($folders as $folder)
-	require_once("$abspath/scripts/$folder/script.php");
+{
+	if ($folders != "install")
+		require_once("$abspath/scripts/$folder/script.php");
+}
 
 
 /* ========================= */
@@ -286,7 +289,7 @@ if (isset($_GET['debug']))
 else
 	$_SESSION['murrix']['system']->xajax->debugOff();
 
-$_SESSION['murrix']['system']->Process();
+$_SESSION['murrix']['system']->process();
 
 $prof->startTimer( "pagelayout" );
 

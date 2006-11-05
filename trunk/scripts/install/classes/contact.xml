@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF8"?>
+<murrix_xml>
+	<version>0.7 alpha</version>
+	<created>2006-11-04 22:41:47</created>
+	<name>MURRiX Class XML - contact</name>
+	<container>
+		<xmldata>class</xmldata>
+		<name>contact</name>
+		<icon>user</icon>
+		<variables>
+			<thumbnail>
+				<priority>10</priority>
+				<type>thumbnail</type>
+				<required>0</required>
+				<extra>200</extra>
+				<comment />
+			</thumbnail>
+			<fullname>
+				<priority>20</priority>
+				<type>textline</type>
+				<required>0</required>
+				<extra />
+				<comment />
+			</fullname>
+			<birthname>
+				<priority>30</priority>
+				<type>textline</type>
+				<required>0</required>
+				<extra />
+				<comment />
+			</birthname>
+			<nicknames>
+				<priority>40</priority>
+				<type>array</type>
+				<required>0</required>
+				<extra />
+				<comment />
+			</nicknames>
+			<gender>
+				<priority>50</priority>
+				<type>selection</type>
+				<required>1</required>
+				<extra>male=male,female=female</extra>
+				<comment />
+			</gender>
+			<emails>
+				<priority>60</priority>
+				<type>array</type>
+				<required>0</required>
+				<extra />
+				<comment />
+			</emails>
+			<mobilephones>
+				<priority>70</priority>
+				<type>array</type>
+				<required>0</required>
+				<extra />
+				<comment />
+			</mobilephones>
+			<homephones>
+				<priority>80</priority>
+				<type>array</type>
+				<required>0</required>
+				<extra />
+				<comment />
+			</homephones>
+			<workphones>
+				<priority>90</priority>
+				<type>array</type>
+				<required>0</required>
+				<extra />
+				<comment />
+			</workphones>
+			<address>
+				<priority>100</priority>
+				<type>text</type>
+				<required>0</required>
+				<extra />
+				<comment />
+			</address>
+			<icq>
+				<priority>110</priority>
+				<type>textline</type>
+				<required>0</required>
+				<extra />
+				<comment />
+			</icq>
+			<msn>
+				<priority>120</priority>
+				<type>textline</type>
+				<required>0</required>
+				<extra />
+				<comment />
+			</msn>
+			<skype>
+				<priority>130</priority>
+				<type>textline</type>
+				<required>0</required>
+				<extra />
+				<comment />
+			</skype>
+			<allergies>
+				<priority>140</priority>
+				<type>array</type>
+				<required>0</required>
+				<extra />
+				<comment />
+			</allergies>
+			<other>
+				<priority>150</priority>
+				<type>text</type>
+				<required>0</required>
+				<extra />
+				<comment />
+			</other>
+		</variables>
+	</container>
+</murrix_xml>

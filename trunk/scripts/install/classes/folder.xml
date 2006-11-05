@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF8"?>
+<murrix_xml>
+	<version>0.7 alpha</version>
+	<created>2006-11-04 22:41:47</created>
+	<name>MURRiX Class XML - folder</name>
+	<container>
+		<xmldata>class</xmldata>
+		<name>folder</name>
+		<icon>folder</icon>
+		<variables>
+			<description>
+				<priority>10</priority>
+				<type>text</type>
+				<required>0</required>
+				<extra />
+				<comment />
+			</description>
+		</variables>
+	</container>
+</murrix_xml>

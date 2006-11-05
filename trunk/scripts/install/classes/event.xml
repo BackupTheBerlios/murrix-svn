@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF8"?>
+<murrix_xml>
+	<version>0.7 alpha</version>
+	<created>2006-11-04 22:41:47</created>
+	<name>MURRiX Class XML - event</name>
+	<container>
+		<xmldata>class</xmldata>
+		<name>event</name>
+		<icon>date</icon>
+		<variables>
+			<date>
+				<priority>10</priority>
+				<type>date</type>
+				<required>1</required>
+				<extra />
+				<comment />
+			</date>
+			<time>
+				<priority>20</priority>
+				<type>time</type>
+				<required>0</required>
+				<extra />
+				<comment />
+			</time>
+			<reoccuring_yearly>
+				<priority>30</priority>
+				<type>boolean</type>
+				<required>1</required>
+				<extra />
+				<comment />
+			</reoccuring_yearly>
+			<reoccuring_monthly>
+				<priority>40</priority>
+				<type>boolean</type>
+				<required>1</required>
+				<extra />
+				<comment />
+			</reoccuring_monthly>
+			<description>
+				<priority>50</priority>
+				<type>xhtml</type>
+				<required>0</required>
+				<extra>Default</extra>
+				<comment />
+			</description>
+		</variables>
+	</container>
+</murrix_xml>

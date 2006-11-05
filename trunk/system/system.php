@@ -27,7 +27,7 @@ class mSystem
 		$this->xajax->registerFunction("TriggerEvent");
 	}
 
-	function printHeader()
+	function printHeader($defaultcmd = "")
 	{
 		$this->xajax->printJavascript("3dparty/xajax/");
 
@@ -41,7 +41,12 @@ class mSystem
 			
 			function getDefaultCommand()
 			{
-				return "exec=show&node_id=<?=getNode($_SESSION['murrix']['default_path'])?>";
+			<?
+				if (empty($defaultcmd))
+					echo "return \"exec=show&node_id=".getNode($_SESSION['murrix']['default_path'])."\";";
+				else
+					echo "return \"$defaultcmd\";";
+			?>
 			}
 			
 			function runZoneJS()
@@ -127,6 +132,9 @@ class mSystem
 		$folders = GetSubfolders("$abspath/scripts");
 		foreach ($folders as $folder)
 		{
+			if ($folder == "install")
+				continue;
+		
 			if (isset($this->scripts[$folder]))
 				continue;
 				

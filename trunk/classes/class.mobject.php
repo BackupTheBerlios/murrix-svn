@@ -904,7 +904,7 @@ class mObject
 	var $icon;
 	var $class_icon;
 	function setIcon($icon) { $this->icon = $icon; }
-	function getIcon($class = true)
+	function getIcon($class = false)
 	{
 		if ($class)
 		{

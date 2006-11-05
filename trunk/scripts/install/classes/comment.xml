@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF8"?>
+<murrix_xml>
+	<version>0.7 alpha</version>
+	<created>2006-11-04 22:41:47</created>
+	<name>MURRiX Class XML - comment</name>
+	<container>
+		<xmldata>class</xmldata>
+		<name>comment</name>
+		<icon>comment</icon>
+		<variables>
+			<message>
+				<priority>10</priority>
+				<type>xhtml</type>
+				<required>1</required>
+				<extra>Simple</extra>
+				<comment />
+			</message>
+		</variables>
+	</container>
+</murrix_xml>

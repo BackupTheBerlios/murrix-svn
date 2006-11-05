@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF8"?>
+<murrix_xml>
+	<version>0.7 alpha</version>
+	<created>2006-11-04 22:41:47</created>
+	<name>MURRiX Class XML - poll</name>
+	<container>
+		<xmldata>class</xmldata>
+		<name>poll</name>
+		<icon>question</icon>
+		<variables>
+			<question>
+				<priority>10</priority>
+				<type>text</type>
+				<required>1</required>
+				<extra />
+				<comment />
+			</question>
+			<opendate>
+				<priority>20</priority>
+				<type>date</type>
+				<required>1</required>
+				<extra />
+				<comment />
+			</opendate>
+			<closedate>
+				<priority>30</priority>
+				<type>date</type>
+				<required>1</required>
+				<extra />
+				<comment />
+			</closedate>
+			<hide_result>
+				<priority>40</priority>
+				<type>boolean</type>
+				<required>1</required>
+				<extra />
+				<comment />
+			</hide_result>
+			<alternatives>
+				<priority>50</priority>
+				<type>array</type>
+				<required>1</required>
+				<extra />
+				<comment />
+			</alternatives>
+		</variables>
+	</container>
+</murrix_xml>
