@@ -122,7 +122,8 @@ class mSystem
 		
 		$this->command = empty($_GET) ? $_POST : $_GET;
 		
-		$this->execCommand($this->command);
+		if (!empty($this->command))
+			$this->execCommand($this->command);
 	}
 	
 	function loadScripts()

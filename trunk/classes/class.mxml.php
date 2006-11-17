@@ -334,8 +334,17 @@ class mXML
 					$object_array['created'] = date("Y-m-d H:i:s");
 				
 				$object->node_id = $node_id;
-				$object->created = $object_array['created'];
-				$object->version = $object_array['version'];
+				
+				if (!empty($object_array['created']))
+					$object->created = $object_array['created'];
+				else
+					$object->created = date("Y-m-d H:i:s");
+					
+				if (!empty($object_array['version']))
+					$object->version = $object_array['version'];
+				else
+					$object->version = 1;
+					
 				$object->class_name = $object_array['class_name'];
 				$object->name = $object_array['name'];
 				$object->icon = $object_array['icon'];

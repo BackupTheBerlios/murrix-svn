@@ -22,6 +22,8 @@ class mUser extends mTable
 			if (count($group) > 0)
 				$this->setByArray($group[0]);
 		}
+		else
+			$this->name = "system";
 	}
 	
 	function getList()

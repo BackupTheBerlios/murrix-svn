@@ -3,7 +3,7 @@ body.body
 {
 	font-family: "trebuchet MS", Arial, Helvetica, "Sans Serif";
 	background-color: #d5d5e1;
-/* 	background-image: url('/design/murrix/images/'); */
+/* 	background-image: url('../../murrix/images/'); */
 /* 	background-repeat: no-repeat; */
 /* 	background-attachment: fixed; */
 	margin: 0;
@@ -65,7 +65,7 @@ table.body_table
 
 table.body_table td.fade_left
 {
-	background-image: url('/design/murrix/images/edge_fade_left.png');
+	background-image: url('../../murrix/images/edge_fade_left.png');
 	background-repeat: repeat-y;
 	width: 30px;
 	margin: 0;
@@ -74,7 +74,7 @@ table.body_table td.fade_left
 
 table.body_table td.fade_right
 {
-	background-image: url('/design/murrix/images/edge_fade_right.png');
+	background-image: url('../../murrix/images/edge_fade_right.png');
 	background-repeat: repeat-y;
 	width: 30px;
 	margin: 0;
@@ -83,7 +83,7 @@ table.body_table td.fade_right
 
 table.body_table td.title
 {
-	background-image: url('/design/murrix/images/title.png');
+	background-image: url('../../murrix/images/title.png');
 	background-repeat: no-repeat;
 	width: 862px;
 	height: 181px;
@@ -94,7 +94,7 @@ table.body_table td.title
 
 table.body_table td.bottom
 {
-	background-image: url('/design/murrix/images/footer.png');
+	background-image: url('../../murrix/images/footer.png');
 	background-repeat: no-repeat;
 	width: 862px;
 	height: 81px;
@@ -150,7 +150,7 @@ table.main_table td.menu
 
 div.menu_title
 {
-	background-image: url('/design/murrix/images/small.png');
+	background-image: url('../../murrix/images/small.png');
 	height: 27px;
 	background-repeat: no-repeat;
 	padding-top: 2px;
@@ -225,7 +225,7 @@ div.buttons
 
 div.buttons a.button
 {
-	background-image: url('/design/murrix/images/cube.png');
+	background-image: url('../../murrix/images/cube.png');
 	height: 20px;
 	background-repeat: no-repeat;
 	padding-left: 24px;
@@ -295,7 +295,7 @@ div.header
 	font-size: 25px;
 	text-align: center;
 	height: 30px;
-	background-image: url('/design/standard/images/grayback.jpg');
+	background-image: url('../../standard/images/grayback.jpg');
 	background-repeat: repeat;
 }
 
@@ -303,7 +303,7 @@ div.bar
 {
 	padding: 3px 5px 3px 5px;
 	height: 20px;
-	background-image: url('/design/standard/images/bar.png');
+	background-image: url('../../standard/images/bar.png');
 	background-repeat: repeat-x;
 }
 
@@ -429,7 +429,7 @@ table.maintable td.middle
 	padding: 5px;
 	padding-bottom: 0;
 	font-size: 12px;
-	/*background-image: url('/design/standard/images/back.jpg');*/
+	/*background-image: url('../../standard/images/back.jpg');*/
 	background-repeat: no-repeat;
 }
 
@@ -462,7 +462,7 @@ div.adminpanel_button
 	display: block;
 	padding: 2px;
 	cursor: pointer;
-	background-image: url('/design/murrix/images/1downarrow.png');
+	background-image: url('../../murrix/images/1downarrow.png');
 	background-repeat: no-repeat;
 	background-position: center right;
 }
@@ -551,7 +551,7 @@ div.big_title
 {
 	margin-bottom: 10px;
 	text-align: left;
-	background-image: url('/design/murrix/images/wave.png');
+	background-image: url('../../murrix/images/wave.png');
 	background-repeat: no-repeat;
 	border-bottom: 1px solid #D5D5E1;
 	height: 25px;
@@ -593,7 +593,7 @@ div.medium_title
 {
 	margin-bottom: 10px;
 	text-align: left;
-	background-image: url('/design/murrix/images/wave_medium.png');
+	background-image: url('../../murrix/images/wave_medium.png');
 	background-repeat: no-repeat;
 	background-position: bottom left;
 	border-bottom: 1px solid #D5D5E1;
@@ -948,7 +948,7 @@ table.contact_table .family_tree_person
 
 div.image_region
 {
-	background-image: url('/design/standard/images/50trans.png');
+	background-image: url('../../standard/images/50trans.png');
 	background-repeat: repeat;
 	font-weight: bold;
 	color: white;

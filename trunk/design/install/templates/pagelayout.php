@@ -28,7 +28,7 @@ if ($_SESSION['murrix']['system']->firstrun)
 		for ($i = 0; $i < count($js); $i++)
 			echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$js[$i]."\">\n";
 
-		$_SESSION['murrix']['system']->PrintHeader("exec=install&action=preinstall");
+		$_SESSION['murrix']['system']->printHeader("exec=install&action=preinstall");
 		?>
 	</head>
 	<body class="body" onload="OnLoadHandler();">

@@ -82,11 +82,11 @@ function updateActive()
 	$_SESSION['murrix']['user']->updateSingle($_SESSION['murrix']['user']->id, "last_active", $_SESSION['murrix']['user']->last_active);
 }
 
-function changePassword($user_node_id, $password)
+function changePassword($user_id, $password)
 {
-	$user = new mUser($user_node_id);
+	$user = new mUser($user_id);
 	
-	if (($user_node_id == $_SESSION['murrix']['user']->id || isAdmin()) && !isAnonymous())
+	if (($user_id == $_SESSION['murrix']['user']->id || isAdmin()) && !isAnonymous())
 	{
 		$user->password = md5($password);
 		return $user->save();

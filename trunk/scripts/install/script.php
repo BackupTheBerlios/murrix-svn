@@ -275,33 +275,6 @@ class sInstall extends Script
 				$logtext .= "Imported $file successfully.<br/>";
 		}
 
-		// Create initial groups
-		$administrator_group = new mGroup();
-		$administrator_group->name = "admins";
-		$administrator_group->description = "Administrators group";
-		$administrator_group->save();
-		
-		// Create initial users
-		
-		$anonymous = new mUser();
-		$anonymous->name = "Anonymous";
-		$anonymous->username = "";
-		$anonymous->password = "";
-		$anonymous->home = "";
-		$anonymous->groups = "";
-		$anonymous->save();
-		
-		$administrator = new mUser();
-		$administrator->name = "Administrator";
-		$administrator->username = "admin";
-		$administrator->password = md5($this->config['password']);
-		$administrator->home_id = 0;
-		$administrator->groups = "admins";
-		$administrator->save();
-		
-		$_SESSION['murrix']['user'] = $administrator;
-		
-		
 		$files = GetSubfiles("$abspath/scripts/install/objects");
 		foreach ($files as $file)
 		{
@@ -318,6 +291,12 @@ class sInstall extends Script
 			else
 				$logtext .= "Imported $file successfully.<br/>";
 		}
+		
+		$admin_group_id = createGroup("admins", "Administrators group", true);
+		
+		$anon_user_id = createUser("Anonymous", "", "", "", "", false);
+		$admin_user_id = createUser("Administrator", "admin", $this->config['password'], "", "admins", true);
+		
 		
 		$files = GetSubfiles("$abspath/cache");
 		foreach ($files as $file)
