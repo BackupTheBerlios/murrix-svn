@@ -105,6 +105,54 @@ function delUser($username)
 	return $user->remove();
 }
 
+function createUserSimple($name, $username, $password, $email, $groups, $create_home = true)
+{
+	$user = new mUser();
+	$user->setByUsername($username);
+
+	if ($user->id > 0)
+		return ucf(i18n("a user with that username already exists"));
+		
+	$user->name = $name;
+	$user->username = $username;
+	$user->password = md5($password);
+	$user->groups = $groups;
+	$user->email = $email;
+	$ret = $user->save();
+	
+	if ($create_home && getNode("/root/home/users/".$username) <= 0)
+	{
+		$home = new mObject();
+		$home->setClassName("folder");
+		$home->loadVars();
+	
+		$home->name = $username;
+		$home->language = $_SESSION['murrix']['language'];
+		$home->rights = "$username=rc";
+	
+		$home->setVarValue("description", "This is the home of $name");
+	
+		if ($home->save())
+		{
+			$home->setMeta("initial_rights", "$username=rwc");
+			$home_folder = new mObject(getNode("/root/home/users"));
+			$home->linkWithNode($home_folder->getNodeId());
+		}
+		else
+		{
+			$message = "Operation unsuccessfull.<br/>";
+			$message .= "Error output:<br/>";
+			$message .= $home->getLastError();
+			return $message;
+		}
+		
+		$user->home_id = $home->getNodeId();
+		$user->save();
+	}
+
+	return $ret;
+}
+
 function createUser($name, $username, $password, $email, $groups, $create_home = true)
 {
 	if (!isAdmin)

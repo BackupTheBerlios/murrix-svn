@@ -171,7 +171,7 @@ function OnLoadHandler()
 	last_command = "";
 	poll_intervall = setInterval("Poll()", 600);
 	
-	setInterval("xajax_TriggerEvent('poll','')", 60000);
+	//setInterval("xajax_TriggerEvent('poll','')", 60000);
 	
 	runZoneJS();
 }

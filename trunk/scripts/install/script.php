@@ -175,7 +175,7 @@ class sInstall extends Script
 	
 	function actionFinish(&$system, $args)
 	{
-		global $abspath, $db_prefix;
+		global $abspath, $db_prefix, $root_id, $anonymous_id;
 		$db_prefix = $this->db['prefix'];
 		
 		if (empty($args['theme']))
@@ -292,10 +292,14 @@ class sInstall extends Script
 				$logtext .= "Imported $file successfully.<br/>";
 		}
 		
-		$admin_group_id = createGroup("admins", "Administrators group", true);
+		$root_id = 1;
 		
-		$anon_user_id = createUser("Anonymous", "", "", "", "", false);
-		$admin_user_id = createUser("Administrator", "admin", $this->config['password'], "", "admins", true);
+		$admin_group_id = createGroup("admins", "Administrators group", true);
+		$anon_group_id = createGroup("anonymous", "Anonymous group", false);
+		
+		$anon_user_id = createUserSimple("Anonymous", "anonymous", "", "", "anonymous", false);
+		$anonymous_id = $anon_user_id;
+		$admin_user_id = createUserSimple("Administrator", "admin", $this->config['password'], "", "admins", true);
 		
 		
 		$files = GetSubfiles("$abspath/cache");

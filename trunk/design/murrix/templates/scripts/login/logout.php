@@ -22,7 +22,7 @@
 <div class="menu_login">
 	<center>
 		<div style="display: table-cell; text-align: left">
-		<?/*
+		<?
 			$home_id = $_SESSION['murrix']['user']->home_id;
 				
 			if ($home_id > 0)
@@ -45,7 +45,7 @@
 					echo cmd(img(geticon($home->getIcon()))."&nbsp;".ucf($home->getName()), "exec=show&node_id=$home_id")."<br/>";
 				}
 			}
-		*/?>
+		?>
 		</div>
 	</center>
 </div>
